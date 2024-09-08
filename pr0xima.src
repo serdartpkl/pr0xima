@@ -403,9 +403,7 @@ Proxima.exploit.handleAttackResult = function (attackResult)
                 print(Proxima.utils.message.error("Couldn't access root privileges! Terminating..."))
             else
                 print(Proxima.utils.message.warning("Couldn't access root privileges, uploading local scanner..."))
-                print("+------------------------------------+")
                 uploadProcess = self.uploadTools(attackResult)
-                print("+------------------------------------+")
                 if uploadProcess then
                     print(Proxima.utils.message.success("Uploaded tools successfuly! You can now launch <b>pr00t.</b>"))
                 else
