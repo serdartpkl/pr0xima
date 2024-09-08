@@ -1,0 +1,24 @@
+clear_screen
+V="1.0.0"
+HCOLOR="#FFC466"
+HEADER=""
+HEADER=HEADER+"<color="+HCOLOR+">+====================================+</color>\n"
+HEADER=HEADER+"<color="+HCOLOR+">|          pr0net - v"+V+"           |</color>\n"
+HEADER=HEADER+"<color="+HCOLOR+">+====================================+</color>\n"
+HEADER=HEADER+"<color="+HCOLOR+">| Automatic Network Scanner & Prober |</color>\n"
+HEADER=HEADER+"<color="+HCOLOR+">+------------------------------------+</color>"
+print(HEADER)
+import_code("/home/pr0ximan0va/Scripts/pr0xima.src")
+prx=new Proxima
+prx.initialize("network")
+print("<color="+HCOLOR+">+------------------------------------+</color>")
+if prx.net.checkConnection then
+prx.net.router=get_router
+exit(prx.utils.message.info("You are already connected to internet! <b>[ESSID:"+prx.net.router.essid_name+"]</b>"))
+else
+prx.net.startMonitoring
+prx.net.setAutoTarget
+prx.net.startSniffing
+prx.net.crackKey
+prx.net.connectNetwork
+end if

@@ -408,6 +408,7 @@ Proxima.exploit.handleAttackResult = function (attackResult)
                 print("+------------------------------------+")
                 if uploadProcess then
                     print(Proxima.utils.message.success("Uploaded tools successfuly! Launching pr00t..."))
+                    wait(1)
                     attackResult.launch(Proxima.globals.uploadTo + "pr00t")
                 else
                     print(Proxima.utils.message.warning("Couldn't upload tools, you have to upload them manually..."))
