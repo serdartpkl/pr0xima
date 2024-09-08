@@ -508,7 +508,7 @@ Proxima.exploit.execute = function ()
             libraryDump = Proxima.globals.metaxploit.load(targetExploit.path)
         end if
         print("+------------------------------------+")
-        print(Proxima.utils.message.progress("Injecting values to the library..."))
+        print(Proxima.utils.message.progress("Injecting values into the library..."))
         attackResult = libraryDump.overflow(targetExploit.memAddr, targetExploit.unsecZone)
         print("+------------------------------------+")
         self.handleAttackResult(attackResult)
