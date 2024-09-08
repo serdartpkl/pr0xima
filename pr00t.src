@@ -1,0 +1,20 @@
+clear_screen
+
+V="1.0.0"
+HCOLOR = "#FFC466"
+HEADER = ""
+HEADER=HEADER+"<color="+HCOLOR+">+====================================+</color>\n"
+HEADER=HEADER+"<color="+HCOLOR+">|           pr00t - v"+V+"           |</color>\n"
+HEADER=HEADER+"<color="+HCOLOR+">+====================================+</color>\n"
+HEADER=HEADER+"<color="+HCOLOR+">| Automatic Library Scanner & Prober |</color>\n"
+HEADER=HEADER+"<color="+HCOLOR+">+------------------------------------+</color>"
+
+print(HEADER)
+
+import_code("pr0xima.src")
+prx = new Proxima
+prx.initialize("local")
+
+print("<color="+HCOLOR+">+------------------------------------+</color>")
+
+prx.start_cli()
