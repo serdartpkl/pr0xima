@@ -174,30 +174,6 @@ Proxima.exploit.checkPorts = function ()
     end if
 end function
 
-Proxima.exploit.parseScanEntries = function (scanResult, libraryDump, targetPort=null, targetLibrary=null)
-    for entry in scanResult
-        scanAddress = scan_address(Proxima.globals.metaxploit, libraryDump, entry)
-        segments = split(scanAddress, "Unsafe check: ")[1:]
-        exploits = []
-
-        for segment in segments
-            labelStart = indexOf(segment, "<b>")
-            labelEnd = indexOf(segment, "</b>")
-            push(exploits, segment[labelStart + 3: labelEnd])
-        end for
-
-        for exploit in exploits
-            if Proxima.globals.initMode == "remote" then
-                self.targetExploits.push({ "id": self.exploitID, "ip": self.targetIP, "port_number": targetPort.port_number, "memAddr": entry, "unsecZone": exploit })
-            else if Proxima.globals.initMode == "local" then
-                self.targetExploits.push({ "id": self.exploitID, "lib_name": libraryDump.lib_name, "version": libraryDump.version, "path": targetLibrary.path, "memAddr": entry, "unsecZone": exploit })
-            end if
-            self.totalExploits = self.totalExploits + 1
-            self.exploitID = self.exploitID + 1
-        end for
-    end for
-end function
-
 Proxima.exploit.dumpPort = function (targetPort)
     if targetPort.state == "open" then
         if self.targetIP != targetPort.public_ip then self.targetIP = targetPort.public_ip
@@ -320,6 +296,30 @@ Proxima.exploit.scanLibraries = function ()
     else
         print(Proxima.utils.message.error("No libraries found fo scan, please make a scan first."))
     end if
+end function
+
+Proxima.exploit.parseScanEntries = function (scanResult, libraryDump, targetPort=null, targetLibrary=null)
+    for entry in scanResult
+        scanAddress = scan_address(Proxima.globals.metaxploit, libraryDump, entry)
+        segments = split(scanAddress, "Unsafe check: ")[1:]
+        exploits = []
+
+        for segment in segments
+            labelStart = indexOf(segment, "<b>")
+            labelEnd = indexOf(segment, "</b>")
+            push(exploits, segment[labelStart + 3: labelEnd])
+        end for
+
+        for exploit in exploits
+            if Proxima.globals.initMode == "remote" then
+                self.targetExploits.push({ "id": self.exploitID, "ip": self.targetIP, "port_number": targetPort.port_number, "memAddr": entry, "unsecZone": exploit })
+            else if Proxima.globals.initMode == "local" then
+                self.targetExploits.push({ "id": self.exploitID, "lib_name": libraryDump.lib_name, "version": libraryDump.version, "path": targetLibrary.path, "memAddr": entry, "unsecZone": exploit })
+            end if
+            self.totalExploits = self.totalExploits + 1
+            self.exploitID = self.exploitID + 1
+        end for
+    end for
 end function
 
 Proxima.exploit.checkPrivilegeLevel = function (targetComputer)
