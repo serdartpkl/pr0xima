@@ -371,18 +371,14 @@ if Proxima.globals.initMode=="local" then
 print(Proxima.utils.message.error("Couldn't access root privileges! Terminating..."))
 else
 print(Proxima.utils.message.warning("Couldn't access root privileges, uploading local scanner..."))
-print("+------------------------------------+")
 uploadProcess=self.uploadTools(attackResult)
-print("+------------------------------------+")
 if uploadProcess then
-print(Proxima.utils.message.success("Uploaded tools successfuly! Launching pr00t..."))
-wait(1)
-attackResult.launch(Proxima.globals.uploadTo+"pr00t")
+print(Proxima.utils.message.success("Uploaded tools successfuly! You can now launch <b>pr00t.</b>"))
 else
 print(Proxima.utils.message.warning("Couldn't upload tools, you have to upload them manually..."))
 print(Proxima.utils.message.progress("Starting terminal..."))
-attackResult.start_terminal
 end if
+attackResult.start_terminal
 end if
 end if
 else if typeof(attackResult)=="computer" then
