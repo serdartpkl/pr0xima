@@ -114,7 +114,7 @@ end function
 Proxima.exploit.checkTargetIP=function()
 if self.targetIP!=null then
 self.router=get_router(self.targetIP)
-if self.router!=null and is_lan_ip(self.targetIP)!=1 then
+if self.router!=null then
 return true
 else
 self.router=null
