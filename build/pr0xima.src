@@ -172,7 +172,7 @@ end if
 netSession=Proxima.globals.metaxploit.net_use(self.targetIP,targetPort.port_number)
 if netSession!=null then
 libraryDump=netSession.dump_lib
-print(Proxima.utils.message.progress("Attempting to scan vulnerabilities on port "+targetPort.port_number+"..."))
+print(Proxima.utils.message.progress("Attempting to scan vulnerabilities... [IP:"+targetPort.public_ip+"|PORT:"+targetPort.port_number+"]"))
 print(Proxima.utils.message.info("Library found: <b>"+libraryDump.lib_name+" -> "+libraryDump.version+"</b>"))
 scanResult=Proxima.globals.metaxploit.scan(libraryDump)
 self.parseScanEntries(scanResult,libraryDump,targetPort,null)
