@@ -430,8 +430,9 @@ if passwdFile and passwdFile.has_permission("r") then
 encryptedContent=passwdFile.get_content
 userList=encryptedContent.split("\n")
 for user in userList
-userName=user.split(":")[0]
-userPassword=user.split(":")[1]
+parsedUser=user.split(":")
+userName=parsedUser[0]
+userPassword=parsedUser[1]
 userMap={"id":self.userID,"username":userName,"password":userPassword,"public_ip":publicIP}
 self.targetUsers.push(userMap)
 self.userID=self.userID+1
