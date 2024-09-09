@@ -465,10 +465,9 @@ Proxima.exploit.isFTPAvailable = function ()
 end function
 
 Proxima.exploit.accessPasswdFile = function (passwdFile, publicIP)
-    isPasswdAvailable = false
     self.userID = 1
     self.targetUsers = []
-    if passwdFile and passwdFile.has_permission("r") then
+    if passwdFile != null and passwdFile.has_permission("r") then
         encryptedContent = passwdFile.get_content
         userList = encryptedContent.split("\n")
         for user in userList
