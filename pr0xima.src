@@ -377,7 +377,9 @@ Proxima.exploit.decipherPassword = function ()
             decryptedPassword = Proxima.globals.crypto.decipher(targetUser.password)
             if decryptedPassword != null then
                 targetUser.password = decryptedPassword
-                return decryptedPassword
+                // TO DO
+            else
+                // TO DO
             end if
         else
             print(Proxima.utils.message.error("No user found with specified ID. <b>[ID:" + self.targetUser.id + "]</b>"))
@@ -386,6 +388,17 @@ Proxima.exploit.decipherPassword = function ()
     else
         print(Proxima.utils.message.error("No user information found to decipher, please execute an exploit first."))
         return false
+    end if
+end function
+
+Proxima.exploit.decipherPasswords = function ()
+    if self.targetUsers.len > 0 then
+        for targetUser in self.targetUsers
+            self.setTargetUser(targetUser.id)
+            self.deciperPassword()
+        end for
+    else
+        print(Proxima.utils.message.error("No libraries found to scan, please make a scan first."))
     end if
 end function
 
@@ -912,7 +925,7 @@ Proxima.handle_command = function (command)
             end if
         else
             if params[0] == "all" then
-                // TO DO
+                self.exploit.decipherPasswords()
             else
                 self.exploit.setTargetUser(params[0].to_int)
                 self.exploit.decipherPassword()
