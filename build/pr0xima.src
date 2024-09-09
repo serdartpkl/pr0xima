@@ -352,8 +352,8 @@ end function
 Proxima.exploit.decipherPassword=function()
 if self.targetUsers.len>0 then
 if self.targetUser!=null and self.targetUsers.hasIndex(self.targetUser-1) then
-targetUser=self.targetUsers[self.targetUser-1]
 print(Proxima.utils.message.progress("Trying to decrypt password..."))
+targetUser=self.targetUsers[self.targetUser-1]
 decryptedPassword=Proxima.globals.crypto.decipher(targetUser.password)
 if decryptedPassword!=null then
 targetUser.password=decryptedPassword
@@ -375,7 +375,7 @@ Proxima.exploit.decipherPasswords=function()
 if self.targetUsers.len>0 then
 for targetUser in self.targetUsers
 self.setTargetUser(targetUser.id)
-self.deciperPassword
+self.decipherPassword
 end for
 else
 print(Proxima.utils.message.error("No users found to scan, please execute an exploit first."))

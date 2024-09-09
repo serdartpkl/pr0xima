@@ -387,13 +387,17 @@ Proxima.exploit.decipherPassword = function ()
         if self.targetUser != null and self.targetUsers.hasIndex(self.targetUser - 1) then
             print(Proxima.utils.message.progress("Trying to decrypt password..."))
             targetUser = self.targetUsers[self.targetUser - 1]
-            decryptedPassword = Proxima.globals.crypto.decipher(targetUser.password)
-            if decryptedPassword != null then
-                targetUser.password = decryptedPassword
-                print(Proxima.utils.message.success("Password decrypted successfuly!. <b>[USER:" + targetUser.username + "PASSWORD:" + targetUser.password + "]</b>"))
-                print(Proxima.utils.message.info("Updated user information, you can view it later by using command: <b>userlist</b>"))
+            if targetUser.password.len < 32 then
+                
             else
-                print(Proxima.utils.message.info("Couldn't decrypt password! Please try another one..."))
+                decryptedPassword = Proxima.globals.crypto.decipher(targetUser.password)
+                if decryptedPassword != null then
+                    targetUser.password = decryptedPassword
+                    print(Proxima.utils.message.success("Password decrypted successfuly!. <b>[USER:" + targetUser.username + "PASSWORD:" + targetUser.password + "]</b>"))
+                    print(Proxima.utils.message.info("Updated user information, you can view it later by using command: <b>userlist</b>"))
+                else
+                    print(Proxima.utils.message.info("Couldn't decrypt password! Please try another one..."))
+                end if
             end if
         else
             print(Proxima.utils.message.error("No user found with specified ID. <b>[ID:" + self.targetUser.id + "]</b>"))
