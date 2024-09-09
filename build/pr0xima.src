@@ -392,24 +392,26 @@ Proxima.exploit.uploadTools=function()
 remoteShell=self.targetShells.sort("privilege_level")[self.targetShells.len-1]
 uploadTo=Proxima.globals.uploadTo
 toolsDirectory=Proxima.globals.myPC.File(Proxima.globals.uploadFrom)
-uploadProcess=true
 if uploadTo!=null and toolsDirectory!=null then
 fileList=Proxima.utils.collect_files(toolsDirectory)
 if fileList.len>0 then
 for filePath in fileList
 hostShell=get_shell
+fileName=filePath.split("/")[-1].trim
+print(Proxima.utils.message.progress("Attempting to upload <b>"+fileName+"</b>..."))
 uploadFile=hostShell.scp(filePath,uploadTo,remoteShell)
 if typeof(uploadFile)=="string" or typeof(uploadFile)==null then
-uploadProcess=false
+print(Proxima.utils.message.error("Couldn't upload <b>"+fileName+"</b>!"))
+else
+print(Proxima.utils.message.error("Successfuly uploaded <b>"+fileName+"</b>!"))
 end if
 end for
 else
-uploadProcess=false
+print(Proxima.utils.message.error("No file or folder found in given local upload folder!"))
 end if
 else
-uploadProcess=false
+print(Proxima.utils.message.error("No file or folder found in given local upload folder!"))
 end if
-return uploadProcess
 end function
 Proxima.exploit.isSSHAvailable=function()
 isConnectableViaSSH=false

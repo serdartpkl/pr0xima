@@ -437,11 +437,11 @@ Proxima.exploit.uploadTools = function ()
                 hostShell = get_shell
                 fileName = filePath.split("/")[-1].trim
                 print(Proxima.utils.message.progress("Attempting to upload <b>" + fileName + "</b>..."))
-                uploadFile = hostShell.scp(filePath, uploadTo, remoteShell)
+                uploadFile = hostShell.scp(filePath, uploadTo, remoteShell.shell_object)
                 if typeof(uploadFile) == "string" or typeof(uploadFile) == null then
                     print(Proxima.utils.message.error("Couldn't upload <b>" + fileName + "</b>!"))
                 else
-                    print(Proxima.utils.message.error("Successfuly uploaded <b>" + fileName + "</b>!"))
+                    print(Proxima.utils.message.success("Successfuly uploaded <b>" + fileName + "</b>!"))
                 end if
             end for
         else
