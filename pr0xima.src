@@ -382,6 +382,11 @@ Proxima.exploit.connectShell = function ()
     end if
 end function
 
+Proxima.exploit.decipherHash = function (userPassword)
+    decryptedPassword = Proxima.globals.crypto.decipher(userPassword)
+    return decryptedPassword
+end function
+
 Proxima.exploit.decipherPassword = function ()
     if self.targetUsers.len > 0 then
         if self.targetUser != null and self.targetUsers.hasIndex(self.targetUser - 1) then
@@ -389,7 +394,8 @@ Proxima.exploit.decipherPassword = function ()
             if targetUser.password.len < 32 then
                 print(Proxima.utils.message.warning("This password is already deciphered. Skipping..."))
             else
-                decryptedPassword = Proxima.globals.crypto.decipher(targetUser.password)
+                print(Proxima.utils.message.info("Trying to decipher password for user: <b>" + targetUser.username + "</b>"))
+                decryptedPassword = self.decipherHash(targetUser.password)
                 if decryptedPassword != null then
                     targetUser.password = decryptedPassword
                     print(Proxima.utils.message.success("Password decrypted successfuly!. <b>[USER:" + targetUser.username + "PASSWORD:" + targetUser.password + "]</b>"))
