@@ -375,7 +375,7 @@ Proxima.exploit.connectShell = function ()
             wait(1)
             targetShell.shell_object.start_terminal
         else
-            print(Proxima.utils.message.error("No open shell found with specified ID. <b>[ID:" + targetShell.id + "]</b>"))
+            print(Proxima.utils.message.error("No open shell found with specified ID. <b>[ID:" + self.targetShell + "]</b>"))
         end if
     else
         print(Proxima.utils.message.error("No open shells found to scan, please execute an exploit first."))
