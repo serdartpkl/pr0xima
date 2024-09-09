@@ -339,25 +339,29 @@ Proxima.exploit.connectShell=function()
 if self.targetShells.len>0 then
 if self.targetShell!=null and self.targetShells.hasIndex(self.targetShell-1) then
 targetShell=self.targetShells[self.targetShell-1]
-print(Proxima.utils.message.progress("Connecting to shell on <b>"+self.targetShell.public_ip+"</b>. <b>[ID:"+self.targetShell.id+"]</b>"))
+print(Proxima.utils.message.progress("Connecting to shell on <b>"+targetShell.public_ip+"</b>. <b>[ID:"+targetShell.id+"]</b>"))
 wait(1)
 self.targetShell.shell_object.start_terminal
 else
-print(Proxima.utils.message.error("No open shell found with specified ID. <b>[ID:"+self.targetShell+"]</b>"))
+print(Proxima.utils.message.error("No open shell found with specified ID. <b>[ID:"+targetShell.id+"]</b>"))
 end if
 else
 print(Proxima.utils.message.error("No open shells found to scan, please execute an exploit first."))
 end if
 end function
+Proxima.exploit.decipherHash=function(userPassword)
+decryptedPassword=Proxima.globals.crypto.decipher(userPassword)
+return decryptedPassword
+end function
 Proxima.exploit.decipherPassword=function()
 if self.targetUsers.len>0 then
 if self.targetUser!=null and self.targetUsers.hasIndex(self.targetUser-1) then
-print(Proxima.utils.message.progress("Trying to decrypt password..."))
 targetUser=self.targetUsers[self.targetUser-1]
 if targetUser.password.len<32 then
 print(Proxima.utils.message.warning("This password is already deciphered. Skipping..."))
 else
-decryptedPassword=Proxima.globals.crypto.decipher(targetUser.password)
+print(Proxima.utils.message.info("Trying to decipher password for user: <b>"+targetUser.username+"</b>"))
+decryptedPassword=self.decipherHash(targetUser.password)
 if decryptedPassword!=null then
 targetUser.password=decryptedPassword
 print(Proxima.utils.message.success("Password decrypted successfuly!. <b>[USER:"+targetUser.username+"PASSWORD:"+targetUser.password+"]</b>"))

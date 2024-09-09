@@ -371,11 +371,11 @@ Proxima.exploit.connectShell = function ()
     if self.targetShells.len > 0 then
         if self.targetShell != null and self.targetShells.hasIndex(self.targetShell - 1) then
             targetShell = self.targetShells[self.targetShell - 1]
-            print(Proxima.utils.message.progress("Connecting to shell on <b>" + self.targetShell.public_ip + "</b>. <b>[ID:" + self.targetShell.id + "]</b>"))
+            print(Proxima.utils.message.progress("Connecting to shell on <b>" + targetShell.public_ip + "</b>. <b>[ID:" + targetShell.id + "]</b>"))
             wait(1)
             self.targetShell.shell_object.start_terminal
         else
-            print(Proxima.utils.message.error("No open shell found with specified ID. <b>[ID:" + self.targetShell + "]</b>"))
+            print(Proxima.utils.message.error("No open shell found with specified ID. <b>[ID:" + targetShell.id + "]</b>"))
         end if
     else
         print(Proxima.utils.message.error("No open shells found to scan, please execute an exploit first."))
