@@ -464,7 +464,7 @@ Proxima.exploit.isFTPAvailable = function ()
     return isConnectableViaFTP
 end function
 
-Proxima.exploit.accessPasswdFile = function (passwdFile, remoteComputer)
+Proxima.exploit.accessPasswdFile = function (passwdFile, publicIP)
     isPasswdAvailable = false
     self.userID = 1
     self.targetUsers = []
@@ -474,7 +474,7 @@ Proxima.exploit.accessPasswdFile = function (passwdFile, remoteComputer)
         for user in userList
             userName = user.split(":")[0]
             userPassword = user.split(":")[1]
-            userMap = { "id": self.userID, "username": userName, "password": userPassword, "public_ip": remoteComputer.public_ip }
+            userMap = { "id": self.userID, "username": userName, "password": userPassword, "public_ip": publicIP }
             self.targetUsers.push(userMap)
             self.userID = self.userID + 1
         end for
@@ -487,7 +487,7 @@ end function
 Proxima.exploit.handleAttackResult = function (attackResult)
     if typeof(attackResult) == "shell" then
         remoteComputer = attackResult.host_computer
-        acquiredUser = self.acquireUser(passwdFile, remoteComputer)
+        acquiredUser = self.acquireUser(passwdFile, remoteComputer.public_ip)
         print(Proxima.utils.message.success("Shell access granted via user: <b>" + acquiredUser + "</b>! Updating the shell list..."))
         
         privilegeLevel = self.getPrivilegeLevel(acquiredUser)
@@ -523,7 +523,7 @@ Proxima.exploit.handleAttackResult = function (attackResult)
             end if
         end if
     else if typeof(attackResult) == "computer" then
-        acquiredUser = self.acquireUser(attackResult)
+        acquiredUser = self.acquireUser(attackResult, attackResult.public_ip)
         print(Proxima.utils.message.success("Computer access granted via user: <b>" + acquiredUser + "</b>!"))
         if self.targetUsers.len > 0 then
             print(Proxima.utils.message.info("Skipping password search, we already accessed account informations..."))
