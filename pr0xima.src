@@ -355,6 +355,10 @@ Proxima.exploit.checkPrivilegeLevel = function (targetComputer)
     return privilegeLevel
 end function
 
+Proxima.exploit.connectShell = function ()
+    // TO DO
+end function
+
 Proxima.exploit.decipherPassword = function (encryptedContent)
     // TO DO
 end function
@@ -431,7 +435,7 @@ Proxima.exploit.handleAttackResult = function (attackResult)
         privilegeLevel = self.checkPrivilegeLevel(passwdFile)
         print(Proxima.utils.message.success("Shell access granted via user: <b>" + privilegeLevel + "</b>! Updating the shell list..."))
         print(Proxima.utils.message.info("Updated the target shells list! You can view it later by: <b>shelllist</b>"))
-        print(Proxima.utils.message.info("To connect a selected shell, you can use command: <b>connect <ShellID></b>"))
+        print(Proxima.utils.message.info("To connect a selected shell, you can use command: <b>connect <ID></b>"))
         print(Proxima.utils.message.info("Trying to access /etc/passwd file..."))
         if privilegeLevel != "guest" then
             if privilegeLevel != "root" then
@@ -439,7 +443,7 @@ Proxima.exploit.handleAttackResult = function (attackResult)
                 if self.accessPasswdFile(passwdFile) then
                     print(Proxima.utils.message.success("Accessed the /etc/passwd file!"))
                     print(Proxima.utils.message.info("Updated the target users list! You can view it later by: <b>userlist</b>"))
-                    print(Proxima.utils.message.info("To decipher a selected user password, you can use command: <b>decipher <UserID></b>"))
+                    print(Proxima.utils.message.info("To decipher a selected user password, you can use command: <b>decipher <ID></b>"))
                 else
                     print(Proxima.utils.message.warning("Coulnd't access /etc/passwd file, you have to gain root access with a different method."))
                 end if
@@ -849,6 +853,44 @@ Proxima.handle_command = function (command)
             self.exploit.displayExploitInfo()
         else
             print(self.utils.message.error("No exploits available, please scan a port first."))
+        end if
+    else if cmd == "shelllist" then
+        if self.exploit.targetShells.len > 0 then
+            self.exploit.displayShellInfo()
+        else
+            print(self.utils.message.error("No open shells available, please execute an exploit first."))
+        end if
+    else if cmd == "userlist" then
+        if self.exploit.targetUsers.len > 0 then
+            self.exploit.displayUserInfo()
+        else
+            print(self.utils.message.error("No user information available, please execute an exploit first."))
+        end if
+    else if cmd == "connect" then
+        if params.len == 0 then
+            if self.exploit.targetShells.len == 0 then
+                print(self.utils.message.error("No open shells available, please execute an exploit first."))
+            else
+                print(self.utils.message.error("No shell ID provided. Usage: connect <ID>"))
+            end if
+        else
+            self.exploit.setTargetShell(params[0].to_int)
+            self.exploit.connectShell()
+        end if
+    else if cmd == "decipher" then
+        if params.len == 0 then
+            if self.exploit.targetUsers.len == 0 then
+                print(self.utils.message.error("No user information available, please execute an exploit first."))
+            else
+                print(self.utils.message.error("No user ID provided. Usage: decipher <ID|all>"))
+            end if
+        else
+            if params[0] == "all" then
+                // TO DO
+            else
+                self.exploit.setTargetUser(params[0].to_int)
+                self.exploit.decipherPassword()
+            end if
         end if
     else if cmd == "exit" then
         exit(self.utils.message.success("Goodbye!"))
