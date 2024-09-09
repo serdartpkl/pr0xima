@@ -422,7 +422,7 @@ end if
 end for
 return isConnectableViaFTP
 end function
-Proxima.exploit.accessPasswdFile=function(passwdFile,remoteComputer)
+Proxima.exploit.accessPasswdFile=function(passwdFile,publicIP)
 isPasswdAvailable=false
 self.userID=1
 self.targetUsers=[]
@@ -432,7 +432,7 @@ userList=encryptedContent.split("\n")
 for user in userList
 userName=user.split(":")[0]
 userPassword=user.split(":")[1]
-userMap={"id":self.userID,"username":userName,"password":userPassword,"public_ip":remoteComputer.public_ip}
+userMap={"id":self.userID,"username":userName,"password":userPassword,"public_ip":publicIP}
 self.targetUsers.push(userMap)
 self.userID=self.userID+1
 end for
@@ -441,10 +441,10 @@ else
 return false
 end if
 end function
-Proxima.exploit.handleAttackResult=function(attackResult)
+Proxima.exploit.handleAttackResult=function(attackResult,targetExploit)
 if typeof(attackResult)=="shell" then
 remoteComputer=attackResult.host_computer
-acquiredUser=self.acquireUser(passwdFile,remoteComputer)
+acquiredUser=self.acquireUser(remoteComputer)
 print(Proxima.utils.message.success("Shell access granted via user: <b>"+acquiredUser+"</b>! Updating the shell list..."))
 privilegeLevel=self.getPrivilegeLevel(acquiredUser)
 if self.targetShells.indexOf(acquiredUser) then
@@ -462,7 +462,7 @@ print(Proxima.utils.message.info("Trying to access /etc/passwd file..."))
 if acquiredUser!="guest" then
 if acquiredUser!="root" then
 passwdFile=remoteComputer.File("/etc/passwd")
-if self.accessPasswdFile(passwdFile) then
+if self.accessPasswdFile(passwdFile,targetExploit.public_ip) then
 print(Proxima.utils.message.success("Accessed the /etc/passwd file!"))
 print(Proxima.utils.message.info("Updated the target users list! You can view it later by: <b>userlist</b>"))
 print(Proxima.utils.message.info("To decipher a selected user password, you can use command: <b>decipher <ID></b>"))
@@ -487,7 +487,7 @@ else
 print(Proxima.utils.message.info("Trying to access /etc/passwd file..."))
 if acquiredUser!="guest" then
 passwdFile=attackResult.File("/etc/passwd")
-if self.accessPasswdFile(passwdFile) then
+if self.accessPasswdFile(passwdFile,targetExploit.public_ip) then
 print(Proxima.utils.message.success("Accessed the /etc/passwd file!"))
 print(Proxima.utils.message.info("Updated the target users list! You can view it later by: <b>userlist</b>"))
 print(Proxima.utils.message.info("To decipher a selected user password, you can use command: <b>decipher <UserID></b>"))
@@ -508,7 +508,7 @@ if attackResult.name=="etc" then
 etcFiles=attackResult.get_files
 for etcFile in etcFiles
 if etcFile.name=="passwd" then
-if self.accessPasswdFile(etcFile) then
+if self.accessPasswdFile(etcFile,targetExploit.public_ip) then
 print(Proxima.utils.message.success("Accessed the /etc/passwd file!"))
 print(Proxima.utils.message.info("Updated the target users list! You can view it later by: <b>userlist</b>"))
 print(Proxima.utils.message.info("To decipher a selected user password, you can use command: <b>decipher <UserID></b>"))
@@ -555,7 +555,7 @@ print("+------------------------------------+")
 print(Proxima.utils.message.progress("Injecting values into the library... <b>[MEM_ADDR:"+targetExploit.memAddr+"|UNSEC_CODE:"+targetExploit.unsecZone+"]</b>"))
 attackResult=libraryDump.overflow(targetExploit.memAddr,targetExploit.unsecZone)
 print("+------------------------------------+")
-self.handleAttackResult(attackResult)
+self.handleAttackResult(attackResult,targetExploit)
 else
 print(Proxima.utils.message.error("No exploit found with specified ID. <b>[ID:"+self.targetExploit+"]</b>"))
 end if
