@@ -469,10 +469,10 @@ Proxima.exploit.accessPasswdFile = function (passwdFile, publicIP)
     self.targetUsers = []
     if passwdFile.get_content != null and passwdFile.has_permission("r") then
         encryptedContent = passwdFile.get_content
-        userList = encryptedContent.split("\n")
+        userList = encryptedContent.split(char(10))
+        userList.pop
         for user in userList
             parsedUser = user.split(":")
-            print(parsedUser)
             userName = parsedUser[0]
             userPassword = parsedUser[1]
             userMap = { "id": self.userID, "username": userName, "password": userPassword, "public_ip": publicIP }
