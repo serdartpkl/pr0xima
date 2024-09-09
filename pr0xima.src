@@ -338,21 +338,33 @@ Proxima.exploit.parseScanEntries = function (scanResult, libraryDump, targetPort
     end for
 end function
 
-Proxima.exploit.checkPrivilegeLevel = function (targetComputer)
+Proxima.exploit.acquireUser = function (targetComputer)
     rootDirectory = targetComputer.File("/")
-    privilegeLevel = "guest"
+    acquiredUser = "guest"
     if rootDirectory and rootDirectory.has_permission("w") then
-        privilegeLevel = "root"
+        acquiredUser = "root"
     else
         homeDirectory = targetComputer.File("/home")
         if homeDirectory then
             for userFolder in homeDirectory.get_folders
                 if userFolder.name == "guest" then continue
-                if userFolder.has_permission("w") then privilegeLevel = userFolder.name
+                if userFolder.has_permission("w") then acquiredUser = userFolder.name
             end for
         end if
     end if
-    return privilegeLevel
+    return acquiredUser
+end function
+
+Proxima.exploit.getPrivilegeLevel = function (acquiredUser)
+    acquiredUserNum = 0
+    if acquiredUser == "guest" then
+        acquiredUserNum = 0
+    else if acquiredUser == "root" then
+        acquiredUserNum = 2
+    else 
+        acquiredUserNum = 1
+    end if
+    return acquiredUserNum
 end function
 
 Proxima.exploit.connectShell = function ()
@@ -403,7 +415,8 @@ Proxima.exploit.decipherPasswords = function ()
 end function
 
 Proxima.exploit.uploadTools = function ()
-    remoteShell = self.targetShell.shell_object
+    remoteShell = self.targetShells.sort("privilege_level")[self.targetShells.len - 1]
+    
     uploadTo = Proxima.globals.uploadTo
     toolsDirectory = Proxima.globals.myPC.File(Proxima.globals.uploadFrom)
 
@@ -472,17 +485,18 @@ end function
 Proxima.exploit.handleAttackResult = function (attackResult)
     if typeof(attackResult) == "shell" then
         hostComputer = attackResult.host_computer
-        privilegeLevel = self.checkPrivilegeLevel(passwdFile)
-        print(Proxima.utils.message.success("Shell access granted via user: <b>" + privilegeLevel + "</b>! Updating the shell list..."))
+        acquiredUser = self.acquireUser(passwdFile)
+        print(Proxima.utils.message.success("Shell access granted via user: <b>" + acquiredUser + "</b>! Updating the shell list..."))
         
-        self.targetShells.push({ "id": self.shellID, "privilege": privilegeLevel, "public_ip": hostComputer.public_ip, "shell_object": attackResult})
+        privilegeLevel = self.getPrivilegeLevel(acquiredUser)
+        self.targetShells.push({ "id": self.shellID, "owner": acquiredUser, "privilege_level": privilegeLevel, "public_ip": hostComputer.public_ip, "shell_object": attackResult})
         self.shellID = self.shellID + 1
         
         print(Proxima.utils.message.info("Updated the target shells list! You can view it later by: <b>shelllist</b>"))
         print(Proxima.utils.message.info("To connect a desired shell, you can use command: <b>connect <ID></b>"))
         print(Proxima.utils.message.info("Trying to access /etc/passwd file..."))
-        if privilegeLevel != "guest" then
-            if privilegeLevel != "root" then
+        if acquiredUser != "guest" then
+            if acquiredUser != "root" then
                 passwdFile = hostComputer.File("/etc/passwd")
                 if self.accessPasswdFile(passwdFile) then
                     print(Proxima.utils.message.success("Accessed the /etc/passwd file!"))
@@ -499,10 +513,10 @@ Proxima.exploit.handleAttackResult = function (attackResult)
             end if
         end if
     else if typeof(attackResult) == "computer" then
-        privilegeLevel = self.checkPrivilegeLevel(attackResult)
-        print(Proxima.utils.message.success("Computer access granted via user: <b>" + privilegeLevel + "</b>!"))
+        acquiredUser = self.acquireUser(attackResult)
+        print(Proxima.utils.message.success("Computer access granted via user: <b>" + acquiredUser + "</b>!"))
         print(Proxima.utils.message.info("Trying to access /etc/passwd file..."))
-        if privilegeLevel != "guest" then
+        if acquiredUser != "guest" then
             passwdFile = attackResult.File("/etc/passwd")
             if self.accessPasswdFile(passwdFile) then
                 print(Proxima.utils.message.success("Accessed the /etc/passwd file!"))
@@ -664,11 +678,11 @@ Proxima.exploit.displayUserInfo = function ()
 end function
 
 Proxima.exploit.displayShellInfo = function ()
-    header_list = ["ID", "PRIVILEGE_LEVEL", "PUBLIC_IP"]
+    header_list = ["ID", "OWNER", "PUBLIC_IP"]
     content_list = []
     for targetShell in self.targetShells
         s_id = str(targetShell.id)
-        s_privilege = targetShell.privilege
+        s_privilege = targetShell.owner
         s_ip = targetShell.public_ip
         content_list.push([ s_id , s_privivilege , s_ip ])
     end for
