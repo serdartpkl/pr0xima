@@ -385,7 +385,6 @@ end function
 Proxima.exploit.decipherPassword = function ()
     if self.targetUsers.len > 0 then
         if self.targetUser != null and self.targetUsers.hasIndex(self.targetUser - 1) then
-            print(Proxima.utils.message.progress("Trying to decrypt password..."))
             targetUser = self.targetUsers[self.targetUser - 1]
             if targetUser.password.len < 32 then
                 print(Proxima.utils.message.warning("This password is already deciphered. Skipping..."))
