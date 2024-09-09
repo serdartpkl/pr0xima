@@ -185,10 +185,10 @@ end if
 end function
 Proxima.exploit.scanPort=function()
 if self.targetPorts.len>0 then
+if self.targetPort!=null and self.targetPorts.hasIndex(self.targetPort-1) then
 self.exploitID=1
 self.totalExploits=0
 self.targetExploits=[]
-if self.targetPort!=null and self.targetPorts.hasIndex(self.targetPort-1) then
 targetPort=self.targetPorts[self.targetPort-1]
 self.dumpPort(targetPort)
 if self.totalExploits==0 then
@@ -248,10 +248,10 @@ self.parseScanEntries(scanResult,libraryDump,null,targetLibrary)
 end function
 Proxima.exploit.scanLibrary=function()
 if self.targetLibraries.len>0 then
+if self.targetLibrary!=null and self.targetLibraries.hasIndex(self.targetLibrary-1) then
 self.exploitID=1
 self.totalExploits=0
 self.targetExploits=[]
-if self.targetLibrary!=null and self.targetLibraries.hasIndex(self.targetLibrary-1) then
 targetLibrary=self.targetLibraries[self.targetLibrary-1]
 self.dumpLibrary(targetLibrary)
 if self.totalExploits==0 then
