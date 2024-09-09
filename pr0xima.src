@@ -494,60 +494,72 @@ Proxima.exploit.handleAttackResult = function (attackResult)
         
         print(Proxima.utils.message.info("Updated the target shells list! You can view it later by: <b>shelllist</b>"))
         print(Proxima.utils.message.info("To connect a desired shell, you can use command: <b>connect <ID></b>"))
-        print(Proxima.utils.message.info("Trying to access /etc/passwd file..."))
-        if acquiredUser != "guest" then
-            if acquiredUser != "root" then
-                passwdFile = hostComputer.File("/etc/passwd")
-                if self.accessPasswdFile(passwdFile) then
-                    print(Proxima.utils.message.success("Accessed the /etc/passwd file!"))
-                    print(Proxima.utils.message.info("Updated the target users list! You can view it later by: <b>userlist</b>"))
-                    print(Proxima.utils.message.info("To decipher a selected user password, you can use command: <b>decipher <ID></b>"))
-                else
-                    print(Proxima.utils.message.warning("Coulnd't access /etc/passwd file, you have to gain root access with a different method."))
-                end if
-            end if
+        if self.targetUsers.len > 0 then
+            print(Proxima.utils.message.info("Skipping password search, we already accessed account informations..."))
         else
-            print(Proxima.utils.message.warning("Couldn't access root privileges by shell, you have to gain root access with a different method."))
-            if Proxima.globals.initMode == "remote" then
-                print(Proxima.utils.message.warning("You can upload a local library scanner to gain root access. To upload the scanner, type command: <b>upload</b>"))
+            print(Proxima.utils.message.info("Trying to access /etc/passwd file..."))
+            if acquiredUser != "guest" then
+                if acquiredUser != "root" then
+                    passwdFile = hostComputer.File("/etc/passwd")
+                    if self.accessPasswdFile(passwdFile) then
+                        print(Proxima.utils.message.success("Accessed the /etc/passwd file!"))
+                        print(Proxima.utils.message.info("Updated the target users list! You can view it later by: <b>userlist</b>"))
+                        print(Proxima.utils.message.info("To decipher a selected user password, you can use command: <b>decipher <ID></b>"))
+                    else
+                        print(Proxima.utils.message.warning("Coulnd't access /etc/passwd file, you have to gain root access with a different method."))
+                    end if
+                end if
+            else
+                print(Proxima.utils.message.warning("Couldn't access root privileges by shell, you have to gain root access with a different method."))
+                if Proxima.globals.initMode == "remote" then
+                    print(Proxima.utils.message.warning("You can upload a local library scanner to gain root access. To upload the scanner, type command: <b>upload</b>"))
+                end if
             end if
         end if
     else if typeof(attackResult) == "computer" then
         acquiredUser = self.acquireUser(attackResult)
         print(Proxima.utils.message.success("Computer access granted via user: <b>" + acquiredUser + "</b>!"))
-        print(Proxima.utils.message.info("Trying to access /etc/passwd file..."))
-        if acquiredUser != "guest" then
-            passwdFile = attackResult.File("/etc/passwd")
-            if self.accessPasswdFile(passwdFile) then
-                print(Proxima.utils.message.success("Accessed the /etc/passwd file!"))
-                print(Proxima.utils.message.info("Updated the target users list! You can view it later by: <b>userlist</b>"))
-                print(Proxima.utils.message.info("To decipher a selected user password, you can use command: <b>decipher <UserID></b>"))
-            else
-                print(Proxima.utils.message.warning("Coulnd't access /etc/passwd file, you have to gain root access with a different method."))
-            end if
+        if self.targetUsers.len > 0 then
+            print(Proxima.utils.message.info("Skipping password search, we already accessed account informations..."))
         else
-            print(Proxima.utils.message.error("Coulnd't access /etc/passwd file, you have to gain root access with a different method."))
+            print(Proxima.utils.message.info("Trying to access /etc/passwd file..."))
+            if acquiredUser != "guest" then
+                passwdFile = attackResult.File("/etc/passwd")
+                if self.accessPasswdFile(passwdFile) then
+                    print(Proxima.utils.message.success("Accessed the /etc/passwd file!"))
+                    print(Proxima.utils.message.info("Updated the target users list! You can view it later by: <b>userlist</b>"))
+                    print(Proxima.utils.message.info("To decipher a selected user password, you can use command: <b>decipher <UserID></b>"))
+                else
+                    print(Proxima.utils.message.warning("Coulnd't access /etc/passwd file, you have to gain root access with a different method."))
+                end if
+            else
+                print(Proxima.utils.message.error("Coulnd't access /etc/passwd file, you have to gain root access with a different method."))
+            end if
         end if
     else if typeof(attackResult) == "file" then
-        if is_folder(attackResult) == 1 then
-            if attackResult.name == "etc" then
-                etcFiles = attackResult.get_files
-                for etcFile in etcFiles
-                    if etcFile.name == "passwd" then
-                        if self.accessPasswdFile(etcFile) then
-                            print(Proxima.utils.message.success("Accessed the /etc/passwd file!"))
-                            print(Proxima.utils.message.info("Updated the target users list! You can view it later by: <b>userlist</b>"))
-                            print(Proxima.utils.message.info("To decipher a selected user password, you can use command: <b>decipher <UserID></b>"))
-                            break
-                        else
-                            print(Proxima.utils.message.warning("Coulnd't access /etc/passwd file, you have to gain root access manually..."))
-                        end if
-                    end if
-                end for
-            else
-            end if
+        if self.targetUsers.len > 0 then
+            print(Proxima.utils.message.info("Skipping password search, we already accessed account informations..."))
         else
-            print(Proxima.utils.message.error("Couldn't get a useful information from the incoming file."))
+            if is_folder(attackResult) == 1 then
+                if attackResult.name == "etc" then
+                    etcFiles = attackResult.get_files
+                    for etcFile in etcFiles
+                        if etcFile.name == "passwd" then
+                            if self.accessPasswdFile(etcFile) then
+                                print(Proxima.utils.message.success("Accessed the /etc/passwd file!"))
+                                print(Proxima.utils.message.info("Updated the target users list! You can view it later by: <b>userlist</b>"))
+                                print(Proxima.utils.message.info("To decipher a selected user password, you can use command: <b>decipher <UserID></b>"))
+                                break
+                            else
+                                print(Proxima.utils.message.warning("Coulnd't access /etc/passwd file, you have to gain root access manually..."))
+                            end if
+                        end if
+                    end for
+                else
+                end if
+            else
+                print(Proxima.utils.message.error("Couldn't get a useful information from the incoming file."))
+            end if
         end if
     else
         print(Proxima.utils.message.error("Exploit did not work correctly, please try another one if it has any."))
