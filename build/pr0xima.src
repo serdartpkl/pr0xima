@@ -425,10 +425,11 @@ end function
 Proxima.exploit.accessPasswdFile=function(passwdFile,publicIP)
 self.userID=1
 self.targetUsers=[]
-if passwdFile!=null and passwdFile.has_permission("r") then
+if passwdFile.get_content!=null and passwdFile.has_permission("r") then
 encryptedContent=passwdFile.get_content
 userList=encryptedContent.split("\n")
 for user in userList
+print(user)
 parsedUser=user.split(":")
 userName=parsedUser[0]
 userPassword=parsedUser[1]
