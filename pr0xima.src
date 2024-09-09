@@ -44,6 +44,12 @@ Proxima.exploit.targetLibraries = []
 Proxima.exploit.targetExploit = null
 Proxima.exploit.targetExploits = []
 
+Proxima.exploit.targetShell = null
+Proxima.exploit.targetShells = []
+
+Proxima.exploit.targetUser = null
+Proxima.exploit.targetUsers = []
+
 Proxima.exploit.portID = 1
 Proxima.exploit.libraryID = 1
 Proxima.exploit.exploitID = 1
@@ -131,6 +137,14 @@ end function
 
 Proxima.exploit.setTargetExploit = function (targetExploit)
     self.targetExploit = targetExploit
+end function
+
+Proxima.exploit.setTargetUser = function (targetUser)
+    self.targetUser = targetUser
+end function
+
+Proxima.exploit.setTargetShell = function (targetShell)
+    self.targetShell = targetShell
 end function
 
 Proxima.exploit.checkTargetIP = function ()
@@ -373,6 +387,12 @@ Proxima.exploit.uploadTools = function (remoteShell)
     return uploadProcess
 end function
 
+Proxima.exploit.isSSHAvailable = function()
+end function
+
+Proxima.exploit.accessPasswdFile = function()
+end function
+
 Proxima.exploit.handleAttackResult = function (attackResult)
     if typeof(attackResult) == "shell" then
         print(Proxima.utils.message.success("Shell access granted! Checking user privilege..."))
@@ -493,6 +513,7 @@ Proxima.exploit.execute = function ()
         targetExploit = self.targetExploits[self.targetExploit - 1]
         netSession = null
         libraryDump = null
+        print(Proxima.utils.message.info("Launching exploit... <b>[ID:" + targetExploit.id + "]</b>"))
         if Proxima.globals.initMode == "remote" then
             print(Proxima.utils.message.progress("Trying to connect <b>" + targetExploit.ip + "</b> on port <b>" + targetExploit.port_number + "</b>"))
             netSession = Proxima.globals.metaxploit.net_use(targetExploit.ip, targetExploit.port_number)
@@ -501,14 +522,14 @@ Proxima.exploit.execute = function ()
             else
                 print(Proxima.utils.message.success("Connection established!"))
                 libraryDump = netSession.dump_lib
-                print(Proxima.utils.message.progress("Attempting to exploit " + libraryDump.lib_name + " at port " + targetExploit.port_number + ". <b>[MEM_ADDR:" + targetExploit.memAddr + "|UNSEC_CODE:" + targetExploit.unsecZone + "]</b>"))
+                print(Proxima.utils.message.progress("Attempting to exploit " + libraryDump.lib_name + " at port " + targetExploit.port_number + "."))
             end if
         else if Proxima.globals.initMode == "local" then
             print(Proxima.utils.message.progress("Trying to exploit <b>" + targetExploit.lib_name + "</b> library."))
             libraryDump = Proxima.globals.metaxploit.load(targetExploit.path)
         end if
         print("+------------------------------------+")
-        print(Proxima.utils.message.progress("Injecting values into the library..."))
+        print(Proxima.utils.message.progress("Injecting values into the library... <b>[MEM_ADDR:" + targetExploit.memAddr + "|UNSEC_CODE:" + targetExploit.unsecZone + "]</b>"))
         attackResult = libraryDump.overflow(targetExploit.memAddr, targetExploit.unsecZone)
         print("+------------------------------------+")
         self.handleAttackResult(attackResult)
