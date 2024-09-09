@@ -53,6 +53,8 @@ Proxima.exploit.targetUsers = []
 Proxima.exploit.portID = 1
 Proxima.exploit.libraryID = 1
 Proxima.exploit.exploitID = 1
+Proxima.exploit.userID = 1
+Proxima.exploit.shellID = 1
 Proxima.exploit.totalExploits = 0
 
 Proxima.net.checkConnection = function ()
@@ -354,11 +356,7 @@ Proxima.exploit.checkPrivilegeLevel = function (targetComputer)
 end function
 
 Proxima.exploit.decipherPassword = function (encryptedContent)
-    encryptedContent = encryptedContent.get_content
-    rootAccountInfo = encryptedContent.split("\n")[0]
-    rootPassword = rootAccountInfo.split(":")[1]
-    decryptedPassword = Proxima.globals.crypto.decipher(rootPassword)
-    return decryptedPassword
+    // TO DO
 end function
 
 Proxima.exploit.uploadTools = function (remoteShell)
@@ -387,37 +385,64 @@ Proxima.exploit.uploadTools = function (remoteShell)
     return uploadProcess
 end function
 
-Proxima.exploit.isSSHAvailable = function()
+Proxima.exploit.isSSHAvailable = function ()
+    isConnectableViaSSH = false
+    for targetPort in self.targetPorts
+        if targetPort.values[1] == 22 and targetPort.values[2] == "open" then
+            isConnectableViaSSH = true
+        end if
+    end for
+    return isSSHAvailable
 end function
 
-Proxima.exploit.accessPasswdFile = function()
+Proxima.exploit.isFTPAvailable = function ()
+    isConnectableViaFTP = false
+    for targetPort in self.targetPorts
+        if targetPort.values[1] = 21 and targetPort.values[2] == "open" then
+            isConnectableViaFTP = true
+        end if
+    end for
+    return isConnectableViaFTP
+end function
+
+Proxima.exploit.accessPasswdFile = function (hostComputer)
+    isPasswdAvailable = false
+    self.userID = 1
+    self.targetUsers = []
+    passwdFile = hostComputer.File("/etc/passwd")
+    if passwdFile and passwdFile.has_permission("r") then
+        encryptedContent = passwdFile.get_content
+        userList = encryptedContent.split("\n")
+        for user in userList
+            userName = user.split(":")[0]
+            userPassword = user.split(":")[1]
+            userMap = { "id": self.userID, "username": userName, "password": userPassword, "public_ip": hostComputer.public_ip }
+            self.targetUsers.push(userMap)
+            self.userID = self.userID + 1
+        end for
+        return true
+    else
+        return false
+    end if
 end function
 
 Proxima.exploit.handleAttackResult = function (attackResult)
     if typeof(attackResult) == "shell" then
         print(Proxima.utils.message.success("Shell access granted! Checking user privilege..."))
-        privilegeLevel = self.checkPrivilegeLevel(attackResult.host_computer)
+        hostComputer = attackResult.host_computer
+        privilegeLevel = self.checkPrivilegeLevel(hostComputer)
         if privilegeLevel != "guest" then
             if privilegeLevel != "root" then
-                passwdFile = attackResult.host_computer.File("/etc/passwd")
-                if passwdFile and passwdFile.has_permission("r") then
+                if self.accessPasswdFile(hostComputer) then
                     print(Proxima.utils.message.success("Accessed the /etc/passwd file via user: <b>" + privilegeLevel + "</b>!"))
                     print(Proxima.utils.message.progress("Trying to decrypt /etc/passwd..."))
-                    decryptedPassword = self.decipherPassword(passwdFile)
-                    if decryptedPassword != null then
-                        print(Proxima.utils.message.success("Decryption completed! <b>[PASSWORD:" + decryptedPassword + "]</b>"))
-                        print(Proxima.utils.message.info("You can get root access by executing command: <b>sudo -u root</b>. Then type password: <b>" + decryptedPassword + "</b>"))
-                    else
-                        print(Proxima.utils.message.warning("Couldn't decyrpt root password. You have to gain access manually..."))
-                    end if
                 else
-                    print(Proxima.utils.message.warning("Coulnd't access /etc/passwd file. You have to gain access manually..."))
+                    print(Proxima.utils.message.warning("Coulnd't access /etc/passwd file. You have to gain root access manually..."))
                 end if
                 print(Proxima.utils.message.progress("Starting terminal..."))
             else
                 print(Proxima.utils.message.success("Got root access! Starting terminal..."))
             end if
-            attackResult.start_terminal
         else
             if Proxima.globals.initMode == "local" then
                 print(Proxima.utils.message.error("Couldn't access root privileges! Terminating..."))
@@ -430,7 +455,6 @@ Proxima.exploit.handleAttackResult = function (attackResult)
                     print(Proxima.utils.message.warning("Couldn't upload tools, you have to upload them manually..."))
                     print(Proxima.utils.message.progress("Starting terminal..."))
                 end if
-                attackResult.start_terminal
             end if
         end if
     else if typeof(attackResult) == "computer" then
