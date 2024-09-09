@@ -692,7 +692,7 @@ Proxima.exploit.displayUserInfo = function ()
     content_list = []
     for targetUser in self.targetUsers
         u_id = str(targetUser.id)
-        u_user = targetUser.username
+        u_username = targetUser.username
         u_password = targetUser.password
         u_ip = targetUser.public_ip
         content_list.push([ u_id, u_username , u_password , u_ip ])
