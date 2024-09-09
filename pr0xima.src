@@ -515,9 +515,10 @@ Proxima.exploit.handleAttackResult = function (attackResult)
                     end if
                 end if
             else
-                print(Proxima.utils.message.warning("Couldn't access root privileges by shell, you have to gain root access with a different method."))
                 if Proxima.globals.initMode == "remote" then
                     print(Proxima.utils.message.warning("You can upload a local library scanner to gain root access. To upload the scanner, type command: <b>upload</b>"))
+                else
+                    print(Proxima.utils.message.warning("Couldn't access root privileges by shell, you have to gain root access with a different method."))
                 end if
             end if
         end if
@@ -608,6 +609,9 @@ Proxima.exploit.autoExecute = function ()
     if self.targetExploits.len == 0 then
         print(Proxima.utils.message.error("No exploits available, please make a scan first."))
     else
+        self.shellID = 1
+        self.targetShells = []
+        self.targetUsers = []
         for targetExploit in self.targetExploits
             self.setTargetExploit(targetExploit.id)
             if self.targetExploit != 1 then
