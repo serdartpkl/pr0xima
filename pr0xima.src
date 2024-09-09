@@ -656,7 +656,7 @@ Proxima.exploit.displayExploitInfo = function ()
     if isLocal then
         header_list = ["ID", "LIBRARY_NAME", "VERSION", "MEM_ADDRESS", "UNSEC_ZONE"]
     else
-        header_list = ["ID", "PORT", "MEM_ADDRESS", "UNSEC_ZONE"]
+        header_list = ["ID", "PORT", "MEM_ADDRESS", "UNSEC_ZONE", "PUBLIC_UP"]
     end if
 
     content_list = []
@@ -670,7 +670,8 @@ Proxima.exploit.displayExploitInfo = function ()
             content_list.push([ e_id , e_name , e_version , e_mem , e_uz ])
         else
             e_port_number = str(targetExploit.port_number)
-            content_list.push([ e_id , e_port_number , e_mem , e_uz ])
+            e_ip = targetExploit.public_ip
+            content_list.push([ e_id , e_port_number , e_mem , e_uz, e_ip ])
         end if
     end for
 
