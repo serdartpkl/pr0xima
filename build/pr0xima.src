@@ -295,7 +295,7 @@ push(exploits,segment[labelStart+3:labelEnd])
 end for
 for exploit in exploits
 if Proxima.globals.initMode=="remote" then
-self.targetExploits.push({"id":self.exploitID,"ip":self.targetIP,"port_number":targetPort.port_number,"memAddr":entry,"unsecZone":exploit})
+self.targetExploits.push({"id":self.exploitID,"public_ip":self.targetIP,"port_number":targetPort.port_number,"memAddr":entry,"unsecZone":exploit})
 else if Proxima.globals.initMode=="local" then
 self.targetExploits.push({"id":self.exploitID,"lib_name":libraryDump.lib_name,"version":libraryDump.version,"path":targetLibrary.path,"memAddr":entry,"unsecZone":exploit})
 end if
@@ -538,8 +538,8 @@ netSession=null
 libraryDump=null
 print(Proxima.utils.message.info("Launching exploit... <b>[ID:"+targetExploit.id+"]</b>"))
 if Proxima.globals.initMode=="remote" then
-print(Proxima.utils.message.progress("Trying to connect <b>"+targetExploit.ip+"</b> on port <b>"+targetExploit.port_number+"</b>"))
-netSession=Proxima.globals.metaxploit.net_use(targetExploit.ip,targetExploit.port_number)
+print(Proxima.utils.message.progress("Trying to connect <b>"+targetExploit.public_ip+"</b> on port <b>"+targetExploit.port_number+"</b>"))
+netSession=Proxima.globals.metaxploit.net_use(targetExploit.public_ip,targetExploit.port_number)
 if not netSession then
 print(Proxima.utils.message.error("Unable to connect to port "+targetExploit.port_number+"."))
 else
