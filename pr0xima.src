@@ -712,7 +712,7 @@ Proxima.exploit.displayShellInfo = function ()
         s_id = str(targetShell.id)
         s_privilege = targetShell.owner
         s_ip = targetShell.public_ip
-        content_list.push([ s_id , s_privivilege , s_ip ])
+        content_list.push([ s_id , s_privilege , s_ip ])
     end for
 
     Proxima.utils.display_list(header_list, content_list)
