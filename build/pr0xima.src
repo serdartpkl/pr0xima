@@ -7,9 +7,9 @@ Proxima.exploit={}
 Proxima.net.interface="wlan0"
 Proxima.net.maxACKRate=300000
 Proxima.net.router=null
-Proxima.net.networkMap=[]
 Proxima.net.networkKey=null
 Proxima.net.targetNetwork=null
+Proxima.net.targetNetworks=[]
 Proxima.globals.initMode="remote"
 Proxima.globals.metaxploit=null
 Proxima.globals.crypto=null
@@ -27,9 +27,15 @@ Proxima.exploit.targetLibrary=null
 Proxima.exploit.targetLibraries=[]
 Proxima.exploit.targetExploit=null
 Proxima.exploit.targetExploits=[]
+Proxima.exploit.targetShell=null
+Proxima.exploit.targetShells=[]
+Proxima.exploit.targetUser=null
+Proxima.exploit.targetUsers=[]
 Proxima.exploit.portID=1
 Proxima.exploit.libraryID=1
 Proxima.exploit.exploitID=1
+Proxima.exploit.userID=1
+Proxima.exploit.shellID=1
 Proxima.exploit.totalExploits=0
 Proxima.net.checkConnection=function()
 if Proxima.globals.myPC.is_network_active then
@@ -55,9 +61,9 @@ network=network.split(" ")
 bssid=network[0]
 essid=network[2]
 strength=network[1][:-1].to_int
-self.networkMap.push({"essid":essid,"bssid":bssid,"strength":strength})
+self.targetNetworks.push({"essid":essid,"bssid":bssid,"strength":strength})
 end for
-self.targetNetwork=self.networkMap.sort("strength")[self.networkMap.len-1]
+self.targetNetwork=self.targetNetworks.sort("strength")[self.targetNetworks.len-1]
 end function
 Proxima.net.startSniffing=function()
 requiredACKs=ceil(self.maxACKRate/self.targetNetwork.strength)
@@ -111,6 +117,12 @@ end function
 Proxima.exploit.setTargetExploit=function(targetExploit)
 self.targetExploit=targetExploit
 end function
+Proxima.exploit.setTargetUser=function(targetUser)
+self.targetUser=targetUser
+end function
+Proxima.exploit.setTargetShell=function(targetShell)
+self.targetShell=targetShell
+end function
 Proxima.exploit.checkTargetIP=function()
 if self.targetIP!=null then
 self.router=get_router(self.targetIP)
@@ -152,27 +164,6 @@ else
 return false
 end if
 end function
-Proxima.exploit.parseScanEntries=function(scanResult,libraryDump,targetPort=null,targetLibrary=null)
-for entry in scanResult
-scanAddress=scan_address(Proxima.globals.metaxploit,libraryDump,entry)
-segments=split(scanAddress,"Unsafe check: ")[1:]
-exploits=[]
-for segment in segments
-labelStart=indexOf(segment,"<b>")
-labelEnd=indexOf(segment,"</b>")
-push(exploits,segment[labelStart+3:labelEnd])
-end for
-for exploit in exploits
-if Proxima.globals.initMode=="remote" then
-self.targetExploits.push({"id":self.exploitID,"ip":self.targetIP,"port_number":targetPort.port_number,"memAddr":entry,"unsecZone":exploit})
-else if Proxima.globals.initMode=="local" then
-self.targetExploits.push({"id":self.exploitID,"lib_name":libraryDump.lib_name,"version":libraryDump.version,"path":targetLibrary.path,"memAddr":entry,"unsecZone":exploit})
-end if
-self.totalExploits=self.totalExploits+1
-self.exploitID=self.exploitID+1
-end for
-end for
-end function
 Proxima.exploit.dumpPort=function(targetPort)
 if targetPort.state=="open" then
 if self.targetIP!=targetPort.public_ip then
@@ -181,8 +172,8 @@ end if
 netSession=Proxima.globals.metaxploit.net_use(self.targetIP,targetPort.port_number)
 if netSession!=null then
 libraryDump=netSession.dump_lib
-print(Proxima.utils.message.info("Library version found: <b>"+libraryDump.lib_name+" -> "+libraryDump.version+"</b>"))
 print(Proxima.utils.message.progress("Attempting to scan vulnerabilities on port "+targetPort.port_number+"..."))
+print(Proxima.utils.message.info("Library found: <b>"+libraryDump.lib_name+" -> "+libraryDump.version+"</b>"))
 scanResult=Proxima.globals.metaxploit.scan(libraryDump)
 self.parseScanEntries(scanResult,libraryDump,targetPort,null)
 else
@@ -212,7 +203,7 @@ else
 if self.targetIP!=null then
 print(Proxima.utils.message.error("No open ports found at the specified target IP address. <b>[IP:"+self.targetIP+"]</b>"))
 else
-print(Proxima.utils.message.error("There is no specified target IP address yet, please scan an IP address first to proceed."))
+print(Proxima.utils.message.error("There is no specified target IP address yet, please scan an IP address first."))
 end if
 end if
 end function
@@ -233,7 +224,7 @@ else
 if self.targetIP!=null then
 print(Proxima.utils.message.error("No open ports found at the specified target IP address. <b>[IP:"+self.targetIP+"]</b>"))
 else
-print(Proxima.utils.message.error("There is no specified target IP address yet, please scan an IP address first to proceed."))
+print(Proxima.utils.message.error("There is no specified target IP address yet, please scan an IP address first."))
 end if
 end if
 end function
@@ -250,8 +241,8 @@ end for
 end function
 Proxima.exploit.dumpLibrary=function(targetLibrary)
 libraryDump=Proxima.globals.metaxploit.load(targetLibrary.path)
-print(Proxima.utils.message.info("Library version found: <b>"+libraryDump.lib_name+" -> "+libraryDump.version+"</b>"))
 print(Proxima.utils.message.progress("Attempting to scan vulnerabilities at <b>"+libraryDump.lib_name+"</b>!"))
+print(Proxima.utils.message.info("Library found: <b>"+libraryDump.lib_name+" -> "+libraryDump.version+"</b>"))
 scanResult=Proxima.globals.metaxploit.scan(libraryDump)
 self.parseScanEntries(scanResult,libraryDump,null,targetLibrary)
 end function
@@ -292,11 +283,32 @@ else
 print(Proxima.utils.message.error("No libraries found fo scan, please make a scan first."))
 end if
 end function
-Proxima.exploit.checkPrivilegeLevel=function(targetComputer)
+Proxima.exploit.parseScanEntries=function(scanResult,libraryDump,targetPort=null,targetLibrary=null)
+for entry in scanResult
+scanAddress=scan_address(Proxima.globals.metaxploit,libraryDump,entry)
+segments=split(scanAddress,"Unsafe check: ")[1:]
+exploits=[]
+for segment in segments
+labelStart=indexOf(segment,"<b>")
+labelEnd=indexOf(segment,"</b>")
+push(exploits,segment[labelStart+3:labelEnd])
+end for
+for exploit in exploits
+if Proxima.globals.initMode=="remote" then
+self.targetExploits.push({"id":self.exploitID,"ip":self.targetIP,"port_number":targetPort.port_number,"memAddr":entry,"unsecZone":exploit})
+else if Proxima.globals.initMode=="local" then
+self.targetExploits.push({"id":self.exploitID,"lib_name":libraryDump.lib_name,"version":libraryDump.version,"path":targetLibrary.path,"memAddr":entry,"unsecZone":exploit})
+end if
+self.totalExploits=self.totalExploits+1
+self.exploitID=self.exploitID+1
+end for
+end for
+end function
+Proxima.exploit.acquireUser=function(targetComputer)
 rootDirectory=targetComputer.File("/")
-privilegeLevel="guest"
+acquiredUser="guest"
 if rootDirectory and rootDirectory.has_permission("w") then
-privilegeLevel="root"
+acquiredUser="root"
 else
 homeDirectory=targetComputer.File("/home")
 if homeDirectory then
@@ -305,21 +317,72 @@ if userFolder.name=="guest" then
 continue
 end if
 if userFolder.has_permission("w") then
-privilegeLevel=userFolder.name
+acquiredUser=userFolder.name
 end if
 end for
 end if
 end if
-return privilegeLevel
+return acquiredUser
 end function
-Proxima.exploit.decipherPassword=function(encryptedContent)
-encryptedContent=encryptedContent.get_content
-rootAccountInfo=encryptedContent.split("\n")[0]
-rootPassword=rootAccountInfo.split(":")[1]
-decryptedPassword=Proxima.globals.crypto.decipher(rootPassword)
-return decryptedPassword
+Proxima.exploit.getPrivilegeLevel=function(acquiredUser)
+acquiredUserNum=0
+if acquiredUser=="guest" then
+acquiredUserNum=0
+else if acquiredUser=="root" then
+acquiredUserNum=2
+else
+acquiredUserNum=1
+end if
+return acquiredUserNum
 end function
-Proxima.exploit.uploadTools=function(remoteShell)
+Proxima.exploit.connectShell=function()
+if self.targetShells.len>0 then
+if self.targetShell!=null and self.targetShells.hasIndex(self.targetShell-1) then
+targetShell=self.targetShells[self.targetShell-1]
+print(Proxima.utils.message.progress("Connecting to shell on <b>"+self.targetShell.public_ip+"</b>. <b>[ID:"+self.targetShell.id+"]</b>"))
+wait(1)
+self.targetShell.shell_object.start_terminal
+else
+print(Proxima.utils.message.error("No open shell found with specified ID. <b>[ID:"+self.targetShell+"]</b>"))
+end if
+else
+print(Proxima.utils.message.error("No open shells found to scan, please execute an exploit first."))
+end if
+end function
+Proxima.exploit.decipherPassword=function()
+if self.targetUsers.len>0 then
+if self.targetUser!=null and self.targetUsers.hasIndex(self.targetUser-1) then
+targetUser=self.targetUsers[self.targetUser-1]
+print(Proxima.utils.message.progress("Trying to decrypt password..."))
+decryptedPassword=Proxima.globals.crypto.decipher(targetUser.password)
+if decryptedPassword!=null then
+targetUser.password=decryptedPassword
+print(Proxima.utils.message.success("Password decrypted successfuly!. <b>[USER:"+targetUser.username+"PASSWORD:"+targetUser.password+"]</b>"))
+print(Proxima.utils.message.info("Updated user information, you can view it later by using command: <b>userlist</b>"))
+else
+print(Proxima.utils.message.info("Couldn't decrypt password! Please try another one..."))
+end if
+else
+print(Proxima.utils.message.error("No user found with specified ID. <b>[ID:"+self.targetUser.id+"]</b>"))
+return false
+end if
+else
+print(Proxima.utils.message.error("No user information found to decipher, please execute an exploit first."))
+return false
+end if
+end function
+Proxima.exploit.decipherPasswords=function()
+if self.targetUsers.len>0 then
+for targetUser in self.targetUsers
+self.setTargetUser(targetUser.id)
+self.deciperPassword
+end for
+else
+print(Proxima.utils.message.error("No users found to scan, please execute an exploit first."))
+end if
+end function
+Proxima.exploit.uploadTools=function()
+remoteShell=self.targetShells.sort("privilege_level")[self.targetShells.len-1]
 uploadTo=Proxima.globals.uploadTo
 toolsDirectory=Proxima.globals.myPC.File(Proxima.globals.uploadFrom)
 uploadProcess=true
@@ -341,117 +404,126 @@ uploadProcess=false
 end if
 return uploadProcess
 end function
-Proxima.exploit.handleAttackResult=function(attackResult)
-if typeof(attackResult)=="shell" then
-print(Proxima.utils.message.success("Shell access granted! Checking user privilege..."))
-privilegeLevel=self.checkPrivilegeLevel(attackResult.host_computer)
-if privilegeLevel!="guest" then
-if privilegeLevel!="root" then
-passwdFile=attackResult.host_computer.File("/etc/passwd")
-if passwdFile and passwdFile.has_permission("r") then
-print(Proxima.utils.message.success("Accessed the /etc/passwd file via user: <b>"+privilegeLevel+"</b>!"))
-print(Proxima.utils.message.progress("Trying to decrypt /etc/passwd..."))
-decryptedPassword=self.decipherPassword(passwdFile)
-if decryptedPassword!=null then
-print(Proxima.utils.message.success("Decryption completed! <b>[PASSWORD:"+decryptedPassword+"]</b>"))
-print(Proxima.utils.message.info("You can get root access by executing command: <b>sudo -u root</b>. Then type password: <b>"+decryptedPassword+"</b>"))
-else
-print(Proxima.utils.message.warning("Couldn't decyrpt root password. You have to gain access manually..."))
-end if
-else
-print(Proxima.utils.message.warning("Coulnd't access /etc/passwd file. You have to gain access manually..."))
-end if
-print(Proxima.utils.message.progress("Starting terminal..."))
-else
-print(Proxima.utils.message.success("Got root access! Starting terminal..."))
-end if
-attackResult.start_terminal
-else
-if Proxima.globals.initMode=="local" then
-print(Proxima.utils.message.error("Couldn't access root privileges! Terminating..."))
-else
-print(Proxima.utils.message.warning("Couldn't access root privileges, uploading local scanner..."))
-uploadProcess=self.uploadTools(attackResult)
-if uploadProcess then
-print(Proxima.utils.message.success("Uploaded tools successfuly! You can now launch <b>pr00t.</b>"))
-else
-print(Proxima.utils.message.warning("Couldn't upload tools, you have to upload them manually..."))
-print(Proxima.utils.message.progress("Starting terminal..."))
-end if
-attackResult.start_terminal
-end if
-end if
-else if typeof(attackResult)=="computer" then
-print(Proxima.utils.message.info("Trying to access /etc/passwd..."))
-privilegeLevel=self.checkPrivilegeLevel(attackResult)
-if privilegeLevel!="guest" then
-passwdFile=attackResult.File("/etc/passwd")
-if passwdFile and passwdFile.has_permission("r") then
-print(Proxima.utils.message.success("Accessed the /etc/passwd file via user: <b>"+privilegeLevel+"</b>!"))
-print(Proxima.utils.message.progress("Trying to decrypt /etc/passwd..."))
-decryptedPassword=self.decipherPassword(passwdFile)
-if decryptedPassword!=null then
-print(Proxima.utils.message.success("Decryption completed! <b>[PASSWORD:"+decryptedPassword+"]</b>"))
-if Proxima.globals.initMode=="local" then
-print(Proxima.utils.message.info("You can get root access by executing command: <b>sudo -u root</b>. Then type password: <b>"+decryptedPassword+"</b>"))
-else
+Proxima.exploit.isSSHAvailable=function()
 isConnectableViaSSH=false
 for targetPort in self.targetPorts
 if targetPort.values[1]==22 and targetPort.values[2]=="open" then
 isConnectableViaSSH=true
 end if
 end for
-if isConnectableViaSSH then
-print(Proxima.utils.message.info("You can connect via SSH by executing command: <b>ssh root@"+decryptedPassword+" "+self.targetIP+"</b>"))
+return isSSHAvailable
+end function
+Proxima.exploit.isFTPAvailable=function()
+isConnectableViaFTP=false
+for targetPort in self.targetPorts
+if targetPort.values[1]==21 and targetPort.values[2]=="open" then
+isConnectableViaFTP=true
 end if
-if not isConnectableViaSSH then
-print(Proxima.utils.message.info("SSH port is closed or don't exist. You can try a different method to gain access..."))
+end for
+return isConnectableViaFTP
+end function
+Proxima.exploit.accessPasswdFile=function(passwdFile)
+isPasswdAvailable=false
+self.userID=1
+self.targetUsers=[]
+if passwdFile and passwdFile.has_permission("r") then
+encryptedContent=passwdFile.get_content
+userList=encryptedContent.split("\n")
+for user in userList
+userName=user.split(":")[0]
+userPassword=user.split(":")[1]
+userMap={"id":self.userID,"username":userName,"password":userPassword,"public_ip":hostComputer.public_ip}
+self.targetUsers.push(userMap)
+self.userID=self.userID+1
+end for
+return true
+else
+return false
+end if
+end function
+Proxima.exploit.handleAttackResult=function(attackResult)
+if typeof(attackResult)=="shell" then
+hostComputer=attackResult.host_computer
+acquiredUser=self.acquireUser(passwdFile)
+print(Proxima.utils.message.success("Shell access granted via user: <b>"+acquiredUser+"</b>! Updating the shell list..."))
+privilegeLevel=self.getPrivilegeLevel(acquiredUser)
+if self.targetShells.indexOf(acquiredUser) then
+print(Proxima.utils.message.info("This shell connection is already added to target shells list..."))
+else
+print(Proxima.utils.message.info("Updated the target shells list! You can view it later by: <b>shelllist</b>"))
+self.targetShells.push({"id":self.shellID,"owner":acquiredUser,"privilege_level":privilegeLevel,"public_ip":hostComputer.public_ip,"shell_object":attackResult})
+self.shellID=self.shellID+1
+end if
+print(Proxima.utils.message.info("To connect a desired shell, you can use command: <b>connect <ID></b>"))
+if self.targetUsers.len>0 then
+print(Proxima.utils.message.info("Skipping password search, we already accessed account informations..."))
+else
+print(Proxima.utils.message.info("Trying to access /etc/passwd file..."))
+if acquiredUser!="guest" then
+if acquiredUser!="root" then
+passwdFile=hostComputer.File("/etc/passwd")
+if self.accessPasswdFile(passwdFile) then
+print(Proxima.utils.message.success("Accessed the /etc/passwd file!"))
+print(Proxima.utils.message.info("Updated the target users list! You can view it later by: <b>userlist</b>"))
+print(Proxima.utils.message.info("To decipher a selected user password, you can use command: <b>decipher <ID></b>"))
+else
+print(Proxima.utils.message.warning("Coulnd't access /etc/passwd file, you have to gain root access with a different method."))
 end if
 end if
 else
-print(Proxima.utils.message.error("Couldn't decyrpt root password."))
+if Proxima.globals.initMode=="remote" then
+print(Proxima.utils.message.warning("You can upload a local library scanner to gain root access. To upload the scanner, type command: <b>upload</b>"))
+else
+print(Proxima.utils.message.warning("Couldn't access root privileges by shell, you have to gain root access with a different method."))
+end if
+end if
+end if
+else if typeof(attackResult)=="computer" then
+acquiredUser=self.acquireUser(attackResult)
+print(Proxima.utils.message.success("Computer access granted via user: <b>"+acquiredUser+"</b>!"))
+if self.targetUsers.len>0 then
+print(Proxima.utils.message.info("Skipping password search, we already accessed account informations..."))
+else
+print(Proxima.utils.message.info("Trying to access /etc/passwd file..."))
+if acquiredUser!="guest" then
+passwdFile=attackResult.File("/etc/passwd")
+if self.accessPasswdFile(passwdFile) then
+print(Proxima.utils.message.success("Accessed the /etc/passwd file!"))
+print(Proxima.utils.message.info("Updated the target users list! You can view it later by: <b>userlist</b>"))
+print(Proxima.utils.message.info("To decipher a selected user password, you can use command: <b>decipher <UserID></b>"))
+else
+print(Proxima.utils.message.warning("Coulnd't access /etc/passwd file, you have to gain root access with a different method."))
 end if
 else
-print(Proxima.utils.message.error("Coulnd't access /etc/passwd file."))
+print(Proxima.utils.message.error("Coulnd't access /etc/passwd file, you have to gain root access with a different method."))
 end if
-else
-print(Proxima.utils.message.error("Got guest privilege, coulnd't access /etc/passwd file."))
 end if
 else if typeof(attackResult)=="file" then
+print(Proxima.utils.message.progress("Acquired file object, trying to identify..."))
+if self.targetUsers.len>0 then
+print(Proxima.utils.message.info("Skipping password search, we already accessed account informations..."))
+else
 if is_folder(attackResult)==1 then
-if attackResult.name=="etc" or attackResult.name=="/" then
 if attackResult.name=="etc" then
-for file in attackResult.get_files
-if file.name=="passwd" then
-if file.has_permission("r") then
-print(Proxima.utils.message.success("Access granted to /etc/passwd! Decrypting root password..."))
-decryptedPassword=self.decipherPassword(file)
-print(Proxima.utils.message.success("Decrypted password: <b>"+decryptedPassword+"</b>"))
+etcFiles=attackResult.get_files
+for etcFile in etcFiles
+if etcFile.name=="passwd" then
+if self.accessPasswdFile(etcFile) then
+print(Proxima.utils.message.success("Accessed the /etc/passwd file!"))
+print(Proxima.utils.message.info("Updated the target users list! You can view it later by: <b>userlist</b>"))
+print(Proxima.utils.message.info("To decipher a selected user password, you can use command: <b>decipher <UserID></b>"))
+break
 else
-print(Proxima.utils.message.error("Coulnd't access /etc/passwd file."))
+print(Proxima.utils.message.warning("Coulnd't access /etc/passwd file, you have to gain root access manually..."))
 end if
 end if
 end for
-else if attackResult.name=="/" then
-for folder in attackResult.get_folders
-if folder.name=="etc" then
-for file in folder
-if file.name=="passwd" then
-if file.has_permission("r") then
-print(Proxima.utils.message.success("Access granted to /etc/passwd! Decrypting root password..."))
-decryptedPassword=self.decipherPassword(file)
-print(Proxima.utils.message.success("Decrypted password: <b>"+decryptedPassword+"</b>"))
 else
-print(Proxima.utils.message.error("Coulnd't access /etc/passwd file."))
-end if
-end if
-end for
-end if
-end for
-end if
+
 end if
 else
-print(Proxima.utils.message.error("Couldn't find a useful information from the incoming file."))
+print(Proxima.utils.message.error("Couldn't get a useful information from the incoming file."))
+end if
 end if
 else
 print(Proxima.utils.message.error("Exploit did not work correctly, please try another one if it has any."))
@@ -464,6 +536,7 @@ else if self.targetExploit!=null and self.targetExploits.hasIndex(self.targetExp
 targetExploit=self.targetExploits[self.targetExploit-1]
 netSession=null
 libraryDump=null
+print(Proxima.utils.message.info("Launching exploit... <b>[ID:"+targetExploit.id+"]</b>"))
 if Proxima.globals.initMode=="remote" then
 print(Proxima.utils.message.progress("Trying to connect <b>"+targetExploit.ip+"</b> on port <b>"+targetExploit.port_number+"</b>"))
 netSession=Proxima.globals.metaxploit.net_use(targetExploit.ip,targetExploit.port_number)
@@ -472,14 +545,14 @@ print(Proxima.utils.message.error("Unable to connect to port "+targetExploit.por
 else
 print(Proxima.utils.message.success("Connection established!"))
 libraryDump=netSession.dump_lib
-print(Proxima.utils.message.progress("Attempting to exploit "+libraryDump.lib_name+" at port "+targetExploit.port_number+". <b>[MEM_ADDR:"+targetExploit.memAddr+"|UNSEC_CODE:"+targetExploit.unsecZone+"]</b>"))
+print(Proxima.utils.message.progress("Attempting to exploit "+libraryDump.lib_name+" at port "+targetExploit.port_number+"."))
 end if
 else if Proxima.globals.initMode=="local" then
 print(Proxima.utils.message.progress("Trying to exploit <b>"+targetExploit.lib_name+"</b> library."))
 libraryDump=Proxima.globals.metaxploit.load(targetExploit.path)
 end if
 print("+------------------------------------+")
-print(Proxima.utils.message.progress("Injecting values to the library..."))
+print(Proxima.utils.message.progress("Injecting values into the library... <b>[MEM_ADDR:"+targetExploit.memAddr+"|UNSEC_CODE:"+targetExploit.unsecZone+"]</b>"))
 attackResult=libraryDump.overflow(targetExploit.memAddr,targetExploit.unsecZone)
 print("+------------------------------------+")
 self.handleAttackResult(attackResult)
@@ -491,6 +564,9 @@ Proxima.exploit.autoExecute=function()
 if self.targetExploits.len==0 then
 print(Proxima.utils.message.error("No exploits available, please make a scan first."))
 else
+self.shellID=1
+self.targetShells=[]
+self.targetUsers=[]
 for targetExploit in self.targetExploits
 self.setTargetExploit(targetExploit.id)
 if self.targetExploit!=1 then
@@ -538,7 +614,7 @@ header_list=[]
 if isLocal then
 header_list=["ID","LIBRARY_NAME","VERSION","MEM_ADDRESS","UNSEC_ZONE"]
 else
-header_list=["ID","PORT","MEM_ADDRESS","UNSEC_ZONE"]
+header_list=["ID","PORT","MEM_ADDRESS","UNSEC_ZONE","PUBLIC_UP"]
 end if
 content_list=[]
 for targetExploit in self.targetExploits
@@ -551,8 +627,32 @@ e_version=targetExploit.version
 content_list.push([e_id,e_name,e_version,e_mem,e_uz])
 else
 e_port_number=str(targetExploit.port_number)
-content_list.push([e_id,e_port_number,e_mem,e_uz])
+e_ip=targetExploit.public_ip
+content_list.push([e_id,e_port_number,e_mem,e_uz,e_ip])
 end if
+end for
+Proxima.utils.display_list(header_list,content_list)
+end function
+Proxima.exploit.displayUserInfo=function()
+header_list=["ID","USERNAME","PASSWORD","PUBLIC_IP"]
+content_list=[]
+for targetUser in self.targetUsers
+u_id=str(targetUser.id)
+u_user=targetUser.username
+u_password=targetUser.password
+u_ip=targetUser.public_ip
+content_list.push([u_id,u_username,u_password,u_ip])
+end for
+Proxima.utils.display_list(header_list,content_list)
+end function
+Proxima.exploit.displayShellInfo=function()
+header_list=["ID","OWNER","PUBLIC_IP"]
+content_list=[]
+for targetShell in self.targetShells
+s_id=str(targetShell.id)
+s_privilege=targetShell.owner
+s_ip=targetShell.public_ip
+content_list.push([s_id,s_privivilege,s_ip])
 end for
 Proxima.utils.display_list(header_list,content_list)
 end function
@@ -709,11 +809,7 @@ if isLocal then
 print(self.utils.message.error("Unknown command. Available commands: scan, scanlib <ID|all>, vulnlist, exploit <ID|all>, exit"))
 else
 if params.len==0 then
-if self.exploit.targetPorts.len==0 then
-print(self.utils.message.error("No ports available, please make a scan first."))
-else
 print(self.utils.message.error("No port provided for scan. Usage: scanport <ID|all>"))
-end if
 else
 if params[0]=="all" then
 self.exploit.scanPorts
@@ -726,11 +822,7 @@ end if
 else if cmd=="scanlib" then
 if isLocal then
 if params.len==0 then
-if self.exploit.targetLibraries.len==0 then
-print(self.utils.message.error("No libraries available, please make a scan first."))
-else
 print(self.utils.message.error("No library provided for scan. Usage: scanlib <ID|all>"))
-end if
 else
 if params[0]=="all" then
 self.exploit.scanLibraries
@@ -744,11 +836,7 @@ print(self.utils.message.error("Unknown command. Available commands: scan <IP>, 
 end if
 else if cmd=="exploit" then
 if params.len==0 then
-if self.exploit.targetExploits.len==0 then
-print(self.utils.message.error("No exploits available, please make a scan first."))
-else
 print(self.utils.message.error("No exploit ID provided. Usage: exploit <ID|all>"))
-end if
 else
 if params[0]=="all" then
 self.exploit.autoExecute
@@ -762,6 +850,38 @@ if self.exploit.targetExploits.len>0 then
 self.exploit.displayExploitInfo
 else
 print(self.utils.message.error("No exploits available, please scan a port first."))
+end if
+else if cmd=="shelllist" then
+if self.exploit.targetShells.len>0 then
+self.exploit.displayShellInfo
+else
+print(self.utils.message.error("No open shells available, please execute an exploit first."))
+end if
+else if cmd=="userlist" then
+if self.exploit.targetUsers.len>0 then
+self.exploit.displayUserInfo
+else
+print(self.utils.message.error("No user information available, please execute an exploit first."))
+end if
+else if cmd=="connect" then
+if params.len==0 then
+print(self.utils.message.error("No shell ID provided. Usage: connect <ID>"))
+else
+self.exploit.setTargetShell(params[0].to_int)
+self.exploit.connectShell
+end if
+else if cmd=="upload" then
+self.exploit.uploadTools
+else if cmd=="decipher" then
+if params.len==0 then
+print(self.utils.message.error("No user ID provided. Usage: decipher <ID|all>"))
+else
+if params[0]=="all" then
+self.exploit.decipherPasswords
+else
+self.exploit.setTargetUser(params[0].to_int)
+self.exploit.decipherPassword
+end if
 end if
 else if cmd=="exit" then
 exit(self.utils.message.success("Goodbye!"))
