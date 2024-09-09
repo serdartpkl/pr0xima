@@ -356,11 +356,37 @@ Proxima.exploit.checkPrivilegeLevel = function (targetComputer)
 end function
 
 Proxima.exploit.connectShell = function ()
-    // TO DO
+    if self.targetShells.len > 0 then
+        if self.targetShell != null and self.targetShells.hasIndex(self.targetShell - 1) then
+            targetShell = self.targetShells[self.targetShell - 1]
+            print(Proxima.utils.message.progress("Connecting to shell on <b>" + self.targetShell.public_ip + "</b>. <b>[ID:" + self.targetShell.id + "]</b>"))
+            wait(1)
+            self.targetShell.shell.start_terminal
+        else
+            print(Proxima.utils.message.error("No open shell found with specified ID. <b>[ID:" + self.targetShell + "]</b>"))
+        end if
+    else
+        print(Proxima.utils.message.error("No open shells found to scan, please execute an exploit first."))
+    end if
 end function
 
-Proxima.exploit.decipherPassword = function (encryptedContent)
-    // TO DO
+Proxima.exploit.decipherPassword = function ()
+    if self.targetUsers.len > 0 then
+        if self.targetUser != null and self.targetUsers.hasIndex(self.targetUser - 1) then
+            targetUser = self.targetUsers[self.targetUser - 1]
+            decryptedPassword = Proxima.globals.crypto.decipher(targetUser.password)
+            if decryptedPassword != null then
+                targetUser.password = decryptedPassword
+                return decryptedPassword
+            end if
+        else
+            print(Proxima.utils.message.error("No user found with specified ID. <b>[ID:" + self.targetUser.id + "]</b>"))
+            return false
+        end if
+    else
+        print(Proxima.utils.message.error("No user information found to decipher, please execute an exploit first."))
+        return false
+    end if
 end function
 
 Proxima.exploit.uploadTools = function (remoteShell)
