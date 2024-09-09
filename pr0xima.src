@@ -8,9 +8,9 @@ Proxima.exploit = {}
 Proxima.net.interface = "wlan0"
 Proxima.net.maxACKRate = 300000
 Proxima.net.router = null
-Proxima.net.networkMap = []
 Proxima.net.networkKey = null
 Proxima.net.targetNetwork = null
+Proxima.net.targetNetworks = []
 
 Proxima.globals.initMode = "remote"
 Proxima.globals.metaxploit = null
@@ -82,10 +82,10 @@ Proxima.net.setAutoTarget = function ()
         bssid = network[0]
         essid = network[2]
         strength = network[1][:-1].to_int
-        self.networkMap.push({"essid": essid, "bssid": bssid, "strength": strength})
+        self.targetNetworks.push({"essid": essid, "bssid": bssid, "strength": strength})
     end for
     
-    self.targetNetwork = self.networkMap.sort("strength")[self.networkMap.len - 1]
+    self.targetNetwork = self.targetNetworks.sort("strength")[self.targetNetworks.len - 1]
 end function
 
 Proxima.net.startSniffing = function ()
@@ -196,8 +196,8 @@ Proxima.exploit.dumpPort = function (targetPort)
         netSession = Proxima.globals.metaxploit.net_use(self.targetIP, targetPort.port_number)
         if netSession != null then
             libraryDump = netSession.dump_lib
-            print(Proxima.utils.message.info("Library version found: <b>" + libraryDump.lib_name + " -> " + libraryDump.version + "</b>"))
             print(Proxima.utils.message.progress("Attempting to scan vulnerabilities on port " + targetPort.port_number + "..."))
+            print(Proxima.utils.message.info("Library found: <b>" + libraryDump.lib_name + " -> " + libraryDump.version + "</b>"))
             scanResult = Proxima.globals.metaxploit.scan(libraryDump)
             self.parseScanEntries(scanResult, libraryDump, targetPort, null)
         else
@@ -228,7 +228,7 @@ Proxima.exploit.scanPort = function ()
         if self.targetIP != null then
             print(Proxima.utils.message.error("No open ports found at the specified target IP address. <b>[IP:" + self.targetIP + "]</b>"))
         else
-            print(Proxima.utils.message.error("There is no specified target IP address yet, please scan an IP address first to proceed."))
+            print(Proxima.utils.message.error("There is no specified target IP address yet, please scan an IP address first."))
         end if
     end if
 end function
@@ -250,7 +250,7 @@ Proxima.exploit.scanPorts = function ()
         if self.targetIP != null then
             print(Proxima.utils.message.error("No open ports found at the specified target IP address. <b>[IP:" + self.targetIP + "]</b>"))
         else
-            print(Proxima.utils.message.error("There is no specified target IP address yet, please scan an IP address first to proceed."))
+            print(Proxima.utils.message.error("There is no specified target IP address yet, please scan an IP address first."))
         end if
     end if
 end function
@@ -268,9 +268,9 @@ Proxima.exploit.checkLibraries = function ()
 end function
 
 Proxima.exploit.dumpLibrary = function (targetLibrary)
-    libraryDump = Proxima.globals.metaxploit.load(targetLibrary.path) 
-    print(Proxima.utils.message.info("Library version found: <b>" + libraryDump.lib_name + " -> " + libraryDump.version + "</b>"))
+    libraryDump = Proxima.globals.metaxploit.load(targetLibrary.path)
     print(Proxima.utils.message.progress("Attempting to scan vulnerabilities at <b>" + libraryDump.lib_name + "</b>!"))
+    print(Proxima.utils.message.info("Library found: <b>" + libraryDump.lib_name + " -> " + libraryDump.version + "</b>"))
     scanResult = Proxima.globals.metaxploit.scan(libraryDump)
     self.parseScanEntries(scanResult, libraryDump, null, targetLibrary)
 end function
@@ -398,11 +398,12 @@ Proxima.exploit.decipherPasswords = function ()
             self.deciperPassword()
         end for
     else
-        print(Proxima.utils.message.error("No libraries found to scan, please make a scan first."))
+        print(Proxima.utils.message.error("No users found to scan, please execute an exploit first."))
     end if
 end function
 
-Proxima.exploit.uploadTools = function (remoteShell)
+Proxima.exploit.uploadTools = function ()
+    remoteShell = self.targetShell.shell_object
     uploadTo = Proxima.globals.uploadTo
     toolsDirectory = Proxima.globals.myPC.File(Proxima.globals.uploadFrom)
 
@@ -473,8 +474,12 @@ Proxima.exploit.handleAttackResult = function (attackResult)
         hostComputer = attackResult.host_computer
         privilegeLevel = self.checkPrivilegeLevel(passwdFile)
         print(Proxima.utils.message.success("Shell access granted via user: <b>" + privilegeLevel + "</b>! Updating the shell list..."))
+        
+        self.targetShells.push({ "id": self.shellID, "privilege": privilegeLevel, "public_ip": hostComputer.public_ip, "shell_object": attackResult})
+        self.shellID = self.shellID + 1
+        
         print(Proxima.utils.message.info("Updated the target shells list! You can view it later by: <b>shelllist</b>"))
-        print(Proxima.utils.message.info("To connect a selected shell, you can use command: <b>connect <ID></b>"))
+        print(Proxima.utils.message.info("To connect a desired shell, you can use command: <b>connect <ID></b>"))
         print(Proxima.utils.message.info("Trying to access /etc/passwd file..."))
         if privilegeLevel != "guest" then
             if privilegeLevel != "root" then
@@ -916,6 +921,8 @@ Proxima.handle_command = function (command)
             self.exploit.setTargetShell(params[0].to_int)
             self.exploit.connectShell()
         end if
+    else if cmd == "upload" then
+        self.exploit.uploadTools()
     else if cmd == "decipher" then
         if params.len == 0 then
             if self.exploit.targetUsers.len == 0 then
