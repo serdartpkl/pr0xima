@@ -537,6 +537,7 @@ Proxima.exploit.handleAttackResult = function (attackResult)
             end if
         end if
     else if typeof(attackResult) == "file" then
+        print(Proxima.utils.message.progress("Acquired file object, trying to identify..."))
         if self.targetUsers.len > 0 then
             print(Proxima.utils.message.info("Skipping password search, we already accessed account informations..."))
         else
@@ -870,11 +871,7 @@ Proxima.handle_command = function (command)
             print(self.utils.message.error("Unknown command. Available commands: scan, scanlib <ID|all>, vulnlist, exploit <ID|all>, exit"))
         else
             if params.len == 0 then
-                if self.exploit.targetPorts.len == 0 then
-                    print(self.utils.message.error("No ports available, please make a scan first."))
-                else
-                    print(self.utils.message.error("No port provided for scan. Usage: scanport <ID|all>"))
-                end if
+                print(self.utils.message.error("No port provided for scan. Usage: scanport <ID|all>"))
             else
                 if params[0] == "all" then
                     self.exploit.scanPorts()
@@ -887,11 +884,7 @@ Proxima.handle_command = function (command)
     else if cmd == "scanlib" then
         if isLocal then
             if params.len == 0 then
-                if self.exploit.targetLibraries.len == 0 then
-                    print(self.utils.message.error("No libraries available, please make a scan first."))
-                else
-                    print(self.utils.message.error("No library provided for scan. Usage: scanlib <ID|all>"))
-                end if
+                print(self.utils.message.error("No library provided for scan. Usage: scanlib <ID|all>"))
             else
                 if params[0] == "all" then
                     self.exploit.scanLibraries()
@@ -905,11 +898,7 @@ Proxima.handle_command = function (command)
         end if
     else if cmd == "exploit" then
         if params.len == 0 then
-            if self.exploit.targetExploits.len == 0 then
-                print(self.utils.message.error("No exploits available, please make a scan first."))
-            else
-                print(self.utils.message.error("No exploit ID provided. Usage: exploit <ID|all>"))
-            end if
+            print(self.utils.message.error("No exploit ID provided. Usage: exploit <ID|all>"))
         else
             if params[0] == "all" then
                 self.exploit.autoExecute()
@@ -938,11 +927,7 @@ Proxima.handle_command = function (command)
         end if
     else if cmd == "connect" then
         if params.len == 0 then
-            if self.exploit.targetShells.len == 0 then
-                print(self.utils.message.error("No open shells available, please execute an exploit first."))
-            else
-                print(self.utils.message.error("No shell ID provided. Usage: connect <ID>"))
-            end if
+            print(self.utils.message.error("No shell ID provided. Usage: connect <ID>"))
         else
             self.exploit.setTargetShell(params[0].to_int)
             self.exploit.connectShell()
@@ -951,11 +936,7 @@ Proxima.handle_command = function (command)
         self.exploit.uploadTools()
     else if cmd == "decipher" then
         if params.len == 0 then
-            if self.exploit.targetUsers.len == 0 then
-                print(self.utils.message.error("No user information available, please execute an exploit first."))
-            else
-                print(self.utils.message.error("No user ID provided. Usage: decipher <ID|all>"))
-            end if
+            print(self.utils.message.error("No user ID provided. Usage: decipher <ID|all>"))
         else
             if params[0] == "all" then
                 self.exploit.decipherPasswords()
