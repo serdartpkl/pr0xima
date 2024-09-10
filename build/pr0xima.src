@@ -936,9 +936,9 @@ self.exploit.connectShell
 end if
 else if cmd=="upload" then
 if isLocal then
-self.exploit.uploadTools
-else
 print(self.utils.message.error("Unknown command. Available commands: scan, scanlib <ID|all>, vulnlist, exploit <ID|all>, exit"))
+else
+self.exploit.uploadTools
 end if
 else if cmd=="decipher" then
 if params.len==0 then
