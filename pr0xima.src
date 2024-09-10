@@ -483,7 +483,7 @@ Proxima.exploit.isFTPAvailable = function ()
     return isConnectableViaFTP
 end function
 
-Proxima.exploit.accessPasswdFile = function (passwdFile, publicIP)
+Proxima.exploit.accessPasswdFile = function (passwdFile, publicIP = null)
     self.userID = 1
     self.targetUsers = []
     if passwdFile.get_content != null and passwdFile.has_permission("r") then
@@ -494,7 +494,12 @@ Proxima.exploit.accessPasswdFile = function (passwdFile, publicIP)
             parsedUser = user.split(":")
             userName = parsedUser[0]
             userPassword = parsedUser[1]
-            userMap = { "id": self.userID, "username": userName, "password": userPassword, "public_ip": publicIP }
+            userMap = {}
+            if Proxima.globals.initMode == "remote" then
+                userMap = { "id": self.userID, "username": userName, "password": userPassword, "public_ip": publicIP }
+            else
+                userMap = { "id": self.userID, "username": userName, "password": userPassword }
+            end if
             self.targetUsers.push(userMap)
             self.userID = self.userID + 1
         end for
@@ -526,10 +531,16 @@ Proxima.exploit.handleAttackResult = function (attackResult, targetExploit)
                 if acquiredUser != "root" then
                     print(Proxima.utils.message.info("Trying to access /etc/passwd file..."))
                     passwdFile = remoteComputer.File("/etc/passwd")
-                    if self.accessPasswdFile(passwdFile, targetExploit.public_ip) then
+                    accessPasswdFile = null
+                    if Proxima.globals.initMode == "remote" then
+                        accessPasswdFile = self.accessPasswdFile(passwdFile, targetExploit.public_ip)
+                    else
+                        accessPasswdFile = self.accessPasswdFile(passwdFile)
+                    end if
+                    if accessPasswdFile != null then
                         print(Proxima.utils.message.success("Accessed the /etc/passwd file!"))
                         print(Proxima.utils.message.info("Updated the target users list! You can view it later by: <b>userlist</b>"))
-                        print(Proxima.utils.message.info("To decipher a selected user password, you can use command: <b>decipher <ID></b>"))
+                        print(Proxima.utils.message.info("To decipher a selected user password, you can use command: <b>decipher <UserID></b>"))
                     else
                         print(Proxima.utils.message.warning("Coulnd't access /etc/passwd file, you have to gain root access with a different method."))
                     end if
@@ -551,7 +562,13 @@ Proxima.exploit.handleAttackResult = function (attackResult, targetExploit)
             if acquiredUser != "guest" then
                 print(Proxima.utils.message.info("Trying to access /etc/passwd file..."))
                 passwdFile = attackResult.File("/etc/passwd")
-                if self.accessPasswdFile(passwdFile, targetExploit.public_ip) then
+                accessPasswdFile = null
+                if Proxima.globals.initMode == "remote" then
+                    accessPasswdFile = self.accessPasswdFile(passwdFile, targetExploit.public_ip)
+                else
+                    accessPasswdFile = self.accessPasswdFile(passwdFile)
+                end if
+                if accessPasswdFile != null then
                     print(Proxima.utils.message.success("Accessed the /etc/passwd file!"))
                     print(Proxima.utils.message.info("Updated the target users list! You can view it later by: <b>userlist</b>"))
                     print(Proxima.utils.message.info("To decipher a selected user password, you can use command: <b>decipher <UserID></b>"))
@@ -573,13 +590,18 @@ Proxima.exploit.handleAttackResult = function (attackResult, targetExploit)
                     for etcFile in etcFiles
                         if etcFile.name == "passwd" then
                             print(Proxima.utils.message.info("Trying to access /etc/passwd file..."))
-                            if self.accessPasswdFile(etcFile, targetExploit.public_ip) then
+                            accessPasswdFile = null
+                            if Proxima.globals.initMode == "remote" then
+                                accessPasswdFile = self.accessPasswdFile(etcFile, targetExploit.public_ip)
+                            else
+                                accessPasswdFile = self.accessPasswdFile(etcFile)
+                            end if
+                            if accessPasswdFile != null then
                                 print(Proxima.utils.message.success("Accessed the /etc/passwd file!"))
                                 print(Proxima.utils.message.info("Updated the target users list! You can view it later by: <b>userlist</b>"))
                                 print(Proxima.utils.message.info("To decipher a selected user password, you can use command: <b>decipher <UserID></b>"))
-                                break
                             else
-                                print(Proxima.utils.message.warning("Coulnd't access /etc/passwd file, you have to gain root access manually..."))
+                                print(Proxima.utils.message.warning("Coulnd't access /etc/passwd file, you have to gain root access with a different method."))
                             end if
                         end if
                     end for
@@ -708,14 +730,27 @@ end function
 
 
 Proxima.exploit.displayUserInfo = function ()
-    header_list = ["ID", "USERNAME", "PASSWORD", "PUBLIC_IP"]
+    isLocal = false
+    if Proxima.globals.initMode == "local" then isLocal = true
+
+    header_list = []
+    if isLocal then
+        header_list = ["ID", "USERNAME", "PASSWORD"]
+    else
+        header_list = ["ID", "USERNAME", "PASSWORD", "PUBLIC_IP"]
+    end if
+    
     content_list = []
     for targetUser in self.targetUsers
         u_id = str(targetUser.id)
         u_username = targetUser.username
         u_password = targetUser.password
-        u_ip = targetUser.public_ip
-        content_list.push([ u_id, u_username , u_password , u_ip ])
+        if isLocal then
+            content_list.push([ u_id, u_username , u_password ])
+        else
+            u_ip = targetUser.public_ip
+            content_list.push([ u_id, u_username , u_password , u_ip ])
+        end if
     end for
 
     Proxima.utils.display_list(header_list, content_list)
