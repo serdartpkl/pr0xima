@@ -207,7 +207,7 @@ Proxima.exploit.dumpPort = function (targetPort)
         netSession = Proxima.globals.metaxploit.net_use(self.targetIP, targetPort.port_number)
         if netSession != null then
             libraryDump = netSession.dump_lib
-            print(Proxima.utils.message.progress("Attempting to scan vulnerabilities... [IP:" + targetPort.public_ip + "|PORT:" + targetPort.port_number + "]"))
+            print(Proxima.utils.message.progress("Attempting to scan vulnerabilities... <b>[IP:" + targetPort.public_ip + "|PORT:" + targetPort.port_number + "]</b>"))
             print(Proxima.utils.message.info("Library found: <b>" + libraryDump.lib_name + " -> " + libraryDump.version + "</b>"))
             scanResult = Proxima.globals.metaxploit.scan(libraryDump)
             self.parseScanEntries(scanResult, libraryDump, targetPort, null)
@@ -534,7 +534,7 @@ Proxima.exploit.handleAttackResult = function (attackResult, targetExploit)
         end if
 
         print(Proxima.utils.message.info("To connect a desired shell, you can use command: <b>connect <ID></b>"))
-        
+
         if self.targetUsers.len > 0 then
             print(Proxima.utils.message.info("Skipping password search, we already accessed account informations..."))
         else
