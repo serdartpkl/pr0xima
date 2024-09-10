@@ -534,6 +534,7 @@ Proxima.exploit.handleAttackResult = function (attackResult, targetExploit)
         end if
 
         print(Proxima.utils.message.info("To connect a desired shell, you can use command: <b>connect <ID></b>"))
+        
         if self.targetUsers.len > 0 then
             print(Proxima.utils.message.info("Skipping password search, we already accessed account informations..."))
         else

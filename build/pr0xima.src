@@ -472,7 +472,15 @@ remoteComputer=attackResult.host_computer
 acquiredUser=self.acquireUser(remoteComputer)
 print(Proxima.utils.message.success("Shell access granted via user: <b>"+acquiredUser+"</b>! Updating the shell list..."))
 privilegeLevel=self.getPrivilegeLevel(acquiredUser)
-if self.targetShells.indexOf(acquiredUser) then
+duplicateShell=false
+for targetShell in self.targetShells
+for key in targetShell.indexes
+if targetShell[key]==acquiredUser then
+duplicateShell=true
+end if
+end for
+end for
+if duplicateShell then
 print(Proxima.utils.message.info("This shell connection is already added to target shells list..."))
 else
 print(Proxima.utils.message.info("Updated the target shells list! You can view it later by: <b>shelllist</b>"))
