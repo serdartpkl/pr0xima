@@ -182,7 +182,7 @@ end if
 netSession=Proxima.globals.metaxploit.net_use(self.targetIP,targetPort.port_number)
 if netSession!=null then
 libraryDump=netSession.dump_lib
-print(Proxima.utils.message.progress("Attempting to scan vulnerabilities... [IP:"+targetPort.public_ip+"|PORT:"+targetPort.port_number+"]"))
+print(Proxima.utils.message.progress("Attempting to scan vulnerabilities... <b>[IP:"+targetPort.public_ip+"|PORT:"+targetPort.port_number+"]</b>"))
 print(Proxima.utils.message.info("Library found: <b>"+libraryDump.lib_name+" -> "+libraryDump.version+"</b>"))
 scanResult=Proxima.globals.metaxploit.scan(libraryDump)
 self.parseScanEntries(scanResult,libraryDump,targetPort,null)
@@ -935,7 +935,11 @@ self.exploit.setTargetShell(params[0].to_int)
 self.exploit.connectShell
 end if
 else if cmd=="upload" then
+if isLocal then
 self.exploit.uploadTools
+else
+print(self.utils.message.error("Unknown command. Available commands: scan, scanlib <ID|all>, vulnlist, exploit <ID|all>, exit"))
+end if
 else if cmd=="decipher" then
 if params.len==0 then
 print(self.utils.message.error("No user ID provided. Usage: decipher <ID|all>"))
