@@ -380,7 +380,7 @@ print(Proxima.utils.message.info("Couldn't decrypt password! Please try another 
 end if
 end if
 else
-print(Proxima.utils.message.error("No user found with specified ID. <b>[ID:"+self.targetUser.id+"]</b>"))
+print(Proxima.utils.message.error("No user found with specified ID. <b>[ID:"+self.targetUser+"]</b>"))
 return false
 end if
 else

@@ -516,13 +516,23 @@ Proxima.exploit.handleAttackResult = function (attackResult, targetExploit)
         print(Proxima.utils.message.success("Shell access granted via user: <b>" + acquiredUser + "</b>! Updating the shell list..."))
         
         privilegeLevel = self.getPrivilegeLevel(acquiredUser)
-        if self.targetShells.indexOf(acquiredUser) then
+        
+        duplicateShell = false
+        for targetShell in self.targetShells
+            for key in targetShell.indexes
+                if targetShell[key] == acquiredUser then
+                    duplicateShell = true
+                end if
+            end for
+        end for
+        if duplicateShell then
             print(Proxima.utils.message.info("This shell connection is already added to target shells list..."))
         else
             print(Proxima.utils.message.info("Updated the target shells list! You can view it later by: <b>shelllist</b>"))
             self.targetShells.push({ "id": self.shellID, "owner": acquiredUser, "privilege_level": privilegeLevel, "public_ip": remoteComputer.public_ip, "shell_object": attackResult})
             self.shellID = self.shellID + 1
         end if
+
         print(Proxima.utils.message.info("To connect a desired shell, you can use command: <b>connect <ID></b>"))
         if self.targetUsers.len > 0 then
             print(Proxima.utils.message.info("Skipping password search, we already accessed account informations..."))
