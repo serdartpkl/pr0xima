@@ -199,10 +199,10 @@ Proxima.exploit.dumpPort = function (targetPort)
             scanResult = Proxima.globals.metaxploit.scan(libraryDump)
             self.parseScanEntries(scanResult, libraryDump, targetPort, null)
         else
-            print(Proxima.utils.message.error("Unable to connect to port " + targetPort.port_number + ", it has firewall protection."))
+            print(Proxima.utils.message.error("Unable to connect to port <b>" + targetPort.port_number + "</b>, it has firewall protection."))
         end if 
     else
-        print(Proxima.utils.message.error("Unable to connect to port " + targetPort.port_number + ". It is closed."))
+        print(Proxima.utils.message.error("Unable to connect to port <b>" + targetPort.port_number + "</b>. It is closed."))
     end if
 end function
 
@@ -470,6 +470,19 @@ Proxima.exploit.isFTPAvailable = function ()
     return isConnectableViaFTP
 end function
 
+Proxima.exploit.hasValue = function (givenList, searchValue)
+    hasFoundValue = false
+    for listItem in givenList
+        for key in listItem.indexes
+            if listItem[key] == searchValue then
+                hasFoundValue = true
+                break
+            end if
+        end for
+    end for
+    if hasFoundValue then return true else return false
+end function
+
 Proxima.exploit.accessPasswdFile = function (passwdFile, publicIP = null)
     self.userID = 1
     self.targetUsers = []
@@ -504,14 +517,7 @@ Proxima.exploit.handleAttackResult = function (attackResult, targetExploit)
         
         privilegeLevel = self.getPrivilegeLevel(acquiredUser)
         
-        duplicateShell = false
-        for targetShell in self.targetShells
-            for key in targetShell.indexes
-                if targetShell[key] == acquiredUser then
-                    duplicateShell = true
-                end if
-            end for
-        end for
+        duplicateShell = self.hasValue(self.targetShells, acquiredUser)
         if duplicateShell then
             print(Proxima.utils.message.info("This shell connection is already added to target shells list..."))
         else
