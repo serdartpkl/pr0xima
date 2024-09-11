@@ -667,7 +667,7 @@ Proxima.exploit.autoExecute = function ()
 end function
 
 Proxima.exploit.displayPortInfo = function ()
-    header_list = ["ID", "PORT", "STATE", "SERVICE", "VERSION", "LAN_IP"]
+    header_list = ["ID", "PORT", "STATE", "SERVICE", "VERSION", "LAN_IP", "PUBLIC_IP"]
     content_list = []
     for targetPort in self.targetPorts
         p_id = str(targetPort.id)
@@ -675,8 +675,9 @@ Proxima.exploit.displayPortInfo = function ()
         p_state = targetPort.state
         p_service = targetPort.service
         p_version = targetPort.version
-        p_ip = targetPort.lan_ip
-        content_list.push([ p_id , p_number , p_state , p_service , p_version , p_ip ])
+        p_lan_ip = targetPort.lan_ip
+        p_public_ip = targetPort.public_ip
+        content_list.push([ p_id , p_number , p_state , p_service , p_version , p_lan_ip , p_public_ip ])
     end for
 
     Proxima.utils.display_list(header_list, content_list)
