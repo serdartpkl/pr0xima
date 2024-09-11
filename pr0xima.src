@@ -209,15 +209,17 @@ end function
 Proxima.exploit.scanPort = function ()
     if self.targetPorts.len > 0 then
         if self.targetPort != null and self.targetPorts.hasIndex(self.targetPort - 1) then
-            self.exploitID = 1
             self.totalExploits = 0
-            self.targetExploits = []
             targetPort = self.targetPorts[self.targetPort - 1]
-            self.dumpPort(targetPort)
-            if self.totalExploits == 0 then
-                print(Proxima.utils.message.error("No useful vulnerabilities found on port <b>" + targetPort.port_number + "</b>!"))
-            else if self.totalExploits > 0 then
-                print(Proxima.utils.message.success("<b>" + self.totalExploits + "</b> exploits found. Use 'vulnlist' command to view and execute them."))
+            if self.targetExploits.len > 0 and self.hasValue(self.targetExploits, targetPort.port_number) then
+                // already scanned for this port, view a message about it and also a message about how to list scanned exploits
+            else
+                self.dumpPort(targetPort)
+                if self.totalExploits == 0 then
+                    print(Proxima.utils.message.error("No useful vulnerabilities found on port <b>" + targetPort.port_number + "</b>!"))
+                else if self.totalExploits > 0 then
+                    print(Proxima.utils.message.success("<b>" + self.totalExploits + "</b> exploits found. Use 'vulnlist' command to view and execute them."))
+                end if
             end if
         else
             print(Proxima.utils.message.error("No port found with the specified ID. <b>[ID:" + self.targetPort + "]</b>"))
@@ -276,15 +278,17 @@ end function
 Proxima.exploit.scanLibrary = function ()
     if self.targetLibraries.len > 0 then
         if self.targetLibrary != null and self.targetLibraries.hasIndex(self.targetLibrary - 1) then
-            self.exploitID = 1
             self.totalExploits = 0
-            self.targetExploits = []
             targetLibrary = self.targetLibraries[self.targetLibrary - 1]
-            self.dumpLibrary(targetLibrary)
-            if self.totalExploits == 0 then
-                print(Proxima.utils.message.error("No useful vulnerabilities found at <b>" + targetLibrary.lib_name + "</b>!"))
-            else if self.totalExploits > 0 then
-                print(Proxima.utils.message.success("<b>" + self.totalExploits + "</b> exploits found. Use the 'vulnlist' command to view and execute them."))
+            if self.targetExploits.len > 0 and self.hasValue(self.targetExploits, targetLibrary.lib_name) then
+                // already scanned for this library, view a message about it and also a message about how to list scanned exploits
+            else
+                self.dumpLibrary(targetLibrary)
+                if self.totalExploits == 0 then
+                    print(Proxima.utils.message.error("No useful vulnerabilities found at <b>" + targetLibrary.lib_name + "</b>!"))
+                else if self.totalExploits > 0 then
+                    print(Proxima.utils.message.success("<b>" + self.totalExploits + "</b> exploits found. Use the 'vulnlist' command to view and execute them."))
+                end if
             end if
         else
             print(Proxima.utils.message.error("No library found with specified ID. <b>[ID:" + self.targetLibrary + "]</b>"))
