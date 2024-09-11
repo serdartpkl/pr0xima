@@ -88,7 +88,7 @@ end function
 
 Proxima.net.startSniffing = function ()
     requiredACKs = ceil(self.maxACKRate / self.targetNetwork.strength)
-    
+
     print(Proxima.utils.message.progress("Sniffing ACKs... (approx. " + requiredACKs + ")"))
     print("+------------------------------------+")
 
@@ -154,7 +154,6 @@ Proxima.exploit.checkTargetIP = function ()
         if self.router != null then
             return true
         else
-            self.router = null
             self.targetIP = null
             return false
         end if
