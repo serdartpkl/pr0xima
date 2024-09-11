@@ -148,6 +148,30 @@ Proxima.exploit.setTargetShell = function (targetShell)
     self.targetShell = targetShell
 end function
 
+Proxima.exploit.resetCounters = function ()
+    self.targetPort = null
+    self.targetPorts = []
+
+    self.targetLibrary = null
+    self.targetLibraries = []
+
+    self.targetExploit = null
+    self.targetExploits = []
+
+    self.targetShell = null
+    self.targetShells = []
+
+    self.targetUser = null
+    self.targetUsers = []
+
+    self.portID = 1
+    self.libraryID = 1
+    self.exploitID = 1
+    self.userID = 1
+    self.shellID = 1
+    self.totalExploits = 0
+end function
+
 Proxima.exploit.checkTargetIP = function ()
     if self.targetIP != null then
         self.router = get_router(self.targetIP)
@@ -185,30 +209,6 @@ Proxima.exploit.checkPorts = function ()
     else
         return false
     end if
-end function
-
-Proxima.exploit.resetCounters = function ()
-    self.targetPort = null
-    self.targetPorts = []
-
-    self.targetLibrary = null
-    self.targetLibraries = []
-
-    self.targetExploit = null
-    self.targetExploits = []
-
-    self.targetShell = null
-    self.targetShells = []
-
-    self.targetUser = null
-    self.targetUsers = []
-
-    self.portID = 1
-    self.libraryID = 1
-    self.exploitID = 1
-    self.userID = 1
-    self.shellID = 1
-    self.totalExploits = 0
 end function
 
 Proxima.exploit.dumpPort = function (targetPort)
