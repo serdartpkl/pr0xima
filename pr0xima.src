@@ -305,7 +305,7 @@ Proxima.exploit.scanLibrary = function ()
             self.totalExploits = 0
             targetLibrary = self.targetLibraries[self.targetLibrary - 1]
             if self.targetExploits.len > 0 and self.hasValue(self.targetExploits, targetLibrary.lib_name) then
-                print(Proxima.utils.message.info("This library is already scanned for exploits. Skipping..."))
+                print(Proxima.utils.message.info("This library is already scanned for exploits. Skipping... <b>[LIB_NAME:" + targetLibrary.lib_name + "]</b>"))
                 print(Proxima.utils.message.info("You can use 'vulnlist' command to view and execute scanned exploits."))
             else
                 self.dumpLibrary(targetLibrary)
@@ -327,7 +327,7 @@ Proxima.exploit.scanLibraries = function ()
     if self.targetLibraries.len > 0 then
         for targetLibrary in self.targetLibraries
             if self.targetExploits.len > 0 and self.hasValue(self.targetExploits, targetLibrary.lib_name) then
-                print(Proxima.utils.message.info("This port is already scanned for exploits. Skipping..."))
+                print(Proxima.utils.message.info("This library is already scanned for exploits. Skipping... <b>[LIB_NAME:" + targetLibrary.lib_name + "]</b>"))
             else
                 self.dumpLibrary(targetLibrary)
             end if
