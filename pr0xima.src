@@ -88,10 +88,11 @@ end function
 
 Proxima.net.startSniffing = function ()
     requiredACKs = ceil(self.maxACKRate / self.targetNetwork.strength)
+    
     print(Proxima.utils.message.progress("Sniffing ACKs... (approx. " + requiredACKs + ")"))
     print("+------------------------------------+")
-    getACKs = Proxima.globals.crypto.aireplay(self.targetNetwork.bssid, self.targetNetwork.essid, requiredACKs)
 
+    getACKs = Proxima.globals.crypto.aireplay(self.targetNetwork.bssid, self.targetNetwork.essid, requiredACKs)
     if typeof(getACKs) == "string" then exit(Proxima.utils.message.error(getACKs))
 
     airmonResult = Proxima.globals.crypto.airmon("stop", self.interface)
