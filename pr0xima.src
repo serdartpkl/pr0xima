@@ -16,6 +16,8 @@ Proxima.globals.initMode = "remote"
 Proxima.globals.metaxploit = null
 Proxima.globals.crypto = null
 Proxima.globals.myPC = null
+Proxima.globals.activeUser = active_user
+Proxima.globals.cliMarker = ""
 
 Proxima.globals.cryptoLocations = [
     "/lib/crypto.so",
@@ -204,6 +206,7 @@ Proxima.exploit.checkPorts = function ()
                 self.targetPorts.push({ "id": self.portID, "port_number": portNumber, "state": portState, "service": portService, "version": portVersion, "lan_ip": portIP, "public_ip": self.targetIP  })
                 self.portID = self.portID + 1
             end for
+            Proxima.globals.cliMarker = Proxima.utils.message.colorize("[" + self.targetIP + "]", "#FFC466") + Proxima.utils.message.colorize("@", "#0091FF") + Proxima.utils.message.colorize("> ", "#08FF57")
             return true
         end if
     else
@@ -928,12 +931,13 @@ Proxima.initialize = function (initMode)
 
     if self.globals.initMode != "network" then self.load_metaxploit()
     self.load_crypto()
+
+    self.globals.cliMarker = self.utils.message.colorize("[" + self.globals.activeUser + "]", "#FFC466") + self.utils.message.colorize("@", "#0091FF") + self.utils.message.colorize("> ", "#08FF57")
 end function
 
 Proxima.start_cli = function ()
     while true
-        cliMarker = self.utils.message.colorize("[" + self.globals.myPC.public_ip + "]", "#FFC466") + self.utils.message.colorize("@", "#0091FF") + self.utils.message.colorize("> ", "#08FF57")
-        command = user_input(cliMarker, false, false).trim
+        command = user_input(self.globals.cliMarker, false, false).trim
         self.handle_command(command)
     end while
 end function
