@@ -235,7 +235,7 @@ Proxima.exploit.scanPort = function ()
             self.totalExploits = 0
             targetPort = self.targetPorts[self.targetPort - 1]
             if self.targetExploits.len > 0 and self.hasValue(self.targetExploits, targetPort.port_number) then
-                print(Proxima.utils.message.info("This port is already scanned for exploits. Skipping..."))
+                print(Proxima.utils.message.info("This port is already scanned for exploits. Skipping... <b>[IP:" + targetPort.public_ip + "|PORT:" + targetPort.port_number + "]</b>"))
                 print(Proxima.utils.message.info("You can use 'vulnlist' command to view and execute scanned exploits."))
             else
                 self.dumpPort(targetPort)
@@ -261,7 +261,7 @@ Proxima.exploit.scanPorts = function ()
     if self.targetPorts.len > 0 then
         for targetPort in self.targetPorts
             if self.targetExploits.len > 0 and self.hasValue(self.targetExploits, targetPort.port_number) then
-                print(Proxima.utils.message.info("This port is already scanned for exploits. Skipping..."))
+                print(Proxima.utils.message.info("This port is already scanned for exploits. Skipping... <b>[IP:" + targetPort.public_ip + "|PORT:" + targetPort.port_number + "]</b>"))
             else
                 self.dumpPort(targetPort)
             end if
