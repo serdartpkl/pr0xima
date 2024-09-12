@@ -3,4 +3,5 @@ Proxima.settings.cryptoLocations=["/lib/crypto.so","/home/guest/crypto.so"]
 Proxima.settings.metaxploitLocations=["/lib/metaxploit.so","/home/guest/metaxploit.so"]
 Proxima.settings.uploadTo="/home/guest"
 Proxima.settings.uploadFrom=home_dir+"/Upload"
+Proxima.settings.payloadInjection=true
 Proxima.settings.injectionPassword="123456"

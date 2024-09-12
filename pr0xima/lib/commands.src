@@ -69,38 +69,42 @@ Proxima.commands.scan = {
     "type": "both"
 }
 Proxima.commands.scan.exec = function (params)
-    if params[0] == "port" then
-        if Proxima.commands.isLocal() then
-            Proxima.commands.throwError("Unknown scan type.", self.usage)
-        else
-            if params.len < 2 then
-                Proxima.commands.throwError("No port ID provided.", self.usage)
-            else
-                if params[1] == "all" then
-                    Proxima.exploit.scanPorts()
-                else
-                    Proxima.exploit.setTargetPort(params[1].to_int)
-                    Proxima.exploit.scanPort()
-                end if
-            end if
-        end if
-    else if params[0] == "lib" then
-        if Proxima.commands.isLocal() then
-            if params.len < 2 then
-                Proxima.commands.throwError("No library ID provided.", self.usage)
-            else
-                if params[1] == "all" then
-                    Proxima.exploit.scanLibraries()
-                else
-                    Proxima.exploit.setTargetLibrary(params[1].to_int)
-                    Proxima.exploit.scanLibrary()
-                end if
-            end if
-        else
-            Proxima.commands.throwError("Unknown scan type.", self.usage)
-        end if
+    if params.len == 0 then
+        Proxima.commands.throwError("No scan type provided.", self.usage)
     else
-        Proxima.commands.throwError("Unknown scan type.", self.usage)
+        if params[0] == "port" then
+            if Proxima.commands.isLocal() then
+                Proxima.commands.throwError("Unknown scan type.", self.usage)
+            else
+                if params.len < 2 then
+                    Proxima.commands.throwError("No port ID provided.", self.usage)
+                else
+                    if params[1] == "all" then
+                        Proxima.exploit.scanPorts()
+                    else
+                        Proxima.exploit.setTargetPort(params[1].to_int)
+                        Proxima.exploit.scanPort()
+                    end if
+                end if
+            end if
+        else if params[0] == "lib" then
+            if Proxima.commands.isLocal() then
+                if params.len < 2 then
+                    Proxima.commands.throwError("No library ID provided.", self.usage)
+                else
+                    if params[1] == "all" then
+                        Proxima.exploit.scanLibraries()
+                    else
+                        Proxima.exploit.setTargetLibrary(params[1].to_int)
+                        Proxima.exploit.scanLibrary()
+                    end if
+                end if
+            else
+                Proxima.commands.throwError("Unknown scan type.", self.usage)
+            end if
+        else
+            Proxima.commands.throwError("Unknown scan type.", self.usage)
+        end if
     end if
 end function
 

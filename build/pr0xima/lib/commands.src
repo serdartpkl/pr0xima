@@ -38,7 +38,7 @@ Proxima.commands.dump={"name":"dump","description":"Dumps all local libraries an
 Proxima.commands.dump.exec=function(params)
 if Proxima.commands.isLocal then
 if params.len>0 then
-Proxima.commands.throwError("Too many arguements.",self.usage)
+Proxima.commands.throwError("This command takes no arguements.",self.usage)
 else
 Proxima.exploit.checkLibraries
 Proxima.exploit.displayLibraryInfo
@@ -49,10 +49,15 @@ end if
 end function
 Proxima.commands.scan={"name":"scan","description":"Scans the specified port or library.","usage":"scan <Type> <ID|all>","type":"both"}
 Proxima.commands.scan.exec=function(params)
-if params.len==2 then
+if params.len==0 then
+Proxima.commands.throwError("No scan type provided.",self.usage)
+else
 if params[0]=="port" then
 if Proxima.commands.isLocal then
 Proxima.commands.throwError("Unknown scan type.",self.usage)
+else
+if params.len<2 then
+Proxima.commands.throwError("No port ID provided.",self.usage)
 else
 if params[1]=="all" then
 Proxima.exploit.scanPorts
@@ -61,22 +66,25 @@ Proxima.exploit.setTargetPort(params[1].to_int)
 Proxima.exploit.scanPort
 end if
 end if
+end if
 else if params[0]=="lib" then
 if Proxima.commands.isLocal then
+if params.len<2 then
+Proxima.commands.throwError("No library ID provided.",self.usage)
+else
 if params[1]=="all" then
 Proxima.exploit.scanLibraries
 else
 Proxima.exploit.setTargetLibrary(params[1].to_int)
 Proxima.exploit.scanLibrary
 end if
-else
-Proxima.commands.throwError("Unknown scan type.",self.usage)
 end if
 else
 Proxima.commands.throwError("Unknown scan type.",self.usage)
 end if
 else
-Proxima.commands.throwError("No scan type or ID provided.",self.usage)
+Proxima.commands.throwError("Unknown scan type.",self.usage)
+end if
 end if
 end function
 Proxima.commands.list={"name":"list","description":"Formats the given list and its information into a beautified table.","usage":"list <Type>","type":"both"}
@@ -86,7 +94,7 @@ Proxima.commands.throwError("No listing type provided.",self.usage)
 else
 if params[0]=="ports" then
 if Proxima.commands.isLocal then
-Proxima.commands.throwError
+Proxima.commands.throwError("Unknown listing type.",self.usage)
 else
 if Proxima.exploit.targetPorts.len>0 then
 Proxima.exploit.displayPortInfo
@@ -102,7 +110,7 @@ else
 Proxima.commands.throwError("No libraries available, please perform a scan first.")
 end if
 else
-Proxima.commands.throwError
+Proxima.commands.throwError("Unknown listing type.",self.usage)
 end if
 else if params[0]=="vulns" then
 if Proxima.exploit.targetExploits.len>0 then
@@ -177,7 +185,7 @@ for command in Proxima.commands
 if i!=0 then
 print(Proxima.utils.message.colorize("+------------------------------------+","#FFC466"))
 end if
-cmd=command.values[1]
+print(command)
 cmd_name=cmd.name
 cmd_description=cmd.description
 cmd_usage=cmd.usage
