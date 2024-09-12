@@ -1,15 +1,17 @@
-Proxima.globals.cryptoLocations = [
+Proxima.settings = {}
+
+Proxima.settings.cryptoLocations = [
     "/lib/crypto.so",
     "/home/guest/crypto.so"
 ]
 
-Proxima.globals.metaxploitLocations = [
+Proxima.settings.metaxploitLocations = [
     "/lib/metaxploit.so",
     "/home/guest/metaxploit.so"
 ]
 
-Proxima.globals.uploadTo = "/home/guest/"
-Proxima.globals.uploadFrom = home_dir + "/Upload/"
+Proxima.settings.uploadTo = "/home/guest/"
+Proxima.settings.uploadFrom = home_dir + "/Upload/"
 
-Proxima.globals.injectionPassword = "919665"
+Proxima.settings.injectionPassword = "919665"
 
