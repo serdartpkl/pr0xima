@@ -2,22 +2,33 @@ Proxima.commands = {}
 
 Proxima.commands.isLocal = if Proxima.globals.initMode == "local" then return true else return false
 
+Proxima.commands.throwError = function (cmdMessage = null, cmdUsage = null)
+    if cmdMessage != null then 
+        if cmdUsage != null then
+            print(Proxima.utils.message.error(cmdMessage + " Usage: " + cmdUsage))
+        else
+            print(Proxima.utils.message.error(cmdMessage))
+    else
+        print(Proxima.utils.message.error("Unknown command! Type <b>help</b> to list available commands."))
+    end if
+end function
+
 Proxima.commands.target = {
     "name": "target",
-    "description": "",
-    "usage": "",
+    "description": "Sets the target IP address for scanning.",
+    "usage": "target <IP>",
     "type": "remote"
 }
 Proxima.commands.target.exec = function (params)
     if self.isLocal then
-        print(self.utils.message.error("Unknown command! Type <b>help</b> to list available commands."))
+        Proxima.commands.throwError()
     else
         if params.len == 0 then
-            print(Proxima.utils.message.error("No IP address provided for scan. Usage: target <IP>"))
+            Proxima.commands.throwError("No IP address provided for scan.", self.usage)
         else       
             Proxima.exploit.setTargetIP(params[0])
             if not Proxima.exploit.checkPorts() then
-                print(Proxima.utils.message.error("Given IP address is not valid! Please try another one..."))
+                Proxima.commands.throwError("Given IP address is not valid! Please try another one...")
             else
                 Proxima.exploit.displayPortInfo()
             end if
@@ -27,79 +38,79 @@ end function
 
 Proxima.commands.dump = {
     "name": "dump",
-    "description": "",
-    "usage": "",
+    "description": "Dumps all local libraries and their information.",
+    "usage": "dump",
     "type": "local"
 }
 Proxima.commands.dump.exec = function (params)
     if self.isLocal then
         if params.len > 0 then
-            print(Proxima.utils.message.error("Too many arguements. Usage: dump"))
+            Proxima.commands.throwError("Too many arguements.", self.usage)
         else
             Proxima.exploit.checkLibraries()
             Proxima.exploit.displayLibraryInfo()
         end if
     else
-        print(Proxima.utils.message.error("Unknown command! Type <b>help</b> to list available commands."))
+        Proxima.commands.throwError()
     end if
 end function
 
 Proxima.commands.scan = {
     "name": "scan",
-    "description": "",
-    "usage": "",
+    "description": "Scans the specified port or library.",
+    "usage": "scan <Type> <ID|all>",
     "type": "both"
 }
 Proxima.commands.scan.exec = function (params)
     if params.len == 2 then
         if params[0] == "port" then
             if self.isLocal then
-                print(Proxima.utils.message.error("Unknown scan type. Usage: scan <Type> <ID|all>"))
+                Proxima.commands.throwError("Unknown scan type.", self.usage)
             else
-                if params[0] == "all" then
+                if params[1] == "all" then
                     Proxima.exploit.scanPorts()
                 else
-                    Proxima.exploit.setTargetPort(params[0].to_int)
+                    Proxima.exploit.setTargetPort(params[1].to_int)
                     Proxima.exploit.scanPort()
                 end if
             end if
         else if params[0] == "lib" then
             if self.isLocal then
-                if params[0] == "all" then
+                if params[1] == "all" then
                     Proxima.exploit.scanLibraries()
                 else
-                    Proxima.exploit.setTargetLibrary(params[0].to_int)
+                    Proxima.exploit.setTargetLibrary(params[1].to_int)
                     Proxima.exploit.scanLibrary()
                 end if
             else
-                print(Proxima.utils.message.error("Unknown scan type. Usage: scan <Type> <ID|all>"))
+                Proxima.commands.throwError("Unknown scan type.", self.usage)
             end if
         else
-            print(Proxima.utils.message.error("Unknown scan type. Usage: scan <Type> <ID|all>"))
+            Proxima.commands.throwError("Unknown scan type.", self.usage)
         end if
     else
-        print(Proxima.utils.message.error("No scan type or ID provided. Usage: scan <Type> <ID|all>"))
+        Proxima.commands.throwError("No scan type or ID provided.", self.usage)
     end if
 end function
 
 Proxima.commands.list = {
     "name": "list",
-    "description": "",
-    "usage": "",
+    "description": "Formats the given list and its information into a beautified table.",
+    "usage": "list <Type>",
     "type": "both"
 }
 Proxima.commands.list.exec = function (params)
     if params.len == 0 then
-        print(Proxima.utils.message.error("No exploit ID provided. Usage: exploit <ID|all>"))
+        Proxima.commands.throwError("No listing type provided.", self.usage)
     else
         if params[0] == "ports" then
             if self.isLocal then
-                print(Proxima.utils.message.error("Unknown command! Type <b>help</b> to list available commands."))
+                Proxima.commands.throwError()
             else
                 if Proxima.exploit.targetPorts.len > 0 then
                     Proxima.exploit.displayPortInfo()
                 else
-                    print(Proxima.utils.message.error("No ports available, please scan an IP address first."))
+                    Proxima.commands.throwError("No ports available, please scan an IP address first.")
                 end if
             end if
         else if params[0] == "libs" then
@@ -107,44 +118,44 @@ Proxima.commands.list.exec = function (params)
                 if Proxima.exploit.targetLibraries.len > 0 then
                     Proxima.exploit.displayLibraryInfo()
                 else
-                    print(Proxima.utils.message.error("No libraries available, please perform a scan first."))
+                    Proxima.commands.throwError("No libraries available, please perform a scan first.")
                 end if
             else
-                print(Proxima.utils.message.error("Unknown command! Type <b>help</b> to list available commands."))
+                Proxima.commands.throwError()
             end if
         else if params[0] == "vulns" then
             if Proxima.exploit.targetExploits.len > 0 then
                 Proxima.exploit.displayExploitInfo()
             else
-                print(Proxima.utils.message.error("No exploits available, please scan a port first."))
+                Proxima.commands.throwError("No exploits available, please scan a port first.")
             end if
         else if params[0] == "users" then
             if Proxima.exploit.targetUsers.len > 0 then
                 seProximalf.exploit.displayUserInfo()
             else
-                print(Proxima.utils.message.error("No user information available, please execute an exploit first."))
+                Proxima.commands.throwError("No user information available, please execute an exploit first.")
             end if
         else if params[0] == "shells" then
             if Proxima.exploit.targetShells.len > 0 then
                 Proxima.exploit.displayShellInfo()
             else
-                print(Proxima.utils.message.error("No open shells available, please execute an exploit first."))
+                Proxima.commands.throwError("No open shells available, please execute an exploit first.")
             end if
         else
-            print(Proxima.utils.message.error("No exploit ID provided. Usage: exploit <ID|all>"))
+            Proxima.commands.throwError("Unknown listing type.", self.usage)
         end if
     end if
 end function
 
 Proxima.commands.execute = {
     "name": "execute",
-    "description": "",
-    "usage": "",
+    "description": "Executes the specified exploit.",
+    "usage": "execute <ID|all>",
     "type": "both"
 }
 Proxima.commands.execute.exec = function (params)
     if params.len == 0 then
-        print(Proxima.utils.message.error("No exploit ID provided. Usage: exploit <ID|all>"))
+        Proxima.commands.throwError("No exploit ID provided.", self.usage)
     else
         if params[0] == "all" then
             Proxima.exploit.autoExecute()
@@ -157,13 +168,13 @@ end function
 
 Proxima.commands.connect = {
     "name": "connect",
-    "description": "",
-    "usage": "",
+    "description": "Connects to the specified shell found from executed exploits.",
+    "usage": "connect <ID>",
     "type": "both"
 }
 Proxima.commands.connect.exec = function (params)
     if params.len == 0 then
-        print(Proxima.utils.message.error("No shell ID provided. Usage: connect <ID>"))
+        Proxima.commands.throwError("No shell ID provided.", self.usage)
     else
         Proxima.exploit.setTargetShell(params[0].to_int)
         Proxima.exploit.connectShell()
@@ -172,13 +183,13 @@ end function
 
 Proxima.commands.decipher = {
     "name": "decipher",
-    "description": "",
-    "usage": "",
+    "description": "Deciphers password hashes from the user list found in executed exploits.",
+    "usage": "decipher <ID|all>",
     "type": "both"
 }
 Proxima.commands.decipher.exec = function (params)
     if params.len == 0 then
-        print(Proxima.utils.message.error("No user ID provided. Usage: decipher <ID|all>"))
+        Proxima.commands.throwError("No user ID provided.", self.usage)
     else
         if params[0] == "all" then
             Proxima.exploit.decipherPasswords()
@@ -191,13 +202,13 @@ end function
 
 Proxima.commands.upload = {
     "name": "upload",
-    "description": "",
-    "usage": "",
+    "description": "Uploads tools from the specified folder to the specified target directory.",
+    "usage": "upload",
     "type": "remote"
 }
 Proxima.commands.upload.exec = function (params)
     if self.isLocal then
-        print(Proxima.utils.message.error("Unknown command! Type <b>help</b> to list available commands."))
+        Proxima.commands.throwError()
     else
         Proxima.exploit.uploadTools()
     end if
@@ -205,27 +216,37 @@ end function
 
 Proxima.commands.help = {
     "name": "help",
-    "description": "",
-    "usage": "",
+    "description": "Lists available commands.",
+    "usage": "help",
     "type": "both"
 }
 Proxima.commands.help.exec = function (params)
-    print(Proxima.)
+    i = 0
     for command in Proxima.commands
+        if i != 0 then
+            print(Proxima.utils.message.colorize("+------------------------------------+", "#FFC466"))
+        end if
+
         command = command.values[1]
         cmd_name = command.name
         cmd_description = command.description
         cmd_usage = command.usage
         print("<b>" + cmd_name + "</b>:")
         print(cmd_description + "\n")
-        print("Usage: " + cmd_usage + "\n")
+        print("Usage: " + cmd_usage)
+
+        if i == Proxima.commands.len - 1 then
+            print(Proxima.utils.message.colorize("+------------------------------------+", "#FFC466"))
+        end if
+
+        i = i + 1
     end for
 end function
 
 Proxima.commands.clear = {
     "name": "clear",
-    "description": "",
-    "usage": "",
+    "description": "Clears the terminal screen.",
+    "usage": "clear",
     "type": "both"
 }
 Proxima.commands.clear.exec = function (params)
@@ -234,8 +255,8 @@ end function
 
 Proxima.commands.exit = {
     "name": "exit",
-    "description": "",
-    "usage": "",
+    "description": "Exits from the program.",
+    "usage": "exit",
     "type": "both"
 }
 Proxima.commands.exit.exec = function (params)
