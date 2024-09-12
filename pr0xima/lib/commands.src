@@ -10,7 +10,20 @@ Proxima.commands.target = {
     "type": ""
 }
 Proxima.commands.target.exec = function (params)
-    // ...
+    if self.isLocal then
+        print(self.utils.message.error("Unknown command! Type <b>help</b> to list available commands."))
+    else
+        if params.len == 0 then
+            print(Proxima.utils.message.error("No IP address provided for scan. Usage: target <IP>"))
+        else       
+            Proxima.exploit.setTargetIP(params[0])
+            if not Proxima.exploit.checkPorts() then
+                print(Proxima.utils.message.error("Given IP address is not valid! Please try another one..."))
+            else
+                Proxima.exploit.displayPortInfo()
+            end if
+        end if
+    end if
 end function
 
 Proxima.commands.dump = {
@@ -21,7 +34,16 @@ Proxima.commands.dump = {
     "type": ""
 }
 Proxima.commands.dump.exec = function (params)
-    // ...
+    if self.isLocal then
+        if params.len > 0 then
+            print(Proxima.utils.message.error("Too many arguements. Usage: dump"))
+        else
+            Proxima.exploit.checkLibraries()
+            Proxima.exploit.displayLibraryInfo()
+        end if
+    else
+        print(Proxima.utils.message.error("Unknown command! Type <b>help</b> to list available commands."))
+    end if
 end function
 
 Proxima.commands.scan = {
@@ -32,29 +54,34 @@ Proxima.commands.scan = {
     "type": ""
 }
 Proxima.commands.scan.exec = function (params)
-    if params.len == 0 then
-        if Proxima.globals.initMode == "local" then
-            Proxima.exploit.checkLibraries()
-            Proxima.exploit.displayLibraryInfo()
-        else
-            print(self.utils.message.error("No scan type and provided. Usage: scan <type> <id|all>"))
-        end if
-    else
-        if isLocal then
-            print(self.utils.message.error("Too many arguements. Usage: scan"))
-        else
-            if params.len < 3 then
-                if params[0] == "port" then
-                    // ...
-                else if params[0] == "lib" then
-                    // ...
+    if params.len == 2 then
+        if params[0] == "port" then
+            if self.isLocal then
+                print(Proxima.utils.message.error("Unknown scan type. Usage: scan <Type> <ID|all>"))
+            else
+                if params[0] == "all" then
+                    Proxima.exploit.scanPorts()
                 else
-                    // ...
+                    Proxima.exploit.setTargetPort(params[0].to_int)
+                    Proxima.exploit.scanPort()
+                end if
+            end if
+        else if params[0] == "lib" then
+            if self.isLocal then
+                if params[0] == "all" then
+                    Proxima.exploit.scanLibraries()
+                else
+                    Proxima.exploit.setTargetLibrary(params[0].to_int)
+                    Proxima.exploit.scanLibrary()
                 end if
             else
-                // ...
+                print(Proxima.utils.message.error("Unknown scan type. Usage: scan <Type> <ID|all>"))
             end if
+        else
+            print(Proxima.utils.message.error("Unknown scan type. Usage: scan <Type> <ID|all>"))
         end if
+    else
+        print(Proxima.utils.message.error("No scan type or ID provided. Usage: scan <Type> <ID|all>"))
     end if
 end function
 
@@ -67,11 +94,11 @@ Proxima.commands.list = {
 }
 Proxima.commands.list.exec = function (params)
     if params.len == 0 then
-        print(self.utils.message.error("No exploit ID provided. Usage: exploit <ID|all>"))
+        print(Proxima.utils.message.error("No exploit ID provided. Usage: exploit <ID|all>"))
     else
         if params[0] == "ports" then
             if self.isLocal then
-                print(self.utils.message.error("Unknown command! Type <b>help</b> to list available commands."))
+                print(Proxima.utils.message.error("Unknown command! Type <b>help</b> to list available commands."))
             else
                 if Proxima.exploit.targetPorts.len > 0 then
                     Proxima.exploit.displayPortInfo()
@@ -87,7 +114,7 @@ Proxima.commands.list.exec = function (params)
                     print(Proxima.utils.message.error("No libraries available, please perform a scan first."))
                 end if
             else
-                print(self.utils.message.error("Unknown command! Type <b>help</b> to list available commands."))
+                print(Proxima.utils.message.error("Unknown command! Type <b>help</b> to list available commands."))
             end if
         else if params[0] == "vulns" then
             if Proxima.exploit.targetExploits.len > 0 then
@@ -108,7 +135,7 @@ Proxima.commands.list.exec = function (params)
                 print(Proxima.utils.message.error("No open shells available, please execute an exploit first."))
             end if
         else
-            print(self.utils.message.error("No exploit ID provided. Usage: exploit <ID|all>"))
+            print(Proxima.utils.message.error("No exploit ID provided. Usage: exploit <ID|all>"))
         end if
     end if
 end function
@@ -122,13 +149,13 @@ Proxima.commands.execute = {
 }
 Proxima.commands.execute.exec = function (params)
     if params.len == 0 then
-        print(self.utils.message.error("No exploit ID provided. Usage: exploit <ID|all>"))
+        print(Proxima.utils.message.error("No exploit ID provided. Usage: exploit <ID|all>"))
     else
         if params[0] == "all" then
-            self.exploit.autoExecute()
+            Proxima.exploit.autoExecute()
         else
-            self.exploit.setTargetExploit(params[0].to_int)
-            self.exploit.execute()
+            Proxima.exploit.setTargetExploit(params[0].to_int)
+            Proxima.exploit.execute()
         end if
     end if
 end function
@@ -142,10 +169,10 @@ Proxima.commands.connect = {
 }
 Proxima.commands.connect.exec = function (params)
     if params.len == 0 then
-        print(self.utils.message.error("No shell ID provided. Usage: connect <ID>"))
+        print(Proxima.utils.message.error("No shell ID provided. Usage: connect <ID>"))
     else
-        self.exploit.setTargetShell(params[0].to_int)
-        self.exploit.connectShell()
+        Proxima.exploit.setTargetShell(params[0].to_int)
+        Proxima.exploit.connectShell()
     end if
 end function
 
@@ -178,9 +205,9 @@ Proxima.commands.upload = {
 }
 Proxima.commands.upload.exec = function (params)
     if self.isLocal then
-        print(self.utils.message.error("Unknown command! Type <b>help</b> to list available commands."))
+        print(Proxima.utils.message.error("Unknown command! Type <b>help</b> to list available commands."))
     else
-        self.exploit.uploadTools()
+        Proxima.exploit.uploadTools()
     end if
 end function
 
@@ -198,7 +225,6 @@ Proxima.commands.help.exec = function (params)
         cmd_name = command.name
         cmd_description = command.description
         cmd_usage = command.usage
-        cmd_example = command.example
         print("<b>" + cmd_name + "</b>:")
         print(cmd_description + "\n")
         print("Usage: " + cmd_usage + "\n")
@@ -220,132 +246,5 @@ Proxima.commands.exit = {
     "usage": ""
 }
 Proxima.commands.exit.exec = function (params)
-    exit(self.utils.message.success("Goodbye! Have a nice day."))
+    exit(Proxima.utils.message.success("Goodbye! Have a nice day."))
 end function
-
-
-// isLocal = false
-// if self.globals.initMode == "local" then isLocal = true
-
-// if cmd == "scan" then
-//     if params.len == 0 then
-//         if isLocal then
-//             self.exploit.checkLibraries()
-//             self.exploit.displayLibraryInfo()
-//         else
-//             print(self.utils.message.error("No IP address provided for scan. Usage: scan <IP>"))
-//         end if
-//     else
-//         if isLocal then
-//             print(self.utils.message.error("This command takes no parameter. Usage: scan"))
-//         else        
-//             self.exploit.setTargetIP(params[0])
-//             if not self.exploit.checkPorts() then
-//                 print(self.utils.message.error("Given IP address is not a valid one!"))
-//             else
-//                 self.exploit.displayPortInfo()
-//             end if
-//         end if
-//     end if
-
-// else if cmd == "scanport" then
-//     if isLocal then
-//         print(self.utils.message.error("Unknown command. Available commands: scan, scanlib <ID|all>, vulnlist, exploit <ID|all>, exit"))
-//     else
-//         if params.len == 0 then
-//             print(self.utils.message.error("No port provided for scan. Usage: scanport <ID|all>"))
-//         else
-//             if params[0] == "all" then
-//                 self.exploit.scanPorts()
-//             else
-//                 self.exploit.setTargetPort(params[0].to_int)
-//                 self.exploit.scanPort()
-//             end if
-//         end if
-//     end if
-
-// else if cmd == "scanlib" then
-//     if isLocal then
-//         if params.len == 0 then
-//             print(self.utils.message.error("No library provided for scan. Usage: scanlib <ID|all>"))
-//         else
-//             if params[0] == "all" then
-//                 self.exploit.scanLibraries()
-//             else
-//                 self.exploit.setTargetLibrary(params[0].to_int)
-//                 self.exploit.scanLibrary()
-//             end if
-//         end if
-//     else
-//         print(self.utils.message.error("Unknown command. Available commands: scan <IP>, scanport <ID|all>, vulnlist, exploit <ID|all>, exit"))
-//     end if
-    
-// else if cmd == "exploit" then
-//     if params.len == 0 then
-//         print(self.utils.message.error("No exploit ID provided. Usage: exploit <ID|all>"))
-//     else
-//         if params[0] == "all" then
-//             self.exploit.autoExecute()
-//         else
-//             self.exploit.setTargetExploit(params[0].to_int)
-//             self.exploit.execute()
-//         end if
-//     end if
-// else if cmd == "vulnlist" then
-//     if self.exploit.targetExploits.len > 0 then
-//         self.exploit.displayExploitInfo()
-//     else
-//         print(self.utils.message.error("No exploits available, please scan a port first."))
-//     end if
-
-// else if cmd == "shelllist" then
-//     if self.exploit.targetShells.len > 0 then
-//         self.exploit.displayShellInfo()
-//     else
-//         print(self.utils.message.error("No open shells available, please execute an exploit first."))
-//     end if
-
-// else if cmd == "userlist" then
-//     if self.exploit.targetUsers.len > 0 then
-//         self.exploit.displayUserInfo()
-//     else
-//         print(self.utils.message.error("No user information available, please execute an exploit first."))
-//     end if
-
-// else if cmd == "connect" then
-//     if params.len == 0 then
-//         print(self.utils.message.error("No shell ID provided. Usage: connect <ID>"))
-//     else
-//         self.exploit.setTargetShell(params[0].to_int)
-//         self.exploit.connectShell()
-//     end if
-
-// else if cmd == "upload" then
-//     if isLocal then
-//         print(self.utils.message.error("Unknown command. Available commands: scan, scanlib <ID|all>, vulnlist, exploit <ID|all>, exit"))
-//     else
-//         self.exploit.uploadTools()
-//     end if
-
-// else if cmd == "decipher" then
-//     if params.len == 0 then
-//         print(self.utils.message.error("No user ID provided. Usage: decipher <ID|all>"))
-//     else
-//         if params[0] == "all" then
-//             self.exploit.decipherPasswords()
-//         else
-//             self.exploit.setTargetUser(params[0].to_int)
-//             self.exploit.decipherPassword()
-//         end if
-//     end if
-
-// else if cmd == "exit" then
-//     exit(self.utils.message.success("Goodbye!"))
-
-// else
-//     if isLocal then
-//         print(self.utils.message.error("Unknown command. Available commands: scan, scanlib <ID|all>, vulnlist, exploit <ID|all>, exit"))
-//     else
-//         print(self.utils.message.error("Unknown command. Available commands: scan <IP>, scanport <ID|all>, vulnlist, exploit <ID|all>, exit"))
-//     end if
-// end if
