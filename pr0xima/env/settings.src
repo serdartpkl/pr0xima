@@ -11,4 +11,5 @@ Proxima.globals.metaxploitLocations = [
 Proxima.globals.uploadTo = "/home/guest/"
 Proxima.globals.uploadFrom = home_dir + "/Upload/"
 
-Proxima.exploit.injectionPassword = "919665"
+Proxima.globals.injectionPassword = "919665"
+
