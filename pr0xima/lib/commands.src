@@ -138,7 +138,7 @@ Proxima.commands.list.exec = function (params)
             end if
         else if params[0] == "users" then
             if Proxima.exploit.targetUsers.len > 0 then
-                seProximalf.exploit.displayUserInfo()
+                Proxima.exploit.displayUserInfo()
             else
                 Proxima.commands.throwError("No user information available, please execute an exploit first.")
             end if
@@ -234,10 +234,10 @@ Proxima.commands.help.exec = function (params)
             print(Proxima.utils.message.colorize("+------------------------------------+", "#FFC466"))
         end if
 
-        command = command.values[1]
-        cmd_name = command.name
-        cmd_description = command.description
-        cmd_usage = command.usage
+        cmd = command.values[1]
+        cmd_name = cmd.name
+        cmd_description = cmd.description
+        cmd_usage = cmd.usage
         print("<b>" + cmd_name + "</b>:")
         print(cmd_description + "\n")
         print("Usage: " + cmd_usage)

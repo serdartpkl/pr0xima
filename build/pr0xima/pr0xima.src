@@ -66,9 +66,6 @@ break
 end if
 end for
 if selected_command!=null then
-print(selected_command)
-print(parsed_command)
-print(params)
 selected_command.exec(params)
 else
 self.commands.throwError

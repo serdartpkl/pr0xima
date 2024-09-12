@@ -11,14 +11,11 @@ V=prx.globals.version
 HCOLOR="#FFC466"
 HEADER=""
 HEADER=HEADER+"<color="+HCOLOR+">+====================================+</color>\n"
-HEADER=HEADER+"<color="+HCOLOR+">|          pr0day - v"+V+"           |</color>\n"
+HEADER=HEADER+"<color="+HCOLOR+">|           pr00t - v"+V+"           |</color>\n"
 HEADER=HEADER+"<color="+HCOLOR+">+====================================+</color>\n"
-HEADER=HEADER+"<color="+HCOLOR+">|   Automatic Port Scanner & Prober  |</color>\n"
+HEADER=HEADER+"<color="+HCOLOR+">| Automatic Library Scanner & Prober |</color>\n"
 HEADER=HEADER+"<color="+HCOLOR+">+------------------------------------+</color>"
 print(HEADER)
-prx.initialize("remote")
+prx.initialize("local")
 print("<color="+HCOLOR+">+------------------------------------+</color>")
-if not prx.net.checkConnection then
-exit(prx.utils.message.error("You are not connected to internet! Terminating script..."))
-end if
 prx.start_cli
