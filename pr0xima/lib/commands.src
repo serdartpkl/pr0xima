@@ -14,6 +14,7 @@ Proxima.commands.throwError = function (cmdMessage = null, cmdUsage = null)
             print(Proxima.utils.message.error(cmdMessage + " Usage: " + cmdUsage))
         else
             print(Proxima.utils.message.error(cmdMessage))
+        end if
     else
         print(Proxima.utils.message.error("Unknown command! Type <b>help</b> to list available commands."))
     end if
