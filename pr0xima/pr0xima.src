@@ -57,20 +57,22 @@ Proxima.start_cli = function ()
 end function
 
 Proxima.handle_command = function (command)
-    parts = split(command, " ")
-    command = parts[0]
-    parts.remove(0)
-    params = parts
+    if command != null and command != "" then
+        parts = split(command, " ")
+        command = parts[0]
+        parts.remove(0)
+        params = parts
 
-    selected_command = null
-    for command in Proxima.commands
-        if command.values[0] == command then
-            selected_command = command.values[1]
+        selected_command = null
+        for command in Proxima.commands
+            if command.values[0] == command then
+                selected_command = command.values[1]
+            end if
+        end for
+        if selected_command != null then
+            selected_command.exec(params)
+        else
+            print(self.utils.message.error("Unknown command! Type <b>help</b> to list available commands."))
         end if
-    end for
-    if selected_command != null then
-        selected_command.exec(params)
-    else
-        print(self.utils.message.error("Unknown command! Type <b>help</b> to list available commands."))
     end if
 end function
