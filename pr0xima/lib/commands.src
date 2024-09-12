@@ -122,7 +122,7 @@ Proxima.commands.exit = {
     "type": ""
 }
 Proxima.commands.exit.exec = function (params)
-    // ...
+    exit(self.utils.message.success("Goodbye! Have a nice day."))
 end function
 
 
