@@ -1,0 +1,67 @@
+Proxima.load_metaxploit=function()
+isValidLocation=false
+for location in self.settings.metaxploitLocations
+includeMetaxploit=include_lib(location)
+if includeMetaxploit!=null then
+self.globals.metaxploit=includeMetaxploit
+isValidLocation=true
+break
+end if
+end for
+if isValidLocation then
+print(self.utils.message.success("<b>metaxploit.so</b> is loaded."))
+else
+exit(self.utils.message.error("Unable to find <b>metaxploit.so</b> library."))
+end if
+end function
+Proxima.load_crypto=function()
+isValidLocation=false
+for location in self.settings.cryptoLocations
+includeCrypto=include_lib(location)
+if includeCrypto!=null then
+self.globals.crypto=includeCrypto
+isValidLocation=true
+break
+end if
+end for
+if isValidLocation then
+print(self.utils.message.success("<b>crypto.so</b> is loaded."))
+else
+exit(self.utils.message.error("Unable to find <b>crypto.so</b> library."))
+end if
+end function
+Proxima.initialize=function(initMode)
+self.globals.initMode=initMode
+self.globals.myPC=get_shell.host_computer
+if self.globals.initMode!="network" then
+self.load_metaxploit
+end if
+self.load_crypto
+self.globals.cliMarker=self.utils.message.colorize("["+self.globals.activeUser+"]","#FFC466")+self.utils.message.colorize("@","#0091FF")+self.utils.message.colorize("> ","#08FF57")
+end function
+Proxima.start_cli=function()
+while true
+command=user_input(self.globals.cliMarker,false,false).trim
+self.handle_command(command)
+end while
+end function
+Proxima.handle_command=function(command)
+if command!=null and command!="" then
+parts=split(command," ")
+command=parts[0]
+parts.remove(0)
+params=parts
+selected_command=null
+for command in Proxima.commands
+if command.values[0]==command then
+selected_command=command.values[1]
+break
+end if
+end for
+if selected_command!=null then
+selected_command.exec(params)
+else
+self.commands.throwError
+end if
+end if
+end function

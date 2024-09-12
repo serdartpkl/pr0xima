@@ -1,0 +1,24 @@
+clear_screen
+import_code("/home/pr0ximan0va/Scripts/pr0xima/env/init.src")
+import_code("/home/pr0ximan0va/Scripts/pr0xima/env/settings.src")
+import_code("/home/pr0ximan0va/Scripts/pr0xima/lib/utils.src")
+import_code("/home/pr0ximan0va/Scripts/pr0xima/lib/net.src")
+import_code("/home/pr0ximan0va/Scripts/pr0xima/lib/exploit.src")
+import_code("/home/pr0ximan0va/Scripts/pr0xima/lib/commands.src")
+import_code("/home/pr0ximan0va/Scripts/pr0xima/pr0xima.src")
+prx=new Proxima
+V=prx.globals.version
+HCOLOR="#FFC466"
+HEADER=""
+HEADER=HEADER+"<color="+HCOLOR+">+====================================+</color>\n"
+HEADER=HEADER+"<color="+HCOLOR+">|          pr0day - v"+V+"           |</color>\n"
+HEADER=HEADER+"<color="+HCOLOR+">+====================================+</color>\n"
+HEADER=HEADER+"<color="+HCOLOR+">|   Automatic Port Scanner & Prober  |</color>\n"
+HEADER=HEADER+"<color="+HCOLOR+">+------------------------------------+</color>"
+print(HEADER)
+prx.initialize("remote")
+print("<color="+HCOLOR+">+------------------------------------+</color>")
+if not prx.net.checkConnection then
+exit(prx.utils.message.error("You are not connected to internet! Terminating script..."))
+end if
+prx.start_cli
