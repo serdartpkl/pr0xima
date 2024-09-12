@@ -19,7 +19,7 @@ end if
 end function
 Proxima.commands.target={"name":"target","description":"Sets the target IP address for scanning.","usage":"target <IP>","type":"remote"}
 Proxima.commands.target.exec=function(params)
-if Proxima.commands.isLocal then
+if self.isLocal then
 Proxima.commands.throwError
 else
 if params.len==0 then
@@ -36,7 +36,7 @@ end if
 end function
 Proxima.commands.dump={"name":"dump","description":"Dumps all local libraries and their information.","usage":"dump","type":"local"}
 Proxima.commands.dump.exec=function(params)
-if Proxima.commands.isLocal then
+if self.isLocal then
 if params.len>0 then
 Proxima.commands.throwError("Too many arguements.",self.usage)
 else
@@ -51,7 +51,7 @@ Proxima.commands.scan={"name":"scan","description":"Scans the specified port or 
 Proxima.commands.scan.exec=function(params)
 if params.len==2 then
 if params[0]=="port" then
-if Proxima.commands.isLocal then
+if self.isLocal then
 Proxima.commands.throwError("Unknown scan type.",self.usage)
 else
 if params[1]=="all" then
@@ -62,7 +62,7 @@ Proxima.exploit.scanPort
 end if
 end if
 else if params[0]=="lib" then
-if Proxima.commands.isLocal then
+if self.isLocal then
 if params[1]=="all" then
 Proxima.exploit.scanLibraries
 else
@@ -85,7 +85,7 @@ if params.len==0 then
 Proxima.commands.throwError("No listing type provided.",self.usage)
 else
 if params[0]=="ports" then
-if Proxima.commands.isLocal then
+if self.isLocal then
 Proxima.commands.throwError
 else
 if Proxima.exploit.targetPorts.len>0 then
@@ -95,7 +95,7 @@ Proxima.commands.throwError("No ports available, please scan an IP address first
 end if
 end if
 else if params[0]=="libs" then
-if Proxima.commands.isLocal then
+if self.isLocal then
 if Proxima.exploit.targetLibraries.len>0 then
 Proxima.exploit.displayLibraryInfo
 else
@@ -164,7 +164,7 @@ end if
 end function
 Proxima.commands.upload={"name":"upload","description":"Uploads tools from the specified folder to the specified target directory.","usage":"upload","type":"remote"}
 Proxima.commands.upload.exec=function(params)
-if Proxima.commands.isLocal then
+if self.isLocal then
 Proxima.commands.throwError
 else
 Proxima.exploit.uploadTools
