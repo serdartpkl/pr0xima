@@ -62,6 +62,19 @@ Proxima.utils.display_list = function (header_list, content_list)
     end for
 end function
 
+Proxima.utils.has_value = function (givenList, searchValue)
+    hasFoundValue = false
+    for listItem in givenList
+        for key in listItem.indexes
+            if listItem[key] == searchValue then
+                hasFoundValue = true
+                break
+            end if
+        end for
+    end for
+    if hasFoundValue then return true else return false
+end function
+
 Proxima.utils.collect_files = function (parentDir)
     all_files = []
 
