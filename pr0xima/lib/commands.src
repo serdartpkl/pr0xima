@@ -1,5 +1,16 @@
 Proxima.commands = {}
 
+Proxima.commands.target = {
+    "name": "target",
+    "description": "",
+    "usage": "",
+    "example": "",
+    "type": ""
+}
+Proxima.commands.target.exec = function (params)
+    // ...
+end function
+
 Proxima.commands.scan = {
     "name": "scan",
     "description": "",
@@ -10,13 +21,14 @@ Proxima.commands.scan = {
 Proxima.commands.scan.exec = function (params)
     if params.len == 0 then
         if Proxima.globals.initMode == "local" then
-            // ...
+            Proxima.exploit.checkLibraries()
+            Proxima.exploit.displayLibraryInfo()
         else
-            // ...
+            print(self.utils.message.error("No scan type and provided. Usage: scan <type> <id|all>"))
         end if
     else
         if isLocal then
-            // ...
+            print(self.utils.message.error("Too many arguements. Usage: scan"))
         else
             if params.len < 3 then
                 if params[0] == "ip" then
@@ -44,20 +56,48 @@ Proxima.commands.list = {
 }
 Proxima.commands.list.exec = function (params)
     if params.len == 0 then
-        // ...
+        print(self.utils.message.error("No exploit ID provided. Usage: exploit <ID|all>"))
     else
         if params[0] == "ports" then
-            // ...
+            if Proxima.globals.initMode == "local" then
+                print(self.utils.message.error("Unknown command! Type <b>help</b> to list available commands."))
+            else
+                if Proxima.exploit.targetPorts.len > 0 then
+                    Proxima.exploit.displayPortInfo()
+                else
+                    print(Proxima.utils.message.error("No ports available, please scan an IP address first."))
+                end if
+            end if
         else if params[0] == "libs" then
-            // ...
+            if Proxima.globals.initMode == "local" then
+                if Proxima.exploit.targetLibraries.len > 0 then
+                    Proxima.exploit.displayLibraryInfo()
+                else
+                    print(Proxima.utils.message.error("No libraries available, please perform a scan first."))
+                end if
+            else
+                print(self.utils.message.error("Unknown command! Type <b>help</b> to list available commands."))
+            end if
         else if params[0] == "vulns" then
-            // ...
+            if Proxima.exploit.targetExploits.len > 0 then
+                Proxima.exploit.displayExploitInfo()
+            else
+                print(Proxima.utils.message.error("No exploits available, please scan a port first."))
+            end if
         else if params[0] == "users" then
-            // ...
+            if Proxima.exploit.targetUsers.len > 0 then
+                seProximalf.exploit.displayUserInfo()
+            else
+                print(Proxima.utils.message.error("No user information available, please execute an exploit first."))
+            end if
         else if params[0] == "shells" then
-            // ...
+            if Proxima.exploit.targetShells.len > 0 then
+                Proxima.exploit.displayShellInfo()
+            else
+                print(Proxima.utils.message.error("No open shells available, please execute an exploit first."))
+            end if
         else
-            // ...
+            print(self.utils.message.error("No exploit ID provided. Usage: exploit <ID|all>"))
         end if
     end if
 end function
@@ -71,9 +111,30 @@ Proxima.commands.execute = {
 }
 Proxima.commands.execute.exec = function (params)
     if params.len == 0 then
-        // ...
+        print(self.utils.message.error("No exploit ID provided. Usage: exploit <ID|all>"))
     else
-        // ...
+        if params[0] == "all" then
+            self.exploit.autoExecute()
+        else
+            self.exploit.setTargetExploit(params[0].to_int)
+            self.exploit.execute()
+        end if
+    end if
+end function
+
+Proxima.commands.connect = {
+    "name": "connect",
+    "description": "",
+    "usage": "",
+    "example": "",
+    "type": ""
+}
+Proxima.commands.connect.exec = function (params)
+    if params.len == 0 then
+        print(self.utils.message.error("No shell ID provided. Usage: connect <ID>"))
+    else
+        self.exploit.setTargetShell(params[0].to_int)
+        self.exploit.connectShell()
     end if
 end function
 
@@ -86,9 +147,14 @@ Proxima.commands.decipher = {
 }
 Proxima.commands.decipher.exec = function (params)
     if params.len == 0 then
-        // ...
+        print(Proxima.utils.message.error("No user ID provided. Usage: decipher <ID|all>"))
     else
-        // ...
+        if params[0] == "all" then
+            Proxima.exploit.decipherPasswords()
+        else
+            Proxima.exploit.setTargetUser(params[0].to_int)
+            Proxima.exploit.decipherPassword()
+        end if
     end if
 end function
 
@@ -100,7 +166,11 @@ Proxima.commands.upload = {
     "type": ""
 }
 Proxima.commands.upload.exec = function (params)
-    // ...
+    if Proxima.globals.initMode == "local" then
+        print(self.utils.message.error("Unknown command! Type <b>help</b> to list available commands."))
+    else
+        self.exploit.uploadTools()
+    end if
 end function
 
 Proxima.commands.help = {
@@ -112,6 +182,9 @@ Proxima.commands.help = {
 }
 Proxima.commands.help.exec = function (params)
     // ...
+    for command in Proxima.commands
+        // ...
+    end for
 end function
 
 Proxima.commands.exit = {
