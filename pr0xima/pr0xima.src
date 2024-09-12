@@ -58,13 +58,13 @@ end function
 
 Proxima.handle_command = function (command)
     parts = split(command, " ")
-    cmd = parts[0]
+    command = parts[0]
     parts.remove(0)
     params = parts
 
     selected_command = null
     for command in Proxima.commands
-        if command.values[0] == cmd then
+        if command.values[0] == command then
             selected_command = command.values[1]
         end if
     end for
