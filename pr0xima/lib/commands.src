@@ -1,6 +1,12 @@
 Proxima.commands = {}
 
-Proxima.commands.isLocal = if Proxima.globals.initMode == "local" then return true else return false
+Proxima.commands.isLocal = function ()
+    if Proxima.globals.initMode == "local" then
+        return true
+    else
+        return false
+    end if
+end function
 
 Proxima.commands.throwError = function (cmdMessage = null, cmdUsage = null)
     if cmdMessage != null then 
@@ -20,7 +26,7 @@ Proxima.commands.target = {
     "type": "remote"
 }
 Proxima.commands.target.exec = function (params)
-    if self.isLocal then
+    if self.isLocal() then
         Proxima.commands.throwError()
     else
         if params.len == 0 then
@@ -43,7 +49,7 @@ Proxima.commands.dump = {
     "type": "local"
 }
 Proxima.commands.dump.exec = function (params)
-    if self.isLocal then
+    if self.isLocal() then
         if params.len > 0 then
             Proxima.commands.throwError("Too many arguements.", self.usage)
         else
@@ -64,7 +70,7 @@ Proxima.commands.scan = {
 Proxima.commands.scan.exec = function (params)
     if params.len == 2 then
         if params[0] == "port" then
-            if self.isLocal then
+            if self.isLocal() then
                 Proxima.commands.throwError("Unknown scan type.", self.usage)
             else
                 if params[1] == "all" then
@@ -75,7 +81,7 @@ Proxima.commands.scan.exec = function (params)
                 end if
             end if
         else if params[0] == "lib" then
-            if self.isLocal then
+            if self.isLocal() then
                 if params[1] == "all" then
                     Proxima.exploit.scanLibraries()
                 else
@@ -104,7 +110,7 @@ Proxima.commands.list.exec = function (params)
         Proxima.commands.throwError("No listing type provided.", self.usage)
     else
         if params[0] == "ports" then
-            if self.isLocal then
+            if self.isLocal() then
                 Proxima.commands.throwError()
             else
                 if Proxima.exploit.targetPorts.len > 0 then
@@ -114,7 +120,7 @@ Proxima.commands.list.exec = function (params)
                 end if
             end if
         else if params[0] == "libs" then
-            if self.isLocal then
+            if self.isLocal() then
                 if Proxima.exploit.targetLibraries.len > 0 then
                     Proxima.exploit.displayLibraryInfo()
                 else
@@ -207,7 +213,7 @@ Proxima.commands.upload = {
     "type": "remote"
 }
 Proxima.commands.upload.exec = function (params)
-    if self.isLocal then
+    if self.isLocal() then
         Proxima.commands.throwError()
     else
         Proxima.exploit.uploadTools()
