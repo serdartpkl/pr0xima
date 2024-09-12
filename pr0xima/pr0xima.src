@@ -67,12 +67,13 @@ Proxima.handle_command = function (command)
         for command in Proxima.commands
             if command.values[0] == command then
                 selected_command = command.values[1]
+                break
             end if
         end for
         if selected_command != null then
             selected_command.exec(params)
         else
-            print(self.utils.message.error("Unknown command! Type <b>help</b> to list available commands."))
+            self.commands.throwError()
         end if
     end if
 end function
