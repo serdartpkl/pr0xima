@@ -1,6 +1,9 @@
 clear_screen
+import_code("pr0xima/pr0xima.src")
 
-V="1.0.0"
+prx = new Proxima
+
+V = prx.globals.version
 HCOLOR = "#FFC466"
 HEADER = ""
 HEADER=HEADER+"<color="+HCOLOR+">+====================================+</color>\n"
@@ -11,8 +14,6 @@ HEADER=HEADER+"<color="+HCOLOR+">+------------------------------------+</color>"
 
 print(HEADER)
 
-import_code("pr0xima.src")
-prx = new Proxima
 prx.initialize("local")
 
 print("<color="+HCOLOR+">+------------------------------------+</color>")
