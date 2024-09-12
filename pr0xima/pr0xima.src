@@ -71,6 +71,6 @@ Proxima.handle_command = function (command)
     if selected_command != null then
         selected_command.exec(params)
     else
-        print("no command found")
+        print(self.utils.message.error("Unknown command! Type <b>help</b> to list available commands."))
     end if
 end function
