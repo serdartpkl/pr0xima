@@ -1,0 +1,169 @@
+Proxima.load_metaxploit=function()
+isValidLocation=false
+for location in self.globals.metaxploitLocations
+includeMetaxploit=include_lib(location)
+if includeMetaxploit!=null then
+self.globals.metaxploit=includeMetaxploit
+isValidLocation=true
+break
+end if
+end for
+if isValidLocation then
+print(self.utils.message.success("<b>metaxploit.so</b> is loaded."))
+else
+exit(self.utils.message.error("Unable to find <b>metaxploit.so</b> library."))
+end if
+end function
+Proxima.load_crypto=function()
+isValidLocation=false
+for location in self.globals.cryptoLocations
+includeCrypto=include_lib(location)
+if includeCrypto!=null then
+self.globals.crypto=includeCrypto
+isValidLocation=true
+break
+end if
+end for
+if isValidLocation then
+print(self.utils.message.success("<b>crypto.so</b> is loaded."))
+else
+exit(self.utils.message.error("Unable to find <b>crypto.so</b> library."))
+end if
+end function
+Proxima.initialize=function(initMode)
+self.globals.initMode=initMode
+self.globals.myPC=get_shell.host_computer
+if self.globals.initMode!="network" then
+self.load_metaxploit
+end if
+self.load_crypto
+self.globals.cliMarker=self.utils.message.colorize("["+self.globals.activeUser+"]","#FFC466")+self.utils.message.colorize("@","#0091FF")+self.utils.message.colorize("> ","#08FF57")
+end function
+Proxima.start_cli=function()
+while true
+command=user_input(self.globals.cliMarker,false,false).trim
+self.handle_command(command)
+end while
+end function
+Proxima.handle_command=function(command)
+parts=split(command," ")
+cmd=parts[0]
+parts.remove(0)
+params=parts
+isLocal=false
+if self.globals.initMode=="local" then
+isLocal=true
+end if
+if cmd=="scan" then
+if params.len==0 then
+if isLocal then
+self.exploit.checkLibraries
+self.exploit.displayLibraryInfo
+else
+print(self.utils.message.error("No IP address provided for scan. Usage: scan <IP>"))
+end if
+else
+if isLocal then
+print(self.utils.message.error("This command takes no parameter. Usage: scan"))
+else
+self.exploit.setTargetIP(params[0])
+if not self.exploit.checkPorts then
+print(self.utils.message.error("Given IP address is not a valid one!"))
+else
+self.exploit.displayPortInfo
+end if
+end if
+end if
+else if cmd=="scanport" then
+if isLocal then
+print(self.utils.message.error("Unknown command. Available commands: scan, scanlib <ID|all>, vulnlist, exploit <ID|all>, exit"))
+else
+if params.len==0 then
+print(self.utils.message.error("No port provided for scan. Usage: scanport <ID|all>"))
+else
+if params[0]=="all" then
+self.exploit.scanPorts
+else
+self.exploit.setTargetPort(params[0].to_int)
+self.exploit.scanPort
+end if
+end if
+end if
+else if cmd=="scanlib" then
+if isLocal then
+if params.len==0 then
+print(self.utils.message.error("No library provided for scan. Usage: scanlib <ID|all>"))
+else
+if params[0]=="all" then
+self.exploit.scanLibraries
+else
+self.exploit.setTargetLibrary(params[0].to_int)
+self.exploit.scanLibrary
+end if
+end if
+else
+print(self.utils.message.error("Unknown command. Available commands: scan <IP>, scanport <ID|all>, vulnlist, exploit <ID|all>, exit"))
+end if
+else if cmd=="exploit" then
+if params.len==0 then
+print(self.utils.message.error("No exploit ID provided. Usage: exploit <ID|all>"))
+else
+if params[0]=="all" then
+self.exploit.autoExecute
+else
+self.exploit.setTargetExploit(params[0].to_int)
+self.exploit.execute
+end if
+end if
+else if cmd=="vulnlist" then
+if self.exploit.targetExploits.len>0 then
+self.exploit.displayExploitInfo
+else
+print(self.utils.message.error("No exploits available, please scan a port first."))
+end if
+else if cmd=="shelllist" then
+if self.exploit.targetShells.len>0 then
+self.exploit.displayShellInfo
+else
+print(self.utils.message.error("No open shells available, please execute an exploit first."))
+end if
+else if cmd=="userlist" then
+if self.exploit.targetUsers.len>0 then
+self.exploit.displayUserInfo
+else
+print(self.utils.message.error("No user information available, please execute an exploit first."))
+end if
+else if cmd=="connect" then
+if params.len==0 then
+print(self.utils.message.error("No shell ID provided. Usage: connect <ID>"))
+else
+self.exploit.setTargetShell(params[0].to_int)
+self.exploit.connectShell
+end if
+else if cmd=="upload" then
+if isLocal then
+print(self.utils.message.error("Unknown command. Available commands: scan, scanlib <ID|all>, vulnlist, exploit <ID|all>, exit"))
+else
+self.exploit.uploadTools
+end if
+else if cmd=="decipher" then
+if params.len==0 then
+print(self.utils.message.error("No user ID provided. Usage: decipher <ID|all>"))
+else
+if params[0]=="all" then
+self.exploit.decipherPasswords
+else
+self.exploit.setTargetUser(params[0].to_int)
+self.exploit.decipherPassword
+end if
+end if
+else if cmd=="exit" then
+exit(self.utils.message.success("Goodbye!"))
+else
+if isLocal then
+print(self.utils.message.error("Unknown command. Available commands: scan, scanlib <ID|all>, vulnlist, exploit <ID|all>, exit"))
+else
+print(self.utils.message.error("Unknown command. Available commands: scan <IP>, scanport <ID|all>, vulnlist, exploit <ID|all>, exit"))
+end if
+end if
+end function
