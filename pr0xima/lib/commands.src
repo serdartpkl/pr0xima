@@ -3,70 +3,124 @@ Proxima.commands = {}
 Proxima.commands.scan = {
     "name": "scan",
     "description": "",
-    "usage": "scan <Type> <IP|ID>",
+    "usage": "",
+    "example": "",
     "type": ""
 }
 Proxima.commands.scan.exec = function (params)
-
+    if params.len == 0 then
+        if Proxima.globals.initMode == "local" then
+            // ...
+        else
+            // ...
+        end if
+    else
+        if isLocal then
+            // ...
+        else
+            if params.len < 3 then
+                if params[0] == "ip" then
+                    // ...
+                else if params[0] == "port" then
+                    // ...
+                else if params[0] == "lib" then
+                    // ...
+                else
+                    // ...
+                end if
+            else
+                // ...
+            end if
+        end if
+    end if
 end function
 
 Proxima.commands.list = {
-    "name": "scanport",
+    "name": "list",
     "description": "",
-    "usage": "scanport <Type>",
+    "usage": "",
+    "example": "",
     "type": ""
 }
-Proxima.commands.scanlib.exec = function (params)
-
+Proxima.commands.list.exec = function (params)
+    if params.len == 0 then
+        // ...
+    else
+        if params[0] == "ports" then
+            // ...
+        else if params[0] == "libs" then
+            // ...
+        else if params[0] == "vulns" then
+            // ...
+        else if params[0] == "users" then
+            // ...
+        else if params[0] == "shells" then
+            // ...
+        else
+            // ...
+        end if
+    end if
 end function
 
 Proxima.commands.execute = {
-    "name": "scanport",
+    "name": "execute",
     "description": "",
-    "usage": "scanport <ID>",
+    "usage": "",
+    "example": "",
     "type": ""
 }
-Proxima.commands.scanlib.exec = function (params)
-
+Proxima.commands.execute.exec = function (params)
+    if params.len == 0 then
+        // ...
+    else
+        // ...
+    end if
 end function
 
 Proxima.commands.decipher = {
-    "name": "scanport",
+    "name": "decipher",
     "description": "",
-    "usage": "scanport <ID>",
+    "usage": "",
+    "example": "",
     "type": ""
 }
-Proxima.commands.scanlib.exec = function (params)
-
+Proxima.commands.decipher.exec = function (params)
+    if params.len == 0 then
+        // ...
+    else
+        // ...
+    end if
 end function
 
-
 Proxima.commands.upload = {
-    "name": "scanport",
+    "name": "upload",
     "description": "",
-    "usage": "scanport <ID>",
+    "usage": "",
+    "example": "",
     "type": ""
 }
-Proxima.commands.scanlib.exec = function (params)
-
+Proxima.commands.upload.exec = function (params)
+    // ...
 end function
 
 Proxima.commands.help = {
-    "name": "scanport",
+    "name": "help",
     "description": "",
-    "usage": "scanport <ID>",
+    "usage": "",
+    "example": "",
     "type": ""
 }
-Proxima.commands.scanlib.exec = function (params)
-
+Proxima.commands.help.exec = function (params)
+    // ...
 end function
 
 Proxima.commands.exit = {
-    "name": "scanport",
+    "name": "exit",
     "description": "",
-    "usage": "scanport <ID>",
+    "usage": "",
+    "example": "",
     "type": ""
 }
-Proxima.commands.scanlib.exec = function (params)
-
+Proxima.commands.exit.exec = function (params)
+    // ...
 end function
