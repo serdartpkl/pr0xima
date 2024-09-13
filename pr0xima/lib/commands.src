@@ -186,12 +186,8 @@ Proxima.commands.decipher.exec = function (params)
     if params.len == 0 then
         Proxima.utils.throw_cli_error("No user ID provided.", self.usage)
     else
-        if params[0] == "all" then
-            Proxima.exploit.decipherPasswords()
-        else
-            Proxima.exploit.setTargetUser(params[0].to_int)
-            Proxima.exploit.decipherPassword()
-        end if
+        Proxima.exploit.setTargetUser(params[0].to_int)
+        Proxima.exploit.decipherPassword()
     end if
 end function
 
