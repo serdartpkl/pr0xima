@@ -15,7 +15,7 @@ Proxima.commands.target.exec = function (params)
         else       
             Proxima.exploit.setTargetIP(params[0])
             if not Proxima.exploit.checkPorts() then
-                Proxima.utils.throw_cli_error("Given IP address is not valid! Please try another one...")
+                Proxima.utils.throw_cli_error("Given IP address is not valid or no open ports found.")
             else
                 Proxima.exploit.displayPortInfo()
             end if
