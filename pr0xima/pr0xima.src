@@ -81,7 +81,7 @@ Proxima.handle_command = function (user_command)
         if selected_command != null then
             selected_command.exec(params)
         else
-            self.commands.throwError()
+            self.utils.throw_cli_error()
         end if
     end if
 end function
