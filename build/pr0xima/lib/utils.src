@@ -88,3 +88,21 @@ end function
 scan_dir(parentDir)
 return all_files
 end function
+Proxima.utils.is_local=function()
+if Proxima.globals.initMode=="local" then
+return true
+else
+return false
+end if
+end function
+Proxima.utils.throw_cli_error=function(cmdMessage=null,cmdUsage=null)
+if cmdMessage!=null then
+if cmdUsage!=null then
+print(Proxima.utils.message.error(cmdMessage+" Usage: "+cmdUsage))
+else
+print(Proxima.utils.message.error(cmdMessage))
+end if
+else
+print(Proxima.utils.message.error("Unknown command! Type <b>help</b> to list available commands."))
+end if
+end function

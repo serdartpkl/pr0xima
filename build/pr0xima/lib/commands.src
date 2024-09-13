@@ -1,33 +1,15 @@
 Proxima.commands={}
-Proxima.commands.isLocal=function()
-if Proxima.globals.initMode=="local" then
-return true
-else
-return false
-end if
-end function
-Proxima.commands.throwError=function(cmdMessage=null,cmdUsage=null)
-if cmdMessage!=null then
-if cmdUsage!=null then
-print(Proxima.utils.message.error(cmdMessage+" Usage: "+cmdUsage))
-else
-print(Proxima.utils.message.error(cmdMessage))
-end if
-else
-print(Proxima.utils.message.error("Unknown command! Type <b>help</b> to list available commands."))
-end if
-end function
 Proxima.commands.target={"name":"target","description":"Sets the target IP address for scanning.","usage":"target <IP>","type":"remote"}
 Proxima.commands.target.exec=function(params)
-if Proxima.commands.isLocal then
-Proxima.commands.throwError
+if Proxima.utils.is_local then
+Proxima.utils.throw_cli_error
 else
 if params.len==0 then
-Proxima.commands.throwError("No IP address provided for scan.",self.usage)
+Proxima.utils.throw_cli_error("No IP address provided for scan.",self.usage)
 else
 Proxima.exploit.setTargetIP(params[0])
 if not Proxima.exploit.checkPorts then
-Proxima.commands.throwError("Given IP address is not valid! Please try another one...")
+Proxima.utils.throw_cli_error("Given IP address is not valid! Please try another one...")
 else
 Proxima.exploit.displayPortInfo
 end if
@@ -36,28 +18,28 @@ end if
 end function
 Proxima.commands.dump={"name":"dump","description":"Dumps all local libraries and their information.","usage":"dump","type":"local"}
 Proxima.commands.dump.exec=function(params)
-if Proxima.commands.isLocal then
+if Proxima.utils.is_local then
 if params.len>0 then
-Proxima.commands.throwError("This command takes no arguements.",self.usage)
+Proxima.utils.throw_cli_error("This command takes no arguements.",self.usage)
 else
 Proxima.exploit.checkLibraries
 Proxima.exploit.displayLibraryInfo
 end if
 else
-Proxima.commands.throwError
+Proxima.utils.throw_cli_error
 end if
 end function
 Proxima.commands.scan={"name":"scan","description":"Scans the specified port or library.","usage":"scan <Type> <ID|all>","type":"both"}
 Proxima.commands.scan.exec=function(params)
 if params.len==0 then
-Proxima.commands.throwError("No scan type provided.",self.usage)
+Proxima.utils.throw_cli_error("No scan type provided.",self.usage)
 else
 if params[0]=="port" then
-if Proxima.commands.isLocal then
-Proxima.commands.throwError("Unknown scan type.",self.usage)
+if Proxima.utils.is_local then
+Proxima.utils.throw_cli_error("Unknown scan type.",self.usage)
 else
 if params.len<2 then
-Proxima.commands.throwError("No port ID provided.",self.usage)
+Proxima.utils.throw_cli_error("No port ID provided.",self.usage)
 else
 if params[1]=="all" then
 Proxima.exploit.scanPorts
@@ -68,9 +50,9 @@ end if
 end if
 end if
 else if params[0]=="lib" then
-if Proxima.commands.isLocal then
+if Proxima.utils.is_local then
 if params.len<2 then
-Proxima.commands.throwError("No library ID provided.",self.usage)
+Proxima.utils.throw_cli_error("No library ID provided.",self.usage)
 else
 if params[1]=="all" then
 Proxima.exploit.scanLibraries
@@ -80,65 +62,65 @@ Proxima.exploit.scanLibrary
 end if
 end if
 else
-Proxima.commands.throwError("Unknown scan type.",self.usage)
+Proxima.utils.throw_cli_error("Unknown scan type.",self.usage)
 end if
 else
-Proxima.commands.throwError("Unknown scan type.",self.usage)
+Proxima.utils.throw_cli_error("Unknown scan type.",self.usage)
 end if
 end if
 end function
 Proxima.commands.list={"name":"list","description":"Formats the given list and its information into a beautified table.","usage":"list <Type>","type":"both"}
 Proxima.commands.list.exec=function(params)
 if params.len==0 then
-Proxima.commands.throwError("No listing type provided.",self.usage)
+Proxima.utils.throw_cli_error("No listing type provided.",self.usage)
 else
 if params[0]=="ports" then
-if Proxima.commands.isLocal then
-Proxima.commands.throwError("Unknown listing type.",self.usage)
+if Proxima.utils.is_local then
+Proxima.utils.throw_cli_error("Unknown listing type.",self.usage)
 else
 if Proxima.exploit.targetPorts.len>0 then
 Proxima.exploit.displayPortInfo
 else
-Proxima.commands.throwError("No ports available, please scan an IP address first.")
+Proxima.utils.throw_cli_error("No ports available, please scan an IP address first.")
 end if
 end if
 else if params[0]=="libs" then
-if Proxima.commands.isLocal then
+if Proxima.utils.is_local then
 if Proxima.exploit.targetLibraries.len>0 then
 Proxima.exploit.displayLibraryInfo
 else
-Proxima.commands.throwError("No libraries available, please perform a scan first.")
+Proxima.utils.throw_cli_error("No libraries available, please perform a scan first.")
 end if
 else
-Proxima.commands.throwError("Unknown listing type.",self.usage)
+Proxima.utils.throw_cli_error("Unknown listing type.",self.usage)
 end if
 else if params[0]=="vulns" then
 if Proxima.exploit.targetExploits.len>0 then
 Proxima.exploit.displayExploitInfo
 else
-Proxima.commands.throwError("No exploits available, please scan a port first.")
+Proxima.utils.throw_cli_error("No exploits available, please scan a port first.")
 end if
 else if params[0]=="users" then
 if Proxima.exploit.targetUsers.len>0 then
 Proxima.exploit.displayUserInfo
 else
-Proxima.commands.throwError("No user information available, please execute an exploit first.")
+Proxima.utils.throw_cli_error("No user information available, please execute an exploit first.")
 end if
 else if params[0]=="shells" then
 if Proxima.exploit.targetShells.len>0 then
 Proxima.exploit.displayShellInfo
 else
-Proxima.commands.throwError("No open shells available, please execute an exploit first.")
+Proxima.utils.throw_cli_error("No open shells available, please execute an exploit first.")
 end if
 else
-Proxima.commands.throwError("Unknown listing type.",self.usage)
+Proxima.utils.throw_cli_error("Unknown listing type.",self.usage)
 end if
 end if
 end function
 Proxima.commands.execute={"name":"execute","description":"Executes the specified exploit.","usage":"execute <ID|all>","type":"both"}
 Proxima.commands.execute.exec=function(params)
 if params.len==0 then
-Proxima.commands.throwError("No exploit ID provided.",self.usage)
+Proxima.utils.throw_cli_error("No exploit ID provided.",self.usage)
 else
 if params[0]=="all" then
 Proxima.exploit.autoExecute
@@ -151,7 +133,7 @@ end function
 Proxima.commands.connect={"name":"connect","description":"Connects to the specified shell found from executed exploits.","usage":"connect <ID>","type":"both"}
 Proxima.commands.connect.exec=function(params)
 if params.len==0 then
-Proxima.commands.throwError("No shell ID provided.",self.usage)
+Proxima.utils.throw_cli_error("No shell ID provided.",self.usage)
 else
 Proxima.exploit.setTargetShell(params[0].to_int)
 Proxima.exploit.connectShell
@@ -160,7 +142,7 @@ end function
 Proxima.commands.decipher={"name":"decipher","description":"Deciphers password hashes from the user list found in executed exploits.","usage":"decipher <ID|all>","type":"both"}
 Proxima.commands.decipher.exec=function(params)
 if params.len==0 then
-Proxima.commands.throwError("No user ID provided.",self.usage)
+Proxima.utils.throw_cli_error("No user ID provided.",self.usage)
 else
 if params[0]=="all" then
 Proxima.exploit.decipherPasswords
@@ -172,8 +154,8 @@ end if
 end function
 Proxima.commands.upload={"name":"upload","description":"Uploads tools from the specified folder to the specified target directory.","usage":"upload","type":"remote"}
 Proxima.commands.upload.exec=function(params)
-if Proxima.commands.isLocal then
-Proxima.commands.throwError
+if Proxima.utils.is_local then
+Proxima.utils.throw_cli_error
 else
 Proxima.exploit.uploadTools
 end if
@@ -182,18 +164,15 @@ Proxima.commands.help={"name":"help","description":"Lists available commands.","
 Proxima.commands.help.exec=function(params)
 i=0
 for command in Proxima.commands
-if i!=0 then
-print(Proxima.utils.message.colorize("+------------------------------------+","#FFC466"))
-end if
-print(command)
+cmd=command.values[1]
 cmd_name=cmd.name
 cmd_description=cmd.description
 cmd_usage=cmd.usage
 print("<b>"+cmd_name+"</b>:")
-print(cmd_description+"\n")
-print("Usage: "+cmd_usage)
-if i==Proxima.commands.len-1 then
-print(Proxima.utils.message.colorize("+------------------------------------+","#FFC466"))
+print(cmd_description)
+print("<b>Usage:</b> "+cmd_usage)
+if i!=Proxima.commands.len-1 then
+print("+------------------------------------+")
 end if
 i=i+1
 end for
