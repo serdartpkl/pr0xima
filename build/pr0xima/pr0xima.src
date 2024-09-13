@@ -37,6 +37,15 @@ if self.globals.initMode!="network" then
 self.load_metaxploit
 end if
 self.load_crypto
+if self.globals.initMode=="remote" then
+self.globals.applicationName="pr0day"
+end if
+if self.globals.initMode=="local" then
+self.globals.applicationName="pr00t"
+end if
+if self.globals.initMode=="network" then
+self.globals.applicationName="pr0net"
+end if
 self.globals.cliMarker=self.utils.message.colorize("["+self.globals.activeUser+"]","#FFC466")+self.utils.message.colorize("@","#0091FF")+self.utils.message.colorize("> ","#08FF57")
 end function
 Proxima.start_cli=function()
@@ -68,7 +77,7 @@ end for
 if selected_command!=null then
 selected_command.exec(params)
 else
-self.commands.throwError
+self.utils.throw_cli_error
 end if
 end if
 end function

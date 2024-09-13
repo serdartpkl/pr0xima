@@ -6,4 +6,5 @@ Proxima.globals.metaxploit=null
 Proxima.globals.crypto=null
 Proxima.globals.myPC=null
 Proxima.globals.activeUser=active_user
+Proxima.globals.applicationName=""
 Proxima.globals.cliMarker=""
