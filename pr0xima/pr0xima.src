@@ -50,7 +50,7 @@ Proxima.initialize = function (initMode)
     if self.globals.initMode == "local" then self.globals.applicationName = "pr00t"
     if self.globals.initMode == "network" then self.globals.applicationName = "pr0net"
 
-    self.globals.cliMarker = self.utils.message.colorize("[" + self.globals.activeUser + "]", "#FFC466") + self.utils.message.colorize("@", "#0091FF") + self.utils.message.colorize("> ", "#08FF57")
+    self.globals.cliMarker = self.utils.message.colorize("[" + self.globals.activeUser + "]", "#FFC466") + self.utils.message.colorize("@" + self.globals.applicationName, "#0091FF") + self.utils.message.colorize("> ", "#08FF57")
 end function
 
 Proxima.start_cli = function ()
