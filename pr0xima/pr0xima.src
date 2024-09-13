@@ -46,6 +46,10 @@ Proxima.initialize = function (initMode)
     if self.globals.initMode != "network" then self.load_metaxploit()
     self.load_crypto()
 
+    if self.globals.initMode == "remote" then self.globals.applicationName = "pr0day"
+    if self.globals.initMode == "local" then self.globals.applicationName = "pr00t"
+    if self.globals.initMode == "network" then self.globals.applicationName = "pr0net"
+
     self.globals.cliMarker = self.utils.message.colorize("[" + self.globals.activeUser + "]", "#FFC466") + self.utils.message.colorize("@", "#0091FF") + self.utils.message.colorize("> ", "#08FF57")
 end function
 

@@ -10,5 +10,6 @@ Proxima.globals.crypto = null
 Proxima.globals.myPC = null
 Proxima.globals.activeUser = active_user
 
+Proxima.globals.applicationName = "pr0day"
 Proxima.globals.cliMarker = ""
 
