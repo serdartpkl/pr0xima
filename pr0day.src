@@ -18,6 +18,4 @@ prx.initialize("remote")
 
 print("<color="+HCOLOR+">+------------------------------------+</color>")
 
-if not prx.net.checkConnection() then exit(prx.utils.message.error("You are not connected to internet! Terminating script..."))
-
 prx.start_cli()
