@@ -33,10 +33,17 @@ end function
 Proxima.initialize=function(initMode)
 self.globals.initMode=initMode
 self.globals.myPC=get_shell.host_computer
-if self.globals.initMode!="network" then self.load_metaxploit
+if self.globals.initMode=="remote" then
+if not self.net.checkConnection then exit(self.utils.message.error("You are not connected to internet! Terminating program..."))
+self.globals.applicationName="pr0day"
+end if
+if self.utils.is_local then self.globals.applicationName="pr00t"
+if self.globals.initMode=="network" then
+if self.net.checkConnection then exit(self.utils.message.error("You are already connected to internet! Terminating program..."))
+self.globals.applicationName="pr0net"
+end if
+if self.utils.is_local or self.globals.initMode=="remote" then self.load_metaxploit
 self.load_crypto
-if self.globals.initMode=="remote" then self.globals.applicationName="pr0day"
-if self.globals.initMode=="local" then self.globals.applicationName="pr00t"
 self.globals.cliMarker=self.utils.message.colorize("["+self.globals.activeUser+"]","#FFC466")+self.utils.message.colorize("@"+self.globals.applicationName,"#FC8403")+self.utils.message.colorize("> ","#008DFF")
 end function
 Proxima.start_cli=function

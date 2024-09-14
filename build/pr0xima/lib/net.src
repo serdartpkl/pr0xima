@@ -57,3 +57,10 @@ connectionStatus=Proxima.globals.myPC.connect_wifi(self.interface,self.targetNet
 if not connectionStatus==1 then exit(Proxima.utils.message.error("Connection failed. Please try again later..."))
 exit(Proxima.utils.message.success("Connection successfull! You are <b>online</b>!"))
 end function
+Proxima.net.autoHack=function
+self.startMonitoring
+self.setAutoTarget
+self.startSniffing
+self.crackKey
+self.connectNetwork
+end function

@@ -6,10 +6,9 @@ prx = new Proxima
 V = prx.globals.version
 HCOLOR = "#FFC466"
 HEADER = ""
-HEADER=HEADER+"<color="+HCOLOR+">+====================================+</color>\n"
-HEADER=HEADER+"<color="+HCOLOR+">|          pr0day - v"+V+"           |</color>\n"
-HEADER=HEADER+"<color="+HCOLOR+">+====================================+</color>\n"
-HEADER=HEADER+"<color="+HCOLOR+">|   Automatic Port Scanner & Prober  |</color>\n"
+
+HEADER=HEADER+"<b><color="+HCOLOR+">pr0day - v"+V+"</color></b>\n"
+HEADER=HEADER+"<color="+HCOLOR+">Automatic Port Scanner & Prober</color>\n"
 HEADER=HEADER+"<color="+HCOLOR+">+------------------------------------+</color>"
 
 print(HEADER)

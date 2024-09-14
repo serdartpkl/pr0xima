@@ -6,10 +6,9 @@ prx = new Proxima
 V = prx.globals.version
 HCOLOR = "#FFC466"
 HEADER = ""
-HEADER=HEADER+"<color="+HCOLOR+">+====================================+</color>\n"
-HEADER=HEADER+"<color="+HCOLOR+">|          pr0net - v"+V+"           |</color>\n"
-HEADER=HEADER+"<color="+HCOLOR+">+====================================+</color>\n"
-HEADER=HEADER+"<color="+HCOLOR+">| Automatic Network Scanner & Prober |</color>\n"
+
+HEADER=HEADER+"<b><color="+HCOLOR+">pr00t - v"+V+"</color></b>\n"
+HEADER=HEADER+"<color="+HCOLOR+">Automatic Network Scanner & Prober</color>\n"
 HEADER=HEADER+"<color="+HCOLOR+">+------------------------------------+</color>"
 
 print(HEADER)
@@ -19,4 +18,3 @@ prx.initialize("network")
 print("<color="+HCOLOR+">+------------------------------------+</color>")
 
 prx.net.autoHack()
-
