@@ -23,9 +23,7 @@ max_lengths=[]
 for i in header_list
 max_len=i.len
 for row in content_list
-if row[header_list.indexOf(i)].len>max_len then
-max_len=row[header_list.indexOf(i)].len
-end if
+if row[header_list.indexOf(i)].len>max_len then max_len=row[header_list.indexOf(i)].len
 end for
 max_lengths.push(max_len)
 end for
@@ -63,11 +61,7 @@ break
 end if
 end for
 end for
-if hasFoundValue then
-return true
-else
-return false
-end if
+if hasFoundValue then return true else return false
 end function
 Proxima.utils.collect_files=function(parentDir)
 all_files=[]
@@ -88,7 +82,7 @@ end function
 scan_dir(parentDir)
 return all_files
 end function
-Proxima.utils.is_local=function()
+Proxima.utils.is_local=function
 if Proxima.globals.initMode=="local" then
 return true
 else
