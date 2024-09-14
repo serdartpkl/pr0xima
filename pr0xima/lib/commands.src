@@ -14,9 +14,9 @@ Proxima.commands.target.exec = function (params)
             Proxima.utils.throw_cli_error("No IP address provided for scan.", self.usage)
         else       
             Proxima.exploit.setTargetIP(params[0])
-            if not Proxima.exploit.checkTargetIP() then
-                Proxima.utils.throw_cli_error("Given IP address is not valid! Please try another one...")
-            else if not Proxima.exploit.checkPorts() then
+            if Proxima.exploit.checkPorts() == null then
+                Proxima.utils.throw_cli_error("Given IP address is not valid or does not exist! Please try another one...")
+            else if Proxima.exploit.checkPorts() == false then
                 Proxima.utils.throw_cli_error("No open ports found on given IP address!")
             else
                 Proxima.exploit.displayPortInfo()
