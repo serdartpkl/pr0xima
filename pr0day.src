@@ -1,3 +1,4 @@
+clear_screen
 import_code("pr0xima/pr0xima.src")
 
 prx = new Proxima
