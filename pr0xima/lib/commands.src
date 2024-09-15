@@ -215,7 +215,7 @@ end function
 
 Proxima.commands.corrupt = {
     "name": "corrupt",
-    "description": "Corrupts the remote or local computer and makes it unable to work.",
+    "description": "Corrupts and reboots the remote or local computer and makes it unable to work.",
     "usage": "corrupt",
     "type": "both"
 }
