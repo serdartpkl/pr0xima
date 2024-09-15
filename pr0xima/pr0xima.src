@@ -62,6 +62,7 @@ Proxima.initialize = function (initMode)
 end function
 
 Proxima.start_cli = function ()
+    clear_screen
     while true
         user_command = user_input(self.globals.cliMarker, false, false).trim
         self.handle_command(user_command)

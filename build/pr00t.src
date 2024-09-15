@@ -1,4 +1,3 @@
-clear_screen
 import_code("/home/pr0ximan0va/Scripts/pr0xima/env/init.src")
 import_code("/home/pr0ximan0va/Scripts/pr0xima/env/settings.src")
 import_code("/home/pr0ximan0va/Scripts/pr0xima/lib/utils.src")
@@ -10,10 +9,10 @@ prx=new Proxima
 V=prx.globals.version
 HCOLOR="#FFC466"
 HEADER=""
-HEADER=HEADER+"<b><color="+HCOLOR+">pr0day - v"+V+"</color></b>\n"
-HEADER=HEADER+"<color="+HCOLOR+">Automatic Port Scanner & Prober</color>\n"
+HEADER=HEADER+"<b><color="+HCOLOR+">pr00t - v"+V+"</color></b>\n"
+HEADER=HEADER+"<color="+HCOLOR+">Automatic Library Scanner & Prober</color>\n"
 HEADER=HEADER+"<color="+HCOLOR+">+------------------------------------+</color>"
 print(HEADER)
-prx.initialize("remote")
+prx.initialize("local")
 print("<color="+HCOLOR+">+------------------------------------+</color>")
 prx.start_cli
