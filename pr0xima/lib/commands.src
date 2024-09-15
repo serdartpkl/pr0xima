@@ -237,10 +237,10 @@ Proxima.commands.get.exec = function (params)
     if Proxima.utils.is_local() then
         Proxima.utils.throw_cli_error()
     else
-        if params.len < 2 then
+        if params.len == 0 then
             Proxima.utils.throw_cli_error("No remote file path provided.", self.usage)
         else
-            Proxima.exploit.getRemoteFile(params[0], params[1])
+            Proxima.exploit.getRemoteFile(params[0])
         end if
     end if
 end function
