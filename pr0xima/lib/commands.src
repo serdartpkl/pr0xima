@@ -170,18 +170,20 @@ Proxima.commands.connect = {
     "type": "both"
 }
 Proxima.commands.connect.exec = function (params)
-    if params.len == 0 then
-        Proxima.utils.throw_cli_error("No shell ID or connection type provided.", self.usage)
-    else
-        if params[0] == "ssh" then
-            Proxima.exploit.connectViaSSH()
-        else if params[1] == "ftp" then
-            Proxima.exploit.connectViaFTP()
+    if Proxima.utils.is_local() then
+        
+        if params.len == 0 then
+            Proxima.utils.throw_cli_error("No shell ID or connection type provided.", self.usage)
         else
-            Proxima.exploit.setTargetShell(params[0].to_int)
-            Proxima.exploit.connectShell()
+            if params[0] == "ssh" then
+                Proxima.exploit.connectViaSSH()
+            else if params[1] == "ftp" then
+                Proxima.exploit.connectViaFTP()
+            else
+                Proxima.exploit.setTargetShell(params[0].to_int)
+                Proxima.exploit.connectShell()
+            end if
         end if
-    end if
 end function
 
 Proxima.commands.decipher = {
