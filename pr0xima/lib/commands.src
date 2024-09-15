@@ -166,15 +166,21 @@ end function
 Proxima.commands.connect = {
     "name": "connect",
     "description": "Connects to the specified shell found from executed exploits.",
-    "usage": "connect <ID>",
+    "usage": "connect <ID|ssh|ftp>",
     "type": "both"
 }
 Proxima.commands.connect.exec = function (params)
     if params.len == 0 then
-        Proxima.utils.throw_cli_error("No shell ID provided.", self.usage)
+        Proxima.utils.throw_cli_error("No shell ID or connection type provided.", self.usage)
     else
-        Proxima.exploit.setTargetShell(params[0].to_int)
-        Proxima.exploit.connectShell()
+        if params[0] == "ssh" then
+            Proxima.exploit.connectViaSSH()
+        else if params[1] == "ftp" then
+            Proxima.exploit.connectViaFTP()
+        else
+            Proxima.exploit.setTargetShell(params[0].to_int)
+            Proxima.exploit.connectShell()
+        end if
     end if
 end function
 
@@ -204,6 +210,38 @@ Proxima.commands.upload.exec = function (params)
         Proxima.utils.throw_cli_error()
     else
         Proxima.exploit.uploadTools()
+    end if
+end function
+
+Proxima.commands.corrupt = {
+    "name": "corrupt",
+    "description": "Corrupts the remote or local computer and makes it unable to work.",
+    "usage": "corrupt",
+    "type": "both"
+}
+Proxima.commands.corrupt.exec = function (params)
+    if Proxima.utils.is_local() then
+        Proxima.utils.throw_cli_error()
+    else
+        Proxima.exploit.corruptComputer()
+    end if
+end function
+
+Proxima.commands.get = {
+    "name": "get",
+    "description": "Transfers remote file to 'Downloads' directory.",
+    "usage": "get <RemotePath>",
+    "type": "remote"
+}
+Proxima.commands.get.exec = function (params)
+    if Proxima.utils.is_local() then
+        Proxima.utils.throw_cli_error()
+    else
+        if params.len < 2 then
+            Proxima.utils.throw_cli_error("No remote file path provided.", self.usage)
+        else
+            Proxima.exploit.getRemoteFile(params[0], params[1])
+        end if
     end if
 end function
 

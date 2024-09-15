@@ -47,7 +47,6 @@ self.load_crypto
 self.globals.cliMarker=self.utils.message.colorize("["+self.globals.activeUser+"]","#FFC466")+self.utils.message.colorize("@"+self.globals.applicationName,"#FC8403")+self.utils.message.colorize("> ","#008DFF")
 end function
 Proxima.start_cli=function
-clear_screen
 while true
 user_command=user_input(self.globals.cliMarker,false,false).trim
 self.handle_command(user_command)

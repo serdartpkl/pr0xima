@@ -1,3 +1,4 @@
+clear_screen
 import_code("/home/pr0ximan0va/Scripts/pr0xima/env/init.src")
 import_code("/home/pr0ximan0va/Scripts/pr0xima/env/settings.src")
 import_code("/home/pr0ximan0va/Scripts/pr0xima/lib/utils.src")
