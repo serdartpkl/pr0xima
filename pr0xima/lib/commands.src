@@ -181,7 +181,7 @@ Proxima.commands.connect.exec = function (params)
                 Proxima.exploit.connectViaFTP()
             else
                 Proxima.exploit.setTargetShell(params[0].to_int)
-                Proxima.exploit.connectShell()
+                Proxima.exploit.launchShell()
             end if
         end if
 end function
