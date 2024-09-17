@@ -276,6 +276,16 @@ Proxima.commands.help.exec = function (params)
     end for
 end function
 
+Proxima.commands.cleanup = {
+    "name": "clear",
+    "description": "Clears the terminal screen.",
+    "usage": "clear",
+    "type": "both"
+}
+Proxima.commands.cleanup.exec = function (params)
+    clear_screen
+end function
+
 Proxima.commands.clear = {
     "name": "clear",
     "description": "Clears the terminal screen.",
