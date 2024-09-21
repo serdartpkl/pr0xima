@@ -373,3 +373,36 @@ Proxima.commands.libs = {
 Proxima.commands.libs.exec = function (params)
     exit(Proxima.utils.message.success("Goodbye! Have a nice day."))
 end function
+
+/*
+Proxima.commands.target
+Proxima.commands.scanport
+Proxima.commands.dump
+Proxima.commands.scanlib
+
+Proxima.commands.ports
+Proxima.commands.libraries
+Proxima.commands.exploits
+Proxima.commands.users
+Proxima.commands.banks
+Proxima.commands.mails
+Proxima.commands.shells
+
+Proxima.commands.execute
+Proxima.commands.decipher
+Proxima.commands.cshell
+Proxima.commands.ssh
+Proxima.commands.ftp
+
+Proxima.commands.get
+Proxima.commands.put
+Proxima.commands.delete
+
+Proxima.commands.run
+Proxima.commands.corrupt
+Proxima.commands.cleanup
+
+Proxima.commands.cls
+Proxima.commands.help
+Proxima.commands.exit
+*/
