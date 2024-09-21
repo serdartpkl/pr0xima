@@ -376,13 +376,229 @@ end function
 
 /*
 
-Proxima.commands.commandName = {
+Proxima.commands.target = {
     "name": "",
     "description": "",
     "usage": "",
     "type": 2
 }
-Proxima.commands.commandName.exec = function (params)
+Proxima.commands.target.exec = function (params)
+end function
+
+Proxima.commands.scanport = {
+    "name": "",
+    "description": "",
+    "usage": "",
+    "type": 2
+}
+Proxima.commands.scanport.exec = function (params)
+end function
+
+Proxima.commands.dump = {
+    "name": "",
+    "description": "",
+    "usage": "",
+    "type": 2
+}
+Proxima.commands.dump.exec = function (params)
+end function
+
+Proxima.commands.scanlib = {
+    "name": "",
+    "description": "",
+    "usage": "",
+    "type": 2
+}
+Proxima.commands.scanlib.exec = function (params)
+end function
+
+Proxima.commands.ports = {
+    "name": "",
+    "description": "",
+    "usage": "",
+    "type": 2
+}
+Proxima.commands.ports.exec = function (params)
+end function
+
+Proxima.commands.libraries = {
+    "name": "",
+    "description": "",
+    "usage": "",
+    "type": 2
+}
+Proxima.commands.libraries.exec = function (params)
+end function
+
+Proxima.commands.exploits = {
+    "name": "",
+    "description": "",
+    "usage": "",
+    "type": 2
+}
+Proxima.commands.exploits.exec = function (params)
+end function
+
+Proxima.commands.users = {
+    "name": "",
+    "description": "",
+    "usage": "",
+    "type": 2
+}
+Proxima.commands.users.exec = function (params)
+end function
+
+Proxima.commands.mails = {
+    "name": "",
+    "description": "",
+    "usage": "",
+    "type": 2
+}
+Proxima.commands.mails.exec = function (params)
+end function
+
+Proxima.commands.banks = {
+    "name": "",
+    "description": "",
+    "usage": "",
+    "type": 2
+}
+Proxima.commands.banks.exec = function (params)
+end function
+
+Proxima.commands.shells = {
+    "name": "",
+    "description": "",
+    "usage": "",
+    "type": 2
+}
+Proxima.commands.shells.exec = function (params)
+end function
+
+Proxima.commands.execute = {
+    "name": "",
+    "description": "",
+    "usage": "",
+    "type": 2
+}
+Proxima.commands.execute.exec = function (params)
+end function
+
+Proxima.commands.decipher = {
+    "name": "",
+    "description": "",
+    "usage": "",
+    "type": 2
+}
+Proxima.commands.decipher.exec = function (params)
+end function
+
+Proxima.commands.chsell = {
+    "name": "",
+    "description": "",
+    "usage": "",
+    "type": 2
+}
+Proxima.commands.chsell.exec = function (params)
+end function
+
+Proxima.commands.ssh = {
+    "name": "",
+    "description": "",
+    "usage": "",
+    "type": 2
+}
+Proxima.commands.ssh.exec = function (params)
+end function
+
+Proxima.commands.ftp = {
+    "name": "",
+    "description": "",
+    "usage": "",
+    "type": 2
+}
+Proxima.commands.ftp.exec = function (params)
+end function
+
+Proxima.commands.get = {
+    "name": "",
+    "description": "",
+    "usage": "",
+    "type": 2
+}
+Proxima.commands.get.exec = function (params)
+end function
+
+Proxima.commands.put = {
+    "name": "",
+    "description": "",
+    "usage": "",
+    "type": 2
+}
+Proxima.commands.put.exec = function (params)
+end function
+
+Proxima.commands.delete = {
+    "name": "",
+    "description": "",
+    "usage": "",
+    "type": 2
+}
+Proxima.commands.delete.exec = function (params)
+end function
+
+Proxima.commands.run = {
+    "name": "",
+    "description": "",
+    "usage": "",
+    "type": 2
+}
+Proxima.commands.run.exec = function (params)
+end function
+
+Proxima.commands.corrupt = {
+    "name": "",
+    "description": "",
+    "usage": "",
+    "type": 2
+}
+Proxima.commands.corrupt.exec = function (params)
+end function
+
+Proxima.commands.cleanup = {
+    "name": "",
+    "description": "",
+    "usage": "",
+    "type": 2
+}
+Proxima.commands.cleanup.exec = function (params)
+end function
+
+Proxima.commands.cls = {
+    "name": "",
+    "description": "",
+    "usage": "",
+    "type": 2
+}
+Proxima.commands.cls.exec = function (params)
+end function
+
+Proxima.commands.help = {
+    "name": "",
+    "description": "",
+    "usage": "",
+    "type": 2
+}
+Proxima.commands.help.exec = function (params)
+end function
+
+Proxima.commands.exit = {
+    "name": "",
+    "description": "",
+    "usage": "",
+    "type": 2
+}
+Proxima.commands.exit.exec = function (params)
 end function
 
 Proxima.commands.target
