@@ -351,7 +351,7 @@ Proxima.commands.whois = {
     "usage": "whois",
     "type": 1
 }
-Proxima.commands.whois.exec = function ()
+Proxima.commands.whois.exec = function (params)
     Proxima.utils.whois()
 end function
 

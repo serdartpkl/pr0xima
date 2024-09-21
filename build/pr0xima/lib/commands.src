@@ -206,7 +206,7 @@ Proxima.exploit.cleanUpLogs
 end function
 // ------------------------------------------------------------------------------------------------------------
 Proxima.commands.whois={"name":"whois","description":"whois command.","usage":"whois","type":1}
-Proxima.commands.whois.exec=function
+Proxima.commands.whois.exec=function(params)
 Proxima.utils.whois
 end function
 Proxima.commands.cls={"name":"cls","description":"Clears the terminal screen.","usage":"cls","type":2}
