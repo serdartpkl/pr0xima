@@ -1,19 +1,22 @@
 Proxima.settings = {}
 
-Proxima.settings.cryptoLocations = [
-    "/lib/crypto.so",
-    "/home/guest/crypto.so"
-]
-
-Proxima.settings.metaxploitLocations = [
-    "/lib/metaxploit.so",
-    "/home/guest/metaxploit.so"
-]
-
 Proxima.settings.uploadTo = "/home/guest"
 Proxima.settings.uploadFrom = home_dir + "/Upload"
 Proxima.settings.downloadTo = home_dir + "/Downloads"
 
+Proxima.settings.cryptoLocations = [
+    "/lib/crypto.so",
+    self.uploadTo + "/crypto.so"
+]
+
+Proxima.settings.metaxploitLocations = [
+    "/lib/metaxploit.so",
+    self.uploadTo + "/metaxploit.so"
+]
+
+Proxima.settings.rshellIP = "192.168.1.1"
+Proxima.settings.rshellPort = 1881
+Proxima.settings.rshellProcessName = "prx"
+
 Proxima.settings.payloadInjection = true
 Proxima.settings.injectionPassword = "123456"
-
