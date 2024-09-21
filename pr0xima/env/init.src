@@ -1,7 +1,7 @@
 Proxima = {}
 
 Proxima.globals = {}
-Proxima.globals.initMode = "remote"
+Proxima.globals.scanMode = 1
 Proxima.globals.version = "1.0.0"
 
 Proxima.globals.metaxploit = null
@@ -10,6 +10,6 @@ Proxima.globals.crypto = null
 Proxima.globals.myPC = null
 Proxima.globals.activeUser = active_user
 
-Proxima.globals.applicationName = ""
+Proxima.globals.applicationName = "pr0xima"
 Proxima.globals.cliMarker = ""
 
