@@ -100,3 +100,16 @@ else
 print(Proxima.utils.message.error("Unknown command! Type <b>help</b> to list available commands."))
 end if
 end function
+Proxima.utils.whois=function
+adminInfo=whois(Proxima.exploit.targetIP)
+infoLines=adminInfo.split(char(10))
+infoObject={}
+infoObject.domainName=infoLines[0].split(":")[1].trim
+infoObject.administrativeContact=infoLines[1].split(":")[1].trim
+infoObject.emailAddress=infoLines[2].split(":")[1].trim
+infoObject.phone=infoLines[3].split(":")[1].trim
+print("<b>Domain Name:</b> "+infoObject.domainName)
+print("<b>Administrative Contact:</b> "+infoObject.administrativeContact)
+print("<b>Email Address:</b> "+infoObject.emailAddress)
+print("<b>Phone Number:</b> "+infoObject.phone)
+end function
