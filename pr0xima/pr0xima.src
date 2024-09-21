@@ -82,7 +82,15 @@ Proxima.handleCommand = function (userCommand)
         end for
 
         if selectedCommand != null then
-            selectedCommand.exec(params)
+            if selectedCommand.type != 2 then
+                if self.scanMode == selectedCommand.type then
+                    selectedCommand.exec(params)
+                else
+                    self.utils.throwCLIError()
+                end if
+            else
+                selectedCommand.exec(params)
+            end if
         else
             self.utils.throwCLIError()
         end if

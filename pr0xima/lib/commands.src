@@ -4,7 +4,7 @@ Proxima.commands.target = {
     "name": "target",
     "description": "Sets the target IP address for scanning.",
     "usage": "target <IP>",
-    "type": "remote"
+    "type": 1
 }
 Proxima.commands.target.exec = function (params)
     if Proxima.utils.is_local() then
@@ -29,7 +29,7 @@ Proxima.commands.dump = {
     "name": "dump",
     "description": "Dumps all local libraries and their information.",
     "usage": "dump",
-    "type": "local"
+    "type": 0
 }
 Proxima.commands.dump.exec = function (params)
     if Proxima.utils.is_local() then
@@ -48,7 +48,7 @@ Proxima.commands.scanlib = {
     "name": "scanlib",
     "description": "Scans the specified library for exploits.",
     "usage": "scanlib <ID|all>",
-    "type": "local"
+    "type": 0
 }
 Proxima.commands.scanlib.exec = function (params)
     if params.len == 0 then
@@ -358,7 +358,7 @@ Proxima.commands.shells = {
     "name": "exit",
     "description": "Exits from the program.",
     "usage": "exit",
-    "type": "both"
+    "type": 2
 }
 Proxima.commands.shells.exec = function (params)
     exit(Proxima.utils.message.success("Goodbye! Have a nice day."))
@@ -368,7 +368,7 @@ Proxima.commands.libs = {
     "name": "exit",
     "description": "Exits from the program.",
     "usage": "exit",
-    "type": "both"
+    "type": 2
 }
 Proxima.commands.libs.exec = function (params)
     exit(Proxima.utils.message.success("Goodbye! Have a nice day."))
