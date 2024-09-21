@@ -3,7 +3,7 @@ import_code("pr0xima/pr0xima.src")
 
 prx = new Proxima
 
-print("pr0day - v" + prx.globals.version)
+print("<b>pr0day - v" + prx.globals.version + "</b>")
 print("Automatic Port Scanner & Prober")
 
 print("+------------------------------------+")
