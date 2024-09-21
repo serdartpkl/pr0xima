@@ -41,18 +41,18 @@ Proxima.loadCrypto = function ()
     end if
 end function
 
-Proxima.initialize = function (scanMode = 1)
+Proxima.setScanMode = function (scanMode)
     self.globals.scanMode = scanMode
+end function
 
+Proxima.initialize = function ()
     self.loadMetaxploit()
     self.loadCrypto()
-
     if self.globals.scanMode == 1 and not self.net.checkConnection() then exit(self.utils.message.error("You are not connected to internet! Terminating program..."))
-
-    self.globals.cliMarker = self.utils.message.colorize("[" + self.globals.activeUser + "]", "#FFC466") + self.utils.message.colorize("@" + self.globals.applicationName, "#FC8403") + self.utils.message.colorize("> ", "#008DFF")
 end function
 
 Proxima.startCLI = function ()
+    self.globals.cliMarker = self.utils.message.colorize("[" + self.globals.activeUser + "]", "#FFC466") + self.utils.message.colorize("@" + self.globals.applicationName, "#FC8403") + self.utils.message.colorize("> ", "#008DFF")
     while true
         userCommand = user_input(self.globals.cliMarker, false, false).trim
         self.handleCommand(userCommand)

@@ -7,7 +7,8 @@ print("pr00t - v" + prx.globals.version)
 print("Automatic Library Scanner & Prober")
 
 print("+------------------------------------+")
-prx.initialize(0)
+prx.setScanMode(0)
+prx.initialize()
 print("+------------------------------------+")
 
 prx.startCLI()
