@@ -224,13 +224,13 @@ end function
 
 // ------------------------------------------------------------------------------------------------------------
 
-Proxima.commands.chsell = {
+Proxima.commands.shell = {
     "name": "cshell",
     "description": "",
     "usage": "cshell <id>",
     "type": 2
 }
-Proxima.commands.chsell.exec = function (params)
+Proxima.commands.shell.exec = function (params)
     if params.len == 0 then
         Proxima.utils.throwCLIError("No shell ID provided.", self.usage)
     else
@@ -309,13 +309,13 @@ end function
 
 // ------------------------------------------------------------------------------------------------------------
 
-Proxima.commands.run = {
+Proxima.commands.launch = {
     "name": "run",
     "description": "",
     "usage": "run <path>",
     "type": 2
 }
-Proxima.commands.run.exec = function (params)
+Proxima.commands.launch.exec = function (params)
     if params.len == 0 then
         Proxima.utils.throwCLIError("No binary file path provided.", self.usage)
     else

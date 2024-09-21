@@ -5,4 +5,3 @@ Proxima.rshell.targetShells = []
 
 Proxima.rshell.updateTargetShells = function ()
 end function
-
