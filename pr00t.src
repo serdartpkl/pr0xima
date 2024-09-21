@@ -13,8 +13,8 @@ HEADER=HEADER+"<color="+HCOLOR+">+------------------------------------+</color>"
 
 print(HEADER)
 
-prx.initialize("local")
+prx.initialize(0)
 
 print("<color="+HCOLOR+">+------------------------------------+</color>")
 
-prx.start_cli()
+prx.startCLI()

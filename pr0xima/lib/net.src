@@ -16,7 +16,6 @@ Proxima.net.checkConnection = function ()
 end function
 
 Proxima.net.startMonitoring = function ()
-    if self.checkConnection() then exit(self.utils.message.error("You are already connected to internet! Terminating program..."))
     print(Proxima.utils.message.info("Starting " + "<b>" + self.interface + "</b>"))
     airmonResult = Proxima.globals.crypto.airmon("start", self.interface)
     if typeof(airmonResult) == "string" then exit(Proxima.utils.message.error("Can't start monitoring on <b>" + self.interface + "</b>"))
@@ -76,6 +75,7 @@ Proxima.net.connectNetwork = function ()
 end function
 
 Proxima.net.autoHack = function ()
+    if self.checkConnection() then exit(self.utils.message.error("You are already connected to internet! Terminating program..."))
     self.startMonitoring()
     self.setAutoTarget()
     self.startSniffing()

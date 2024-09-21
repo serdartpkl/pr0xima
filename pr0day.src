@@ -13,8 +13,8 @@ HEADER=HEADER+"<color="+HCOLOR+">+------------------------------------+</color>"
 
 print(HEADER)
 
-prx.initialize("remote")
+prx.initialize()
 
 print("<color="+HCOLOR+">+------------------------------------+</color>")
 
-prx.start_cli()
+prx.startCLI()

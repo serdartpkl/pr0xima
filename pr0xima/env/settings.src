@@ -14,9 +14,9 @@ Proxima.settings.metaxploitLocations = [
     self.uploadTo + "/metaxploit.so"
 ]
 
-Proxima.settings.rshellIP = "192.168.1.1"
+Proxima.settings.rshellIP = "1.9.2.3"
 Proxima.settings.rshellPort = 1881
 Proxima.settings.rshellProcessName = "prx"
 
 Proxima.settings.payloadInjection = true
-Proxima.settings.injectionPassword = "123456"
+Proxima.settings.injectionPassword = "30081922"

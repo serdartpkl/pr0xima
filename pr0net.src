@@ -13,7 +13,7 @@ HEADER=HEADER+"<color="+HCOLOR+">+------------------------------------+</color>"
 
 print(HEADER)
 
-prx.initialize("network")
+prx.loadCrypto()
 
 print("<color="+HCOLOR+">+------------------------------------+</color>")
 
