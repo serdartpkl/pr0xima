@@ -3,18 +3,11 @@ import_code("pr0xima/pr0xima.src")
 
 prx = new Proxima
 
-V = prx.globals.version
-HCOLOR = "#FFC466"
-HEADER = ""
+print("pr0net - v" + prx.globals.version)
+print("Automatic Network Scanner & Cracker")
 
-HEADER=HEADER+"<b><color="+HCOLOR+">pr0net - v"+V+"</color></b>\n"
-HEADER=HEADER+"<color="+HCOLOR+">Automatic Network Scanner & Prober</color>\n"
-HEADER=HEADER+"<color="+HCOLOR+">+------------------------------------+</color>"
-
-print(HEADER)
-
+print("+------------------------------------+")
 prx.loadCrypto()
-
-print("<color="+HCOLOR+">+------------------------------------+</color>")
+print("+------------------------------------+")
 
 prx.net.autoHack()

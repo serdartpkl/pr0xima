@@ -3,18 +3,11 @@ import_code("pr0xima/pr0xima.src")
 
 prx = new Proxima
 
-V = prx.globals.version
-HCOLOR = "#FFC466"
-HEADER = ""
+print("pr0day - v" + prx.globals.version)
+print("Automatic Port Scanner & Prober")
 
-HEADER=HEADER+"<b><color="+HCOLOR+">pr0day - v"+V+"</color></b>\n"
-HEADER=HEADER+"<color="+HCOLOR+">Automatic Port Scanner & Prober</color>\n"
-HEADER=HEADER+"<color="+HCOLOR+">+------------------------------------+</color>"
-
-print(HEADER)
-
+print("+------------------------------------+")
 prx.initialize()
-
-print("<color="+HCOLOR+">+------------------------------------+</color>")
+print("+------------------------------------+")
 
 prx.startCLI()
