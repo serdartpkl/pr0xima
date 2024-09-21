@@ -67,7 +67,7 @@ end if
 end for
 if selectedCommand!=null then
 if selectedCommand.type!=2 then
-if self.scanMode==selectedCommand.type then
+if self.globals.scanMode==selectedCommand.type then
 selectedCommand.exec(params)
 else
 self.utils.throwCLIError

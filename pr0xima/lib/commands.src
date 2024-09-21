@@ -113,7 +113,7 @@ Proxima.commands.exploits = {
     "type": 2
 }
 Proxima.commands.exploits.exec = function (params)
-    if Proxima.exploit.targetExpoloits.len > 0 then
+    if Proxima.exploit.targetExploits.len > 0 then
         Proxima.exploit.displayExploitInfo()
     else
         Proxima.utils.throwCLIError("No exploits available, please scan an IP address first.")

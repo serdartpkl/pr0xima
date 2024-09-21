@@ -1,0 +1,18 @@
+Proxima.shellcode = {}
+
+Proxima.shellcode.remote = ""
+Proxima.shellcode.rshell = ""
+Proxima.shellcode.local = ""
+Proxima.shellcode.ssh = ""
+Proxima.shellCode.ftp = ""
+
+Proxima.shellcode.remote = Proxima.shellcode.remote + ""
+Proxima.shellcode.remote = Proxima.shellcode.remote + ""
+Proxima.shellcode.remote = Proxima.shellcode.remote + ""
+Proxima.shellcode.remote = Proxima.shellcode.remote + ""
+Proxima.shellcode.remote = Proxima.shellcode.remote + ""
+Proxima.shellcode.remote = Proxima.shellcode.remote + ""
+Proxima.shellcode.remote = Proxima.shellcode.remote + ""
+Proxima.shellcode.remote = Proxima.shellcode.remote + ""
+Proxima.shellcode.remote = Proxima.shellcode.remote + ""
+Proxima.shellcode.remote = Proxima.shellcode.remote + ""
