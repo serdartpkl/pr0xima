@@ -76,26 +76,26 @@ Proxima.utils.hasValue = function (givenList, searchValue)
 end function
 
 Proxima.utils.collectFiles = function (parentDir)
-    all_files = []
+    allFiles = []
 
-    scan_dir = function (dir)
+    scanDir = function (dir)
         files = dir.get_files
         if files.len > 0 then
             for file in files
-                all_files.push(file.path)
+                allFiles.push(file.path)
             end for
         end if
         folders = dir.get_folders
         if folders.len > 0 then
             for folder in folders  
-                scan_dir(folder)
+                scanDir(folder)
             end for
         end if
     end function
 
-    scan_dir(parentDir)
+    scanDir(parentDir)
 
-    return all_files
+    return allFiles
 end function
 
 Proxima.utils.isLocal = function ()
