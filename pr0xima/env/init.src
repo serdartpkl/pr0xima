@@ -7,7 +7,8 @@ Proxima.globals.version = "1.0.0"
 Proxima.globals.metaxploit = null
 Proxima.globals.crypto = null
 
-Proxima.globals.myPC = get_shell.host_computer
+Proxima.globals.myShell = get_shell
+Proxima.globals.myPC = self.myShell.host_computer
 Proxima.globals.activeUser = active_user
 
 Proxima.globals.applicationName = "pr0xima"

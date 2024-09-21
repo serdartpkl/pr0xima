@@ -67,7 +67,7 @@ Proxima.commands.scanport = {
     "name": "scanport",
     "description": "Scans the specified port for exploits.",
     "usage": "scanport <ID|all>",
-    "type": "remote"
+    "type": 1
 }
 Proxima.commands.scanport.exec = function (params)
     if params.len == 0 then
