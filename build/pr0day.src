@@ -1,0 +1,17 @@
+clear_screen
+import_code("/home/pr0ximan0va/Scripts/pr0xima/env/init.src")
+import_code("/home/pr0ximan0va/Scripts/pr0xima/env/settings.src")
+import_code("/home/pr0ximan0va/Scripts/pr0xima/lib/commands.src")
+import_code("/home/pr0ximan0va/Scripts/pr0xima/lib/exploit.src")
+import_code("/home/pr0ximan0va/Scripts/pr0xima/lib/net.src")
+import_code("/home/pr0ximan0va/Scripts/pr0xima/lib/rshell.src")
+import_code("/home/pr0ximan0va/Scripts/pr0xima/lib/utils.src")
+import_code("/home/pr0ximan0va/Scripts/pr0xima/pr0xima.src")
+prx=new Proxima
+print("<b>pr0day - v"+prx.globals.version+"</b>")
+print("Automatic Port Scanner & Prober")
+print("+------------------------------------+")
+prx.setScanMode(1)
+prx.initialize
+print("+------------------------------------+")
+prx.startCLI

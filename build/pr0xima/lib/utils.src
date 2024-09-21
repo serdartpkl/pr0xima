@@ -18,7 +18,7 @@ end function
 Proxima.utils.message.success=function(txt)
 return self.colorize("[+] "+txt,"#08FF57")
 end function
-Proxima.utils.display_list=function(header_list,content_list)
+Proxima.utils.displayList=function(header_list,content_list)
 max_lengths=[]
 for i in header_list
 max_len=i.len
@@ -51,7 +51,7 @@ print(row_str)
 print(separator)
 end for
 end function
-Proxima.utils.has_value=function(givenList,searchValue)
+Proxima.utils.hasValue=function(givenList,searchValue)
 hasFoundValue=false
 for listItem in givenList
 for key in listItem.indexes
@@ -61,35 +61,35 @@ break
 end if
 end for
 end for
-if hasFoundValue then return true else return false
+return hasFoundValue
 end function
-Proxima.utils.collect_files=function(parentDir)
-all_files=[]
-scan_dir=function(dir)
+Proxima.utils.collectFiles=function(parentDir)
+allFiles=[]
+scanDir=function(dir)
 files=dir.get_files
 if files.len>0 then
 for file in files
-all_files.push(file.path)
+allFiles.push(file.path)
 end for
 end if
 folders=dir.get_folders
 if folders.len>0 then
 for folder in folders
-scan_dir(folder)
+scanDir(folder)
 end for
 end if
 end function
-scan_dir(parentDir)
-return all_files
+scanDir(parentDir)
+return allFiles
 end function
-Proxima.utils.is_local=function
-if Proxima.globals.initMode=="local" then
+Proxima.utils.isLocal=function
+if Proxima.globals.scanMode==0 then
 return true
-else
+else if Proxima.globals.scanMode==1 then
 return false
 end if
 end function
-Proxima.utils.throw_cli_error=function(cmdMessage=null,cmdUsage=null)
+Proxima.utils.throwCLIError=function(cmdMessage=null,cmdUsage=null)
 if cmdMessage!=null then
 if cmdUsage!=null then
 print(Proxima.utils.message.error(cmdMessage+" Usage: "+cmdUsage))

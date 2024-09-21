@@ -58,6 +58,7 @@ if not connectionStatus==1 then exit(Proxima.utils.message.error("Connection fai
 exit(Proxima.utils.message.success("Connection successfull! You are <b>online</b>!"))
 end function
 Proxima.net.autoHack=function
+if self.checkConnection then exit(self.utils.message.error("You are already connected to internet! Terminating program..."))
 self.startMonitoring
 self.setAutoTarget
 self.startSniffing

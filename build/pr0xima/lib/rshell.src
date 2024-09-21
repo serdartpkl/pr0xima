@@ -1,0 +1,11 @@
+Proxima.rhsell={}
+Proxima.rshell.targetShell=null
+Proxima.rshell.targetShells=[]
+Proxima.rshell.checkService=function
+end function
+Proxima.rshell.startService=function
+end function
+Proxima.rshell.stopService=function
+end function
+Proxima.rshell.checkRemoteShells=function
+end function

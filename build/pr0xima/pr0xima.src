@@ -1,4 +1,4 @@
-Proxima.load_metaxploit=function
+Proxima.loadMetaxploit=function
 isValidLocation=false
 for location in self.settings.metaxploitLocations
 includeMetaxploit=include_lib(location)
@@ -14,7 +14,7 @@ else
 exit(self.utils.message.error("Unable to find <b>metaxploit.so</b> library."))
 end if
 end function
-Proxima.load_crypto=function
+Proxima.loadCrypto=function
 isValidLocation=false
 for location in self.settings.cryptoLocations
 includeCrypto=include_lib(location)
@@ -30,52 +30,53 @@ else
 exit(self.utils.message.error("Unable to find <b>crypto.so</b> library."))
 end if
 end function
-Proxima.initialize=function(initMode)
-self.globals.initMode=initMode
-self.globals.myPC=get_shell.host_computer
-if self.globals.initMode=="remote" then
-if not self.net.checkConnection then exit(self.utils.message.error("You are not connected to internet! Terminating program..."))
-self.globals.applicationName="pr0day"
-end if
-if self.utils.is_local then self.globals.applicationName="pr00t"
-if self.globals.initMode=="network" then
-if self.net.checkConnection then exit(self.utils.message.error("You are already connected to internet! Terminating program..."))
-self.globals.applicationName="pr0net"
-end if
-if self.utils.is_local or self.globals.initMode=="remote" then self.load_metaxploit
-self.load_crypto
-self.globals.cliMarker=self.utils.message.colorize("["+self.globals.activeUser+"]","#FFC466")+self.utils.message.colorize("@"+self.globals.applicationName,"#FC8403")+self.utils.message.colorize("> ","#008DFF")
+Proxima.setScanMode=function(scanMode)
+self.globals.scanMode=scanMode
 end function
-Proxima.start_cli=function
+Proxima.initialize=function
+self.loadMetaxploit
+self.loadCrypto
+if self.globals.scanMode==1 and not self.net.checkConnection then exit(self.utils.message.error("You are not connected to internet! Terminating program..."))
+end function
+Proxima.startCLI=function
+self.globals.cliMarker=self.utils.message.colorize("["+self.globals.activeUser+"]","#FFC466")+self.utils.message.colorize("@"+self.globals.applicationName,"#FC8403")+self.utils.message.colorize("> ","#008DFF")
 while true
-user_command=user_input(self.globals.cliMarker,false,false).trim
-self.handle_command(user_command)
+userCommand=user_input(self.globals.cliMarker,false,false).trim
+self.handleCommand(userCommand)
 end while
 end function
-Proxima.handle_command=function(user_command)
-if user_command!=null and user_command!="" then
-parsed_command=null
+Proxima.handleCommand=function(userCommand)
+if userCommand!=null and userCommand!="" then
+parsedCommand=null
 params=null
-if typeof(split(user_command," "))=="list" then
-parts=split(user_command," ")
-parsed_command=parts[0]
+if typeof(split(userCommand," "))=="list" then
+parts=split(userCommand," ")
+parsedCommand=parts[0]
 parts.remove(0)
 params=parts
 else
-parsed_command=user_command
+parsedCommand=userCommand
 params=[]
 end if
-selected_command=null
+selectedCommand=null
 for command in self.commands
-if command.values[0]==parsed_command then
-selected_command=command.values[1]
+if command.values[0]==parsedCommand then
+selectedCommand=command.values[1]
 break
 end if
 end for
-if selected_command!=null then
-selected_command.exec(params)
+if selectedCommand!=null then
+if selectedCommand.type!=2 then
+if self.scanMode==selectedCommand.type then
+selectedCommand.exec(params)
 else
-self.utils.throw_cli_error
+self.utils.throwCLIError
+end if
+else
+selectedCommand.exec(params)
+end if
+else
+self.utils.throwCLIError
 end if
 end if
 end function
