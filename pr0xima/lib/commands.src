@@ -375,6 +375,16 @@ Proxima.commands.libs.exec = function (params)
 end function
 
 /*
+
+Proxima.commands.commandName = {
+    "name": "",
+    "description": "",
+    "usage": "",
+    "type": 2
+}
+Proxima.commands.commandName.exec = function (params)
+end function
+
 Proxima.commands.target
 Proxima.commands.scanport
 Proxima.commands.dump
@@ -405,4 +415,5 @@ Proxima.commands.cleanup
 Proxima.commands.cls
 Proxima.commands.help
 Proxima.commands.exit
+
 */
