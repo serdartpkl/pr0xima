@@ -14,7 +14,7 @@ Proxima.settings.metaxploitLocations = [
     self.uploadTo + "/metaxploit.so"
 ]
 
-Proxima.settings.rshellIP = "1.9.2.3"
+Proxima.settings.rshellIP = "29.10.19.23"
 Proxima.settings.rshellPort = 1881
 Proxima.settings.rshellProcessName = "prx"
 
