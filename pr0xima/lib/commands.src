@@ -316,6 +316,11 @@ Proxima.commands.run = {
     "type": 2
 }
 Proxima.commands.run.exec = function (params)
+    if params.len == 0 then
+        Proxima.utils.throwCLIError("No binary file path provided.", self.usage)
+    else
+        Proxima.exploit.runBinaryFile(params[0])
+    end if
 end function
 
 Proxima.commands.corrupt = {
