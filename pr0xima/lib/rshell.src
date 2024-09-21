@@ -1,1 +1,8 @@
 Proxima.rhsell = {}
+
+Proxima.rshell.targetShell = null
+Proxima.rshell.targetShells = []
+
+Proxima.rshell.updateTargetShells = function ()
+end function
+
