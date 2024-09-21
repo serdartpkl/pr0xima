@@ -1,4 +1,4 @@
-Proxima.rhsell={}
+Proxima.rshell={}
 Proxima.rshell.targetShell=null
 Proxima.rshell.targetShells=[]
 Proxima.rshell.checkService=function
