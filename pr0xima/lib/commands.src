@@ -1,63 +1,5 @@
 Proxima.commands = {}
 
-// Proxima.commands.list = {
-//     "name": "list",
-//     "description": "Formats the given list and its information into a beautified table.",
-//     "usage": "list <Type>",
-//     "type": "both"
-// }
-// Proxima.commands.list.exec = function (params)
-//     if params.len == 0 then
-//         Proxima.utils.throw_cli_error("No listing type provided.", self.usage)
-//     else
-//         if params[0] == "ports" then
-//             if Proxima.utils.is_local() then
-//                 Proxima.utils.throw_cli_error("Unknown listing type.", self.usage)
-//             else
-//                 if Proxima.exploit.targetPorts.len > 0 then
-//                     Proxima.exploit.displayPortInfo()
-//                 else
-//                     Proxima.utils.throw_cli_error("No ports available, please scan an IP address first.")
-//                 end if
-//             end if
-//         else if params[0] == "libs" then
-//             if Proxima.utils.is_local() then
-//                 if Proxima.exploit.targetLibraries.len > 0 then
-//                     Proxima.exploit.displayLibraryInfo()
-//                 else
-//                     Proxima.utils.throw_cli_error("No libraries available, please perform a scan first.")
-//                 end if
-//             else
-//                 Proxima.utils.throw_cli_error("Unknown listing type.", self.usage)
-//             end if
-//         else if params[0] == "vulns" then
-//             if Proxima.exploit.targetExploits.len > 0 then
-//                 Proxima.exploit.displayExploitInfo()
-//             else
-//                 Proxima.utils.throw_cli_error("No exploits available, please scan a port first.")
-//             end if
-//         else if params[0] == "users" then
-//             if Proxima.exploit.targetUsers.len > 0 then
-//                 Proxima.exploit.displayUserInfo()
-//             else
-//                 Proxima.utils.throw_cli_error("No user information available, please execute an exploit first.")
-//             end if
-//         else if params[0] == "shells" then
-//             if Proxima.exploit.targetShells.len > 0 then
-//                 Proxima.exploit.displayShellInfo()
-//             else
-//                 Proxima.utils.throw_cli_error("No open shells available, please execute an exploit first.")
-//             end if
-//         else if params[0] == "banks" then
-//             // ...
-//         else if params[1] == "mails" then
-//             // ...
-//         else
-//             Proxima.utils.throw_cli_error("Unknown listing type.", self.usage)
-//         end if
-//     end if
-// end function
-
 Proxima.commands.target = {
     "name": "target",
     "description": "Sets the target IP address for scanning.",
@@ -143,6 +85,11 @@ Proxima.commands.ports = {
     "type": 1
 }
 Proxima.commands.ports.exec = function (params)
+    if Proxima.exploit.targetPorts.len > 0 then
+        Proxima.exploit.displayPortInfo()
+    else
+        Proxima.utils.throwCLIError("No ports available, please scan an IP address first.")
+    end if
 end function
 
 Proxima.commands.libraries = {
@@ -152,6 +99,11 @@ Proxima.commands.libraries = {
     "type": 0
 }
 Proxima.commands.libraries.exec = function (params)
+    if Proxima.exploit.targetLibraries.len > 0 then
+        Proxima.exploit.displayLibraryInfo()
+    else
+        Proxima.utils.throwCLIError("No libraries available, please dump local libraries first.")
+    end if
 end function
 
 Proxima.commands.exploits = {
@@ -161,6 +113,11 @@ Proxima.commands.exploits = {
     "type": 2
 }
 Proxima.commands.exploits.exec = function (params)
+    if Proxima.exploit.targetExpoloits.len > 0 then
+        Proxima.exploit.displayExploitInfo()
+    else
+        Proxima.utils.throwCLIError("No exploits available, please scan an IP address first.")
+    end if
 end function
 
 Proxima.commands.users = {
@@ -170,6 +127,11 @@ Proxima.commands.users = {
     "type": 2
 }
 Proxima.commands.users.exec = function (params)
+    if Proxima.exploit.targetUsers.len > 0 then
+        Proxima.exploit.displayUserInfo()
+    else
+        Proxima.utils.throwCLIError("No users found, please execute an exploit first.")
+    end if
 end function
 
 Proxima.commands.mails = {
@@ -179,6 +141,11 @@ Proxima.commands.mails = {
     "type": 2
 }
 Proxima.commands.mails.exec = function (params)
+    if Proxima.exploit.targetMails.len > 0 then
+        Proxima.exploit.displayMailInfo()
+    else
+        Proxima.utils.throwCLIError("No mail information available, please execute an exploit first.")
+    end if
 end function
 
 Proxima.commands.banks = {
@@ -188,6 +155,11 @@ Proxima.commands.banks = {
     "type": 2
 }
 Proxima.commands.banks.exec = function (params)
+    if Proxima.exploit.targetBanks.len > 0 then
+        Proxima.exploit.displayBankInfo()
+    else
+        Proxima.utils.throwCLIError("No bank information available, please execute an exploit first.")
+    end if
 end function
 
 Proxima.commands.shells = {
@@ -197,6 +169,11 @@ Proxima.commands.shells = {
     "type": 2
 }
 Proxima.commands.shells.exec = function (params)
+    if Proxima.exploit.targetShells.len > 0 then
+        Proxima.exploit.displayShellInfo()
+    else
+        Proxima.utils.throwCLIError("No open shells available, please execute an exploit first.")
+    end if
 end function
 
 // ------------------------------------------------------------------------------------------------------------
@@ -209,7 +186,7 @@ Proxima.commands.execute = {
 }
 Proxima.commands.execute.exec = function (params)
     if params.len == 0 then
-        Proxima.utils.throw_cli_error("No exploit ID provided.", self.usage)
+        Proxima.utils.throwCLIError("No exploit ID provided.", self.usage)
     else
         if params[0] == "all" then
             Proxima.exploit.autoExecute()
@@ -240,7 +217,7 @@ Proxima.commands.decipher.exec = function (params)
             Proxima.exploit.setTargetBank(params[1].to_int)
             Proxima.exploit.decipherBankPassword()
         else
-            ...
+            Proxima.utils.throwCLIError("Unknown list type.", self.usage)
         end if
     end if
 end function
@@ -255,7 +232,7 @@ Proxima.commands.chsell = {
 }
 Proxima.commands.chsell.exec = function (params)
     if params.len == 0 then
-        Proxima.utils.throw_cli_error("No shell ID provided.", self.usage)
+        Proxima.utils.throwCLIError("No shell ID provided.", self.usage)
     else
         Proxima.exploit.setTargetShell(params[0].to_int)
         Proxima.exploit.launchShell()
@@ -269,6 +246,7 @@ Proxima.commands.ssh = {
     "type": 1
 }
 Proxima.commands.ssh.exec = function (params)
+    Proxima.exploit.connectViaSSH()
 end function
 
 Proxima.commands.ftp = {
@@ -278,6 +256,7 @@ Proxima.commands.ftp = {
     "type": 1
 }
 Proxima.commands.ftp.exec = function (params)
+    Proxima.exploit.connectViaFTP()
 end function
 
 // ------------------------------------------------------------------------------------------------------------
@@ -318,7 +297,7 @@ Proxima.commands.delete = {
 }
 Proxima.commands.delete.exec = function (params)
     if params.len == 0 then
-        Proxima.utils.throwCLIError("No remote file path provided.", self.usage)
+        Proxima.utils.throwCLIError("No file path provided.", self.usage)
     else
         Proxima.exploit.deleteFile(params[0])
     end if
