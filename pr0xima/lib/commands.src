@@ -286,9 +286,9 @@ Proxima.commands.put.exec = function (params)
         Proxima.utils.throwCLIError("No local file path provided.", self.usage)
     else
         if params[0] == "tools" then
-            Proxima.exploit.uploadTools()
+            Proxima.exploit.putTools()
         else
-            Proxima.exploit.uploadFile(params[0])
+            Proxima.exploit.putFile(params[0])
         end if
     end if
 end function
