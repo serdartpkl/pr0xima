@@ -2,10 +2,8 @@ Proxima.mail = {}
 
 Proxima.mail.templates = {}
 
-Proxima.mail.templates.administrativeActions = null
 Proxima.mail.templates.loginIssues = null
 Proxima.mail.templates.adminOnline = null
-Proxima.mail.templates.onlineUser = null
 
 Proxima.mail.templates.values = {}
 Proxima.mail.templates.values.companyName = null
@@ -13,3 +11,16 @@ Proxima.mail.templates.values.userName = null
 Proxima.mail.templates.values.adminMail = null
 Proxima.mail.templates.values.adminName = null
 
+Proxima.mail.templates.adminOnline = "Hello " + self.values.adminName + "." + char(10)
+Proxima.mail.templates.adminOnline = Proxima.mail.templates.adminOnline + "I'm " + self.values.userName + ", I work with you on " + self.values.companyName + "." + char(10)
+Proxima.mail.templates.adminOnline = Proxima.mail.templates.adminOnline + char(10)
+Proxima.mail.templates.adminOnline = Proxima.mail.templates.adminOnline + "I have to finish some pending tasks remotely, but when I enter the credentials of my account, the system alerts me that someone has tried to enter into my account in an unauthorized way." + char(10)
+Proxima.mail.templates.adminOnline = Proxima.mail.templates.adminOnline + char(10)
+Proxima.mail.templates.adminOnline = Proxima.mail.templates.adminOnline + "I am worried about possible theft of data, so as you are the administrator of the system I will let you know in case you have to check something." + char(10)
+Proxima.mail.templates.adminOnline = Proxima.mail.templates.adminOnline + "Thanks for your time."
+
+Proxima.mail.templates.loginIssues = "Hello, I'm " + self.values.userName + ". I don't know what happens today that I can't enter into my workstation." + char(10)
+Proxima.mail.templates.loginIssues = Proxima.mail.templates.loginIssues + char(10)
+Proxima.mail.templates.loginIssues = Proxima.mail.templates.loginIssues + "I get the " + char(34) + "wrong password" + char(34) + " error all the time. I'm sure that I'm entering my password correctly. What can I do?" + char(10)
+Proxima.mail.templates.loginIssues = Proxima.mail.templates.loginIssues + char(10)
+Proxima.mail.templates.loginIssues = Proxima.mail.templates.loginIssues + "Thank you."
