@@ -275,7 +275,7 @@ Proxima.commands.get = {
     "name": "get",
     "description": "",
     "usage": "get <path>",
-    "type": 2
+    "type": 1
 }
 Proxima.commands.get.exec = function (params)
     if params.len == 0 then
@@ -289,7 +289,7 @@ Proxima.commands.put = {
     "name": "put",
     "description": "",
     "usage": "put <path>",
-    "type": 2
+    "type": 1
 }
 Proxima.commands.put.exec = function (params)
     if params.len == 0 then

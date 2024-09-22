@@ -146,6 +146,8 @@ Proxima.exploit.decipherBankPassword
 else
 Proxima.utils.throwCLIError("Unknown list type.",self.usage)
 end if
+else if params.len>2 then
+Proxima.utils.throwCLIError("Too many arguements.",self.usage)
 end if
 end function
 // ------------------------------------------------------------------------------------------------------------
@@ -160,11 +162,11 @@ end if
 end function
 Proxima.commands.ssh={"name":"ssh","description":"","usage":"ssh","type":1}
 Proxima.commands.ssh.exec=function(params)
-Proxima.exploit.connectViaSSH
+Proxima.exploit.tunnelViaSSH
 end function
 Proxima.commands.ftp={"name":"ftp","description":"","usage":"ftp","type":1}
 Proxima.commands.ftp.exec=function(params)
-Proxima.exploit.connectViaFTP
+Proxima.exploit.tunnelViaFTP
 end function
 // ------------------------------------------------------------------------------------------------------------
 Proxima.commands.get={"name":"get","description":"","usage":"get <path>","type":2}
