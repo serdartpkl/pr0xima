@@ -5,7 +5,6 @@ import_code("/home/pr0ximan0va/Scripts/pr0xima/lib/commands.src")
 import_code("/home/pr0ximan0va/Scripts/pr0xima/lib/exploit.src")
 import_code("/home/pr0ximan0va/Scripts/pr0xima/lib/net.src")
 import_code("/home/pr0ximan0va/Scripts/pr0xima/lib/rshell.src")
-import_code("/home/pr0ximan0va/Scripts/pr0xima/lib/shellcode.src")
 import_code("/home/pr0ximan0va/Scripts/pr0xima/lib/utils.src")
 import_code("/home/pr0ximan0va/Scripts/pr0xima/pr0xima.src")
 prx=new Proxima
