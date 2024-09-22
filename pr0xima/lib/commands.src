@@ -249,24 +249,14 @@ Proxima.commands.shell.exec = function (params)
     end if
 end function
 
-Proxima.commands.ssh = {
-    "name": "ssh",
+Proxima.commands.tunnel = {
+    "name": "tunnel",
     "description": "",
-    "usage": "ssh",
+    "usage": "tunnel",
     "type": 1
 }
-Proxima.commands.ssh.exec = function (params)
-    Proxima.exploit.tunnelViaSSH()
-end function
-
-Proxima.commands.ftp = {
-    "name": "ftp",
-    "description": "",
-    "usage": "ftp",
-    "type": 1
-}
-Proxima.commands.ftp.exec = function (params)
-    Proxima.exploit.tunnelViaFTP()
+Proxima.commands.tunnel.exec = function (params)
+    Proxima.exploit.tunnelConnection()
 end function
 
 // ------------------------------------------------------------------------------------------------------------
