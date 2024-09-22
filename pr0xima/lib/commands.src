@@ -256,7 +256,7 @@ Proxima.commands.ssh = {
     "type": 1
 }
 Proxima.commands.ssh.exec = function (params)
-    Proxima.exploit.connectViaSSH()
+    Proxima.exploit.tunnelViaSSH()
 end function
 
 Proxima.commands.ftp = {
@@ -266,7 +266,7 @@ Proxima.commands.ftp = {
     "type": 1
 }
 Proxima.commands.ftp.exec = function (params)
-    Proxima.exploit.connectViaFTP()
+    Proxima.exploit.tunnelViaFTP()
 end function
 
 // ------------------------------------------------------------------------------------------------------------
