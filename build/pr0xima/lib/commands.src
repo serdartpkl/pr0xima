@@ -16,6 +16,7 @@ end if
 end function
 Proxima.commands.scanport={"name":"scanport","description":"Scans the specified port/ports for exploits.","usage":"scanport <id>","type":1}
 Proxima.commands.scanport.exec=function(params)
+if Proxima.exploit.targetPorts.len>0 then
 if params.len==0 then
 Proxima.utils.throwCLIError("No port ID provided.",self.usage)
 else
@@ -25,6 +26,9 @@ else
 Proxima.exploit.setTargetPort(params[0].to_int)
 Proxima.exploit.scanPort
 end if
+end if
+else
+Proxima.utils.throwCLIError("No ports found to scan, please set a target IP address first.")
 end if
 end function
 // ------------------------------------------------------------------------------------------------------------
@@ -39,6 +43,7 @@ end if
 end function
 Proxima.commands.scanlib={"name":"scanlib","description":"Scans the specified library/libraries for exploits.","usage":"scanlib <id>","type":0}
 Proxima.commands.scanlib.exec=function(params)
+if Proxima.exploit.targetLibraries.len>0 then
 if params.len==0 then
 Proxima.utils.throwCLIError("No library ID provided.",self.usage)
 else
@@ -48,6 +53,9 @@ else
 Proxima.exploit.setTargetLibrary(params[0].to_int)
 Proxima.exploit.scanLibrary
 end if
+end if
+else
+Proxima.utils.throwCLIError("No libraries found to scan, please dump library list first.")
 end if
 end function
 // ------------------------------------------------------------------------------------------------------------
