@@ -7,5 +7,7 @@ Proxima.rshell.startService=function
 end function
 Proxima.rshell.stopService=function
 end function
-Proxima.rshell.checkRemoteShells=function
+Proxima.rshell.checkReverseShells=function
+end function
+Proxima.rshell.updateTargetShells=function
 end function

@@ -160,16 +160,12 @@ Proxima.exploit.setTargetShell(params[0].to_int)
 Proxima.exploit.launchShell
 end if
 end function
-Proxima.commands.ssh={"name":"ssh","description":"","usage":"ssh","type":1}
-Proxima.commands.ssh.exec=function(params)
-Proxima.exploit.tunnelViaSSH
-end function
-Proxima.commands.ftp={"name":"ftp","description":"","usage":"ftp","type":1}
-Proxima.commands.ftp.exec=function(params)
-Proxima.exploit.tunnelViaFTP
+Proxima.commands.tunnel={"name":"tunnel","description":"","usage":"tunnel","type":1}
+Proxima.commands.tunnel.exec=function(params)
+Proxima.exploit.tunnelConnection
 end function
 // ------------------------------------------------------------------------------------------------------------
-Proxima.commands.get={"name":"get","description":"","usage":"get <path>","type":2}
+Proxima.commands.get={"name":"get","description":"","usage":"get <path>","type":1}
 Proxima.commands.get.exec=function(params)
 if params.len==0 then
 Proxima.utils.throwCLIError("No remote file path provided.",self.usage)
@@ -177,7 +173,7 @@ else
 Proxima.exploit.getFile(params[0])
 end if
 end function
-Proxima.commands.put={"name":"put","description":"","usage":"put <path>","type":2}
+Proxima.commands.put={"name":"put","description":"","usage":"put <path>","type":1}
 Proxima.commands.put.exec=function(params)
 if params.len==0 then
 Proxima.utils.throwCLIError("No local file path provided.",self.usage)
