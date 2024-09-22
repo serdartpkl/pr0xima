@@ -1,0 +1,15 @@
+Proxima.mail = {}
+
+Proxima.mail.templates = {}
+
+Proxima.mail.templates.administrativeActions = null
+Proxima.mail.templates.loginIssues = null
+Proxima.mail.templates.adminOnline = null
+Proxima.mail.templates.onlineUser = null
+
+Proxima.mail.templates.values = {}
+Proxima.mail.templates.values.companyName = null
+Proxima.mail.templates.values.userName = null
+Proxima.mail.templates.values.adminMail = null
+Proxima.mail.templates.values.adminName = null
+
