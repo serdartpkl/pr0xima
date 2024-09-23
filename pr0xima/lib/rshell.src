@@ -21,10 +21,25 @@ Proxima.rshell.loadLibRshell = function ()
 end function
 
 Proxima.rshell.installLibRshell = function ()
-
+    installResult = Proxima.globals.librshell.install_service
+    if installResult == 1 then
+        print "Successfully installed service"
+        startServiceResult = Proxima.globals.librshell.start_service
+        if startServiceResult == 1 then
+            print "Successfully started service"
+        else
+            print "Starting service failed: " + startServiceResult
+        end if
+    else
+        print "Service installation failed: " + installResult
+    end if
 end function
 
 Proxima.rshell.checkReverseShells = function ()
+    recievedShells = rshell_server(Proxima.globals.librshell)
+    for recievedShell in recievedShells
+        
+    end for
 end function
 
 Proxima.rshell.updateTargetShells = function ()
