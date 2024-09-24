@@ -41,13 +41,15 @@ Proxima.rshell.checkReverseShells = function ()
     self.rshellID = 1
     self.targetRShells = []
     recievedShells = rshell_server(Proxima.globals.librshell)
-    for recievedShell in recievedShells
-        shellMap = {}
-        shellMap.id = self.rshellID
-        shellMap.owner = Proxima.exploit.acquireUser(recievedShell.host_computer)
-        shellMap.public_ip = recievedShell.host_computer.public_ip
-        shellMap.local_ip = recievedShell.host_computer.local_ip
-        self.targetRShells.push(shellMap)
-        self.rshellID = self.rshellID + 1
-    end for
+    if recievedShells.len > 0 then
+        for recievedShell in recievedShells
+            shellMap = {}
+            shellMap.id = self.rshellID
+            shellMap.owner = Proxima.exploit.acquireUser(recievedShell.host_computer)
+            shellMap.public_ip = recievedShell.host_computer.public_ip
+            shellMap.local_ip = recievedShell.host_computer.local_ip
+            self.targetRShells.push(shellMap)
+            self.rshellID = self.rshellID + 1
+        end for
+    end if
 end function
