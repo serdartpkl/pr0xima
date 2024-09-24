@@ -23,12 +23,22 @@ max_lengths=[]
 for i in header_list
 max_len=i.len
 for row in content_list
+if typeof(row)=="list" then
+if row[0][header_list.indexOf(i)].len>max_len then max_len=row[0][header_list.indexOf(i)].len
+else
 if row[header_list.indexOf(i)].len>max_len then max_len=row[header_list.indexOf(i)].len
+end if
 end for
 max_lengths.push(max_len)
 end for
 pad_right=function(str,length)
+padding=null
+if typeof(str)=="list" then
+padding=" "*(length-str[0].len)
+str=Proxima.utils.message.colorize(str[0],str[1])
+else
 padding=" "*(length-str.len)
+end if
 return str+padding
 end function
 separator="+"
@@ -45,7 +55,11 @@ for row in content_list
 row_str="|"
 for i in header_list
 idx=header_list.indexOf(i)
+if typeof(row)=="list" then
+row_str=row_str+" "+pad_right([row[0][idx],row[0][idx]],max_lengths[idx])+" |"
+else
 row_str=row_str+" "+pad_right(row[idx],max_lengths[idx])+" |"
+end if
 end for
 print(row_str)
 print(separator)
