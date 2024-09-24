@@ -36,7 +36,14 @@ Proxima.utils.displayList = function (header_list, content_list)
     end for
 
     pad_right = function(str, length)
-        padding = " " * (length - str.len)
+        padding = null
+        if typeof(str) == "list" then
+            padding = " " * (length - str[0].len)
+            str = self.message.colorize(str[0], str[1])
+        else
+            padding = " " * (length - str.len)
+        end if
+        
         return str + padding
     end function
 
