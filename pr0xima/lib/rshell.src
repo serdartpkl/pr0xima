@@ -1,7 +1,9 @@
 Proxima.rshell = {}
 
-Proxima.rshell.targetShell = null
-Proxima.rshell.targetShells = []
+Proxima.rshell.targetRShell = null
+Proxima.rshell.targetRShells = []
+
+Proxima.rshell.rshellID = 1
 
 Proxima.rshell.loadLibRshell = function ()
     isValidLocation = false
@@ -23,10 +25,10 @@ end function
 Proxima.rshell.installLibRshell = function ()
     installResult = Proxima.globals.librshell.install_service
     if installResult == 1 then
-        print "Successfully installed service"
+        print (Proxima.utils.message.success("Successfully installed service..."))
         startServiceResult = Proxima.globals.librshell.start_service
         if startServiceResult == 1 then
-            print "Successfully started service"
+            print "Started service successfuly!"
         else
             print "Starting service failed: " + startServiceResult
         end if
@@ -36,11 +38,16 @@ Proxima.rshell.installLibRshell = function ()
 end function
 
 Proxima.rshell.checkReverseShells = function ()
+    self.rshellID = 1
+    self.targetRShells = []
     recievedShells = rshell_server(Proxima.globals.librshell)
     for recievedShell in recievedShells
-        
+        shellMap = {}
+        shellMap.id = self.rshellID
+        shellMap.owner = Proxima.exploit.acquireUser(recievedShell.host_computer)
+        shellMap.public_ip = recievedShell.host_computer.public_ip
+        shellMap.local_ip = recievedShell.host_computer.local_ip
+        self.targetRShells.push(shellMap)
+        self.rshellID = self.rshellID + 1
     end for
-end function
-
-Proxima.rshell.updateTargetShells = function ()
 end function
