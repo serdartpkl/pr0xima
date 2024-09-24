@@ -25,15 +25,15 @@ end function
 Proxima.rshell.installLibRshell = function ()
     installResult = Proxima.globals.librshell.install_service
     if installResult == 1 then
-        print (Proxima.utils.message.success("Successfully installed service..."))
+        print(Proxima.utils.message.success("Successfully installed service..."))
         startServiceResult = Proxima.globals.librshell.start_service
         if startServiceResult == 1 then
-            print "Started service successfuly!"
+            print(Proxima.utils.message.success("Started service successfuly!"))
         else
-            print "Starting service failed: " + startServiceResult
+            print(Proxima.utils.message.error("Starting service failed: " + startServiceResult))
         end if
     else
-        print "Service installation failed: " + installResult
+        print(Proxima.utils.message.error("Service installation failed: " + installResult))
     end if
 end function
 
