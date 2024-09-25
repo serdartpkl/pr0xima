@@ -5,6 +5,7 @@ import_code("lib/commands.src")
 import_code("lib/exploit.src")
 import_code("lib/net.src")
 import_code("lib/rshell.src")
+import_code("lib/screen.src")
 import_code("lib/utils.src")
 
 Proxima.loadMetaxploit = function ()
@@ -18,7 +19,7 @@ Proxima.loadMetaxploit = function ()
         end if
     end for
     if isValidLocation then
-        print(self.utils.message.success("<b>metaxploit.so</b> is loaded."))
+        print(Proxima.screen.addOutputEntry(self.utils.message.success("<b>metaxploit.so</b> is loaded.")))
     else
         exit(self.utils.message.error("Unable to find <b>metaxploit.so</b> library."))
     end if
@@ -35,7 +36,7 @@ Proxima.loadCrypto = function ()
         end if
     end for
     if isValidLocation then
-        print(self.utils.message.success("<b>crypto.so</b> is loaded."))
+        print(Proxima.screen.addOutputEntry(self.utils.message.success("<b>crypto.so</b> is loaded.")))
     else
         exit(self.utils.message.error("Unable to find <b>crypto.so</b> library."))
     end if
@@ -61,6 +62,7 @@ Proxima.startCLI = function ()
     self.globals.cliMarker = self.utils.message.colorize("[" + cliTitle + "]", "#FFC466") + self.utils.message.colorize("@" + self.globals.applicationName, "#FC8403") + self.utils.message.colorize("> ", "#008DFF")
     while true
         userCommand = user_input(self.globals.cliMarker, false, false).trim
+        self.screen.addInputEntry(userCommand)
         self.handleCommand(userCommand)
     end while
 end function

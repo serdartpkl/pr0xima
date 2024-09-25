@@ -16,7 +16,7 @@ Proxima.net.checkConnection = function ()
 end function
 
 Proxima.net.startMonitoring = function ()
-    print(Proxima.utils.message.info("Starting " + "<b>" + self.interface + "</b>"))
+    print(Proxima.screen.addOutputEntry(Proxima.utils.message.info("Starting " + "<b>" + self.interface + "</b>")))
     airmonResult = Proxima.globals.crypto.airmon("start", self.interface)
     if typeof(airmonResult) == "string" then exit(Proxima.utils.message.error("Can't start monitoring on <b>" + self.interface + "</b>"))
 end function
@@ -39,8 +39,8 @@ end function
 Proxima.net.startSniffing = function ()
     requiredACKs = ceil(self.maxACKRate / self.targetNetwork.strength)
 
-    print(Proxima.utils.message.progress("Sniffing ACKs... (approx. " + requiredACKs + ")"))
-    print("+------------------------------------+")
+    print(Proxima.screen.addOutputEntry(Proxima.utils.message.progress("Sniffing ACKs... (approx. " + requiredACKs + ")")))
+    print(Proxima.screen.addOutputEntry("+------------------------------------+"))
 
     getACKs = Proxima.globals.crypto.aireplay(self.targetNetwork.bssid, self.targetNetwork.essid, requiredACKs)
     if typeof(getACKs) == "string" then exit(Proxima.utils.message.error(getACKs))
@@ -48,8 +48,8 @@ Proxima.net.startSniffing = function ()
     airmonResult = Proxima.globals.crypto.airmon("stop", self.interface)
     if typeof(airmonResult) == "string" then exit(Proxima.utils.message.error("Unable to stop monitoring on <b>" + self.interface + "</b>"))
 
-    print(Proxima.utils.message.info("Monitoring stopped"))
-    print("+------------------------------------+")
+    print(Proxima.screen.addOutputEntry(Proxima.utils.message.info("Monitoring stopped")))
+    print(Proxima.screen.addOutputEntry("+------------------------------------+"))
 end function
 
 Proxima.net.crackKey = function ()
@@ -62,13 +62,13 @@ Proxima.net.crackKey = function ()
     if capFile then
         self.networkKey = Proxima.globals.crypto.aircrack(capFile.path)
         if self.networkKey == null then exit(Proxima.utils.message.error("Could not crack key. Please try again later..."))
-        print(Proxima.utils.message.success("Network key cracked! [<b>" + self.networkKey + "</b>]"))
+        print(Proxima.screen.addOutputEntry(Proxima.utils.message.success("Network key cracked! [<b>" + self.networkKey + "</b>]")))
         capFile.delete
     end if
 end function
 
 Proxima.net.connectNetwork = function ()
-    print(Proxima.utils.message.progress("Connecting to <b>" + self.targetNetwork.essid + "</b>..."))
+    print(Proxima.screen.addOutputEntry(Proxima.utils.message.progress("Connecting to <b>" + self.targetNetwork.essid + "</b>...")))
     connectionStatus = Proxima.globals.myPC.connect_wifi(self.interface, self.targetNetwork.bssid, self.targetNetwork.essid, self.networkKey)
     if not connectionStatus == 1 then exit(Proxima.utils.message.error("Connection failed. Please try again later..."))
     exit(Proxima.utils.message.success("Connection successfull! You are <b>online</b>!"))

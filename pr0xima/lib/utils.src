@@ -52,9 +52,9 @@ Proxima.utils.displayList = function (header_list, content_list)
         separator = separator + "-" * (max_lengths[idx] + 2) + "+"
         header_row = header_row + " " + pad_right(i, max_lengths[idx], null) + " |"
     end for
-    print(separator)
-    print(header_row)
-    print(separator)
+    print(Proxima.screen.addOutputEntry(separator))
+    print(Proxima.screen.addOutputEntry(header_row))
+    print(Proxima.screen.addOutputEntry(separator))
 
     for row in content_list
         row_str = "|"
@@ -68,8 +68,8 @@ Proxima.utils.displayList = function (header_list, content_list)
             end if
             row_str = row_str + " " + pad_right(row[idx], max_lengths[idx], row_color) + " |"
         end for
-        print(row_str)
-        print(separator)
+        print(Proxima.screen.addOutputEntry(row_str))
+        print(Proxima.screen.addOutputEntry(separator))
     end for
 end function
 
@@ -120,12 +120,12 @@ end function
 Proxima.utils.throwCLIError = function (cmdMessage = null, cmdUsage = null)
     if cmdMessage != null then 
         if cmdUsage != null then
-            print(Proxima.utils.message.error(cmdMessage + " Usage: " + cmdUsage))
+            print(Proxima.screen.addOutputEntry(Proxima.utils.message.error(cmdMessage + " Usage: " + cmdUsage)))
         else
-            print(Proxima.utils.message.error(cmdMessage))
+            print(Proxima.screen.addOutputEntry(Proxima.utils.message.error(cmdMessage)))
         end if
     else
-        print(Proxima.utils.message.error("Unknown command! Type <b>help</b> to list available commands."))
+        print(Proxima.screen.addOutputEntry(Proxima.utils.message.error("Unknown command! Type <b>help</b> to list available commands.")))
     end if
 end function
 
@@ -137,8 +137,8 @@ Proxima.utils.getAdminContact = function ()
     infoObject.administrativeContact = infoLines[1].split(":")[1].trim
     infoObject.emailAddress = infoLines[2].split(":")[1].trim
     infoObject.phone = infoLines[3].split(":")[1].trim
-    print("<b>Domain Name:</b> " + infoObject.domainName)
-    print("<b>Administrative Contact:</b> " + infoObject.administrativeContact)
-    print("<b>Email Address:</b> " + infoObject.emailAddress)
-    print("<b>Phone Number:</b> " + infoObject.phone)
+    print(Proxima.screen.addOutputEntry("<b>Domain Name:</b> " + infoObject.domainName))
+    print(Proxima.screen.addOutputEntry("<b>Administrative Contact:</b> " + infoObject.administrativeContact))
+    print(Proxima.screen.addOutputEntry("<b>Email Address:</b> " + infoObject.emailAddress))
+    print(Proxima.screen.addOutputEntry("<b>Phone Number:</b> " + infoObject.phone))
 end function

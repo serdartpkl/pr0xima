@@ -1,0 +1,15 @@
+Proxima.screen={}
+Proxima.screen.screenItems=[]
+Proxima.screen.addInputEntry=function(userCommand)
+self.screenItems.push(Proxima.globals.cliMarker+" "+userCommand)
+end function
+Proxima.screen.addOutputEntry=function(outputString)
+self.screenItems.push(outputString)
+return outputString
+end function
+Proxima.screen.clearScreen=function
+clear_screen
+for screenItem in self.screenItems
+print(screenItem)
+end for
+end function

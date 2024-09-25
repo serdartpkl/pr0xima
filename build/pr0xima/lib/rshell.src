@@ -13,7 +13,7 @@ break
 end if
 end for
 if isValidLocation then
-print(self.utils.message.success("<b>librshell.so</b> is loaded."))
+print(Proxima.screen.addOutputEntry(self.utils.message.success("<b>librshell.so</b> is loaded.")))
 else
 exit(self.utils.message.error("Unable to find <b>librshell.so</b> library."))
 end if
@@ -21,15 +21,15 @@ end function
 Proxima.rshell.installLibRshell=function
 installResult=Proxima.globals.librshell.install_service
 if installResult==1 then
-print(Proxima.utils.message.success("Successfully installed service..."))
+print(Proxima.screen.addOutputEntry(Proxima.utils.message.success("Successfully installed service...")))
 startServiceResult=Proxima.globals.librshell.start_service
 if startServiceResult==1 then
-print(Proxima.utils.message.success("Started service successfuly!"))
+print(Proxima.screen.addOutputEntry(Proxima.utils.message.success("Started service successfuly!")))
 else
-print(Proxima.utils.message.error("Starting service failed: "+startServiceResult))
+print(Proxima.screen.addOutputEntry(Proxima.utils.message.error("Starting service failed: "+startServiceResult)))
 end if
 else
-print(Proxima.utils.message.error("Service installation failed: "+installResult))
+print(Proxima.screen.addOutputEntry(Proxima.utils.message.error("Service installation failed: "+installResult)))
 end if
 end function
 Proxima.rshell.checkReverseShells=function
