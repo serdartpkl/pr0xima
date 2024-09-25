@@ -7,6 +7,17 @@ Proxima.screen.addOutputEntry=function(outputString)
 self.screenItems.push(outputString)
 return outputString
 end function
+Proxima.screen.addProgressBar=function
+self.screenItems.push("[###################################]==[ 100% ]")
+end function
+Proxima.screen.addTransferProcess=function(fileSize)
+if fileSize.to_int<1000 then
+self.screenItems.push("100%	"+floor(rnd*(900-50+1)+50)+" KB/s  0 sec ("+fileSize+" Bytes of "+fileSize+" Bytes copied)")
+else
+self.screenItems.push("100%	"+floor(rnd*(900-50+1)+50)+" KB/s  0 sec ("+str((floor(fileSize*100)/100)/1000)[:3]+" MB of "+str((floor(fileSize*100)/100)/1000)[:3]+" MB copied)")
+end if
+self.screenItems.push("Processing...")
+end function
 Proxima.screen.clearScreen=function
 clear_screen
 for screenItem in self.screenItems
