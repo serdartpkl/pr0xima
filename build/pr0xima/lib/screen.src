@@ -1,7 +1,7 @@
 Proxima.screen={}
 Proxima.screen.screenItems=[]
 Proxima.screen.addInputEntry=function(userCommand)
-self.screenItems.push(Proxima.globals.cliMarker+" "+userCommand)
+self.screenItems.push(Proxima.globals.cliMarker+userCommand)
 end function
 Proxima.screen.addOutputEntry=function(outputString)
 self.screenItems.push(outputString)
@@ -12,9 +12,9 @@ self.screenItems.push("[###################################]==[ 100% ]")
 end function
 Proxima.screen.addTransferProcess=function(fileSize)
 if fileSize.to_int<1000 then
-self.screenItems.push("100%	"+floor(rnd*(900-50+1)+50)+" KB/s  0 sec ("+fileSize+" Bytes of "+fileSize+" Bytes copied)")
+self.screenItems.push("100%	"+floor(rnd*(900-50+1)+50)+"."+floor(rnd*(9-1+1)+1)+" KB/s  0 sec ("+fileSize+" Bytes of "+fileSize+" Bytes copied)")
 else
-self.screenItems.push("100%	"+floor(rnd*(900-50+1)+50)+" KB/s  0 sec ("+str((floor(fileSize*100)/100)/1000)[:3]+" MB of "+str((floor(fileSize*100)/100)/1000)[:3]+" MB copied)")
+self.screenItems.push("100%	"+floor(rnd*(900-50+1)+50)+"."+floor(rnd*(9-1+1)+1)+" KB/s  0 sec ("+str((floor(fileSize*100)/100)/1000)[:3]+" MB of "+str((floor(fileSize*100)/100)/1000)[:3]+" MB copied)")
 end if
 self.screenItems.push("Processing...")
 end function
