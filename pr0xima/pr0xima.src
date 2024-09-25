@@ -46,6 +46,10 @@ Proxima.setScanMode = function (scanMode)
     self.globals.scanMode = scanMode
 end function
 
+Proxima.setAppDescription = function (appDescription)
+    self.applicationDescription = appDescription
+end function
+
 Proxima.initialize = function ()
     self.loadMetaxploit()
     self.loadCrypto()
