@@ -352,7 +352,7 @@ Proxima.commands.whois = {
     "type": 1
 }
 Proxima.commands.whois.exec = function (params)
-    Proxima.utils.whois()
+    Proxima.utils.getAdminContact()
 end function
 
 Proxima.commands.cls = {

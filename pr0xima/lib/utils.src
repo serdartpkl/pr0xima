@@ -27,28 +27,22 @@ end function
 
 Proxima.utils.displayList = function (header_list, content_list)
     max_lengths = []
+
     for i in header_list
         max_len = i.len
         for row in content_list
-            if typeof(row) == "list" then
-                if row[0][header_list.indexOf(i)].len > max_len then max_len = row[0][header_list.indexOf(i)].len
-            else
-                if row[header_list.indexOf(i)].len > max_len then max_len = row[header_list.indexOf(i)].len
-            end if
+            if row[header_list.indexOf(i)].split("#")[0].len > max_len then max_len = row[header_list.indexOf(i)].split("#")[0].len
         end for
         max_lengths.push(max_len)
     end for
 
-    pad_right = function(str, length)
-        padding = null
-        if typeof(str) == "list" then
-            padding = " " * (length - str[0].len)
-            str = Proxima.utils.message.colorize(str[0], str[1])
+    pad_right = function(str, length, row_color)
+        padding = " " * (length - str.len)
+        if row_color != null then
+            return Proxima.utils.message.colorize(str + padding, "#" + row_color)
         else
-            padding = " " * (length - str.len)
+            return str + padding
         end if
-        
-        return str + padding
     end function
 
     separator = "+"
@@ -56,7 +50,7 @@ Proxima.utils.displayList = function (header_list, content_list)
     for i in header_list
         idx = header_list.indexOf(i)
         separator = separator + "-" * (max_lengths[idx] + 2) + "+"
-        header_row = header_row + " " + pad_right(i, max_lengths[idx]) + " |"
+        header_row = header_row + " " + pad_right(i, max_lengths[idx], null) + " |"
     end for
     print(separator)
     print(header_row)
@@ -66,11 +60,13 @@ Proxima.utils.displayList = function (header_list, content_list)
         row_str = "|"
         for i in header_list
             idx = header_list.indexOf(i)
-            if typeof(row) == "list" then
-                row_str = row_str + " " + pad_right([row[0][idx], row[0][idx]], max_lengths[idx]) + " |"
-            else
-                row_str = row_str + " " + pad_right(row[idx], max_lengths[idx]) + " |"
+            split_row = row[idx].split("#")
+            row_color = null
+            if split_row.len > 1 then
+                row[idx] = split_row[0]
+                row_color = split_row[1]
             end if
+            row_str = row_str + " " + pad_right(row[idx], max_lengths[idx], row_color) + " |"
         end for
         print(row_str)
         print(separator)
@@ -133,7 +129,7 @@ Proxima.utils.throwCLIError = function (cmdMessage = null, cmdUsage = null)
     end if
 end function
 
-Proxima.utils.whois = function ()
+Proxima.utils.getAdminContact = function ()
     adminInfo = whois(Proxima.exploit.targetIP)
     infoLines = adminInfo.split(char(10))
     infoObject = {}

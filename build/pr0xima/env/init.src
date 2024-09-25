@@ -8,5 +8,5 @@ Proxima.globals.librshell=null
 Proxima.globals.myShell=get_shell
 Proxima.globals.myPC=Proxima.globals.myShell.host_computer
 Proxima.globals.activeUser=active_user
-Proxima.globals.applicationName="pr0xima"
+Proxima.globals.applicationName=launch_path.split("/")[-1]
 Proxima.globals.cliMarker=""
