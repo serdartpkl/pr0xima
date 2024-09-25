@@ -1,0 +1,20 @@
+Proxima.screen = {}
+
+Proxima.screen.activeScreen = []
+
+Proxima.screen.addInputEntry = function (userCommand)
+    self.activeScreen.push(Proxima.globals.cliMarker + " " + userCommand + char(10))
+end function
+
+Proxima.screen.addOutputEntry = function (outputString)
+    self.activeScreen.push(outputString)
+    return outputString
+end function
+
+Proxima.screen.clearScreen = function ()
+    clear_screen
+    for screenItem in self.activeScreen
+        print(screenItem)
+    end for
+end function
+
