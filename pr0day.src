@@ -1,14 +1,5 @@
-clear_screen
 import_code("pr0xima/pr0xima.src")
 
 prx = new Proxima
-
-print(prx.screen.addOutputEntry("<b>pr0day - v" + prx.globals.version + "</b>"))
-print(prx.screen.addOutputEntry("Automatic Port Scanner & Prober"))
-
-print(prx.screen.addOutputEntry("+------------------------------------+"))
-prx.setScanMode(1)
-prx.initialize()
-print(prx.screen.addOutputEntry("+------------------------------------+"))
 
 prx.startCLI()

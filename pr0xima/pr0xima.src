@@ -50,13 +50,21 @@ Proxima.setAppDescription = function (appDescription)
     self.applicationDescription = appDescription
 end function
 
+Proxima.printHeader = function ()
+    print(self.screen.addOutputEntry("<b>" + self.globals.applicationName + " - " + self.globals.version + "</b>"))
+    if self.applicationDescription != "" then print(self.screen.addOutputEntry(self.globals.applicationDescription))
+    print(self.screen.addOutputEntry("+------------------------------------+"))
+end function
+
 Proxima.initialize = function ()
+    self.printHeader()
     self.loadMetaxploit()
     self.loadCrypto()
     if self.globals.scanMode == 1 and not self.net.checkConnection() then exit(self.utils.message.error("You are not connected to internet! Terminating program..."))
 end function
 
 Proxima.startCLI = function ()
+    self.initialize()
     cliTitle = null
     if self.exploit.targetIP != null then 
         cliTitle = self.exploit.targetIP 

@@ -1,14 +1,6 @@
-clear_screen
 import_code("pr0xima/pr0xima.src")
 
 prx = new Proxima
 
-print("<b>pr00t - v" + prx.globals.version + "</b>")
-print("Automatic Library Scanner & Prober")
-
-print("+------------------------------------+")
 prx.setScanMode(0)
-prx.initialize()
-print("+------------------------------------+")
-
 prx.startCLI()
