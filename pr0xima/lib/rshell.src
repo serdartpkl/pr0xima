@@ -5,10 +5,6 @@ Proxima.rshell.targetRShells = []
 
 Proxima.rshell.rshellID = 1
 
-Proxima.rshell.putRshell = function ()
-    
-end function
-
 Proxima.rshell.checkActiveShells = function ()
     self.rshellID = 1
     self.targetRShells = []
