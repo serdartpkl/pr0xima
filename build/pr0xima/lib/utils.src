@@ -86,7 +86,7 @@ print(Proxima.cli.addOutputEntry("| .__/|_|   \___//_/\_\_|_| |_| |_|\__,_|"))
 print(Proxima.cli.addOutputEntry("|_|                                      "))
 print(Proxima.cli.addOutputEntry("             An easy-to-use multi purpose"))
 print(Proxima.cli.addOutputEntry("               hacking tool for beginners"))
-print(Proxima.cli.addOutputEntry(self.message.line))
+print(Proxima.cli.addOutputEntry(Proxima.cli.message.line))
 end function
 Proxima.utils.displayList=function(headerList,contentList)
 maxLengths=[]

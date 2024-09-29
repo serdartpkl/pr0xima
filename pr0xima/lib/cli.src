@@ -2,6 +2,8 @@ Proxima.cli = {}
 
 Proxima.cli.cliString = null
 
+Proxima.cli.cliEntries = []
+
 // ------------------------------------------------------------------------------------------------------------
 
 Proxima.cli.message = {}
@@ -47,8 +49,6 @@ Proxima.cli.throwCLIError = function (cmdMessage = null, cmdUsage = null)
 end function
 
 // ------------------------------------------------------------------------------------------------------------
-
-Proxima.cli.cliEntries = []
 
 Proxima.cli.addInputEntry = function (userCommand)
     self.cliEntries.push(self.cliString + userCommand)
