@@ -20,6 +20,8 @@ Proxima.commands.target.exec = function (params)
     end if
 end function
 
+// ------------------------------------------------------------------------------------------------------------
+
 Proxima.commands.scanport = {
     "name": "scanport",
     "description": "Scans the specified port/ports for acquiring available remote exploits.",
@@ -58,6 +60,8 @@ Proxima.commands.dump.exec = function (params)
     end if
 end function
 
+// ------------------------------------------------------------------------------------------------------------
+
 Proxima.commands.scanlib = {
     "name": "scanlib",
     "description": "Scans the specified library/libraries for acquiring available local exploits.",
@@ -95,6 +99,8 @@ Proxima.commands.ports.exec = function (params)
     end if
 end function
 
+// ------------------------------------------------------------------------------------------------------------
+
 Proxima.commands.libraries = {
     "name": "libraries",
     "description": "Lists all available local libraries.",
@@ -107,6 +113,8 @@ Proxima.commands.libraries.exec = function (params)
         Proxima.utils.throwCLIError("No libraries available, please dump local libraries first.")
     end if
 end function
+
+// ------------------------------------------------------------------------------------------------------------
 
 Proxima.commands.exploits = {
     "name": "exploits",
@@ -121,6 +129,8 @@ Proxima.commands.exploits.exec = function (params)
     end if
 end function
 
+// ------------------------------------------------------------------------------------------------------------
+
 Proxima.commands.users = {
     "name": "users",
     "description": "Lists all available user informations gathered from executed exploit/exploits.",
@@ -133,6 +143,8 @@ Proxima.commands.users.exec = function (params)
         Proxima.utils.throwCLIError("No users found, please execute an exploit first.")
     end if
 end function
+
+// ------------------------------------------------------------------------------------------------------------
 
 Proxima.commands.mails = {
     "name": "",
@@ -147,6 +159,8 @@ Proxima.commands.mails.exec = function (params)
     end if
 end function
 
+// ------------------------------------------------------------------------------------------------------------
+
 Proxima.commands.banks = {
     "name": "mails",
     "description": "Lists all available mail informations gathered from executed exploit/exploits.",
@@ -159,6 +173,8 @@ Proxima.commands.banks.exec = function (params)
         Proxima.utils.throwCLIError("No bank information available, please execute an exploit first.")
     end if
 end function
+
+// ------------------------------------------------------------------------------------------------------------
 
 Proxima.commands.shells = {
     "name": "shells",
@@ -192,6 +208,8 @@ Proxima.commands.execute.exec = function (params)
         end if
     end if
 end function
+
+// ------------------------------------------------------------------------------------------------------------
 
 Proxima.commands.decipher = {
     "name": "decipher",
@@ -235,6 +253,8 @@ Proxima.commands.shell.exec = function (params)
     end if
 end function
 
+// ------------------------------------------------------------------------------------------------------------
+
 Proxima.commands.tunnel = {
     "name": "tunnel",
     "description": "",
@@ -259,6 +279,8 @@ Proxima.commands.get.exec = function (params)
     end if
 end function
 
+// ------------------------------------------------------------------------------------------------------------
+
 Proxima.commands.put = {
     "name": "put",
     "description": "Uploads file from local computer to remote computer.",
@@ -275,6 +297,8 @@ Proxima.commands.put.exec = function (params)
         end if
     end if
 end function
+
+// ------------------------------------------------------------------------------------------------------------
 
 Proxima.commands.delete = {
     "name": "delete",
@@ -304,6 +328,8 @@ Proxima.commands.launch.exec = function (params)
     end if
 end function
 
+// ------------------------------------------------------------------------------------------------------------
+
 Proxima.commands.corrupt = {
     "name": "corrupt",
     "description": "Corrupts remote target's computer and makes it unable to work.",
@@ -312,6 +338,8 @@ Proxima.commands.corrupt = {
 Proxima.commands.corrupt.exec = function (params)
     Proxima.exploit.corruptComputer()
 end function
+
+// ------------------------------------------------------------------------------------------------------------
 
 Proxima.commands.cleanup = {
     "name": "cleanup",
@@ -333,6 +361,8 @@ Proxima.commands.whois.exec = function (params)
     Proxima.utils.getAdminContact()
 end function
 
+// ------------------------------------------------------------------------------------------------------------
+
 Proxima.commands.cls = {
     "name": "cls",
     "description": "Clears terminal screen.",
@@ -341,6 +371,8 @@ Proxima.commands.cls = {
 Proxima.commands.cls.exec = function (params)
     clear_screen
 end function
+
+// ------------------------------------------------------------------------------------------------------------
 
 Proxima.commands.help = {
     "name": "help",
@@ -365,6 +397,8 @@ Proxima.commands.help.exec = function (params)
         i = i + 1
     end for
 end function
+
+// ------------------------------------------------------------------------------------------------------------
 
 Proxima.commands.exit = {
     "name": "exit",
