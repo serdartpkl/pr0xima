@@ -28,7 +28,7 @@ end function
 
 Proxima.cli.commands.dump = {
     "name": "dump",
-    "description": "Dumps all local libraries or target IP informations to perform a scan.",
+    "description": "Dumps target IPs ports or local libraries to perform a scan.",
     "usage": "dump"
 }
 Proxima.cli.commands.dump.exec = function (params)
