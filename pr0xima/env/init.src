@@ -1,7 +1,6 @@
 Proxima = {}
 
 Proxima.globals = {}
-Proxima.globals.scanMode = 1
 Proxima.globals.version = "1.0.0"
 
 Proxima.globals.metaxploit = null
