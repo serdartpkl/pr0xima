@@ -9,18 +9,7 @@ import_code("lib/net.src")
 import_code("lib/rshell.src")
 import_code("lib/utils.src")
 
-Proxima.printHeader = function ()
-    V = Proxima.globals.version
-    print(self.screen.addOutputEntry("v"+V+"       ___       _                 "))
-    print(self.screen.addOutputEntry(" _ __  _ __ / _ \__  _(_)_ __ ___   __ _ "))
-    print(self.screen.addOutputEntry("| '_ \| '__| | | \ \/ / | '_ ` _ \ / _` |"))
-    print(self.screen.addOutputEntry("| |_) | |  | |_| |>  <| | | | | | | (_| |"))
-    print(self.screen.addOutputEntry("| .__/|_|   \___//_/\_\_|_| |_| |_|\__,_|"))
-    print(self.screen.addOutputEntry("|_|    A simple all-purpose hacking tool."))
-    print(self.screen.addOutputEntry("+---------------------------------------+"))
-end function
-
-Proxima.initialize = function ()
-    self.printHeader()
-    self.startCLI()
+Proxima.init = function ()
+    self.utils.printHeader()
+    self.cli.startCLI()
 end function
