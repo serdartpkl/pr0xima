@@ -42,6 +42,40 @@ Proxima.loadCrypto = function ()
     end if
 end function
 
+Proxima.loadRshell = function ()
+    isValidLocation = false
+    for location in self.settings.cryptoLocations
+        includeRshell = include_lib(location)
+        if includeRshell != null then
+            self.globals.crypto = includeRshell
+            isValidLocation = true
+            break
+        end if
+    end for
+    if isValidLocation then
+        print(Proxima.screen.addOutputEntry(self.utils.message.success("<b>librshell.so</b> is loaded.")))
+    else
+        exit(self.utils.message.error("Unable to find <b>librshell.so</b> library."))
+    end if
+end function
+
+Proxima.loadAptClient = function ()
+    isValidLocation = false
+    for location in self.settings.cryptoLocations
+        includeAptClient = include_lib(location)
+        if includeAptClient != null then
+            self.globals.crypto = includeAptClient
+            isValidLocation = true
+            break
+        end if
+    end for
+    if isValidLocation then
+        print(Proxima.screen.addOutputEntry(self.utils.message.success("<b>aptclient.so</b> is loaded.")))
+    else
+        exit(self.utils.message.error("Unable to find <b>aptclient.so</b> library."))
+    end if
+end function
+
 Proxima.setScanMode = function (scanMode)
     self.globals.scanMode = scanMode
 end function
@@ -104,6 +138,5 @@ end function
 
 Proxima.initialize = function ()
     self.printHeader()
-    self.loadMetaxploit()
-    self.loadCrypto()
+    self.startCLI()
 end function

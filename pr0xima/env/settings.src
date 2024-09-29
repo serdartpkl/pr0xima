@@ -1,8 +1,8 @@
 Proxima.settings = {}
 
 Proxima.settings.uploadTo = "/home/guest"
-Proxima.settings.uploadFrom = home_dir + "/Upload"
 Proxima.settings.downloadTo = home_dir + "/Downloads"
+Proxima.settings.toolsFolder = home_dir + "/Tools"
 
 Proxima.settings.cryptoLocations = [
     "/lib/crypto.so",
@@ -19,8 +19,13 @@ Proxima.settings.librshellLocations = [
     self.uploadTo + "/librshell.so"
 ]
 
-Proxima.settings.rshellIP = "29.10.19.23"
-Proxima.settings.rshellPort = 1881
+Proxima.settings.aptclientLocations = [
+    "/lib/aptclient.so",
+    self.uploadTo + "/aptclient.so"
+]
+
+Proxima.settings.rshellIP = Proxima.globals.myPC.public_ip
+Proxima.settings.rshellPort = 1222
 Proxima.settings.rshellProcessName = "prx"
 
-Proxima.settings.injectionPassword = "30081922"
+Proxima.settings.injectionPassword = "123456"
