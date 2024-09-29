@@ -165,14 +165,6 @@ Proxima.utils.collectFiles = function (parentDir)
     return allFiles
 end function
 
-Proxima.utils.isLocal = function ()
-    if Proxima.globals.scanMode == 0 then
-        return true
-    else if Proxima.globals.scanMode == 1 then
-        return false
-    end if
-end function
-
 Proxima.utils.getAdminContact = function ()
     adminInfo = whois(Proxima.exploit.targetIP)
     infoLines = adminInfo.split(char(10))

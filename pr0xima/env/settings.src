@@ -1,26 +1,30 @@
 Proxima.settings = {}
 
-Proxima.settings.uploadTo = "/home/guest"
-Proxima.settings.downloadTo = home_dir + "/Downloads"
+Proxima.settings.remoteUploadFolder = "/home/guest"
+Proxima.settings.downloadFolder = home_dir + "/Downloads"
 Proxima.settings.toolsFolder = home_dir + "/Tools"
 
 Proxima.settings.cryptoLocations = [
     "/lib/crypto.so",
+    current_path + "/crypto.so",
     self.uploadTo + "/crypto.so"
 ]
 
 Proxima.settings.metaxploitLocations = [
     "/lib/metaxploit.so",
+    current_path + "/metaxploit.so",
     self.uploadTo + "/metaxploit.so"
 ]
 
 Proxima.settings.librshellLocations = [
     "/lib/librshell.so",
+    current_path + "/librshell.so",
     self.uploadTo + "/librshell.so"
 ]
 
 Proxima.settings.aptclientLocations = [
     "/lib/aptclient.so",
+    current_path + "/aptclient.so",
     self.uploadTo + "/aptclient.so"
 ]
 
