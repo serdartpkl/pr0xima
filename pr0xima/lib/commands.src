@@ -413,7 +413,7 @@ end function
 
 // ------------------------------------------------------------------------------------------------------------
 
-Proxima.cli.commands.handleCommand = function (userCommand)
+Proxima.cli.handleCommand = function (userCommand)
     if userCommand != null and userCommand != "" then
         parsedCommand = null
         params = null
@@ -443,14 +443,14 @@ Proxima.cli.commands.handleCommand = function (userCommand)
     end if
 end function
 
-Proxima.cli.commands.startCLI = function ()
+Proxima.cli.startCLI = function ()
     activeTarget = null
-    if self.exploit.targetIP != null then 
-        activeTarget = self.exploit.targetIP 
+    if Proxima.exploit.targetIP != null then 
+        activeTarget = Proxima.exploit.targetIP 
     else
-        activeTarget = self.globals.activeUser
+        activeTarget = Proxima.globals.activeUser
     end if
-    self.cliString = self.cli.message.colorize("<b>" + activeTarget + "</b>", "#FFC466") + self.cli.message.colorize("@pr0xima", "#FC8403") + self.cli.message.colorize("> ", "#008DFF")
+    self.cliString = self.message.colorize("<b>" + activeTarget + "</b>", "#FFC466") + self.message.colorize("@pr0xima", "#FC8403") + self.message.colorize("> ", "#008DFF")
     while true
         userCommand = user_input(self.cliString, false, false).trim
         self.addInputEntry(userCommand)
