@@ -1,15 +1,15 @@
 import_code("env/init.src")
 import_code("env/settings.src")
 
-import_code("lib/apt.src")
-import_code("lib/cli.src")
-import_code("lib/commands.src")
-import_code("lib/exploit.src")
-import_code("lib/net.src")
-import_code("lib/rshell.src")
 import_code("lib/utils.src")
+import_code("lib/commands.src")
+import_code("lib/cli.src")
+import_code("lib/apt.src")
+import_code("lib/net.src")
+import_code("lib/exploit.src")
+import_code("lib/rshell.src")
 
 Proxima.init = function ()
-    self.utils.printHeader()
-    self.cli.startCLI()
+    Proxima.utils.printHeader()
+    Proxima.cli.startCLI()
 end function

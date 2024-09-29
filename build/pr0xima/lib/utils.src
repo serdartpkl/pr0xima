@@ -1,5 +1,6 @@
 Proxima.utils={}
 Proxima.utils.message={}
+Proxima.utils.message.line="+---------------------------------------+"
 Proxima.utils.message.colorize=function(txt,color)
 return "<color="+color+">"+txt+"</color>"
 end function
@@ -18,46 +19,135 @@ end function
 Proxima.utils.message.success=function(txt)
 return self.colorize("[+] "+txt,"#08FF57")
 end function
-Proxima.utils.displayList=function(header_list,content_list)
-max_lengths=[]
-for i in header_list
-max_len=i.len
-for row in content_list
-if row[header_list.indexOf(i)].split("#")[0].len>max_len then max_len=row[header_list.indexOf(i)].split("#")[0].len
+Proxima.utils.loadMetaxploit=function
+isValidLocation=false
+for location in self.settings.metaxploitLocations
+includeMetaxploit=include_lib(location)
+if includeMetaxploit!=null then
+self.globals.metaxploit=includeMetaxploit
+isValidLocation=true
+break
+end if
 end for
-max_lengths.push(max_len)
+if isValidLocation then
+print(Proxima.screen.addOutputEntry(self.utils.message.success("<b>metaxploit.so</b> is loaded.")))
+else
+exit(self.utils.message.error("Unable to find <b>metaxploit.so</b> library."))
+end if
+end function
+Proxima.utils.loadCrypto=function
+isValidLocation=false
+for location in self.settings.cryptoLocations
+includeCrypto=include_lib(location)
+if includeCrypto!=null then
+self.globals.crypto=includeCrypto
+isValidLocation=true
+break
+end if
 end for
-pad_right=function(str,length,row_color)
+if isValidLocation then
+print(Proxima.screen.addOutputEntry(self.utils.message.success("<b>crypto.so</b> is loaded.")))
+else
+exit(self.utils.message.error("Unable to find <b>crypto.so</b> library."))
+end if
+end function
+Proxima.utils.loadRshell=function
+isValidLocation=false
+for location in self.settings.cryptoLocations
+includeRshell=include_lib(location)
+if includeRshell!=null then
+self.globals.librshell=includeRshell
+isValidLocation=true
+break
+end if
+end for
+if isValidLocation then
+print(Proxima.screen.addOutputEntry(self.utils.message.success("<b>librshell.so</b> is loaded.")))
+else
+exit(self.utils.message.error("Unable to find <b>librshell.so</b> library."))
+end if
+end function
+Proxima.utils.loadAptClient=function
+isValidLocation=false
+for location in self.settings.cryptoLocations
+includeAptClient=include_lib(location)
+if includeAptClient!=null then
+self.globals.aptclient=includeAptClient
+isValidLocation=true
+break
+end if
+end for
+if isValidLocation then
+print(Proxima.screen.addOutputEntry(self.utils.message.success("<b>aptclient.so</b> is loaded.")))
+else
+exit(self.utils.message.error("Unable to find <b>aptclient.so</b> library."))
+end if
+end function
+Proxima.utils.getAdminContact=function
+adminInfo=whois(Proxima.exploit.targetIP)
+infoLines=adminInfo.split(char(10))
+infoObject={}
+infoObject.domainName=infoLines[0].split(":")[1].trim
+infoObject.administrativeContact=infoLines[1].split(":")[1].trim
+infoObject.emailAddress=infoLines[2].split(":")[1].trim
+infoObject.phone=infoLines[3].split(":")[1].trim
+print(Proxima.screen.addOutputEntry("<b>Domain Name:</b> "+infoObject.domainName))
+print(Proxima.screen.addOutputEntry("<b>Administrative Contact:</b> "+infoObject.administrativeContact))
+print(Proxima.screen.addOutputEntry("<b>Email Address:</b> "+infoObject.emailAddress))
+print(Proxima.screen.addOutputEntry("<b>Phone Number:</b> "+infoObject.phone))
+end function
+Proxima.utils.printHeader=function
+V=Proxima.globals.version
+print(self.screen.addOutputEntry("v"+V+"       ___       _                 "))
+print(self.screen.addOutputEntry(" _ __  _ __ / _ \__  _(_)_ __ ___   __ _ "))
+print(self.screen.addOutputEntry("| '_ \| '__| | | \ \/ / | '_ ` _ \ / _` |"))
+print(self.screen.addOutputEntry("| |_) | |  | |_| |>  <| | | | | | | (_| |"))
+print(self.screen.addOutputEntry("| .__/|_|   \___//_/\_\_|_| |_| |_|\__,_|"))
+print(self.screen.addOutputEntry("|_|                                      "))
+print(self.screen.addOutputEntry("             An easy-to-use multi purpose"))
+print(self.screen.addOutputEntry("               hacking tool for beginners"))
+print(self.screen.addOutputEntry(self.message.line))
+end function
+Proxima.utils.displayList=function(headerList,contentList)
+maxLengths=[]
+for i in headerList
+maxLen=i.len
+for row in contentList
+if row[headerList.indexOf(i)].split("#")[0].len>maxLen then maxLen=row[headerList.indexOf(i)].split("#")[0].len
+end for
+maxLengths.push(maxLen)
+end for
+padRight=function(str,length,rowColor)
 padding=" "*(length-str.len)
-if row_color!=null then
-return Proxima.utils.message.colorize(str+padding,"#"+row_color)
+if rowColor!=null then
+return Proxima.utils.message.colorize(str+padding,"#"+rowColor)
 else
 return str+padding
 end if
 end function
 separator="+"
-header_row="|"
-for i in header_list
-idx=header_list.indexOf(i)
-separator=separator+"-"*(max_lengths[idx]+2)+"+"
-header_row=header_row+" "+pad_right(i,max_lengths[idx],null)+" |"
+headerRow="|"
+for i in headerList
+idx=headerList.indexOf(i)
+separator=separator+"-"*(maxLengths[idx]+2)+"+"
+headerRow=headerRow+" "+padRight(i,maxLengths[idx],null)+" |"
 end for
 print(Proxima.screen.addOutputEntry(separator))
-print(Proxima.screen.addOutputEntry(header_row))
+print(Proxima.screen.addOutputEntry(headerRow))
 print(Proxima.screen.addOutputEntry(separator))
-for row in content_list
-row_str="|"
-for i in header_list
-idx=header_list.indexOf(i)
-split_row=row[idx].split("#")
-row_color=null
-if split_row.len>1 then
-row[idx]=split_row[0]
-row_color=split_row[1]
+for row in contentList
+rowStr="|"
+for i in headerList
+idx=headerList.indexOf(i)
+splitRow=row[idx].split("#")
+rowColor=null
+if splitRow.len>1 then
+row[idx]=splitRow[0]
+rowColor=splitRow[1]
 end if
-row_str=row_str+" "+pad_right(row[idx],max_lengths[idx],row_color)+" |"
+rowStr=rowStr+" "+padRight(row[idx],maxLengths[idx],rowColor)+" |"
 end for
-print(Proxima.screen.addOutputEntry(row_str))
+print(Proxima.screen.addOutputEntry(rowStr))
 print(Proxima.screen.addOutputEntry(separator))
 end for
 end function
@@ -91,35 +181,4 @@ end if
 end function
 scanDir(parentDir)
 return allFiles
-end function
-Proxima.utils.isLocal=function
-if Proxima.globals.scanMode==0 then
-return true
-else if Proxima.globals.scanMode==1 then
-return false
-end if
-end function
-Proxima.utils.throwCLIError=function(cmdMessage=null,cmdUsage=null)
-if cmdMessage!=null then
-if cmdUsage!=null then
-print(Proxima.screen.addOutputEntry(Proxima.utils.message.error(cmdMessage+" Usage: "+cmdUsage)))
-else
-print(Proxima.screen.addOutputEntry(Proxima.utils.message.error(cmdMessage)))
-end if
-else
-print(Proxima.screen.addOutputEntry(Proxima.utils.message.error("Unknown command! Type <b>help</b> to list available commands.")))
-end if
-end function
-Proxima.utils.getAdminContact=function
-adminInfo=whois(Proxima.exploit.targetIP)
-infoLines=adminInfo.split(char(10))
-infoObject={}
-infoObject.domainName=infoLines[0].split(":")[1].trim
-infoObject.administrativeContact=infoLines[1].split(":")[1].trim
-infoObject.emailAddress=infoLines[2].split(":")[1].trim
-infoObject.phone=infoLines[3].split(":")[1].trim
-print(Proxima.screen.addOutputEntry("<b>Domain Name:</b> "+infoObject.domainName))
-print(Proxima.screen.addOutputEntry("<b>Administrative Contact:</b> "+infoObject.administrativeContact))
-print(Proxima.screen.addOutputEntry("<b>Email Address:</b> "+infoObject.emailAddress))
-print(Proxima.screen.addOutputEntry("<b>Phone Number:</b> "+infoObject.phone))
 end function

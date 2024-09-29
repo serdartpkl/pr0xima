@@ -7,25 +7,25 @@ Proxima.settings.toolsFolder = home_dir + "/Tools"
 Proxima.settings.cryptoLocations = [
     "/lib/crypto.so",
     current_path + "/crypto.so",
-    self.remoteUploadFolder + "/crypto.so"
+    Proxima.settings.remoteUploadFolder + "/crypto.so"
 ]
 
 Proxima.settings.metaxploitLocations = [
     "/lib/metaxploit.so",
     current_path + "/metaxploit.so",
-    self.remoteUploadFolder + "/metaxploit.so"
+    Proxima.settings.remoteUploadFolder + "/metaxploit.so"
 ]
 
 Proxima.settings.librshellLocations = [
     "/lib/librshell.so",
     current_path + "/librshell.so",
-    self.remoteUploadFolder + "/librshell.so"
+    Proxima.settings.remoteUploadFolder + "/librshell.so"
 ]
 
 Proxima.settings.aptclientLocations = [
     "/lib/aptclient.so",
     current_path + "/aptclient.so",
-    self.remoteUploadFolder + "/aptclient.so"
+    Proxima.settings.remoteUploadFolder + "/aptclient.so"
 ]
 
 Proxima.settings.rshellIP = Proxima.globals.myPC.public_ip

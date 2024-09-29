@@ -2,22 +2,6 @@ Proxima.rshell={}
 Proxima.rshell.targetRShell=null
 Proxima.rshell.targetRShells=[]
 Proxima.rshell.rshellID=1
-Proxima.rshell.loadLibRshell=function
-isValidLocation=false
-for location in Proxima.settings.librshellLocations
-includeLibRshell=include_lib(location)
-if includeLibRshell!=null then
-self.globals.librshell=includeLibRshell
-isValidLocation=true
-break
-end if
-end for
-if isValidLocation then
-print(Proxima.screen.addOutputEntry(self.utils.message.success("<b>librshell.so</b> is loaded.")))
-else
-exit(self.utils.message.error("Unable to find <b>librshell.so</b> library."))
-end if
-end function
 Proxima.rshell.installLibRshell=function
 installResult=Proxima.globals.librshell.install_service
 if installResult==1 then

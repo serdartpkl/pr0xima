@@ -13,13 +13,17 @@ return false
 end if
 end function
 Proxima.net.startMonitoring=function
-print(Proxima.screen.addOutputEntry(Proxima.utils.message.info("Starting "+"<b>"+self.interface+"</b>")))
 airmonResult=Proxima.globals.crypto.airmon("start",self.interface)
-if typeof(airmonResult)=="string" then exit(Proxima.utils.message.error("Can't start monitoring on <b>"+self.interface+"</b>"))
+if typeof(airmonResult)=="string" then
+return false
+else
+return true
+end if
 end function
 Proxima.net.setAutoTarget=function
+if self.startMonitoring then
 getNetworks=Proxima.globals.myPC.wifi_networks(self.interface)
-if getNetworks==null then exit("Unable to fetch network list...")
+if getNetworks.len>0 then
 for network in getNetworks
 network=network.split(" ")
 bssid=network[0]
@@ -28,38 +32,35 @@ strength=network[1][:-1].to_int
 self.targetNetworks.push({"essid":essid,"bssid":bssid,"strength":strength})
 end for
 self.targetNetwork=self.targetNetworks.sort("strength")[self.targetNetworks.len-1]
+else
+exit(Proxima.utils.message.error(""))
+end if
+else
+exit(Proxima.utils.message.error(""))
+end if
 end function
 Proxima.net.startSniffing=function
 requiredACKs=ceil(self.maxACKRate/self.targetNetwork.strength)
-print(Proxima.screen.addOutputEntry(Proxima.utils.message.progress("Sniffing ACKs... (approx. "+requiredACKs+")")))
-print(Proxima.screen.addOutputEntry("+------------------------------------+"))
 getACKs=Proxima.globals.crypto.aireplay(self.targetNetwork.bssid,self.targetNetwork.essid,requiredACKs)
-if typeof(getACKs)=="string" then exit(Proxima.utils.message.error(getACKs))
 airmonResult=Proxima.globals.crypto.airmon("stop",self.interface)
-if typeof(airmonResult)=="string" then exit(Proxima.utils.message.error("Unable to stop monitoring on <b>"+self.interface+"</b>"))
-print(Proxima.screen.addOutputEntry(Proxima.utils.message.info("Monitoring stopped")))
-print(Proxima.screen.addOutputEntry("+------------------------------------+"))
 end function
 Proxima.net.crackKey=function
 capFile=Proxima.globals.myPC.File(home_dir+"/file.cap")
-if not capFile then exit(Proxima.utils.message.error("<b>file.cap</b> is missing"))
-if not capFile.has_permission("r") or not capFile.has_permission("w") then exit(Proxima.utils.message.error("Insufficient permission to open <b>file.cap</b> for reading."))
+if capFile==null then exit(Proxima.utils.message.error("<b>file.cap</b> is missing"))
+if capFile.has_permission("r")!=true or capFile.has_permission("w")!=true then exit(Proxima.utils.message.error("Insufficient permission to open <b>file.cap</b> for reading."))
 if capFile then
 self.networkKey=Proxima.globals.crypto.aircrack(capFile.path)
 if self.networkKey==null then exit(Proxima.utils.message.error("Could not crack key. Please try again later..."))
-print(Proxima.screen.addOutputEntry(Proxima.utils.message.success("Network key cracked! [<b>"+self.networkKey+"</b>]")))
+print(Proxima.screen.addOutputEntry(Proxima.utils.message.success("Network key cracked! <b>[KEY:"+self.networkKey+"]</b>")))
 capFile.delete
 end if
 end function
 Proxima.net.connectNetwork=function
 print(Proxima.screen.addOutputEntry(Proxima.utils.message.progress("Connecting to <b>"+self.targetNetwork.essid+"</b>...")))
 connectionStatus=Proxima.globals.myPC.connect_wifi(self.interface,self.targetNetwork.bssid,self.targetNetwork.essid,self.networkKey)
-if not connectionStatus==1 then exit(Proxima.utils.message.error("Connection failed. Please try again later..."))
-exit(Proxima.utils.message.success("Connection successfull! You are <b>online</b>!"))
+exit(Proxima.screen.addOutputEntry(Proxima.utils.message.success("Connection successfull, you are online!")))
 end function
 Proxima.net.autoHack=function
-if self.checkConnection then exit(self.utils.message.error("You are already connected to internet! Terminating program..."))
-self.startMonitoring
 self.setAutoTarget
 self.startSniffing
 self.crackKey
