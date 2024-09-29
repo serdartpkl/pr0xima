@@ -11,9 +11,9 @@ Proxima.utils.loadMetaxploit = function ()
         end if
     end for
     if isValidLocation then
-        print(Proxima.cli.addOutputEntry(self.utils.message.success("<b>metaxploit.so</b> is loaded.")))
+        print(Proxima.cli.addOutputEntry(self.cli.message.success("<b>metaxploit.so</b> is loaded.")))
     else
-        exit(self.utils.message.error("Unable to find <b>metaxploit.so</b> library."))
+        exit(self.cli.message.error("Unable to find <b>metaxploit.so</b> library."))
     end if
 end function
 
@@ -28,9 +28,9 @@ Proxima.utils.loadCrypto = function ()
         end if
     end for
     if isValidLocation then
-        print(Proxima.cli.addOutputEntry(self.utils.message.success("<b>crypto.so</b> is loaded.")))
+        print(Proxima.cli.addOutputEntry(self.cli.message.success("<b>crypto.so</b> is loaded.")))
     else
-        exit(self.utils.message.error("Unable to find <b>crypto.so</b> library."))
+        exit(self.cli.message.error("Unable to find <b>crypto.so</b> library."))
     end if
 end function
 
@@ -45,9 +45,9 @@ Proxima.utils.loadRshell = function ()
         end if
     end for
     if isValidLocation then
-        print(Proxima.cli.addOutputEntry(self.utils.message.success("<b>librshell.so</b> is loaded.")))
+        print(Proxima.cli.addOutputEntry(self.cli.message.success("<b>librshell.so</b> is loaded.")))
     else
-        exit(self.utils.message.error("Unable to find <b>librshell.so</b> library."))
+        exit(self.cli.message.error("Unable to find <b>librshell.so</b> library."))
     end if
 end function
 
@@ -62,9 +62,9 @@ Proxima.utils.loadAptClient = function ()
         end if
     end for
     if isValidLocation then
-        print(Proxima.cli.addOutputEntry(self.utils.message.success("<b>aptclient.so</b> is loaded.")))
+        print(Proxima.cli.addOutputEntry(self.cli.message.success("<b>aptclient.so</b> is loaded.")))
     else
-        exit(self.utils.message.error("Unable to find <b>aptclient.so</b> library."))
+        exit(self.cli.message.error("Unable to find <b>aptclient.so</b> library."))
     end if
 end function
 
@@ -109,7 +109,7 @@ Proxima.utils.displayList = function (headerList, contentList)
     padRight = function(str, length, rowColor)
         padding = " " * (length - str.len)
         if rowColor != null then
-            return Proxima.utils.message.colorize(str + padding, "#" + rowColor)
+            return Proxima.cli.message.colorize(str + padding, "#" + rowColor)
         else
             return str + padding
         end if

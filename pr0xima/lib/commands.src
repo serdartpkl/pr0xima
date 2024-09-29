@@ -1,17 +1,5 @@
 Proxima.cli.commands = {}
 
-Proxima.cli.commands.throwCLIError = function (cmdMessage = null, cmdUsage = null)
-    if cmdMessage != null then 
-        if cmdUsage != null then
-            print(Proxima.cli.addOutputEntry(Proxima.cli.message.error(cmdMessage + " Usage: " + cmdUsage)))
-        else
-            print(Proxima.cli.addOutputEntry(Proxima.cli.message.error(cmdMessage)))
-        end if
-    else
-        print(Proxima.cli.addOutputEntry(Proxima.cli.message.error("Unknown command! Type <b>help</b> to list available commands.")))
-    end if
-end function
-
 // ------------------------------------------------------------------------------------------------------------
 
 Proxima.cli.commands.target = {
@@ -420,7 +408,7 @@ Proxima.cli.commands.exit = {
     "usage": "exit"
 }
 Proxima.cli.commands.exit.exec = function (params)
-    exit(Proxima.utils.message.success("Goodbye! Have a nice day."))
+    exit(Proxima.cli.message.success("Goodbye! Have a nice day."))
 end function
 
 // ------------------------------------------------------------------------------------------------------------
