@@ -1,9 +1,10 @@
 Proxima.cli = {}
 
+Proxima.cli.cliString = null
 Proxima.cli.cliEntries = []
 
 Proxima.cli.addInputEntry = function (userCommand)
-    self.cliEntries.push(Proxima.globals.cliString + userCommand)
+    self.cliEntries.push(self.cliString + userCommand)
 end function
 
 Proxima.cli.addOutputEntry = function (outputString)
@@ -24,7 +25,7 @@ Proxima.cli.addTransferProcess = function (fileSize)
     self.cliEntries.push("Processing...")
 end function
 
-Proxima.cli.clearcli = function ()
+Proxima.cli.clearCLI = function ()
     clear_cli
     if self.cliEntries.len > 0 then
         for cliEntry in self.cliEntries

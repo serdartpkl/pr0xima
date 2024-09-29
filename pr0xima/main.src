@@ -2,11 +2,11 @@ import_code("env/init.src")
 import_code("env/settings.src")
 
 import_code("lib/apt.src")
+import_code("lib/cli.src")
 import_code("lib/commands.src")
 import_code("lib/exploit.src")
 import_code("lib/net.src")
 import_code("lib/rshell.src")
-import_code("lib/screen.src")
 import_code("lib/utils.src")
 
 Proxima.utils.loadMetaxploit = function ()
@@ -99,10 +99,10 @@ Proxima.startCLI = function ()
     else
         activeTarget = self.globals.activeUser
     end if
-    self.globals.cliString = self.utils.message.colorize("<b>" + activeTarget + "</b>", "#FFC466") + self.utils.message.colorize("@pr0xima", "#FC8403") + self.utils.message.colorize("> ", "#008DFF")
+    self.cli.cliString = self.utils.message.colorize("<b>" + activeTarget + "</b>", "#FFC466") + self.utils.message.colorize("@pr0xima", "#FC8403") + self.utils.message.colorize("> ", "#008DFF")
     while true
-        userCommand = user_input(self.globals.cliString, false, false).trim
-        self.screen.addInputEntry(userCommand)
+        userCommand = user_input(self.cli.cliString, false, false).trim
+        self.cli.addInputEntry(userCommand)
         self.handleCommand(userCommand)
     end while
 end function
