@@ -46,32 +46,25 @@ Proxima.setScanMode = function (scanMode)
     self.globals.scanMode = scanMode
 end function
 
-Proxima.setAppDescription = function (appDescription)
-    self.applicationDescription = appDescription
-end function
-
 Proxima.printHeader = function ()
-    print(self.screen.addOutputEntry("<b>" + self.globals.applicationName + " - " + self.globals.version + "</b>"))
-    if self.applicationDescription != "" then print(self.screen.addOutputEntry(self.globals.applicationDescription))
-    print(self.screen.addOutputEntry("+------------------------------------+"))
-end function
-
-Proxima.initialize = function ()
-    self.printHeader()
-    self.loadMetaxploit()
-    self.loadCrypto()
-    if self.globals.scanMode == 1 and not self.net.checkConnection() then exit(self.utils.message.error("You are not connected to internet! Terminating program..."))
+    V = Proxima.globals.version
+    print(self.screen.addOutputEntry("v"+V+"       ___       _                 "))
+    print(self.screen.addOutputEntry(" _ __  _ __ / _ \__  _(_)_ __ ___   __ _ "))
+    print(self.screen.addOutputEntry("| '_ \| '__| | | \ \/ / | '_ ` _ \ / _` |"))
+    print(self.screen.addOutputEntry("| |_) | |  | |_| |>  <| | | | | | | (_| |"))
+    print(self.screen.addOutputEntry("| .__/|_|   \___//_/\_\_|_| |_| |_|\__,_|"))
+    print(self.screen.addOutputEntry("|_|    A simple all-purpose hacking tool."))
+    print(self.screen.addOutputEntry("+---------------------------------------+"))
 end function
 
 Proxima.startCLI = function ()
-    self.initialize()
-    cliTitle = null
+    activeTarget = null
     if self.exploit.targetIP != null then 
-        cliTitle = self.exploit.targetIP 
+        activeTarget = self.exploit.targetIP 
     else
-        cliTitle = self.globals.activeUser
+        activeTarget = self.globals.activeUser
     end if
-    self.globals.cliMarker = self.utils.message.colorize("[" + cliTitle + "]", "#FFC466") + self.utils.message.colorize("@" + self.globals.applicationName, "#FC8403") + self.utils.message.colorize("> ", "#008DFF")
+    self.globals.cliMarker = self.utils.message.colorize("<b>" + activeTarget + "</b>", "#FFC466") + self.utils.message.colorize("@pr0xima", "#FC8403") + self.utils.message.colorize("> ", "#008DFF")
     while true
         userCommand = user_input(self.globals.cliMarker, false, false).trim
         self.screen.addInputEntry(userCommand)
@@ -102,17 +95,15 @@ Proxima.handleCommand = function (userCommand)
         end for
 
         if selectedCommand != null then
-            if selectedCommand.type != 2 then
-                if self.globals.scanMode == selectedCommand.type then
-                    selectedCommand.exec(params)
-                else
-                    self.utils.throwCLIError()
-                end if
-            else
-                selectedCommand.exec(params)
-            end if
+            selectedCommand.exec(params)
         else
             self.utils.throwCLIError()
         end if
     end if
+end function
+
+Proxima.initialize = function ()
+    self.printHeader()
+    self.loadMetaxploit()
+    self.loadCrypto()
 end function

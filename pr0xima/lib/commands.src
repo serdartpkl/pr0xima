@@ -2,9 +2,8 @@ Proxima.commands = {}
 
 Proxima.commands.target = {
     "name": "target",
-    "description": "Sets the target IP address for scanning.",
-    "usage": "target <ip>",
-    "type": 1
+    "description": "Sets the target IP address for remote scanning.",
+    "usage": "target <ip>"
 }
 Proxima.commands.target.exec = function (params)
     if params.len == 0 then
@@ -23,9 +22,8 @@ end function
 
 Proxima.commands.scanport = {
     "name": "scanport",
-    "description": "Scans the specified port/ports for exploits.",
-    "usage": "scanport <id>",
-    "type": 1
+    "description": "Scans the specified port/ports for acquiring available remote exploits.",
+    "usage": "scanport <id>"
 }
 Proxima.commands.scanport.exec = function (params)
     if Proxima.exploit.targetPorts.len > 0 then
@@ -48,9 +46,8 @@ end function
 
 Proxima.commands.dump = {
     "name": "dump",
-    "description": "Dumps all local libraries and their information.",
-    "usage": "dump",
-    "type": 0
+    "description": "Dumps all local libraries and their informations to perform a local scan.",
+    "usage": "dump"
 }
 Proxima.commands.dump.exec = function (params)
     if params.len > 0 then
@@ -63,9 +60,8 @@ end function
 
 Proxima.commands.scanlib = {
     "name": "scanlib",
-    "description": "Scans the specified library/libraries for exploits.",
-    "usage": "scanlib <id>",
-    "type": 0
+    "description": "Scans the specified library/libraries for acquiring available local exploits.",
+    "usage": "scanlib <id>"
 }
 Proxima.commands.scanlib.exec = function (params)
     if Proxima.exploit.targetLibraries.len > 0 then
@@ -88,9 +84,8 @@ end function
 
 Proxima.commands.ports = {
     "name": "ports",
-    "description": "",
-    "usage": "ports",
-    "type": 1
+    "description": "Lists all available target ports..",
+    "usage": "ports"
 }
 Proxima.commands.ports.exec = function (params)
     if Proxima.exploit.targetPorts.len > 0 then
@@ -102,9 +97,8 @@ end function
 
 Proxima.commands.libraries = {
     "name": "libraries",
-    "description": "",
-    "usage": "libraries",
-    "type": 0
+    "description": "Lists all available local libraries.",
+    "usage": "libraries"
 }
 Proxima.commands.libraries.exec = function (params)
     if Proxima.exploit.targetLibraries.len > 0 then
@@ -116,9 +110,8 @@ end function
 
 Proxima.commands.exploits = {
     "name": "exploits",
-    "description": "",
-    "usage": "exploits",
-    "type": 2
+    "description": "Lists all available exploits gathered from current remote target or local libraries.",
+    "usage": "exploits"
 }
 Proxima.commands.exploits.exec = function (params)
     if Proxima.exploit.targetExploits.len > 0 then
@@ -130,9 +123,8 @@ end function
 
 Proxima.commands.users = {
     "name": "users",
-    "description": "",
-    "usage": "users",
-    "type": 2
+    "description": "Lists all available user informations gathered from executed exploit/exploits.",
+    "usage": "users"
 }
 Proxima.commands.users.exec = function (params)
     if Proxima.exploit.targetUsers.len > 0 then
@@ -144,9 +136,8 @@ end function
 
 Proxima.commands.mails = {
     "name": "",
-    "description": "",
-    "usage": "",
-    "type": 2
+    "description": "Lists all available bank informations gathered from executed exploit/exploits.",
+    "usage": ""
 }
 Proxima.commands.mails.exec = function (params)
     if Proxima.exploit.targetMails.len > 0 then
@@ -158,9 +149,8 @@ end function
 
 Proxima.commands.banks = {
     "name": "mails",
-    "description": "",
-    "usage": "mails",
-    "type": 2
+    "description": "Lists all available mail informations gathered from executed exploit/exploits.",
+    "usage": "mails"
 }
 Proxima.commands.banks.exec = function (params)
     if Proxima.exploit.targetBanks.len > 0 then
@@ -172,9 +162,8 @@ end function
 
 Proxima.commands.shells = {
     "name": "shells",
-    "description": "",
-    "usage": "shells",
-    "type": 2
+    "description": "Lists all available shell connections gathered from executed exploit/exploits.",
+    "usage": "shells"
 }
 Proxima.commands.shells.exec = function (params)
     if Proxima.exploit.targetShells.len > 0 then
@@ -188,9 +177,8 @@ end function
 
 Proxima.commands.execute = {
     "name": "execute",
-    "description": "",
-    "usage": "execute <id>",
-    "type": 2
+    "description": "Executes specified exploit with given ID.",
+    "usage": "execute <id>"
 }
 Proxima.commands.execute.exec = function (params)
     if params.len == 0 then
@@ -207,9 +195,8 @@ end function
 
 Proxima.commands.decipher = {
     "name": "decipher",
-    "description": "",
-    "usage": "decipher <list> <id>",
-    "type": 2
+    "description": "Deciphers ",
+    "usage": "decipher <list> <id>"
 }
 Proxima.commands.decipher.exec = function (params)
     if params.len < 2 then
@@ -235,10 +222,9 @@ end function
 // ------------------------------------------------------------------------------------------------------------
 
 Proxima.commands.shell = {
-    "name": "cshell",
-    "description": "",
-    "usage": "cshell <id>",
-    "type": 2
+    "name": "shell",
+    "description": "Starts terminal for specified shell with given ID.",
+    "usage": "shell <id>"
 }
 Proxima.commands.shell.exec = function (params)
     if params.len == 0 then
@@ -252,8 +238,7 @@ end function
 Proxima.commands.tunnel = {
     "name": "tunnel",
     "description": "",
-    "usage": "tunnel",
-    "type": 1
+    "usage": "tunnel"
 }
 Proxima.commands.tunnel.exec = function (params)
     Proxima.exploit.tunnelConnection()
@@ -263,9 +248,8 @@ end function
 
 Proxima.commands.get = {
     "name": "get",
-    "description": "",
-    "usage": "get <path>",
-    "type": 1
+    "description": "Gets file from remote computer to local computer.",
+    "usage": "get <path>"
 }
 Proxima.commands.get.exec = function (params)
     if params.len == 0 then
@@ -277,9 +261,8 @@ end function
 
 Proxima.commands.put = {
     "name": "put",
-    "description": "",
-    "usage": "put <path>",
-    "type": 1
+    "description": "Uploads file from local computer to remote computer.",
+    "usage": "put <path>"
 }
 Proxima.commands.put.exec = function (params)
     if params.len == 0 then
@@ -295,9 +278,8 @@ end function
 
 Proxima.commands.delete = {
     "name": "delete",
-    "description": "",
-    "usage": "delete <path>",
-    "type": 2
+    "description": "Deletes specified remote or local file.",
+    "usage": "delete <path>"
 }
 Proxima.commands.delete.exec = function (params)
     if params.len == 0 then
@@ -311,9 +293,8 @@ end function
 
 Proxima.commands.launch = {
     "name": "run",
-    "description": "",
-    "usage": "run <path>",
-    "type": 2
+    "description": "Executes ",
+    "usage": "run <path>"
 }
 Proxima.commands.launch.exec = function (params)
     if params.len == 0 then
@@ -325,9 +306,8 @@ end function
 
 Proxima.commands.corrupt = {
     "name": "corrupt",
-    "description": "Corrupts the computer and makes it unable to work.",
-    "usage": "corrupt",
-    "type": 2
+    "description": "Corrupts remote target's computer and makes it unable to work.",
+    "usage": "corrupt"
 }
 Proxima.commands.corrupt.exec = function (params)
     Proxima.exploit.corruptComputer()
@@ -335,9 +315,8 @@ end function
 
 Proxima.commands.cleanup = {
     "name": "cleanup",
-    "description": "Removes system log file to leave no trace.",
-    "usage": "cleanup",
-    "type": 2
+    "description": "Removes remote or local system log file to leave no trace.",
+    "usage": "cleanup"
 }
 Proxima.commands.cleanup.exec = function (params)
     Proxima.exploit.cleanUpLogs()
@@ -347,9 +326,8 @@ end function
 
 Proxima.commands.whois = {
     "name": "whois",
-    "description": "whois command.",
-    "usage": "whois",
-    "type": 1
+    "description": "Performs 'whois' command to gather contact information for remote target.",
+    "usage": "whois"
 }
 Proxima.commands.whois.exec = function (params)
     Proxima.utils.getAdminContact()
@@ -357,9 +335,8 @@ end function
 
 Proxima.commands.cls = {
     "name": "cls",
-    "description": "Clears the terminal screen.",
-    "usage": "cls",
-    "type": 2
+    "description": "Clears terminal screen.",
+    "usage": "cls"
 }
 Proxima.commands.cls.exec = function (params)
     clear_screen
@@ -367,9 +344,8 @@ end function
 
 Proxima.commands.help = {
     "name": "help",
-    "description": "Lists available commands.",
-    "usage": "help",
-    "type": 2
+    "description": "Lists all available commands.",
+    "usage": "help"
 }
 Proxima.commands.help.exec = function (params)
     i = 0
@@ -392,9 +368,8 @@ end function
 
 Proxima.commands.exit = {
     "name": "exit",
-    "description": "",
-    "usage": "exit",
-    "type": 2
+    "description": "Exits from script.",
+    "usage": "exit"
 }
 Proxima.commands.exit.exec = function (params)
     exit(Proxima.utils.message.success("Goodbye! Have a nice day."))
