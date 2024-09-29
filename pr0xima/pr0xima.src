@@ -47,7 +47,7 @@ Proxima.loadRshell = function ()
     for location in self.settings.cryptoLocations
         includeRshell = include_lib(location)
         if includeRshell != null then
-            self.globals.crypto = includeRshell
+            self.globals.librshell = includeRshell
             isValidLocation = true
             break
         end if
@@ -64,7 +64,7 @@ Proxima.loadAptClient = function ()
     for location in self.settings.cryptoLocations
         includeAptClient = include_lib(location)
         if includeAptClient != null then
-            self.globals.crypto = includeAptClient
+            self.globals.aptclient = includeAptClient
             isValidLocation = true
             break
         end if
