@@ -4,6 +4,30 @@ Proxima.utils.message = {}
 
 Proxima.utils.message.line = "+---------------------------------------+"
 
+Proxima.utils.message.colorize = function (txt, color)
+    return "<color=" + color + ">" + txt + "</color>"
+end function
+
+Proxima.utils.message.info = function (txt)
+    return self.colorize("[i] " + txt, "#0091FF")
+end function
+
+Proxima.utils.message.progress = function (txt)
+    return self.colorize("[*] " + txt, "#00FFBB")
+end function
+
+Proxima.utils.message.warning = function (txt)
+    return self.colorize("[!] " + txt, "#FFDD00")
+end function
+
+Proxima.utils.message.error = function (txt)
+    return self.colorize("[!] " + txt, "#FF1548")
+end function
+
+Proxima.utils.message.success = function (txt)
+    return self.colorize("[+] " + txt, "#08FF57")
+end function
+
 Proxima.utils.loadMetaxploit = function ()
     isValidLocation = false
     for location in self.settings.metaxploitLocations
@@ -181,28 +205,4 @@ Proxima.utils.collectFiles = function (parentDir)
     scanDir(parentDir)
 
     return allFiles
-end function
-
-Proxima.utils.message.colorize = function (txt, color)
-    return "<color=" + color + ">" + txt + "</color>"
-end function
-
-Proxima.utils.message.info = function (txt)
-    return self.colorize("[i] " + txt, "#0091FF")
-end function
-
-Proxima.utils.message.progress = function (txt)
-    return self.colorize("[*] " + txt, "#00FFBB")
-end function
-
-Proxima.utils.message.warning = function (txt)
-    return self.colorize("[!] " + txt, "#FFDD00")
-end function
-
-Proxima.utils.message.error = function (txt)
-    return self.colorize("[!] " + txt, "#FF1548")
-end function
-
-Proxima.utils.message.success = function (txt)
-    return self.colorize("[+] " + txt, "#08FF57")
 end function
