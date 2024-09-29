@@ -360,7 +360,12 @@ Proxima.cli.commands.whois = {
     "usage": "whois"
 }
 Proxima.cli.commands.whois.exec = function (params)
-    Proxima.utils.getAdminContact()
+    adminInfo = whois(Proxima.exploit.targetIP)
+    adminInfo = adminInfo.split(char(10))
+    print(Proxima.cli.addOutputEntry(Proxima.cli.message.colorize("<b>Domain Name:</b> ", "#0091FF") + adminInfo[0].split(":")[1].trim))
+    print(Proxima.cli.addOutputEntry(Proxima.cli.message.colorize("<b>Administrative Contact:</b> ", "#0091FF") + adminInfo[1].split(":")[1].trim))
+    print(Proxima.cli.addOutputEntry(Proxima.cli.message.colorize("<b>Email Address:</b> ", "#0091FF") + adminInfo[2].split(":")[1].trim))
+    print(Proxima.cli.addOutputEntry(Proxima.cli.message.colorize("<b>Phone Number:</b> ", "#0091FF") + adminInfo[3].split(":")[1].trim))
 end function
 
 // ------------------------------------------------------------------------------------------------------------
