@@ -1,0 +1,14 @@
+import_code("/home/pr0ximan0va/Scripts/env/init.src")
+import_code("/home/pr0ximan0va/Scripts/env/globals.src")
+import_code("/home/pr0ximan0va/Scripts/env/settings.src")
+import_code("/home/pr0ximan0va/Scripts/lib/cli.src")
+import_code("/home/pr0ximan0va/Scripts/lib/utils.src")
+import_code("/home/pr0ximan0va/Scripts/lib/apt.src")
+import_code("/home/pr0ximan0va/Scripts/lib/net.src")
+import_code("/home/pr0ximan0va/Scripts/lib/exploit.src")
+import_code("/home/pr0ximan0va/Scripts/lib/rshell.src")
+import_code("/home/pr0ximan0va/Scripts/lib/commands.src")
+Proxima.run=function
+self.utils.printHeader
+self.cli.commands.startCLI
+end function

@@ -1,5 +1,6 @@
 Proxima.cli={}
 Proxima.cli.cliString=null
+Proxima.cli.cliEntries=[]
 // ------------------------------------------------------------------------------------------------------------
 Proxima.cli.message={}
 Proxima.cli.message.line="+---------------------------------------+"
@@ -34,7 +35,6 @@ print(Proxima.cli.addOutputEntry(Proxima.cli.message.error("Unknown command! Typ
 end if
 end function
 // ------------------------------------------------------------------------------------------------------------
-Proxima.cli.cliEntries=[]
 Proxima.cli.addInputEntry=function(userCommand)
 self.cliEntries.push(self.cliString+userCommand)
 end function
