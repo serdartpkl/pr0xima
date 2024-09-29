@@ -84,52 +84,6 @@ Proxima.utils.getAdminContact = function ()
     print(Proxima.screen.addOutputEntry("<b>Phone Number:</b> " + infoObject.phone))
 end function
 
-Proxima.utils.findHackShop = function ()
-    hackShopIP = null
-    
-    generateRandomIP = function()
-        firstByteRange = range(0,	255)
-        firstByteRange.remove(192) //reserved
-        firstByteRange.remove(191) //reserved
-        firstByteRange.remove(0) //reserved
-        firstByteRange.remove(10) //private
-        firstByteRange.remove(172) //private
-        firstByteRange.remove(128) //reserved
-        firstByteRange.remove(223) //reserved
-
-        restByteRange = range(0,255)
-        
-        generatedIP = []
-        generatedIP.push(floor(rnd() * firstByteRange.len))
-        for i in range(2)
-            generatedIP.push(floor(rnd() * restByteRange.len))
-        end for
-        generatedIP = generatedIP.join(".")
-
-        if is_valid_ip(generatedIP) and get_router(generatedIP) and get_shell.ping(generatedIP) then
-            return generatedIP
-        end if
-        return generateRandomIP
-    end function
-
-    while true
-        generatedIP = generateRandomIP
-        targetRouter = get_router(ip)
-        targetPorts = router.used_ports
-        isHackShop = false
-        for targetPort in targetPorts
-            portInfo = targetRouter.port_info(targetPort)
-            if portInfo.indexOf("repository") != null then
-                hackShopIP = generatedIP
-                break
-            end if
-        end for
-    end while
-
-    if hackShopIP != null then return hackShopIP
-    return null
-end function
-
 Proxima.utils.printHeader = function ()
     V = Proxima.globals.version
     print(self.screen.addOutputEntry("v"+V+"       ___       _                 "))
