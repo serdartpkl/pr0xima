@@ -428,7 +428,7 @@ Proxima.cli.handleCommand = function (userCommand)
         end if
 
         selectedCommand = null
-        for command in self
+        for command in self.commands
             if command.values[0] == parsedCommand then
                 selectedCommand = command.values[1]
                 break
