@@ -1,4 +1,5 @@
 import_code("/home/pr0ximan0va/Scripts/pr0xima/env/init.src")
+import_code("/home/pr0ximan0va/Scripts/pr0xima/env/globals.src")
 import_code("/home/pr0ximan0va/Scripts/pr0xima/env/settings.src")
 import_code("/home/pr0ximan0va/Scripts/pr0xima/lib/utils.src")
 import_code("/home/pr0ximan0va/Scripts/pr0xima/lib/commands.src")
@@ -9,4 +10,4 @@ import_code("/home/pr0ximan0va/Scripts/pr0xima/lib/exploit.src")
 import_code("/home/pr0ximan0va/Scripts/pr0xima/lib/rshell.src")
 import_code("/home/pr0ximan0va/Scripts/pr0xima/main.src")
 prx=new Proxima
-prx.init
+prx.run

@@ -6,12 +6,12 @@ Proxima.cli.cliEntries = []
 Proxima.utils.throwCLIError = function (cmdMessage = null, cmdUsage = null)
     if cmdMessage != null then 
         if cmdUsage != null then
-            print(Proxima.screen.addOutputEntry(Proxima.utils.message.error(cmdMessage + " Usage: " + cmdUsage)))
+            print(Proxima.cli.addOutputEntry(Proxima.utils.message.error(cmdMessage + " Usage: " + cmdUsage)))
         else
-            print(Proxima.screen.addOutputEntry(Proxima.utils.message.error(cmdMessage)))
+            print(Proxima.cli.addOutputEntry(Proxima.utils.message.error(cmdMessage)))
         end if
     else
-        print(Proxima.screen.addOutputEntry(Proxima.utils.message.error("Unknown command! Type <b>help</b> to list available commands.")))
+        print(Proxima.cli.addOutputEntry(Proxima.utils.message.error("Unknown command! Type <b>help</b> to list available commands.")))
     end if
 end function
 
