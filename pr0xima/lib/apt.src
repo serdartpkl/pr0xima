@@ -1,3 +1,4 @@
 Proxima.apt = {}
 
-Proxima.apt.
+Proxima.apt.updateLibraries = function ()
+end function
