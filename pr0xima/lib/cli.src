@@ -52,10 +52,10 @@ Proxima.cli.startCLI = function ()
     else
         activeTarget = self.globals.activeUser
     end if
-    self.cli.cliString = self.utils.message.colorize("<b>" + activeTarget + "</b>", "#FFC466") + self.utils.message.colorize("@pr0xima", "#FC8403") + self.utils.message.colorize("> ", "#008DFF")
+    self.cliString = self.utils.message.colorize("<b>" + activeTarget + "</b>", "#FFC466") + self.utils.message.colorize("@pr0xima", "#FC8403") + self.utils.message.colorize("> ", "#008DFF")
     while true
-        userCommand = user_input(self.cli.cliString, false, false).trim
-        self.cli.addInputEntry(userCommand)
+        userCommand = user_input(self.cliString, false, false).trim
+        self.addInputEntry(userCommand)
         self.handleCommand(userCommand)
     end while
 end function
