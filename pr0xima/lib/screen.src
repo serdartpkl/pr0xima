@@ -1,34 +1,34 @@
 Proxima.screen = {}
 
-Proxima.screen.screenItems = []
+Proxima.screen.cliEntries = []
 
 Proxima.screen.addInputEntry = function (userCommand)
-    self.screenItems.push(Proxima.globals.cliMarker + userCommand)
+    self.cliEntries.push(Proxima.globals.cliMarker + userCommand)
 end function
 
 Proxima.screen.addOutputEntry = function (outputString)
-    self.screenItems.push(outputString)
+    self.cliEntries.push(outputString)
     return outputString
 end function
 
 Proxima.screen.addProgressBar = function ()
-    self.screenItems.push("[###################################]==[ 100% ]")
+    self.cliEntries.push("[###################################]==[ 100% ]")
 end function
 
 Proxima.screen.addTransferProcess = function (fileSize)
     if fileSize.to_int < 1000 then
-        self.screenItems.push("100%	" + str(floor(rnd * (900 - 50 + 1) + 50)) + "." + str(floor(rnd * (9 - 1 + 1) + 1)) + " KB/s  0 sec (" + fileSize + " Bytes of " + fileSize + " Bytes copied)")
+        self.cliEntries.push("100%	" + str(floor(rnd * (900 - 50 + 1) + 50)) + "." + str(floor(rnd * (9 - 1 + 1) + 1)) + " KB/s  0 sec (" + fileSize + " Bytes of " + fileSize + " Bytes copied)")
     else
-        self.screenItems.push("100%	" + str(floor(rnd * (900 - 50 + 1) + 50)) + "." + str(floor(rnd * (9 - 1 + 1) + 1)) + " KB/s  0 sec (" + str((floor(fileSize * 100) / 100) / 1000)[:3] + " MB of " + str((floor(fileSize * 100) / 100) / 1000)[:3] + " MB copied)")
+        self.cliEntries.push("100%	" + str(floor(rnd * (900 - 50 + 1) + 50)) + "." + str(floor(rnd * (9 - 1 + 1) + 1)) + " KB/s  0 sec (" + str((floor(fileSize * 100) / 100) / 1000)[:3] + " MB of " + str((floor(fileSize * 100) / 100) / 1000)[:3] + " MB copied)")
     end if
-    self.screenItems.push("Processing...")
+    self.cliEntries.push("Processing...")
 end function
 
 Proxima.screen.clearScreen = function ()
     clear_screen
-    if self.screenItem.len > 0 then
-        for screenItem in self.screenItems
-            print(screenItem)
+    if self.cliEntries.len > 0 then
+        for cliEntry in self.cliEntries
+            print(cliEntry)
         end for
     end if
 end function
