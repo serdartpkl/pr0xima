@@ -10,6 +10,6 @@ import_code("lib/exploit.src")
 import_code("lib/rshell.src")
 
 Proxima.init = function ()
-    Proxima.utils.printHeader()
-    Proxima.cli.startCLI()
+    self.utils.printHeader()
+    self.cli.startCLI()
 end function
