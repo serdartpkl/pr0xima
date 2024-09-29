@@ -1,4 +1,4 @@
-import_code("env/init.src")
+import_code("env/globals.src")
 import_code("env/settings.src")
 
 import_code("lib/utils.src")
