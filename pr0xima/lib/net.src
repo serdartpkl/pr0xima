@@ -42,7 +42,7 @@ Proxima.net.startSniffing = function ()
     requiredACKs = ceil(self.maxACKRate / self.targetNetwork.strength)
 
     print(Proxima.screen.addOutputEntry(Proxima.utils.message.progress("Sniffing ACKs... (approx. " + requiredACKs + ")")))
-    print(Proxima.screen.addOutputEntry("+------------------------------------+"))
+    print(Proxima.screen.addOutputEntry(Proxima.utils.message.line))
 
     getACKs = Proxima.globals.crypto.aireplay(self.targetNetwork.bssid, self.targetNetwork.essid, requiredACKs)
     if typeof(getACKs) == "string" then exit(Proxima.utils.message.error(getACKs))
@@ -51,7 +51,7 @@ Proxima.net.startSniffing = function ()
     if typeof(airmonResult) == "string" then exit(Proxima.utils.message.error("Unable to stop monitoring on <b>" + self.interface + "</b>"))
 
     print(Proxima.screen.addOutputEntry(Proxima.utils.message.info("Monitoring stopped.")))
-    print(Proxima.screen.addOutputEntry("+------------------------------------+"))
+    print(Proxima.screen.addOutputEntry(Proxima.utils.message.line))
 end function
 
 Proxima.net.crackKey = function ()

@@ -2,6 +2,8 @@ Proxima.utils = {}
 
 Proxima.utils.message = {}
 
+Proxima.utils.message.line = "+---------------------------------------+"
+
 Proxima.utils.loadMetaxploit = function ()
     isValidLocation = false
     for location in self.settings.metaxploitLocations
@@ -91,8 +93,10 @@ Proxima.utils.printHeader = function ()
     print(self.screen.addOutputEntry("| '_ \| '__| | | \ \/ / | '_ ` _ \ / _` |"))
     print(self.screen.addOutputEntry("| |_) | |  | |_| |>  <| | | | | | | (_| |"))
     print(self.screen.addOutputEntry("| .__/|_|   \___//_/\_\_|_| |_| |_|\__,_|"))
-    print(self.screen.addOutputEntry("|_|    A simple all-purpose hacking tool."))
-    print(self.screen.addOutputEntry("+---------------------------------------+"))
+    print(self.screen.addOutputEntry("|_|                                      "))
+    print(self.screen.addOutputEntry("             An easy-to-use multi purpose"))
+    print(self.screen.addOutputEntry("               hacking tool for beginners"))
+    print(self.screen.addOutputEntry(self.message.line))
 end function
 
 Proxima.utils.displayList = function (header_list, content_list)
