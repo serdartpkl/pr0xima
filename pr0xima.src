@@ -1,4 +1,4 @@
 import_code("pr0xima/main.src")
 
 prx = new Proxima
-prx.init()
+prx.run()
