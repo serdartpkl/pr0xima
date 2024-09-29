@@ -1,24 +1,4 @@
 Proxima.utils={}
-Proxima.utils.message={}
-Proxima.utils.message.line="+---------------------------------------+"
-Proxima.utils.message.colorize=function(txt,color)
-return "<color="+color+">"+txt+"</color>"
-end function
-Proxima.utils.message.info=function(txt)
-return self.colorize("[i] "+txt,"#0091FF")
-end function
-Proxima.utils.message.progress=function(txt)
-return self.colorize("[*] "+txt,"#00FFBB")
-end function
-Proxima.utils.message.warning=function(txt)
-return self.colorize("[!] "+txt,"#FFDD00")
-end function
-Proxima.utils.message.error=function(txt)
-return self.colorize("[!] "+txt,"#FF1548")
-end function
-Proxima.utils.message.success=function(txt)
-return self.colorize("[+] "+txt,"#08FF57")
-end function
 Proxima.utils.loadMetaxploit=function
 isValidLocation=false
 for location in self.settings.metaxploitLocations
@@ -30,9 +10,9 @@ break
 end if
 end for
 if isValidLocation then
-print(Proxima.cli.addOutputEntry(self.utils.message.success("<b>metaxploit.so</b> is loaded.")))
+print(Proxima.cli.addOutputEntry(Proxima.cli.message.success("<b>metaxploit.so</b> is loaded.")))
 else
-exit(self.utils.message.error("Unable to find <b>metaxploit.so</b> library."))
+exit(Proxima.cli.message.error("Unable to find <b>metaxploit.so</b> library."))
 end if
 end function
 Proxima.utils.loadCrypto=function
@@ -46,9 +26,9 @@ break
 end if
 end for
 if isValidLocation then
-print(Proxima.cli.addOutputEntry(self.utils.message.success("<b>crypto.so</b> is loaded.")))
+print(Proxima.cli.addOutputEntry(Proxima.cli.message.success("<b>crypto.so</b> is loaded.")))
 else
-exit(self.utils.message.error("Unable to find <b>crypto.so</b> library."))
+exit(Proxima.cli.message.error("Unable to find <b>crypto.so</b> library."))
 end if
 end function
 Proxima.utils.loadRshell=function
@@ -62,9 +42,9 @@ break
 end if
 end for
 if isValidLocation then
-print(Proxima.cli.addOutputEntry(self.utils.message.success("<b>librshell.so</b> is loaded.")))
+print(Proxima.cli.addOutputEntry(Proxima.cli.message.success("<b>librshell.so</b> is loaded.")))
 else
-exit(self.utils.message.error("Unable to find <b>librshell.so</b> library."))
+exit(Proxima.cli.message.error("Unable to find <b>librshell.so</b> library."))
 end if
 end function
 Proxima.utils.loadAptClient=function
@@ -78,9 +58,9 @@ break
 end if
 end for
 if isValidLocation then
-print(Proxima.cli.addOutputEntry(self.utils.message.success("<b>aptclient.so</b> is loaded.")))
+print(Proxima.cli.addOutputEntry(Proxima.cli.message.success("<b>aptclient.so</b> is loaded.")))
 else
-exit(self.utils.message.error("Unable to find <b>aptclient.so</b> library."))
+exit(Proxima.cli.message.error("Unable to find <b>aptclient.so</b> library."))
 end if
 end function
 Proxima.utils.getAdminContact=function
@@ -98,15 +78,15 @@ print(Proxima.cli.addOutputEntry("<b>Phone Number:</b> "+infoObject.phone))
 end function
 Proxima.utils.printHeader=function
 V=Proxima.globals.version
-print(self.cli.addOutputEntry("v"+V+"       ___       _                 "))
-print(self.cli.addOutputEntry(" _ __  _ __ / _ \__  _(_)_ __ ___   __ _ "))
-print(self.cli.addOutputEntry("| '_ \| '__| | | \ \/ / | '_ ` _ \ / _` |"))
-print(self.cli.addOutputEntry("| |_) | |  | |_| |>  <| | | | | | | (_| |"))
-print(self.cli.addOutputEntry("| .__/|_|   \___//_/\_\_|_| |_| |_|\__,_|"))
-print(self.cli.addOutputEntry("|_|                                      "))
-print(self.cli.addOutputEntry("             An easy-to-use multi purpose"))
-print(self.cli.addOutputEntry("               hacking tool for beginners"))
-print(self.cli.addOutputEntry(self.message.line))
+print(Proxima.cli.addOutputEntry("v"+V+"       ___       _                 "))
+print(Proxima.cli.addOutputEntry(" _ __  _ __ / _ \__  _(_)_ __ ___   __ _ "))
+print(Proxima.cli.addOutputEntry("| '_ \| '__| | | \ \/ / | '_ ` _ \ / _` |"))
+print(Proxima.cli.addOutputEntry("| |_) | |  | |_| |>  <| | | | | | | (_| |"))
+print(Proxima.cli.addOutputEntry("| .__/|_|   \___//_/\_\_|_| |_| |_|\__,_|"))
+print(Proxima.cli.addOutputEntry("|_|                                      "))
+print(Proxima.cli.addOutputEntry("             An easy-to-use multi purpose"))
+print(Proxima.cli.addOutputEntry("               hacking tool for beginners"))
+print(Proxima.cli.addOutputEntry(self.message.line))
 end function
 Proxima.utils.displayList=function(headerList,contentList)
 maxLengths=[]
@@ -120,7 +100,7 @@ end for
 padRight=function(str,length,rowColor)
 padding=" "*(length-str.len)
 if rowColor!=null then
-return Proxima.utils.message.colorize(str+padding,"#"+rowColor)
+return Proxima.cli.message.colorize(str+padding,"#"+rowColor)
 else
 return str+padding
 end if

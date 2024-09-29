@@ -11,9 +11,9 @@ Proxima.utils.loadMetaxploit = function ()
         end if
     end for
     if isValidLocation then
-        print(Proxima.cli.addOutputEntry(self.cli.message.success("<b>metaxploit.so</b> is loaded.")))
+        print(Proxima.cli.addOutputEntry(Proxima.cli.message.success("<b>metaxploit.so</b> is loaded.")))
     else
-        exit(self.cli.message.error("Unable to find <b>metaxploit.so</b> library."))
+        exit(Proxima.cli.message.error("Unable to find <b>metaxploit.so</b> library."))
     end if
 end function
 
@@ -28,9 +28,9 @@ Proxima.utils.loadCrypto = function ()
         end if
     end for
     if isValidLocation then
-        print(Proxima.cli.addOutputEntry(self.cli.message.success("<b>crypto.so</b> is loaded.")))
+        print(Proxima.cli.addOutputEntry(Proxima.cli.message.success("<b>crypto.so</b> is loaded.")))
     else
-        exit(self.cli.message.error("Unable to find <b>crypto.so</b> library."))
+        exit(Proxima.cli.message.error("Unable to find <b>crypto.so</b> library."))
     end if
 end function
 
@@ -45,9 +45,9 @@ Proxima.utils.loadRshell = function ()
         end if
     end for
     if isValidLocation then
-        print(Proxima.cli.addOutputEntry(self.cli.message.success("<b>librshell.so</b> is loaded.")))
+        print(Proxima.cli.addOutputEntry(Proxima.cli.message.success("<b>librshell.so</b> is loaded.")))
     else
-        exit(self.cli.message.error("Unable to find <b>librshell.so</b> library."))
+        exit(Proxima.cli.message.error("Unable to find <b>librshell.so</b> library."))
     end if
 end function
 
@@ -62,9 +62,9 @@ Proxima.utils.loadAptClient = function ()
         end if
     end for
     if isValidLocation then
-        print(Proxima.cli.addOutputEntry(self.cli.message.success("<b>aptclient.so</b> is loaded.")))
+        print(Proxima.cli.addOutputEntry(Proxima.cli.message.success("<b>aptclient.so</b> is loaded.")))
     else
-        exit(self.cli.message.error("Unable to find <b>aptclient.so</b> library."))
+        exit(Proxima.cli.message.error("Unable to find <b>aptclient.so</b> library."))
     end if
 end function
 
@@ -84,15 +84,15 @@ end function
 
 Proxima.utils.printHeader = function ()
     V = Proxima.globals.version
-    print(self.cli.addOutputEntry("v"+V+"       ___       _                 "))
-    print(self.cli.addOutputEntry(" _ __  _ __ / _ \__  _(_)_ __ ___   __ _ "))
-    print(self.cli.addOutputEntry("| '_ \| '__| | | \ \/ / | '_ ` _ \ / _` |"))
-    print(self.cli.addOutputEntry("| |_) | |  | |_| |>  <| | | | | | | (_| |"))
-    print(self.cli.addOutputEntry("| .__/|_|   \___//_/\_\_|_| |_| |_|\__,_|"))
-    print(self.cli.addOutputEntry("|_|                                      "))
-    print(self.cli.addOutputEntry("             An easy-to-use multi purpose"))
-    print(self.cli.addOutputEntry("               hacking tool for beginners"))
-    print(self.cli.addOutputEntry(self.message.line))
+    print(Proxima.cli.addOutputEntry("v"+V+"       ___       _                 "))
+    print(Proxima.cli.addOutputEntry(" _ __  _ __ / _ \__  _(_)_ __ ___   __ _ "))
+    print(Proxima.cli.addOutputEntry("| '_ \| '__| | | \ \/ / | '_ ` _ \ / _` |"))
+    print(Proxima.cli.addOutputEntry("| |_) | |  | |_| |>  <| | | | | | | (_| |"))
+    print(Proxima.cli.addOutputEntry("| .__/|_|   \___//_/\_\_|_| |_| |_|\__,_|"))
+    print(Proxima.cli.addOutputEntry("|_|                                      "))
+    print(Proxima.cli.addOutputEntry("             An easy-to-use multi purpose"))
+    print(Proxima.cli.addOutputEntry("               hacking tool for beginners"))
+    print(Proxima.cli.addOutputEntry(Proxima.cli.message.line))
 end function
 
 Proxima.utils.displayList = function (headerList, contentList)
