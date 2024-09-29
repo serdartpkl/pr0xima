@@ -3,15 +3,43 @@ Proxima.cli = {}
 Proxima.cli.cliString = null
 Proxima.cli.cliEntries = []
 
-Proxima.utils.throwCLIError = function (cmdMessage = null, cmdUsage = null)
+Proxima.cli.message = {}
+
+Proxima.cli.message.line = "+---------------------------------------+"
+
+Proxima.cli.message.colorize = function (txt, color)
+    return "<color=" + color + ">" + txt + "</color>"
+end function
+
+Proxima.cli.message.info = function (txt)
+    return self.colorize("[i] " + txt, "#0091FF")
+end function
+
+Proxima.cli.message.progress = function (txt)
+    return self.colorize("[*] " + txt, "#00FFBB")
+end function
+
+Proxima.cli.message.warning = function (txt)
+    return self.colorize("[!] " + txt, "#FFDD00")
+end function
+
+Proxima.cli.message.error = function (txt)
+    return self.colorize("[!] " + txt, "#FF1548")
+end function
+
+Proxima.cli.message.success = function (txt)
+    return self.colorize("[+] " + txt, "#08FF57")
+end function
+
+Proxima.cli.throwCLIError = function (cmdMessage = null, cmdUsage = null)
     if cmdMessage != null then 
         if cmdUsage != null then
-            print(Proxima.cli.addOutputEntry(Proxima.utils.message.error(cmdMessage + " Usage: " + cmdUsage)))
+            print(Proxima.cli.addOutputEntry(Proxima.cli.message.error(cmdMessage + " Usage: " + cmdUsage)))
         else
-            print(Proxima.cli.addOutputEntry(Proxima.utils.message.error(cmdMessage)))
+            print(Proxima.cli.addOutputEntry(Proxima.cli.message.error(cmdMessage)))
         end if
     else
-        print(Proxima.cli.addOutputEntry(Proxima.utils.message.error("Unknown command! Type <b>help</b> to list available commands.")))
+        print(Proxima.cli.addOutputEntry(Proxima.cli.message.error("Unknown command! Type <b>help</b> to list available commands.")))
     end if
 end function
 
@@ -40,7 +68,7 @@ Proxima.cli.handleCommand = function (userCommand)
         if selectedCommand != null then
             selectedCommand.exec(params)
         else
-            self.utils.throwCLIError()
+            self.cli.throwCLIError()
         end if
     end if
 end function
@@ -52,7 +80,7 @@ Proxima.cli.startCLI = function ()
     else
         activeTarget = self.globals.activeUser
     end if
-    self.cliString = self.utils.message.colorize("<b>" + activeTarget + "</b>", "#FFC466") + self.utils.message.colorize("@pr0xima", "#FC8403") + self.utils.message.colorize("> ", "#008DFF")
+    self.cliString = self.cli.message.colorize("<b>" + activeTarget + "</b>", "#FFC466") + self.cli.message.colorize("@pr0xima", "#FC8403") + self.cli.message.colorize("> ", "#008DFF")
     while true
         userCommand = user_input(self.cliString, false, false).trim
         self.addInputEntry(userCommand)

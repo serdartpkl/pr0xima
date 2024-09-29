@@ -243,11 +243,11 @@ cmd=command.values[1]
 cmd_name=cmd.name
 cmd_description=cmd.description
 cmd_usage=cmd.usage
-print(Proxima.screen.addOutputEntry("<b>"+cmd_name+"</b>:"))
-print(Proxima.screen.addOutputEntry(cmd_description))
-print(Proxima.screen.addOutputEntry("<b>Usage:</b> "+cmd_usage))
+print(Proxima.cli.addOutputEntry("<b>"+cmd_name+"</b>:"))
+print(Proxima.cli.addOutputEntry(cmd_description))
+print(Proxima.cli.addOutputEntry("<b>Usage:</b> "+cmd_usage))
 if i!=Proxima.commands.len-1 then
-print(Proxima.screen.addOutputEntry("+------------------------------------+"))
+print(Proxima.cli.addOutputEntry("+------------------------------------+"))
 end if
 i=i+1
 end for

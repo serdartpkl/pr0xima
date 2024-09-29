@@ -5,15 +5,15 @@ Proxima.rshell.rshellID=1
 Proxima.rshell.installLibRshell=function
 installResult=Proxima.globals.librshell.install_service
 if installResult==1 then
-print(Proxima.screen.addOutputEntry(Proxima.utils.message.success("Successfully installed service...")))
+print(Proxima.cli.addOutputEntry(Proxima.utils.message.success("Successfully installed service...")))
 startServiceResult=Proxima.globals.librshell.start_service
 if startServiceResult==1 then
-print(Proxima.screen.addOutputEntry(Proxima.utils.message.success("Started service successfuly!")))
+print(Proxima.cli.addOutputEntry(Proxima.utils.message.success("Started service successfuly!")))
 else
-print(Proxima.screen.addOutputEntry(Proxima.utils.message.error("Starting service failed: "+startServiceResult)))
+print(Proxima.cli.addOutputEntry(Proxima.utils.message.error("Starting service failed: "+startServiceResult)))
 end if
 else
-print(Proxima.screen.addOutputEntry(Proxima.utils.message.error("Service installation failed: "+installResult)))
+print(Proxima.cli.addOutputEntry(Proxima.utils.message.error("Service installation failed: "+installResult)))
 end if
 end function
 Proxima.rshell.checkReverseShells=function

@@ -51,14 +51,14 @@ if capFile.has_permission("r")!=true or capFile.has_permission("w")!=true then e
 if capFile then
 self.networkKey=Proxima.globals.crypto.aircrack(capFile.path)
 if self.networkKey==null then exit(Proxima.utils.message.error("Could not crack key. Please try again later..."))
-print(Proxima.screen.addOutputEntry(Proxima.utils.message.success("Network key cracked! <b>[KEY:"+self.networkKey+"]</b>")))
+print(Proxima.cli.addOutputEntry(Proxima.utils.message.success("Network key cracked! <b>[KEY:"+self.networkKey+"]</b>")))
 capFile.delete
 end if
 end function
 Proxima.net.connectNetwork=function
-print(Proxima.screen.addOutputEntry(Proxima.utils.message.progress("Connecting to <b>"+self.targetNetwork.essid+"</b>...")))
+print(Proxima.cli.addOutputEntry(Proxima.utils.message.progress("Connecting to <b>"+self.targetNetwork.essid+"</b>...")))
 connectionStatus=Proxima.globals.myPC.connect_wifi(self.interface,self.targetNetwork.bssid,self.targetNetwork.essid,self.networkKey)
-exit(Proxima.screen.addOutputEntry(Proxima.utils.message.success("Connection successfull, you are online!")))
+exit(Proxima.cli.addOutputEntry(Proxima.utils.message.success("Connection successfull, you are online!")))
 end function
 Proxima.net.autoHack=function
 self.setAutoTarget
