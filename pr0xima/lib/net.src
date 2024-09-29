@@ -2,7 +2,9 @@ Proxima.net = {}
 
 Proxima.net.interface = "wlan0"
 Proxima.net.maxACKRate = 300000
+
 Proxima.net.router = null
+
 Proxima.net.networkKey = null
 Proxima.net.targetNetwork = null
 Proxima.net.targetNetworks = []
