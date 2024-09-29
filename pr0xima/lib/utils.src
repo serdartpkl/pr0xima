@@ -173,18 +173,6 @@ Proxima.utils.isLocal = function ()
     end if
 end function
 
-Proxima.utils.throwCLIError = function (cmdMessage = null, cmdUsage = null)
-    if cmdMessage != null then 
-        if cmdUsage != null then
-            print(Proxima.screen.addOutputEntry(Proxima.utils.message.error(cmdMessage + " Usage: " + cmdUsage)))
-        else
-            print(Proxima.screen.addOutputEntry(Proxima.utils.message.error(cmdMessage)))
-        end if
-    else
-        print(Proxima.screen.addOutputEntry(Proxima.utils.message.error("Unknown command! Type <b>help</b> to list available commands.")))
-    end if
-end function
-
 Proxima.utils.getAdminContact = function ()
     adminInfo = whois(Proxima.exploit.targetIP)
     infoLines = adminInfo.split(char(10))

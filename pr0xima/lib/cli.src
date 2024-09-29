@@ -3,6 +3,18 @@ Proxima.cli = {}
 Proxima.cli.cliString = null
 Proxima.cli.cliEntries = []
 
+Proxima.utils.throwCLIError = function (cmdMessage = null, cmdUsage = null)
+    if cmdMessage != null then 
+        if cmdUsage != null then
+            print(Proxima.screen.addOutputEntry(Proxima.utils.message.error(cmdMessage + " Usage: " + cmdUsage)))
+        else
+            print(Proxima.screen.addOutputEntry(Proxima.utils.message.error(cmdMessage)))
+        end if
+    else
+        print(Proxima.screen.addOutputEntry(Proxima.utils.message.error("Unknown command! Type <b>help</b> to list available commands.")))
+    end if
+end function
+
 Proxima.cli.handleCommand = function (userCommand)
     if userCommand != null and userCommand != "" then
         parsedCommand = null
@@ -48,6 +60,15 @@ Proxima.cli.startCLI = function ()
     end while
 end function
 
+Proxima.cli.clearCLI = function ()
+    clear_cli
+    if self.cliEntries.len > 0 then
+        for cliEntry in self.cliEntries
+            print(cliEntry)
+        end for
+    end if
+end function
+
 Proxima.cli.addInputEntry = function (userCommand)
     self.cliEntries.push(self.cliString + userCommand)
 end function
@@ -68,13 +89,4 @@ Proxima.cli.addTransferProcess = function (fileSize)
         self.cliEntries.push("100%	" + str(floor(rnd * (900 - 50 + 1) + 50)) + "." + str(floor(rnd * (9 - 1 + 1) + 1)) + " KB/s  0 sec (" + str((floor(fileSize * 100) / 100) / 1000)[:3] + " MB of " + str((floor(fileSize * 100) / 100) / 1000)[:3] + " MB copied)")
     end if
     self.cliEntries.push("Processing...")
-end function
-
-Proxima.cli.clearCLI = function ()
-    clear_cli
-    if self.cliEntries.len > 0 then
-        for cliEntry in self.cliEntries
-            print(cliEntry)
-        end for
-    end if
 end function
