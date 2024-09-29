@@ -3,7 +3,7 @@ Proxima.screen = {}
 Proxima.screen.cliEntries = []
 
 Proxima.screen.addInputEntry = function (userCommand)
-    self.cliEntries.push(Proxima.globals.cliMarker + userCommand)
+    self.cliEntries.push(Proxima.globals.cliString + userCommand)
 end function
 
 Proxima.screen.addOutputEntry = function (outputString)
