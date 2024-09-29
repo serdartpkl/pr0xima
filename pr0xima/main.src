@@ -1,3 +1,4 @@
+import_code("env/init.src")
 import_code("env/globals.src")
 import_code("env/settings.src")
 
@@ -9,7 +10,7 @@ import_code("lib/net.src")
 import_code("lib/exploit.src")
 import_code("lib/rshell.src")
 
-Proxima.init = function ()
+Proxima.run = function ()
     self.utils.printHeader()
     self.cli.startCLI()
 end function
