@@ -70,20 +70,7 @@ end function
 
 // ------------------------------------------------------------------------------------------------------------
 
-Proxima.utils.printHeader = function ()
-    V = Proxima.globals.version
-    print(Proxima.cli.addOutputEntry("v"+V+"       ___       _                 "))
-    print(Proxima.cli.addOutputEntry(" _ __  _ __ / _ \__  _(_)_ __ ___   __ _ "))
-    print(Proxima.cli.addOutputEntry("| '_ \| '__| | | \ \/ / | '_ ` _ \ / _` |"))
-    print(Proxima.cli.addOutputEntry("| |_) | |  | |_| |>  <| | | | | | | (_| |"))
-    print(Proxima.cli.addOutputEntry("| .__/|_|   \___//_/\_\_|_| |_| |_|\__,_|"))
-    print(Proxima.cli.addOutputEntry("|_|                                      "))
-    print(Proxima.cli.addOutputEntry("             An easy-to-use multi purpose"))
-    print(Proxima.cli.addOutputEntry("               hacking tool for beginners"))
-    print(Proxima.cli.addOutputEntry(Proxima.cli.message.line))
-end function
-
-Proxima.utils.displayList = function (headerList, contentList)
+Proxima.utils.formatList = function (headerList, contentList)
     maxLengths = []
 
     for i in headerList

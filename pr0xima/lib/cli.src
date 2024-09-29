@@ -8,7 +8,7 @@ Proxima.cli.cliEntries = []
 
 Proxima.cli.message = {}
 
-Proxima.cli.message.line = "+---------------------------------------+"
+Proxima.cli.message.line = "+-------------------------------------------------------+"
 
 Proxima.cli.message.colorize = function (txt, color)
     return "<color=" + color + ">" + txt + "</color>"
@@ -79,4 +79,19 @@ Proxima.cli.throwCLIError = function (cmdMessage = null, cmdUsage = null)
     else
         print(self.addOutputEntry(self.message.error("Unknown command! Type <b>help</b> to list available commands.")))
     end if
+end function
+
+Proxima.cli.printCLIHeader = function ()
+    V = Proxima.globals.version
+    print(Proxima.cli.addOutputEntry("                 __                                      "))
+    print(Proxima.cli.addOutputEntry("    v"+V+"     /'__`\         __                         "))
+    print(Proxima.cli.addOutputEntry(" _____   _ __ /\ \/\ \  __  _/\_\    ___ ___      __     "))
+    print(Proxima.cli.addOutputEntry("/\ '__`\/\`'__\ \ \ \ \/\ \/'\/\ \ /' __` __`\  /'__`\   "))
+    print(Proxima.cli.addOutputEntry("\ \ \L\ \ \ \/ \ \ \_\ \/>  </\ \ \/\ \/\ \/\ \/\ \L\.\_ "))
+    print(Proxima.cli.addOutputEntry(" \ \ ,__/\ \_\  \ \____//\_/\_\\ \_\ \_\ \_\ \_\ \__/.\_\"))
+    print(Proxima.cli.addOutputEntry("  \ \ \/  \/_/   \/___/ \//\/_/ \/_/\/_/\/_/\/_/\/__/\/_/"))
+    print(Proxima.cli.addOutputEntry("   \ \_\                                                 "))
+    print(Proxima.cli.addOutputEntry("    \/_/  A simple easy-to-use multi purpose hacking tool"))
+    print(Proxima.cli.addOutputEntry("                                                         "))
+    print(Proxima.cli.addOutputEntry(Proxima.cli.message.line))
 end function
