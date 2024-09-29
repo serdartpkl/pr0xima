@@ -407,4 +407,4 @@ Proxima.commands.exit = {
 }
 Proxima.commands.exit.exec = function (params)
     exit(Proxima.utils.message.success("Goodbye! Have a nice day."))
-end functionw
+end function
