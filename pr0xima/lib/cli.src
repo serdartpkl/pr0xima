@@ -3,6 +3,51 @@ Proxima.cli = {}
 Proxima.cli.cliString = null
 Proxima.cli.cliEntries = []
 
+Proxima.cli.handleCommand = function (userCommand)
+    if userCommand != null and userCommand != "" then
+        parsedCommand = null
+        params = null
+        if typeof(split(userCommand, " ")) == "list" then
+            parts = split(userCommand, " ")
+            parsedCommand = parts[0]
+            parts.remove(0)
+            params = parts
+        else
+            parsedCommand = userCommand
+            params = []
+        end if
+
+        selectedCommand = null
+        for command in self.commands
+            if command.values[0] == parsedCommand then
+                selectedCommand = command.values[1]
+                break
+            end if
+        end for
+
+        if selectedCommand != null then
+            selectedCommand.exec(params)
+        else
+            self.utils.throwCLIError()
+        end if
+    end if
+end function
+
+Proxima.cli.startCLI = function ()
+    activeTarget = null
+    if self.exploit.targetIP != null then 
+        activeTarget = self.exploit.targetIP 
+    else
+        activeTarget = self.globals.activeUser
+    end if
+    self.cli.cliString = self.utils.message.colorize("<b>" + activeTarget + "</b>", "#FFC466") + self.utils.message.colorize("@pr0xima", "#FC8403") + self.utils.message.colorize("> ", "#008DFF")
+    while true
+        userCommand = user_input(self.cli.cliString, false, false).trim
+        self.cli.addInputEntry(userCommand)
+        self.handleCommand(userCommand)
+    end while
+end function
+
 Proxima.cli.addInputEntry = function (userCommand)
     self.cliEntries.push(self.cliString + userCommand)
 end function
