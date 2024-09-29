@@ -9,7 +9,7 @@ import_code("lib/rshell.src")
 import_code("lib/screen.src")
 import_code("lib/utils.src")
 
-Proxima.loadMetaxploit = function ()
+Proxima.utils.loadMetaxploit = function ()
     isValidLocation = false
     for location in self.settings.metaxploitLocations
         includeMetaxploit = include_lib(location)
@@ -26,7 +26,7 @@ Proxima.loadMetaxploit = function ()
     end if
 end function
 
-Proxima.loadCrypto = function ()
+Proxima.utils.loadCrypto = function ()
     isValidLocation = false
     for location in self.settings.cryptoLocations
         includeCrypto = include_lib(location)
@@ -43,7 +43,7 @@ Proxima.loadCrypto = function ()
     end if
 end function
 
-Proxima.loadRshell = function ()
+Proxima.utils.loadRshell = function ()
     isValidLocation = false
     for location in self.settings.cryptoLocations
         includeRshell = include_lib(location)
@@ -60,7 +60,7 @@ Proxima.loadRshell = function ()
     end if
 end function
 
-Proxima.loadAptClient = function ()
+Proxima.utils.loadAptClient = function ()
     isValidLocation = false
     for location in self.settings.cryptoLocations
         includeAptClient = include_lib(location)
