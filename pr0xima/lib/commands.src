@@ -438,7 +438,7 @@ Proxima.cli.handleCommand = function (userCommand)
         if selectedCommand != null then
             selectedCommand.exec(params)
         else
-            self.cli.throwCLIError()
+            self.throwCLIError()
         end if
     end if
 end function
