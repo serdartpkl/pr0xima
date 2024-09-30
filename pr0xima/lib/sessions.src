@@ -1,5 +1,8 @@
 Proxima.sessions = {}
 
+Proxima.sessions.targetSession = null
+Proxima.sessions.sessionID = 1
+
 Proxima.sessions.local = {}
 
 Proxima.sessions.local.targetLibrary = null
@@ -42,4 +45,8 @@ Proxima.sessions.switchSession = function (sessionID, sessionType)
     end for
     if remoteSession != null then return targetSession
     return null
+end function
+
+Proxima.sessions.createRemoteSession = function ()
+
 end function
