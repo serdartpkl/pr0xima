@@ -1,1 +1,4 @@
 Proxima.sessions = {}
+
+Proxima.sessions.local = []
+Proxima.sessions.remote = []
