@@ -9,9 +9,11 @@ Proxima.cli.throwCLIError("Given IP address is not valid or does not exist!")
 else if Proxima.exploit.checkPorts==false then
 Proxima.cli.throwCLIError("No open ports found on given IP address!")
 else
+Proxima.exploit.setScanMode(1)
 Proxima.exploit.displayPortInfo
 end if
 else
+Proxima.exploit.setScanMode(0)
 Proxima.exploit.checkLibraries
 Proxima.exploit.displayLibraryInfo
 end if
