@@ -8,7 +8,7 @@ Proxima.cli.cliEntries = []
 
 Proxima.cli.message = {}
 
-Proxima.cli.message.line = "+-------------------------------------------------------+"
+Proxima.cli.message.line = "+----------------------------------------------------+"
 
 Proxima.cli.message.colorize = function (txt, color)
     return "<color=" + color + ">" + txt + "</color>"
@@ -82,17 +82,15 @@ Proxima.cli.throwCLIError = function (cmdMessage = null, cmdUsage = null)
 end function
 
 Proxima.cli.printCLIHeader = function ()
-    V = Proxima.globals.version
-    print(Proxima.cli.addOutputEntry("                 __                                      "))
-    print(Proxima.cli.addOutputEntry("    v"+V+"     /'__`\         __                         "))
-    print(Proxima.cli.addOutputEntry(" _____   _ __ /\ \/\ \  __  _/\_\    ___ ___      __     "))
-    print(Proxima.cli.addOutputEntry("/\ '__`\/\`'__\ \ \ \ \/\ \/'\/\ \ /' __` __`\  /'__`\   "))
-    print(Proxima.cli.addOutputEntry("\ \ \L\ \ \ \/ \ \ \_\ \/>  </\ \ \/\ \/\ \/\ \/\ \L\.\_ "))
-    print(Proxima.cli.addOutputEntry(" \ \ ,__/\ \_\  \ \____//\_/\_\\ \_\ \_\ \_\ \_\ \__/.\_\"))
-    print(Proxima.cli.addOutputEntry("  \ \ \/  \/_/   \/___/ \//\/_/ \/_/\/_/\/_/\/_/\/__/\/_/"))
-    print(Proxima.cli.addOutputEntry("   \ \_\                                                 "))
-    print(Proxima.cli.addOutputEntry("    \/_/  A simple easy-to-use multi purpose hacking tool"))
-    print(Proxima.cli.addOutputEntry("                                                         "))
+    print(Proxima.cli.addOutputEntry(Proxima.cli.message.colorize("<b>              _______         .__                </b>", "#FC8403")))
+    print(Proxima.cli.addOutputEntry(Proxima.cli.message.colorize("<b>_____________ \   _  \ ___  __|__| _____ _____   </b>", "#FC8403")))
+    print(Proxima.cli.addOutputEntry(Proxima.cli.message.colorize("<b>\____ \_  __ \/  /_\  \\  \/  /  |/     \\__  \  </b>", "#FC8403")))
+    print(Proxima.cli.addOutputEntry(Proxima.cli.message.colorize("<b>|  |_> >  | \/\  \_/   \>    <|  |  Y Y  \/ __ \_</b>", "#FC8403")))
+    print(Proxima.cli.addOutputEntry(Proxima.cli.message.colorize("<b>|   __/|__|    \_____  /__/\_ \__|__|_|  (____  /</b>", "#FC8403")))
+    print(Proxima.cli.addOutputEntry(Proxima.cli.message.colorize("<b>|__|                 \/      \/        \/     \/ </b>", "#FC8403")))
+    print(Proxima.cli.addOutputEntry(""))
+    print(Proxima.cli.addOutputEntry(Proxima.cli.message.colorize("<b>pr0xima — v" + Proxima.globals.version + "</b>", "#FFC466")))
+    print(Proxima.cli.addOutputEntry(Proxima.cli.message.colorize("<b>A simple easy-to-use multi purpose hacking tool</b>", "#FFFFFF")))
 end function
 
 Proxima.cli.loadLibraries = function ()
