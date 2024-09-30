@@ -42,7 +42,7 @@ end if
 self.cliEntries.push("Processing...")
 end function
 Proxima.cli.clearCLI=function
-clear_cli
+clear_screen
 if self.cliEntries.len>0 then
 for cliEntry in self.cliEntries
 print(cliEntry)

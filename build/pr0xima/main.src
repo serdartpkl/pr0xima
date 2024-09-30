@@ -1,4 +1,5 @@
 Proxima.run=function
+self.cli.clearCLI
 self.cli.printCLIHeader
 self.cli.startCLI
 end function
