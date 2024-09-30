@@ -47,10 +47,3 @@ Proxima.apt.findHackShop = function ()
     if hackShopIP != null then return hackShopIP
     return null
 end function
-
-Proxima.apt.updateLibraries = function ()
-    hackShopIP = self.findHackShop()
-    if hackShopIP != null then
-        // ...
-    end if
-end function
