@@ -34,23 +34,6 @@ Proxima.utils.loadCrypto = function ()
     end if
 end function
 
-Proxima.utils.loadRshell = function ()
-    isValidLocation = false
-    for location in self.settings.cryptoLocations
-        includeRshell = include_lib(location)
-        if includeRshell != null then
-            self.globals.librshell = includeRshell
-            isValidLocation = true
-            break
-        end if
-    end for
-    if isValidLocation then
-        print(Proxima.cli.addOutputEntry(Proxima.cli.message.success("<b>librshell.so</b> is loaded.")))
-    else
-        exit(Proxima.cli.message.error("Unable to find <b>librshell.so</b> library."))
-    end if
-end function
-
 Proxima.utils.loadAptClient = function ()
     isValidLocation = false
     for location in self.settings.cryptoLocations
