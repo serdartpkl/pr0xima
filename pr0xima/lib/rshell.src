@@ -8,7 +8,7 @@ Proxima.rshell.rshellID = 1
 Proxima.rshell.checkActiveShells = function ()
     self.rshellID = 1
     self.targetRShells = []
-    recievedShells = rshell_server(Proxima.globals.librshell)
+    recievedShells = Proxima.globals.metaxploit.rshell_server()
     if recievedShells != null and typeof(recievedShell) != "string" then
         if recievedShells.len > 0 then
             for recievedShell in recievedShells
