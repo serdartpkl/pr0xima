@@ -1,4 +1,45 @@
 Proxima.sessions = {}
 
-Proxima.sessions.local = []
+Proxima.sessions.local = {}
+
+Proxima.sessions.local.targetLibrary = null
+Proxima.sessions.local.targetLibraries = []
+
+Proxima.sessions.local.targetExploit = null
+Proxima.sessions.local.targetExploits = []
+
+Proxima.sessions.local.targetShell = null
+Proxima.sessions.local.targetShells = []
+
+Proxima.sessions.local.targetUser = null
+Proxima.sessions.local.targetUsers = []
+
+Proxima.sessions.local.targetMail = null
+Proxima.sessions.local.targetMails = []
+
+Proxima.sessions.local.targetBank = null
+Proxima.sessions.local.targetBanks = []
+
+Proxima.sessions.local.libraryID = 1
+Proxima.sessions.local.exploitID = 1
+Proxima.sessions.local.userID = 1
+Proxima.sessions.local.shellID = 1
+Proxima.sessions.local.mailID = 1
+Proxima.sessions.local.bankID = 1
+
+Proxima.sessions.local.sessionType = 0
+Proxima.sessions.local.payloadInjection = true
+
 Proxima.sessions.remote = []
+
+Proxima.sessions.switchSession = function (sessionID, sessionType)
+    targetSession = null
+    for session self.remote
+        if session.id == sessionID and session.sessionType == sessionType then
+            targetSession = session
+            break
+        end if
+    end for
+    if remoteSession != null then return targetSession
+    return null
+end function
