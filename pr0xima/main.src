@@ -11,6 +11,6 @@ import_code("lib/exploit.src")
 import_code("lib/commands.src")
 
 Proxima.run = function ()
-    self.utils.printHeader()
+    self.cli.printHeader()
     self.cli.startCLI()
 end function
