@@ -2,6 +2,29 @@ Proxima.cli.commands = {}
 
 // ------------------------------------------------------------------------------------------------------------
 
+Proxima.cli.commands.dump = {
+    "name": "dump",
+    "description": "Dumps target IPs ports or local libraries to perform a scan.",
+    "usage": "dump"
+}
+Proxima.cli.commands.dump.exec = function (params)
+    if params.len > 0 then
+        Proxima.exploit.setTargetIP(params[0])
+        if Proxima.exploit.checkPorts() == null then
+            Proxima.utils.throwCLIError("Given IP address is not valid or does not exist!")
+        else if Proxima.exploit.checkPorts() == false then
+            Proxima.utils.throwCLIError("No open ports found on given IP address!")
+        else
+            Proxima.exploit.displayPortInfo()
+        end if
+    else
+        Proxima.exploit.checkLibraries()
+        Proxima.exploit.displayLibraryInfo()
+    end if
+end function
+
+// ------------------------------------------------------------------------------------------------------------
+
 Proxima.cli.commands.scanport = {
     "name": "scanport",
     "description": "Scans the specified port/ports for acquiring available remote exploits.",
@@ -21,29 +44,6 @@ Proxima.cli.commands.scanport.exec = function (params)
         end if
     else
         Proxima.utils.throwCLIError("No ports found to scan, please set a target IP address first.")
-    end if
-end function
-
-// ------------------------------------------------------------------------------------------------------------
-
-Proxima.cli.commands.dump = {
-    "name": "dump",
-    "description": "Dumps target IPs ports or local libraries to perform a scan.",
-    "usage": "dump"
-}
-Proxima.cli.commands.dump.exec = function (params)
-    if params.len > 0 then
-        Proxima.exploit.setTargetIP(params[0])
-        if Proxima.exploit.checkPorts() == null then
-            Proxima.utils.throwCLIError("Given IP address is not valid or does not exist!")
-        else if Proxima.exploit.checkPorts() == false then
-            Proxima.utils.throwCLIError("No open ports found on given IP address!")
-        else
-            Proxima.exploit.displayPortInfo()
-        end if
-    else
-        Proxima.exploit.checkLibraries()
-        Proxima.exploit.displayLibraryInfo()
     end if
 end function
 
