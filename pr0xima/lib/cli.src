@@ -93,5 +93,12 @@ Proxima.cli.printCLIHeader = function ()
     print(Proxima.cli.addOutputEntry("   \ \_\                                                 "))
     print(Proxima.cli.addOutputEntry("    \/_/  A simple easy-to-use multi purpose hacking tool"))
     print(Proxima.cli.addOutputEntry("                                                         "))
+end function
+
+Proxima.cli.loadLibraries = function ()
+    print(Proxima.cli.addOutputEntry(Proxima.cli.message.line))
+    Proxima.utils.loadAptClient()
+    Proxima.utils.loadCrypto()
+    Proxima.utils.loadMetaxploit()
     print(Proxima.cli.addOutputEntry(Proxima.cli.message.line))
 end function

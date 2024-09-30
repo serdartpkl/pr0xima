@@ -13,5 +13,6 @@ import_code("lib/commands.src")
 Proxima.run = function ()
     self.cli.clearCLI()
     self.cli.printCLIHeader()
+    self.cli.loadLibraries()
     self.cli.startCLI()
 end function
