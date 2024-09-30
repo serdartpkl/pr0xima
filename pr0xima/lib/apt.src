@@ -44,6 +44,26 @@ Proxima.apt.findHackShop = function ()
         end for
     end while
 
-    if hackShopIP != null then return hackShopIP
-    return null
+    if hackShopIP != null then
+        Proxima.globals.aptclient.add_repo(hackShopIP)
+        return true
+    else
+        return false
+    end if
+end function
+
+Proxima.apt.installCrypto = function ()
+    if self.hackShopIP != null then
+        // ...
+    else
+        // ...
+    end if
+end function
+
+Proxima.apt.installMetaxploit = function ()
+    if self.hackShopIP != null then
+        // ...
+    else
+        // ...
+    end if
 end function
