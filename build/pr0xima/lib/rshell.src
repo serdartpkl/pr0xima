@@ -1,0 +1,28 @@
+Proxima.rshell={}
+Proxima.rshell.targetRShell=null
+Proxima.rshell.targetRShells=[]
+Proxima.rshell.rshellID=1
+Proxima.rshell.checkActiveShells=function
+self.rshellID=1
+self.targetRShells=[]
+recievedShells=Proxima.globals.metaxploit.rshell_server
+if recievedShells!=null and typeof(recievedShell)!="string" then
+if recievedShells.len>0 then
+for recievedShell in recievedShells
+shellMap={}
+shellMap.id=self.rshellID
+shellMap.shell_object=recievedShell
+shellMap.owner=Proxima.exploit.acquireUser(recievedShell.host_computer)
+shellMap.public_ip=recievedShell.host_computer.public_ip
+shellMap.local_ip=recievedShell.host_computer.local_ip
+self.targetRShells.push(shellMap)
+self.rshellID=self.rshellID+1
+end for
+return true
+else
+return null
+end if
+else
+return false
+end if
+end function

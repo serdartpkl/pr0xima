@@ -1,10 +1,8 @@
 Proxima.cli.commands={}
 // ------------------------------------------------------------------------------------------------------------
-Proxima.cli.commands.target={"name":"target","description":"Sets the target IP address for remote scanning.","usage":"target <ip>"}
-Proxima.cli.commands.target.exec=function(params)
-if params.len==0 then
-Proxima.utils.throwCLIError("No IP address provided for scan.",self.usage)
-else
+Proxima.cli.commands.dump={"name":"dump","description":"Dumps target IPs ports or local libraries to perform a scan.","usage":"dump"}
+Proxima.cli.commands.dump.exec=function(params)
+if params.len>0 then
 Proxima.exploit.setTargetIP(params[0])
 if Proxima.exploit.checkPorts==null then
 Proxima.utils.throwCLIError("Given IP address is not valid or does not exist!")
@@ -13,6 +11,9 @@ Proxima.utils.throwCLIError("No open ports found on given IP address!")
 else
 Proxima.exploit.displayPortInfo
 end if
+else
+Proxima.exploit.checkLibraries
+Proxima.exploit.displayLibraryInfo
 end if
 end function
 // ------------------------------------------------------------------------------------------------------------
@@ -31,16 +32,6 @@ end if
 end if
 else
 Proxima.utils.throwCLIError("No ports found to scan, please set a target IP address first.")
-end if
-end function
-// ------------------------------------------------------------------------------------------------------------
-Proxima.cli.commands.dump={"name":"dump","description":"Dumps all local libraries and their informations to perform a local scan.","usage":"dump"}
-Proxima.cli.commands.dump.exec=function(params)
-if params.len>0 then
-Proxima.utils.throwCLIError("This command takes no arguements.",self.usage)
-else
-Proxima.exploit.checkLibraries
-Proxima.exploit.displayLibraryInfo
 end if
 end function
 // ------------------------------------------------------------------------------------------------------------
@@ -228,7 +219,12 @@ end function
 // ------------------------------------------------------------------------------------------------------------
 Proxima.cli.commands.whois={"name":"whois","description":"Performs 'whois' command to gather contact information for remote target.","usage":"whois"}
 Proxima.cli.commands.whois.exec=function(params)
-Proxima.utils.getAdminContact
+adminInfo=whois(Proxima.exploit.targetIP)
+adminInfo=adminInfo.split(char(10))
+print(Proxima.cli.addOutputEntry(Proxima.cli.message.colorize("<b>Domain Name:</b> ","#0091FF")+adminInfo[0].split(":")[1].trim))
+print(Proxima.cli.addOutputEntry(Proxima.cli.message.colorize("<b>Administrative Contact:</b> ","#0091FF")+adminInfo[1].split(":")[1].trim))
+print(Proxima.cli.addOutputEntry(Proxima.cli.message.colorize("<b>Email Address:</b> ","#0091FF")+adminInfo[2].split(":")[1].trim))
+print(Proxima.cli.addOutputEntry(Proxima.cli.message.colorize("<b>Phone Number:</b> ","#0091FF")+adminInfo[3].split(":")[1].trim))
 end function
 // ------------------------------------------------------------------------------------------------------------
 Proxima.cli.commands.cls={"name":"cls","description":"Clears terminal screen.","usage":"cls"}
@@ -259,7 +255,7 @@ Proxima.cli.commands.exit.exec=function(params)
 exit(Proxima.cli.message.success("Goodbye! Have a nice day."))
 end function
 // ------------------------------------------------------------------------------------------------------------
-Proxima.cli.commands.handleCommand=function(userCommand)
+Proxima.cli.handleCommand=function(userCommand)
 if userCommand!=null and userCommand!="" then
 parsedCommand=null
 params=null
@@ -282,18 +278,18 @@ end for
 if selectedCommand!=null then
 selectedCommand.exec(params)
 else
-self.cli.throwCLIError
+self.throwCLIError
 end if
 end if
 end function
-Proxima.cli.commands.startCLI=function
+Proxima.cli.startCLI=function
 activeTarget=null
-if self.exploit.targetIP!=null then
-activeTarget=self.exploit.targetIP
+if Proxima.exploit.targetIP!=null then
+activeTarget=Proxima.exploit.targetIP
 else
-activeTarget=self.globals.activeUser
+activeTarget=Proxima.globals.activeUser
 end if
-self.cliString=self.cli.message.colorize("<b>"+activeTarget+"</b>","#FFC466")+self.cli.message.colorize("@pr0xima","#FC8403")+self.cli.message.colorize("> ","#008DFF")
+self.cliString=self.message.colorize("<b>"+activeTarget+"</b>","#FFC466")+self.message.colorize("@pr0xima","#FC8403")+self.message.colorize("> ","#008DFF")
 while true
 userCommand=user_input(self.cliString,false,false).trim
 self.addInputEntry(userCommand)

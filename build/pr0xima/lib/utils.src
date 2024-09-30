@@ -1,10 +1,10 @@
 Proxima.utils={}
 Proxima.utils.loadMetaxploit=function
 isValidLocation=false
-for location in self.settings.metaxploitLocations
+for location in Proxima.settings.metaxploitLocations
 includeMetaxploit=include_lib(location)
 if includeMetaxploit!=null then
-self.globals.metaxploit=includeMetaxploit
+Proxima.globals.metaxploit=includeMetaxploit
 isValidLocation=true
 break
 end if
@@ -17,10 +17,10 @@ end if
 end function
 Proxima.utils.loadCrypto=function
 isValidLocation=false
-for location in self.settings.cryptoLocations
+for location in Proxima.settings.cryptoLocations
 includeCrypto=include_lib(location)
 if includeCrypto!=null then
-self.globals.crypto=includeCrypto
+Proxima.globals.crypto=includeCrypto
 isValidLocation=true
 break
 end if
@@ -31,28 +31,12 @@ else
 exit(Proxima.cli.message.error("Unable to find <b>crypto.so</b> library."))
 end if
 end function
-Proxima.utils.loadRshell=function
-isValidLocation=false
-for location in self.settings.cryptoLocations
-includeRshell=include_lib(location)
-if includeRshell!=null then
-self.globals.librshell=includeRshell
-isValidLocation=true
-break
-end if
-end for
-if isValidLocation then
-print(Proxima.cli.addOutputEntry(Proxima.cli.message.success("<b>librshell.so</b> is loaded.")))
-else
-exit(Proxima.cli.message.error("Unable to find <b>librshell.so</b> library."))
-end if
-end function
 Proxima.utils.loadAptClient=function
 isValidLocation=false
-for location in self.settings.cryptoLocations
+for location in Proxima.settings.cryptoLocations
 includeAptClient=include_lib(location)
 if includeAptClient!=null then
-self.globals.aptclient=includeAptClient
+Proxima.globals.aptclient=includeAptClient
 isValidLocation=true
 break
 end if
@@ -63,32 +47,8 @@ else
 exit(Proxima.cli.message.error("Unable to find <b>aptclient.so</b> library."))
 end if
 end function
-Proxima.utils.getAdminContact=function
-adminInfo=whois(Proxima.exploit.targetIP)
-infoLines=adminInfo.split(char(10))
-infoObject={}
-infoObject.domainName=infoLines[0].split(":")[1].trim
-infoObject.administrativeContact=infoLines[1].split(":")[1].trim
-infoObject.emailAddress=infoLines[2].split(":")[1].trim
-infoObject.phone=infoLines[3].split(":")[1].trim
-print(Proxima.cli.addOutputEntry("<b>Domain Name:</b> "+infoObject.domainName))
-print(Proxima.cli.addOutputEntry("<b>Administrative Contact:</b> "+infoObject.administrativeContact))
-print(Proxima.cli.addOutputEntry("<b>Email Address:</b> "+infoObject.emailAddress))
-print(Proxima.cli.addOutputEntry("<b>Phone Number:</b> "+infoObject.phone))
-end function
-Proxima.utils.printHeader=function
-V=Proxima.globals.version
-print(Proxima.cli.addOutputEntry("v"+V+"       ___       _                 "))
-print(Proxima.cli.addOutputEntry(" _ __  _ __ / _ \__  _(_)_ __ ___   __ _ "))
-print(Proxima.cli.addOutputEntry("| '_ \| '__| | | \ \/ / | '_ ` _ \ / _` |"))
-print(Proxima.cli.addOutputEntry("| |_) | |  | |_| |>  <| | | | | | | (_| |"))
-print(Proxima.cli.addOutputEntry("| .__/|_|   \___//_/\_\_|_| |_| |_|\__,_|"))
-print(Proxima.cli.addOutputEntry("|_|                                      "))
-print(Proxima.cli.addOutputEntry("             An easy-to-use multi purpose"))
-print(Proxima.cli.addOutputEntry("               hacking tool for beginners"))
-print(Proxima.cli.addOutputEntry(Proxima.cli.message.line))
-end function
-Proxima.utils.displayList=function(headerList,contentList)
+// ------------------------------------------------------------------------------------------------------------
+Proxima.utils.formatList=function(headerList,contentList)
 maxLengths=[]
 for i in headerList
 maxLen=i.len
@@ -131,11 +91,11 @@ print(Proxima.cli.addOutputEntry(rowStr))
 print(Proxima.cli.addOutputEntry(separator))
 end for
 end function
-Proxima.utils.hasValue=function(givenList,searchValue)
+Proxima.utils.mapHasValue=function(givenMap,searchValue)
 hasFoundValue=false
-for listItem in givenList
-for key in listItem.indexes
-if listItem[key]==searchValue then
+for mapItem in givenMap
+for key in mapItem.indexes
+if mapItem[key]==searchValue then
 hasFoundValue=true
 break
 end if

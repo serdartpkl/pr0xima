@@ -46,9 +46,3 @@ end while
 if hackShopIP!=null then return hackShopIP
 return null
 end function
-Proxima.apt.updateLibraries=function
-if self.hackShopIP!=null then
-else
-self.findHackShop
-end if
-end function
