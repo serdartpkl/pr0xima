@@ -36,41 +36,46 @@ Proxima.sessions.localSession.payloadInjection = true
 Proxima.sessions.remoteSessions = []
 
 Proxima.sessions.createRemoteSession = function (targetIP, targetPorts)
-    remoteSessionMap = {}
+    if Proxima.utils.mapHasValue(self.remoteSessions, targetIP) != true then
+        remoteSessionMap = {}
 
-    remoteSessionMap.id = self.sessionID
+        remoteSessionMap.id = self.sessionID
 
-    remoteSessionMap.targetIP = targetIP
-    remoteSessionMap.targetPort = null
-    remoteSessionMap.targetPorts = targetPorts
+        remoteSessionMap.targetIP = targetIP
+        remoteSessionMap.targetPort = null
+        remoteSessionMap.targetPorts = targetPorts
 
-    remoteSessionMap.targetExploit = null
-    remoteSessionMap.targetExploits = []
+        remoteSessionMap.targetExploit = null
+        remoteSessionMap.targetExploits = []
 
-    remoteSessionMap.targetShell = null
-    remoteSessionMap.targetShells = []
+        remoteSessionMap.targetShell = null
+        remoteSessionMap.targetShells = []
 
-    remoteSessionMap.targetUser = null
-    remoteSessionMap.targetUsers = []
+        remoteSessionMap.targetUser = null
+        remoteSessionMap.targetUsers = []
 
-    remoteSessionMap.targetMail = null
-    remoteSessionMap.targetMails = []
+        remoteSessionMap.targetMail = null
+        remoteSessionMap.targetMails = []
 
-    remoteSessionMap.targetBank = null
-    remoteSessionMap.targetBanks = []
+        remoteSessionMap.targetBank = null
+        remoteSessionMap.targetBanks = []
 
-    remoteSessionMap.portID = 1
-    remoteSessionMap.exploitID = 1
-    remoteSessionMap.userID = 1
-    remoteSessionMap.shellID = 1
-    remoteSessionMap.mailID = 1
-    remoteSessionMap.bankID = 1
+        remoteSessionMap.portID = 1
+        remoteSessionMap.exploitID = 1
+        remoteSessionMap.userID = 1
+        remoteSessionMap.shellID = 1
+        remoteSessionMap.mailID = 1
+        remoteSessionMap.bankID = 1
 
-    remoteSessionMap.sessionType = 1
-    remoteSessionMap.payloadInjection = true
+        remoteSessionMap.sessionType = 1
+        remoteSessionMap.payloadInjection = true
 
-    self.remoteSessions.push(remoteSessionMap)
-    self.sessionID + 1
+        self.remoteSessions.push(remoteSessionMap)
+        self.sessionID + 1
+        return true
+    else
+        return null
+    end if
 end function
 
 Proxima.sessions.getLocalSession = function ()
