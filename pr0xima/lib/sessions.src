@@ -76,24 +76,6 @@ Proxima.sessions.setSessionValue = function (sessionKey, sessionValue, sessionID
     end if
 end function
 
-Proxima.sessions.resetSessionValues = function (sessionID = Proxima.sessions.activeSession)
-    acquiredSession = self.getSession(sessionID)
-    if acquiredSession != null then
-        if acquiredSession.sessionType == 0 then
-            self.setSessionValue("targetLibraries", [], sessionID)
-        else if acquiredSession.sessionType == 1 then
-            self.setSessionValue("targetPorts", [], sessionID)
-        end if
-        self.setSessionValue("targetExploits", [], sessionID)
-        self.setSessionValue("targetShells", [], sessionID)
-        self.setSessionValue("targetUsers", [], sessionID)
-        self.setSessionValue("targetMails", [], sessionID)
-        self.setSessionValue("targetBanks", [], sessionID)
-    else
-        return null
-    end if
-end function
-
 Proxima.sessions.pushMap = function (targetList, givenMap, sessionID = Proxima.sessions.activeSession)
     acquiredSession = self.getSession(sessionID)
     if acquiredSession != null then
