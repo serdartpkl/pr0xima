@@ -4,7 +4,7 @@ Proxima.sessions.session = null
 
 Proxima.sessions.targetSessions = []
 
-Proxima.sessions.createSession = function (sessionType, targetObject, targetIP, targetRouter)
+Proxima.sessions.createSession = function (sessionType, targetIP, targetRouter)
     if Proxima.utils.mapHasValue(self.targetSessions, "targetIP", targetIP) == false then
         sessionMap = {}
 
@@ -14,10 +14,10 @@ Proxima.sessions.createSession = function (sessionType, targetObject, targetIP, 
         sessionMap.targetRouter = targetRouter
 
         if sessionType == 0 then
-            sessionMap.targetLibraries = targetObject
+            sessionMap.targetLibraries = []
             sessionMap.sessionType = sessionType
         else if sessionType == 1 then
-            sessionMap.targetPorts = targetObject
+            sessionMap.targetPorts = []
             sessionMap.sessionType = sessionType
         end if
 
