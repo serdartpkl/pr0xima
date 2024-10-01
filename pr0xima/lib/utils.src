@@ -101,11 +101,11 @@ Proxima.utils.formatList = function (headerList, contentList)
     end for
 end function
 
-Proxima.utils.mapHasValue = function (givenList, searchValue)
+Proxima.utils.mapHasValue = function (givenList, searchKey, searchValue)
     hasFoundValue = false
     for mapItem in givenList
         for key in mapItem.indexes
-            if mapItem[key] == searchValue then
+            if key == searchKey and mapItem[key] == searchValue then
                 hasFoundValue = true
                 break
             end if
