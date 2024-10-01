@@ -3,40 +3,52 @@ Proxima.sessions = {}
 Proxima.sessions.targetSession = null
 Proxima.sessions.sessionID = 1
 
-Proxima.sessions.localSession = {}
-
-Proxima.sessions.localSession.targetLibrary = null
-Proxima.sessions.localSession.targetLibraries = []
-
-Proxima.sessions.localSession.targetExploit = null
-Proxima.sessions.localSession.targetExploits = []
-
-Proxima.sessions.localSession.targetShell = null
-Proxima.sessions.localSession.targetShells = []
-
-Proxima.sessions.localSession.targetUser = null
-Proxima.sessions.localSession.targetUsers = []
-
-Proxima.sessions.localSession.targetMail = null
-Proxima.sessions.localSession.targetMails = []
-
-Proxima.sessions.localSession.targetBank = null
-Proxima.sessions.localSession.targetBanks = []
-
-Proxima.sessions.localSession.libraryID = 1
-Proxima.sessions.localSession.exploitID = 1
-Proxima.sessions.localSession.userID = 1
-Proxima.sessions.localSession.shellID = 1
-Proxima.sessions.localSession.mailID = 1
-Proxima.sessions.localSession.bankID = 1
-
-Proxima.sessions.localSession.sessionType = 0
-Proxima.sessions.localSession.payloadInjection = true
-
+Proxima.sessions.localSession = []
 Proxima.sessions.remoteSessions = []
 
+Proxima.sessions.createLocalSession = function (targetLibraries)
+    if self.localSession.len == 0 then 
+        localSessionMap = {}
+
+        localSessionMap.id = 1
+
+        localSessionMap.targetLibrary = null
+        localSessionMap.targetLibraries = targetLibraries
+
+        localSessionMap.targetExploit = null
+        localSessionMap.targetExploits = []
+
+        localSessionMap.targetShell = null
+        localSessionMap.targetShells = []
+
+        localSessionMap.targetUser = null
+        localSessionMap.targetUsers = []
+
+        localSessionMap.targetMail = null
+        localSessionMap.targetMails = []
+
+        localSessionMap.targetBank = null
+        localSessionMap.targetBanks = []
+
+        localSessionMap.libraryID = 1
+        localSessionMap.exploitID = 1
+        localSessionMap.userID = 1
+        localSessionMap.shellID = 1
+        localSessionMap.mailID = 1
+        localSessionMap.bankID = 1
+
+        localSessionMap.sessionType = 0
+        localSessionMap.payloadInjection = true
+
+        self.localSession.push(localSessionMap)
+        return true
+    else
+        return null
+    end if
+end function
+
 Proxima.sessions.createRemoteSession = function (targetIP, targetPorts)
-    if Proxima.utils.mapHasValue(self.remoteSessions, targetIP) != true then
+    if Proxima.utils.mapHasValue(self.remoteSessions, targetIP) == false then
         remoteSessionMap = {}
 
         remoteSessionMap.id = self.sessionID
@@ -168,4 +180,8 @@ Proxima.sessions.setSessionValue = function (sessionType, sessionID, sessionKey,
 end function
 
 Proxima.sessions.getSessionValue = function (sessionType, sessionID, sessionKey)
+end function
+
+Proxima.sessions.setTargetSession = function (sessionID) 
+    self.targetSession = sessionID
 end function
