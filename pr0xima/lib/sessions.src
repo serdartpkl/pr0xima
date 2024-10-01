@@ -1,6 +1,6 @@
 Proxima.sessions = {}
 
-Proxima.sessions.session = null
+Proxima.sessions.activeSession = null
 
 Proxima.sessions.targetSessions = []
 
@@ -43,7 +43,7 @@ Proxima.sessions.createSession = function (sessionType, targetIP, targetRouter)
         sessionMap.payloadInjection = true
         
         self.targetSessions.push(sessionMap)
-        self.session = self.getSession(sessionMap.id)
+        self.activeSession = sessionMap.id
     else
         return null
     end if
@@ -52,7 +52,7 @@ end function
 Proxima.sessions.setSession = function (sessionID)
     acquiredSession = self.getSession(sessionID)
     if acquiredSession != null then
-        self.session = acquiredSession
+        // ...
     else
         return null
     end if
