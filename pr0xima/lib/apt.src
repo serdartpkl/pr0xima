@@ -51,19 +51,3 @@ Proxima.apt.findHackShop = function ()
         return false
     end if
 end function
-
-Proxima.apt.installCrypto = function ()
-    if self.hackShopIP != null then
-        // ...
-    else
-        // ...
-    end if
-end function
-
-Proxima.apt.installMetaxploit = function ()
-    if self.hackShopIP != null then
-        // ...
-    else
-        // ...
-    end if
-end function

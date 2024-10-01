@@ -84,12 +84,16 @@ end function
 
 Proxima.sessions.getRemoteSession = function (sessionID)
     acquiredSession = null
-    for remoteSession in self.remoteSessions
-        if remoteSession.id == sessionID then
-            acquiredSession = remoteSession
-            break
-        end if
-    end for
+    if self.remoteSessions.len > 0 then
+        for remoteSession in self.remoteSessions
+            if remoteSession.id == sessionID then
+                acquiredSession = remoteSession
+                break
+            end if
+        end for
+    else
+        return null
+    end if
     return acquiredSession
 end function
 
