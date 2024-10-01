@@ -3,50 +3,152 @@ Proxima.sessions = {}
 Proxima.sessions.targetSession = null
 Proxima.sessions.sessionID = 1
 
-Proxima.sessions.local = {}
+Proxima.sessions.localSession = {}
 
-Proxima.sessions.local.targetLibrary = null
-Proxima.sessions.local.targetLibraries = []
+Proxima.sessions.localSession.targetLibrary = null
+Proxima.sessions.localSession.targetLibraries = []
 
-Proxima.sessions.local.targetExploit = null
-Proxima.sessions.local.targetExploits = []
+Proxima.sessions.localSession.targetExploit = null
+Proxima.sessions.localSession.targetExploits = []
 
-Proxima.sessions.local.targetShell = null
-Proxima.sessions.local.targetShells = []
+Proxima.sessions.localSession.targetShell = null
+Proxima.sessions.localSession.targetShells = []
 
-Proxima.sessions.local.targetUser = null
-Proxima.sessions.local.targetUsers = []
+Proxima.sessions.localSession.targetUser = null
+Proxima.sessions.localSession.targetUsers = []
 
-Proxima.sessions.local.targetMail = null
-Proxima.sessions.local.targetMails = []
+Proxima.sessions.localSession.targetMail = null
+Proxima.sessions.localSession.targetMails = []
 
-Proxima.sessions.local.targetBank = null
-Proxima.sessions.local.targetBanks = []
+Proxima.sessions.localSession.targetBank = null
+Proxima.sessions.localSession.targetBanks = []
 
-Proxima.sessions.local.libraryID = 1
-Proxima.sessions.local.exploitID = 1
-Proxima.sessions.local.userID = 1
-Proxima.sessions.local.shellID = 1
-Proxima.sessions.local.mailID = 1
-Proxima.sessions.local.bankID = 1
+Proxima.sessions.localSession.libraryID = 1
+Proxima.sessions.localSession.exploitID = 1
+Proxima.sessions.localSession.userID = 1
+Proxima.sessions.localSession.shellID = 1
+Proxima.sessions.localSession.mailID = 1
+Proxima.sessions.localSession.bankID = 1
 
-Proxima.sessions.local.sessionType = 0
-Proxima.sessions.local.payloadInjection = true
+Proxima.sessions.localSession.sessionType = 0
+Proxima.sessions.localSession.payloadInjection = true
 
-Proxima.sessions.remote = []
+Proxima.sessions.remoteSessions = []
 
-Proxima.sessions.switchSession = function (sessionID, sessionType)
-    targetSession = null
-    for session self.remote
-        if session.id == sessionID and session.sessionType == sessionType then
-            targetSession = session
+Proxima.sessions.createRemoteSession = function (targetIP, targetPorts)
+    remoteSessionMap = {}
+
+    remoteSessionMap.id = self.sessionID
+
+    remoteSessionMap.targetIP = targetIP
+    remoteSessionMap.targetPort = null
+    remoteSessionMap.targetPorts = targetPorts
+
+    remoteSessionMap.targetExploit = null
+    remoteSessionMap.targetExploits = []
+
+    remoteSessionMap.targetShell = null
+    remoteSessionMap.targetShells = []
+
+    remoteSessionMap.targetUser = null
+    remoteSessionMap.targetUsers = []
+
+    remoteSessionMap.targetMail = null
+    remoteSessionMap.targetMails = []
+
+    remoteSessionMap.targetBank = null
+    remoteSessionMap.targetBanks = []
+
+    remoteSessionMap.portID = 1
+    remoteSessionMap.exploitID = 1
+    remoteSessionMap.userID = 1
+    remoteSessionMap.shellID = 1
+    remoteSessionMap.mailID = 1
+    remoteSessionMap.bankID = 1
+
+    remoteSessionMap.sessionType = 1
+    remoteSessionMap.payloadInjection = true
+
+    self.remoteSessions.push(remoteSessionMap)
+    self.sessionID + 1
+end function
+
+Proxima.sessions.getLocalSession = function ()
+    return self.localSession
+end function
+
+Proxima.sessions.getRemoteSession = function (sessionID)
+    acquiredSession = null
+    for remoteSession in self.remoteSessions
+        if remoteSession.id == sessionID then
+            acquiredSession = remoteSession
             break
         end if
     end for
-    if remoteSession != null then return targetSession
-    return null
+    return acquiredSession
 end function
 
-Proxima.sessions.createRemoteSession = function ()
+Proxima.sessions.resetSessionValues = function (sessionType, sessionID)
+    if sessionType == 0 then
+        self.localSession.libraryID = 1
+        self.localSession.exploitID = 1
+        self.localSession.userID = 1
+        self.localSession.shellID = 1
+        self.localSession.mailID = 1
+        self.localSession.bankID = 1
+    else if sessionType == 1 then
+        self.remoteSessions[sessionID].portID = 1
+        self.remoteSessions[sessionID].exploitID = 1
+        self.remoteSessions[sessionID].userID = 1
+        self.remoteSessions[sessionID].shellID = 1
+        self.remoteSessions[sessionID].mailID = 1
+        self.remoteSessions[sessionID].bankID = 1
+    end if
+end function
 
+Proxima.sessions.resetSessionLists = function (sessionType, sessionID)
+    if sessionType == 0 then
+        self.localSession.targetLibrary = null
+        self.localSession.targetLibraries = []
+    
+        self.localSession.targetExploit = null
+        self.localSession.targetExploits = []
+    
+        self.localSession.targetShell = null
+        self.localSession.targetShells = []
+    
+        self.localSession.targetUser = null
+        self.localSession.targetUsers = []
+    
+        self.localSession.targetMail = null
+        self.localSession.targetMails = []
+    
+        self.localSession.targetBank = null
+        self.localSession.targetBanks = []
+    else if sessionType == 1 then
+        self.remoteSessions[sessionID].targetIP = targetIP
+        self.remoteSessions[sessionID].targetPort = null
+        self.remoteSessions[sessionID].targetPorts = targetPorts
+    
+        self.remoteSessions[sessionID].targetExploit = null
+        self.remoteSessions[sessionID].targetExploits = []
+    
+        self.remoteSessions[sessionID].targetShell = null
+        self.remoteSessions[sessionID].targetShells = []
+    
+        self.remoteSessions[sessionID].targetUser = null
+        self.remoteSessions[sessionID].targetUsers = []
+    
+        self.remoteSessions[sessionID].targetMail = null
+        self.remoteSessions[sessionID].targetMails = []
+    
+        self.remoteSessions[sessionID].targetBank = null
+        self.remoteSessions[sessionID].targetBanks = []
+    end if
+end function
+
+Proxima.sessions.setSessionValue = function (sessionType, sessionID, sessionKey, sessionValue)
+end function
+
+Proxima.sessions.getSessionValue = function (sessionType, sessionID, sessionKey, sessionValue)
 end function
