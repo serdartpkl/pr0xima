@@ -1,9 +1,6 @@
 Proxima.rshell = {}
 
-Proxima.rshell.targetRShell = null
 Proxima.rshell.targetRShells = []
-
-Proxima.rshell.rshellID = 1
 
 Proxima.rshell.checkActiveShells = function ()
     self.rshellID = 1
