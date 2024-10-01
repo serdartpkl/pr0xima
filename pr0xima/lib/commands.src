@@ -5,7 +5,7 @@ Proxima.cli.commands = {}
 Proxima.cli.commands.dump = {
     "name": "dump",
     "description": "Dumps target IPs ports or local libraries to perform a scan.",
-    "usage": "dump"
+    "usage": "dump <ip|local>"
 }
 Proxima.cli.commands.dump.exec = function (params)
     if params.len > 0 then
