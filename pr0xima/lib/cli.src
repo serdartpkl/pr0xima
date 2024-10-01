@@ -82,21 +82,72 @@ Proxima.cli.throwCLIError = function (cmdMessage = null, cmdUsage = null)
 end function
 
 Proxima.cli.printCLIHeader = function ()
-    print(Proxima.cli.addOutputEntry(Proxima.cli.message.colorize("<b>              _______         .__                </b>", "#FC8403")))
-    print(Proxima.cli.addOutputEntry(Proxima.cli.message.colorize("<b>_____________ \   _  \ ___  __|__| _____ _____   </b>", "#FC8403")))
-    print(Proxima.cli.addOutputEntry(Proxima.cli.message.colorize("<b>\____ \_  __ \/  /_\  \\  \/  /  |/     \\__  \  </b>", "#FC8403")))
-    print(Proxima.cli.addOutputEntry(Proxima.cli.message.colorize("<b>|  |_> >  | \/\  \_/   \>    <|  |  Y Y  \/ __ \_</b>", "#FC8403")))
-    print(Proxima.cli.addOutputEntry(Proxima.cli.message.colorize("<b>|   __/|__|    \_____  /__/\_ \__|__|_|  (____  /</b>", "#FC8403")))
-    print(Proxima.cli.addOutputEntry(Proxima.cli.message.colorize("<b>|__|                 \/      \/        \/     \/ </b>", "#FC8403")))
-    print(Proxima.cli.addOutputEntry(""))
-    print(Proxima.cli.addOutputEntry(Proxima.cli.message.colorize("<b>pr0xima — v" + Proxima.globals.version + "</b>", "#FFC466")))
-    print(Proxima.cli.addOutputEntry(Proxima.cli.message.colorize("<b>A simple easy-to-use multi purpose hacking tool</b>", "#FFFFFF")))
+    print(self.addOutputEntry(self.message.colorize("<b>              _______         .__                </b>", "#FC8403")))
+    print(self.addOutputEntry(self.message.colorize("<b>_____________ \   _  \ ___  __|__| _____ _____   </b>", "#FC8403")))
+    print(self.addOutputEntry(self.message.colorize("<b>\____ \_  __ \/  /_\  \\  \/  /  |/     \\__  \  </b>", "#FC8403")))
+    print(self.addOutputEntry(self.message.colorize("<b>|  |_> >  | \/\  \_/   \>    <|  |  Y Y  \/ __ \_</b>", "#FC8403")))
+    print(self.addOutputEntry(self.message.colorize("<b>|   __/|__|    \_____  /__/\_ \__|__|_|  (____  /</b>", "#FC8403")))
+    print(self.addOutputEntry(self.message.colorize("<b>|__|                 \/      \/        \/     \/ </b>", "#FC8403")))
+    print(self.addOutputEntry(""))
+    print(self.addOutputEntry(self.message.colorize("<b>pr0xima — v" + Proxima.globals.version + "</b>", "#FFC466")))
+    print(self.addOutputEntry(self.message.colorize("<b>A simple easy-to-use multi purpose hacking tool</b>", "#FFFFFF")))
+end function
+
+Proxima.cli.loadAptClient = function ()
+    isValidLocation = false
+    for location in Proxima.settings.cryptoLocations
+        includeAptClient = include_lib(location)
+        if includeAptClient != null then
+            Proxima.globals.aptclient = includeAptClient
+            isValidLocation = true
+            break
+        end if
+    end for
+    if isValidLocation then
+        print(self.addOutputEntry(self.message.success("<b>aptclient.so</b> is loaded.")))
+    else
+        exit(self.message.error("Unable to find <b>aptclient.so</b> library."))
+    end if
+end function
+
+Proxima.cli.loadCrypto = function ()
+    isValidLocation = false
+    for location in Proxima.settings.cryptoLocations
+        includeCrypto = include_lib(location)
+        if includeCrypto != null then
+            Proxima.globals.crypto = includeCrypto
+            isValidLocation = true
+            break
+        end if
+    end for
+    if isValidLocation then
+        print(self.addOutputEntry(self.message.success("<b>crypto.so</b> is loaded.")))
+    else
+        exit(self.message.error("Unable to find <b>crypto.so</b> library."))
+    end if
+end function
+
+Proxima.cli.loadMetaxploit = function ()
+    isValidLocation = false
+    for location in Proxima.settings.metaxploitLocations
+        includeMetaxploit = include_lib(location)
+        if includeMetaxploit != null then
+            Proxima.globals.metaxploit = includeMetaxploit
+            isValidLocation = true
+            break
+        end if
+    end for
+    if isValidLocation then
+        print(self.addOutputEntry(self.message.success("<b>metaxploit.so</b> is loaded.")))
+    else
+        exit(self.message.error("Unable to find <b>metaxploit.so</b> library."))
+    end if
 end function
 
 Proxima.cli.loadLibraries = function ()
-    print(Proxima.cli.addOutputEntry(Proxima.cli.message.line))
-    Proxima.utils.loadAptClient()
-    Proxima.utils.loadCrypto()
-    Proxima.utils.loadMetaxploit()
-    print(Proxima.cli.addOutputEntry(Proxima.cli.message.line))
+    print(self.addOutputEntry(self.message.line))
+    self.loadAptClient()
+    self.loadCrypto()
+    self.loadMetaxploit()
+    print(self.addOutputEntry(self.message.line))
 end function

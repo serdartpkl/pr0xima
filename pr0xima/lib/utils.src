@@ -1,58 +1,5 @@
 Proxima.utils = {}
 
-Proxima.utils.loadMetaxploit = function ()
-    isValidLocation = false
-    for location in Proxima.settings.metaxploitLocations
-        includeMetaxploit = include_lib(location)
-        if includeMetaxploit != null then
-            Proxima.globals.metaxploit = includeMetaxploit
-            isValidLocation = true
-            break
-        end if
-    end for
-    if isValidLocation then
-        print(Proxima.cli.addOutputEntry(Proxima.cli.message.success("<b>metaxploit.so</b> is loaded.")))
-    else
-        exit(Proxima.cli.message.error("Unable to find <b>metaxploit.so</b> library."))
-    end if
-end function
-
-Proxima.utils.loadCrypto = function ()
-    isValidLocation = false
-    for location in Proxima.settings.cryptoLocations
-        includeCrypto = include_lib(location)
-        if includeCrypto != null then
-            Proxima.globals.crypto = includeCrypto
-            isValidLocation = true
-            break
-        end if
-    end for
-    if isValidLocation then
-        print(Proxima.cli.addOutputEntry(Proxima.cli.message.success("<b>crypto.so</b> is loaded.")))
-    else
-        exit(Proxima.cli.message.error("Unable to find <b>crypto.so</b> library."))
-    end if
-end function
-
-Proxima.utils.loadAptClient = function ()
-    isValidLocation = false
-    for location in Proxima.settings.cryptoLocations
-        includeAptClient = include_lib(location)
-        if includeAptClient != null then
-            Proxima.globals.aptclient = includeAptClient
-            isValidLocation = true
-            break
-        end if
-    end for
-    if isValidLocation then
-        print(Proxima.cli.addOutputEntry(Proxima.cli.message.success("<b>aptclient.so</b> is loaded.")))
-    else
-        exit(Proxima.cli.message.error("Unable to find <b>aptclient.so</b> library."))
-    end if
-end function
-
-// ------------------------------------------------------------------------------------------------------------
-
 Proxima.utils.formatList = function (headerList, contentList)
     maxLengths = []
 
