@@ -103,14 +103,16 @@ end function
 
 Proxima.utils.mapHasValue = function (givenList, searchKey, searchValue)
     hasFoundValue = false
-    for mapItem in givenList
-        for key in mapItem.indexes
-            if key == searchKey and mapItem[key] == searchValue then
-                hasFoundValue = true
-                break
-            end if
+    if givenList.len > 0 then
+        for mapItem in givenList
+            for key in mapItem.indexes
+                if key == searchKey and mapItem[key] == searchValue then
+                    hasFoundValue = true
+                    break
+                end if
+            end for
         end for
-    end for
+    end if
     return hasFoundValue
 end function
 
