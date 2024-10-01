@@ -68,26 +68,36 @@ Proxima.sessions.getSessionValue = function (sessionKey, sessionID = Proxima.ses
 end function
 
 Proxima.sessions.setSessionValue = function (sessionKey, sessionValue, sessionID = Proxima.sessions.activeSession)
-    getSession = self.getSession(sessionID)
-    if getSession != null then
-        self.targetSessions[getSession.id - 1][sessionKey] = sessionValue
+    acquiredSession = self.getSession(sessionID)
+    if acquiredSession != null then
+        self.targetSessions[acquiredSession.id - 1][sessionKey] = sessionValue
     else
         return null
     end if
 end function
 
-Proxima.sessions.resetSessionValues = function (sessionType, sessionID = Proxima.sessions.activeSession)
-    if self.getSession(sessionType, sessionID) != null then
-        if sessionType == 0 then
-            self.targetSessions[sessionID - 1].targetLibraries = []
-        else if sessionType == 1 then
-            self.targetSessions[sessionID - 1].targetPorts = []
+Proxima.sessions.resetSessionValues = function (sessionID = Proxima.sessions.activeSession)
+    acquiredSession = self.getSession(sessionID)
+    if acquiredSession != null then
+        if acquiredSession.sessionType == 0 then
+            self.setSessionValue("targetLibraries", [], sessionID)
+        else if acquiredSession.sessionType == 1 then
+            self.setSessionValue("targetPorts", [], sessionID)
         end if
-        self.targetSessions[sessionID - 1].targetExploits = []
-        self.targetSessions[sessionID - 1].targetShells = []
-        self.targetSessions[sessionID - 1].targetUsers = []
-        self.targetSessions[sessionID - 1].targetMails = []
-        self.targetSessions[sessionID - 1].targetBanks = []
+        self.setSessionValue("targetExploits", [], sessionID)
+        self.setSessionValue("targetShells", [], sessionID)
+        self.setSessionValue("targetUsers", [], sessionID)
+        self.setSessionValue("targetMails", [], sessionID)
+        self.setSessionValue("targetBanks", [], sessionID)
+    else
+        return null
+    end if
+end function
+
+Proxima.sessions.pushMap = function (targetList, givenMap, sessionID = Proxima.sessions.activeSession)
+    acquiredSession = self.getSession(sessionID)
+    if acquiredSession != null then
+        self.targetSessions[acquiredSession.id - 1][targetList].push(givenMap)
     else
         return null
     end if
