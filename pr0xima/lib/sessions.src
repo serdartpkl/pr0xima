@@ -4,7 +4,7 @@ Proxima.sessions.activeSession = null
 
 Proxima.sessions.targetSessions = []
 
-Proxima.sessions.getSession = function (sessionID)
+Proxima.sessions.getSession = function (sessionID = Proxima.sessions.activeSession)
     acquiredSession = null
     if self.targetSessions.len > 0 then
         for targetSession in self.targetSessions
