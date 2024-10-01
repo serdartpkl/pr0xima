@@ -6,48 +6,52 @@ Proxima.sessions.targetSessions = []
 Proxima.sessions.sessionID = 1
 
 Proxima.sessions.createSession = function (sessionType, targetObject, targetIP)
-    sessionMap = {}
+    if Proxima.utils.mapHasValue(self.targetSessions, "targetIP", targetIP) == false then
+        sessionMap = {}
 
-    sessionMap.id = self.sessionID
+        sessionMap.id = self.sessionID
 
-    sessionMap.targetIP = targetIP
+        sessionMap.targetIP = targetIP
 
-    if sessionType == 0 then
-        sessionMap.targetLibrary = null
-        sessionMap.targetLibraries = targetObject
-        sessionMap.sessionType = 0
-    else if sessionType == 1 then
-        sessionMap.targetPort = null
-        sessionMap.targetPorts = targetObject
-        sessionMap.sessionType = 1
+        if sessionType == 0 then
+            sessionMap.targetLibrary = null
+            sessionMap.targetLibraries = targetObject
+            sessionMap.sessionType = 0
+        else if sessionType == 1 then
+            sessionMap.targetPort = null
+            sessionMap.targetPorts = targetObject
+            sessionMap.sessionType = 1
+        end if
+
+        sessionMap.targetExploit = null
+        sessionMap.targetExploits = []
+
+        sessionMap.targetShell = null
+        sessionMap.targetShells = []
+
+        sessionMap.targetUser = null
+        sessionMap.targetUsers = []
+
+        sessionMap.targetMail = null
+        sessionMap.targetMails = []
+
+        sessionMap.targetBank = null
+        sessionMap.targetBanks = []
+
+        sessionMap.libraryID = 1
+        sessionMap.exploitID = 1
+        sessionMap.userID = 1
+        sessionMap.shellID = 1
+        sessionMap.mailID = 1
+        sessionMap.bankID = 1
+
+        sessionMap.payloadInjection = true
+        
+        self.targetSessions.push(sessionMap)
+        self.sessionID + 1
+    else
+        return null
     end if
-
-    sessionMap.targetExploit = null
-    sessionMap.targetExploits = []
-
-    sessionMap.targetShell = null
-    sessionMap.targetShells = []
-
-    sessionMap.targetUser = null
-    sessionMap.targetUsers = []
-
-    sessionMap.targetMail = null
-    sessionMap.targetMails = []
-
-    sessionMap.targetBank = null
-    sessionMap.targetBanks = []
-
-    sessionMap.libraryID = 1
-    sessionMap.exploitID = 1
-    sessionMap.userID = 1
-    sessionMap.shellID = 1
-    sessionMap.mailID = 1
-    sessionMap.bankID = 1
-
-    sessionMap.payloadInjection = true
-    
-    self.targetSessions.push(sessionMap)
-    self.sessionID + 1
 end function
 
 Proxima.sessions.getSession = function (sessionType, sessionID)
