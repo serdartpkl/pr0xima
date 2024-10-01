@@ -157,7 +157,15 @@ Proxima.sessions.resetSessionLists = function (sessionType, sessionID)
 end function
 
 Proxima.sessions.setSessionValue = function (sessionType, sessionID, sessionKey, sessionValue)
+    if sessionType == 0 then
+        self.localSession[sessionKey] = sessionValue
+    else sessionType == 1 then
+        if self.getRemoteSession(sessionID) != null then
+            self.remoteSessions[sessionID][sessionKey] == sessionValue
+            return true
+        end if
+    end if
 end function
 
-Proxima.sessions.getSessionValue = function (sessionType, sessionID, sessionKey, sessionValue)
+Proxima.sessions.getSessionValue = function (sessionType, sessionID, sessionKey)
 end function
