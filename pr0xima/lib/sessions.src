@@ -35,7 +35,7 @@ Proxima.sessions.createSession = function (sessionType, targetObject, targetIP, 
     end if
 end function
 
-Proxima.sessions.checkSession = function (sessionID)
+Proxima.sessions.getSession = function (sessionID)
     acquiredSession = null
     if self.targetSessions.len > 0 then
         for targetSession in self.targetSessions
@@ -48,8 +48,35 @@ Proxima.sessions.checkSession = function (sessionID)
     return acquiredSession
 end function
 
+Proxima.sessions.setSession = function (sessionID)
+    acquiredSession = self.getSession(sessionID)
+    if acquiredSession != null then
+        self.session = acquiredSession
+    else
+        return null
+    end if
+end function
+
+Proxima.sessions.getSessionValue = function (sessionID, sessionKey)
+    acquiredSession = self.getSession(sessionID)
+    if acquiredSession != null then
+        return acquiredSession[sessionKey]
+    else
+        return null
+    end if
+end function
+
+Proxima.sessions.setSessionValue = function (sessionID, sessionKey, sessionValue)
+    getSession = self.getSession(sessionID)
+    if getSession != null then
+        self.targetSessions[getSession.id - 1][sessionKey] = sessionValue
+    else
+        return null
+    end if
+end function
+
 Proxima.sessions.resetSessionValues = function (sessionType, sessionID)
-    if self.checkSession(sessionType, sessionID) != null then
+    if self.getSession(sessionType, sessionID) != null then
         if sessionType == 0 then
             self.targetSessions[sessionID - 1].targetLibraries = []
         else if sessionType == 1 then
@@ -60,24 +87,6 @@ Proxima.sessions.resetSessionValues = function (sessionType, sessionID)
         self.targetSessions[sessionID - 1].targetUsers = []
         self.targetSessions[sessionID - 1].targetMails = []
         self.targetSessions[sessionID - 1].targetBanks = []
-    else
-        return null
-    end if
-end function
-
-Proxima.sessions.setSessionValue = function (sessionID, sessionKey, sessionValue)
-    getSession = self.checkSession(sessionID)
-    if getSession != null then
-        self.targetSessions[getSession.id - 1][sessionKey] = sessionValue
-    else
-        return null
-    end if
-end function
-
-Proxima.sessions.getSessionValue = function (sessionID, sessionKey)
-    getSession = self.checkSession(sessionID)
-    if getSession != null then
-        return getSession[sessionKey]
     else
         return null
     end if
