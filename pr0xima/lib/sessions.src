@@ -52,13 +52,13 @@ end function
 Proxima.sessions.setSession = function (sessionID)
     acquiredSession = self.getSession(sessionID)
     if acquiredSession != null then
-        // ...
+        self.activeSession = sessionID
     else
         return null
     end if
 end function
 
-Proxima.sessions.getSessionValue = function (sessionID, sessionKey)
+Proxima.sessions.getSessionValue = function (sessionKey, sessionID = Proxima.sessions.activeSession)
     acquiredSession = self.getSession(sessionID)
     if acquiredSession != null then
         return acquiredSession[sessionKey]
@@ -67,7 +67,7 @@ Proxima.sessions.getSessionValue = function (sessionID, sessionKey)
     end if
 end function
 
-Proxima.sessions.setSessionValue = function (sessionID, sessionKey, sessionValue)
+Proxima.sessions.setSessionValue = function (sessionKey, sessionValue, sessionID = Proxima.sessions.activeSession)
     getSession = self.getSession(sessionID)
     if getSession != null then
         self.targetSessions[getSession.id - 1][sessionKey] = sessionValue
@@ -76,7 +76,7 @@ Proxima.sessions.setSessionValue = function (sessionID, sessionKey, sessionValue
     end if
 end function
 
-Proxima.sessions.resetSessionValues = function (sessionType, sessionID)
+Proxima.sessions.resetSessionValues = function (sessionType, sessionID = Proxima.sessions.activeSession)
     if self.getSession(sessionType, sessionID) != null then
         if sessionType == 0 then
             self.targetSessions[sessionID - 1].targetLibraries = []
