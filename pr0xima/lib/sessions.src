@@ -17,6 +17,15 @@ Proxima.sessions.getSession = function (sessionID = Proxima.sessions.activeSessi
     return acquiredSession
 end function
 
+Proxima.sessions.setSession = function (sessionID)
+    acquiredSession = self.getSession(sessionID)
+    if acquiredSession != null then
+        self.activeSession = sessionID
+    else
+        return null
+    end if
+end function
+
 Proxima.sessions.createSession = function (sessionType, targetIP, targetRouter)
     if Proxima.utils.mapHasValue(self.targetSessions, "targetIP", targetIP) == false then
         sessionMap = {}
@@ -43,16 +52,7 @@ Proxima.sessions.createSession = function (sessionType, targetIP, targetRouter)
         sessionMap.payloadInjection = true
         
         self.targetSessions.push(sessionMap)
-        self.activeSession = sessionMap.id
-    else
-        return null
-    end if
-end function
-
-Proxima.sessions.setSession = function (sessionID)
-    acquiredSession = self.getSession(sessionID)
-    if acquiredSession != null then
-        self.activeSession = sessionID
+        self.setSession(sessionMap.id)
     else
         return null
     end if
