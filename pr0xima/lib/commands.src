@@ -405,6 +405,19 @@ end function
 
 // ------------------------------------------------------------------------------------------------------------
 
+Proxima.cli.commands.sessions = {
+    "name": "sessions",
+    "description": "List available sessions.",
+    "usage": "sessions"
+}
+Proxima.cli.commands.sessions.exec = function (params)
+    if Proxima.sessions.targetSessions.len > 0 then
+        Proxima.sessions.displaySessionInfo()
+    else
+        Proxima.cli.throwCLIError("No sessions available, please perform a scan first.")
+    end if
+end function
+
 Proxima.cli.handleCommand = function (userCommand)
     if userCommand != null and userCommand != "" then
         parsedCommand = null

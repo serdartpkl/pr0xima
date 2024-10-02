@@ -84,3 +84,16 @@ Proxima.sessions.pushMap = function (targetList, givenMap, sessionID = Proxima.s
         return null
     end if
 end function
+
+Proxima.sessions.displaySessionInfo = function ()
+    header_list = ["ID", "TARGET_IP", "SESSION_TYPE"]
+    content_list = []
+    for targetSession in self.targetSessions
+        s_id = str(targetSession.id)
+        s_target_ip = targetSession.targetIP
+        s_type = targetSession.sessionType
+        content_list.push([ s_id, s_target_ip, s_type ])
+    end for
+
+    Proxima.utils.formatList(header_list, content_list)
+end function
