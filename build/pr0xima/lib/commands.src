@@ -223,7 +223,8 @@ end function
 // ------------------------------------------------------------------------------------------------------------
 Proxima.cli.commands.cls={"name":"cls","description":"Clears terminal screen.","usage":"cls"}
 Proxima.cli.commands.cls.exec=function(params)
-clear_screen
+Proxima.cli.cliEntries=[]
+Proxima.cli.clearCLI
 end function
 // ------------------------------------------------------------------------------------------------------------
 Proxima.cli.commands.help={"name":"help","description":"Lists all available commands.","usage":"help"}
