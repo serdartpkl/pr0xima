@@ -292,7 +292,19 @@ break
 end if
 end for
 if selectedCommand!=null then
+if selectedCommand.type==2 then
 selectedCommand.exec(params)
+else
+if selectedCommand.type==Proxima.sessions.getSessionValue("sessionType") then
+selectedCommand.exec(params)
+else
+if selectedCommand.type==0 then
+self.throwCLIError("It is a remote session, this is a local command.")
+else if selectedCommand.type==1 then
+self.throwCLIError("It is a local session, this is a remote command.")
+end if
+end if
+end if
 else
 self.throwCLIError
 end if

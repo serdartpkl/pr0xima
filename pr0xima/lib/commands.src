@@ -484,9 +484,9 @@ Proxima.cli.handleCommand = function (userCommand)
                 if selectedCommand.type == Proxima.sessions.getSessionValue("sessionType") then
                     selectedCommand.exec(params)
                 else
-                    if selectedCommand.type == 0
+                    if selectedCommand.type == 0 then
                         self.throwCLIError("It is a remote session, this is a local command.")
-                    else if selectedCommand.type == 1
+                    else if selectedCommand.type == 1 then
                         self.throwCLIError("It is a local session, this is a remote command.")
                     end if
                 end if
