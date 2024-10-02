@@ -1,59 +1,14 @@
 Proxima.utils={}
-Proxima.utils.loadMetaxploit=function
-isValidLocation=false
-for location in Proxima.settings.metaxploitLocations
-includeMetaxploit=include_lib(location)
-if includeMetaxploit!=null then
-Proxima.globals.metaxploit=includeMetaxploit
-isValidLocation=true
-break
-end if
-end for
-if isValidLocation then
-print(Proxima.cli.addOutputEntry(Proxima.cli.message.success("<b>metaxploit.so</b> is loaded.")))
-else
-exit(Proxima.cli.message.error("Unable to find <b>metaxploit.so</b> library."))
-end if
-end function
-Proxima.utils.loadCrypto=function
-isValidLocation=false
-for location in Proxima.settings.cryptoLocations
-includeCrypto=include_lib(location)
-if includeCrypto!=null then
-Proxima.globals.crypto=includeCrypto
-isValidLocation=true
-break
-end if
-end for
-if isValidLocation then
-print(Proxima.cli.addOutputEntry(Proxima.cli.message.success("<b>crypto.so</b> is loaded.")))
-else
-exit(Proxima.cli.message.error("Unable to find <b>crypto.so</b> library."))
-end if
-end function
-Proxima.utils.loadAptClient=function
-isValidLocation=false
-for location in Proxima.settings.cryptoLocations
-includeAptClient=include_lib(location)
-if includeAptClient!=null then
-Proxima.globals.aptclient=includeAptClient
-isValidLocation=true
-break
-end if
-end for
-if isValidLocation then
-print(Proxima.cli.addOutputEntry(Proxima.cli.message.success("<b>aptclient.so</b> is loaded.")))
-else
-exit(Proxima.cli.message.error("Unable to find <b>aptclient.so</b> library."))
-end if
-end function
-// ------------------------------------------------------------------------------------------------------------
 Proxima.utils.formatList=function(headerList,contentList)
 maxLengths=[]
 for i in headerList
 maxLen=i.len
 for row in contentList
+if row[headerList.indexOf(i)].split("#")!=null then
 if row[headerList.indexOf(i)].split("#")[0].len>maxLen then maxLen=row[headerList.indexOf(i)].split("#")[0].len
+else
+if row[headerList.indexOf(i)].len>maxLen then maxLen=row[headerList.indexOf(i)].len
+end if
 end for
 maxLengths.push(maxLen)
 end for
@@ -91,16 +46,18 @@ print(Proxima.cli.addOutputEntry(rowStr))
 print(Proxima.cli.addOutputEntry(separator))
 end for
 end function
-Proxima.utils.mapHasValue=function(givenMap,searchValue)
+Proxima.utils.mapHasValue=function(givenList,searchKey,searchValue)
 hasFoundValue=false
-for mapItem in givenMap
+if givenList.len>0 then
+for mapItem in givenList
 for key in mapItem.indexes
-if mapItem[key]==searchValue then
+if key==searchKey and mapItem[key]==searchValue then
 hasFoundValue=true
 break
 end if
 end for
 end for
+end if
 return hasFoundValue
 end function
 Proxima.utils.collectFiles=function(parentDir)

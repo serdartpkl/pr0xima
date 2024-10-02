@@ -6,7 +6,11 @@ Proxima.utils.formatList = function (headerList, contentList)
     for i in headerList
         maxLen = i.len
         for row in contentList
-            if row[headerList.indexOf(i)].split("#")[0].len > maxLen then maxLen = row[headerList.indexOf(i)].split("#")[0].len
+            if row[headerList.indexOf(i)].split("#") != null then
+                if row[headerList.indexOf(i)].split("#")[0].len > maxLen then maxLen = row[headerList.indexOf(i)].split("#")[0].len
+            else
+                if row[headerList.indexOf(i)].len > maxLen then maxLen = row[headerList.indexOf(i)].len
+            end if
         end for
         maxLengths.push(maxLen)
     end for

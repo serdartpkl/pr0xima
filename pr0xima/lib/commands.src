@@ -9,17 +9,16 @@ Proxima.cli.commands.dump = {
 }
 Proxima.cli.commands.dump.exec = function (params)
     if params.len > 0 then
-        Proxima.exploit.setTargetIP(params[0])
-        if Proxima.exploit.checkPorts() == null then
+        targetIP = params[0]
+        checkPorts = Proxima.exploit.checkPorts(targetIP)
+        if checkPorts == null then
             Proxima.cli.throwCLIError("Given IP address is not valid or does not exist!")
-        else if Proxima.exploit.checkPorts() == false then
+        else if checkPorts == false then
             Proxima.cli.throwCLIError("No open ports found on given IP address!")
         else
-            Proxima.exploit.setScanMode(1)
             Proxima.exploit.displayPortInfo()
         end if
     else
-        Proxima.exploit.setScanMode(0)
         Proxima.exploit.checkLibraries()
         Proxima.exploit.displayLibraryInfo()
     end if
@@ -33,19 +32,14 @@ Proxima.cli.commands.scanport = {
     "usage": "scanport <id>"
 }
 Proxima.cli.commands.scanport.exec = function (params)
-    if Proxima.exploit.targetPorts.len > 0 then
-        if params.len == 0 then
-            Proxima.cli.throwCLIError("No port ID provided.", self.usage)
-        else
-            if params[0] == "all" then
-                Proxima.exploit.scanPorts()
-            else
-                Proxima.exploit.setTargetPort(params[0].to_int)
-                Proxima.exploit.scanPort()
-            end if
-        end if
+    if params.len == 0 then
+        Proxima.cli.throwCLIError("No port ID provided.", self.usage)
     else
-        Proxima.cli.throwCLIError("No ports found to scan, please set a target IP address first.")
+        if params[0] == "all" then
+            Proxima.exploit.scanPorts()
+        else
+            Proxima.exploit.scanPort(params[0].to_int)
+        end if
     end if
 end function
 
@@ -57,19 +51,14 @@ Proxima.cli.commands.scanlib = {
     "usage": "scanlib <id>"
 }
 Proxima.cli.commands.scanlib.exec = function (params)
-    if Proxima.exploit.targetLibraries.len > 0 then
-        if params.len == 0 then
-            Proxima.cli.throwCLIError("No library ID provided.", self.usage)
-        else
-            if params[0] == "all" then
-                Proxima.exploit.scanLibraries()
-            else
-                Proxima.exploit.setTargetLibrary(params[0].to_int)
-                Proxima.exploit.scanLibrary()
-            end if
-        end if
+    if params.len == 0 then
+        Proxima.cli.throwCLIError("No library ID provided.", self.usage)
     else
-        Proxima.cli.throwCLIError("No libraries found to scan, please dump library list first.")
+        if params[0] == "all" then
+            Proxima.exploit.scanLibraries()
+        else
+            Proxima.exploit.scanLibrary(params[0].to_int)
+        end if
     end if
 end function
 
@@ -171,7 +160,8 @@ Proxima.cli.commands.shells = {
     "usage": "shells"
 }
 Proxima.cli.commands.shells.exec = function (params)
-    if Proxima.exploit.targetShells.len > 0 then
+    targetShells = Proxima.sessions.getSessionValue("targetSessions")
+    if targetShells.len > 0 then
         Proxima.exploit.displayShellInfo()
     else
         Proxima.cli.throwCLIError("No open shells available, please execute an exploit first.")
@@ -192,8 +182,7 @@ Proxima.cli.commands.execute.exec = function (params)
         if params[0] == "all" then
             Proxima.exploit.autoExecute()
         else
-            Proxima.exploit.setTargetExploit(params[0].to_int)
-            Proxima.exploit.execute()
+            Proxima.exploit.execute(params[0].to_int)
         end if
     end if
 end function
@@ -405,6 +394,20 @@ end function
 
 // ------------------------------------------------------------------------------------------------------------
 
+Proxima.cli.commands.session = {
+    "name": "session",
+    "description": "Switched to specified session with given ID.",
+    "usage": "session <id>"
+}
+Proxima.cli.commands.session.exec = function (params)
+    if params.len == 0 then
+        Proxima.cli.throwCLIError("No session ID provided.", self.usage)
+    else
+        switchResult = Proxima.sessions.setSession(params[0].to_int)
+        if switchResult == null then Proxima.cli.throwCLIError("No session found with provided ID.")
+    end if
+end function
+
 Proxima.cli.commands.sessions = {
     "name": "sessions",
     "description": "List available sessions.",
@@ -450,8 +453,9 @@ end function
 
 Proxima.cli.startCLI = function ()
     activeTarget = null
-    if Proxima.exploit.targetIP != null then 
-        activeTarget = Proxima.exploit.targetIP 
+    targetIP = Proxima.sessions.getSessionValue("targetIP")
+    if targetIP != null then 
+        activeTarget = targetIP 
     else
         activeTarget = Proxima.globals.activeUser
     end if

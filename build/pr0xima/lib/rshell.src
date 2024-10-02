@@ -1,28 +1,53 @@
 Proxima.rshell={}
-Proxima.rshell.targetRShell=null
-Proxima.rshell.targetRShells=[]
-Proxima.rshell.rshellID=1
-Proxima.rshell.checkActiveShells=function
-self.rshellID=1
+Proxima.rshell.targetRshells=[]
+Proxima.rshell.checkActiveRshells=function
 self.targetRShells=[]
 recievedShells=Proxima.globals.metaxploit.rshell_server
 if recievedShells!=null and typeof(recievedShell)!="string" then
 if recievedShells.len>0 then
 for recievedShell in recievedShells
 shellMap={}
-shellMap.id=self.rshellID
+shellMap.id=self.targetRshells.len+1
 shellMap.shell_object=recievedShell
-shellMap.owner=Proxima.exploit.acquireUser(recievedShell.host_computer)
+shellOwner=Proxima.exploit.acquireUser(recievedShell.host_computer)
+shellMap.owner=shellOwner
+shellMap.privilege_level=Proxima.exploit.getPrivilegeLevel(shellOwner)
 shellMap.public_ip=recievedShell.host_computer.public_ip
 shellMap.local_ip=recievedShell.host_computer.local_ip
 self.targetRShells.push(shellMap)
-self.rshellID=self.rshellID+1
 end for
 return true
 else
-return null
-end if
-else
 return false
 end if
+else
+return null
+end if
+end function
+Proxima.rshell.launchRshell=function(rshellID)
+if self.targetRshells.len>0 then
+if rshellID!=null and self.targetRshells.hasIndex(rshellID-1) then
+targetRshell=self.targetRshells[rshellID-1]
+print(Proxima.cli.addOutputEntry(Proxima.cli.message.progress("Connecting to reverse shell on <b>"+targetRshell.public_ip+"</b> via <b>"+targetRshell.owner+"</b> privilege. <b>[ID:"+targetRshell.id+"]</b>")))
+wait(1)
+targetRshell.shell_object.start_terminal
+else
+print(Proxima.cli.addOutputEntry(Proxima.cli.message.error("No open reverse shell found with specified ID. <b>[ID:"+rshellID+"]</b>")))
+end if
+else
+print(Proxima.cli.addOutputEntry(Proxima.cli.message.error("No open reverse shells found to connect.")))
+end if
+end function
+Proxima.rshell.displayRshellInfo=function
+header_list=["ID","OWNER","PRIVILEGE","PUBLIC_IP","LOCAL_IP"]
+content_list=[]
+for targetRshell in self.targetRshells
+rs_id=str(targetRshell.id)
+rs_owner=targetRshell.owner
+rs_privilege_level=Proxima.exploit.colorizePrivilegeLevel(targetRshell.privilege_level)
+rs_public_ip=targetRshell.public_ip
+rs_local_ip=targetRshell.local_ip
+content_list.push([rs_id,rs_owner,rs_privilege_level,rs_public_ip,rs_local_ip])
+end for
+Proxima.utils.formatList(header_list,content_list)
 end function

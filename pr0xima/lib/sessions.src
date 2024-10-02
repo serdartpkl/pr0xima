@@ -58,7 +58,8 @@ Proxima.sessions.createSession = function (sessionType, targetIP, targetRouter)
     end if
 end function
 
-Proxima.sessions.getSessionValue = function (sessionKey, sessionID = Proxima.sessions.activeSession)
+Proxima.sessions.getSessionValue = function (sessionKey)
+    sessionID = self.activeSession
     acquiredSession = self.getSession(sessionID)
     if acquiredSession != null then
         return acquiredSession[sessionKey]
@@ -67,7 +68,8 @@ Proxima.sessions.getSessionValue = function (sessionKey, sessionID = Proxima.ses
     end if
 end function
 
-Proxima.sessions.setSessionValue = function (sessionKey, sessionValue, sessionID = Proxima.sessions.activeSession)
+Proxima.sessions.setSessionValue = function (sessionKey, sessionValue)
+    sessionID = self.activeSession
     acquiredSession = self.getSession(sessionID)
     if acquiredSession != null then
         self.targetSessions[acquiredSession.id - 1][sessionKey] = sessionValue
@@ -76,7 +78,8 @@ Proxima.sessions.setSessionValue = function (sessionKey, sessionValue, sessionID
     end if
 end function
 
-Proxima.sessions.pushMap = function (targetList, givenMap, sessionID = Proxima.sessions.activeSession)
+Proxima.sessions.pushMap = function (targetList, givenMap)
+    sessionID = self.activeSession
     acquiredSession = self.getSession(sessionID)
     if acquiredSession != null then
         self.targetSessions[acquiredSession.id - 1][targetList].push(givenMap)
@@ -91,7 +94,7 @@ Proxima.sessions.displaySessionInfo = function ()
     for targetSession in self.targetSessions
         s_id = str(targetSession.id)
         s_target_ip = targetSession.targetIP
-        s_type = targetSession.sessionType
+        s_type = str(targetSession.sessionType)
         content_list.push([ s_id, s_target_ip, s_type ])
     end for
 
