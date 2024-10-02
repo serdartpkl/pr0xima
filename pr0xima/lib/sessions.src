@@ -59,8 +59,7 @@ Proxima.sessions.createSession = function (sessionType, targetIP, targetRouter)
 end function
 
 Proxima.sessions.getSessionValue = function (sessionKey)
-    sessionID = self.activeSession
-    acquiredSession = self.getSession(sessionID)
+    acquiredSession = self.getSession(self.activeSession)
     if acquiredSession != null then
         return acquiredSession[sessionKey]
     else
@@ -69,8 +68,7 @@ Proxima.sessions.getSessionValue = function (sessionKey)
 end function
 
 Proxima.sessions.setSessionValue = function (sessionKey, sessionValue)
-    sessionID = self.activeSession
-    acquiredSession = self.getSession(sessionID)
+    acquiredSession = self.getSession(self.activeSession)
     if acquiredSession != null then
         self.targetSessions[acquiredSession.id - 1][sessionKey] = sessionValue
     else
@@ -79,8 +77,7 @@ Proxima.sessions.setSessionValue = function (sessionKey, sessionValue)
 end function
 
 Proxima.sessions.pushMap = function (targetList, givenMap)
-    sessionID = self.activeSession
-    acquiredSession = self.getSession(sessionID)
+    acquiredSession = self.getSession(self.activeSession)
     if acquiredSession != null then
         self.targetSessions[acquiredSession.id - 1][targetList].push(givenMap)
     else
