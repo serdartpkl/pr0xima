@@ -20,7 +20,7 @@ end function
 Proxima.sessions.setSession = function (sessionID)
     acquiredSession = self.getSession(sessionID)
     if acquiredSession != null then
-        self.activeSession = sessionID
+        self.activeSession = acquiredSession.id
     else
         return null
     end if
