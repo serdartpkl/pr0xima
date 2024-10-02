@@ -390,7 +390,7 @@ Proxima.cli.commands.help = {
 }
 Proxima.cli.commands.help.exec = function (params)
     i = 0
-    for command in Proxima.commands
+    for command in Proxima.cli.commands
         cmd = command.values[1]
         cmd_name = cmd.name
         cmd_description = cmd.description
