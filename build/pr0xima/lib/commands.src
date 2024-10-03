@@ -271,6 +271,10 @@ else
 Proxima.cli.throwCLIError("No sessions available, please perform a scan first.")
 end if
 end function
+Proxima.cli.commands.jump={"name":"jump","description":"List available sessions.","usage":"jump","type":2}
+Proxima.cli.commands.jump.exec=function(params)
+Proxima.exploit.jumpShell
+end function
 Proxima.cli.handleCommand=function(userCommand)
 if userCommand!=null and userCommand!="" then
 parsedCommand=null
