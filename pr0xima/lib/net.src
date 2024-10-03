@@ -4,6 +4,8 @@ Proxima.net.networkKey = null
 Proxima.net.targetNetwork = null
 Proxima.net.targetNetworks = []
 
+// ------------------------------------------------------------------------------------------------------------
+
 Proxima.net.checkConnection = function ()
     if Proxima.globals.myPC.is_network_active then
         return true
@@ -22,6 +24,8 @@ Proxima.net.getConnectedNetwork = function ()
         return null
     end if
 end function
+
+// ------------------------------------------------------------------------------------------------------------
 
 Proxima.net.selectInterface = function ()
     targetComputer = Proxima.globals.myPC
@@ -93,6 +97,8 @@ Proxima.net.startSniffing = function (selectedInterface)
     end if
 end function
 
+// ------------------------------------------------------------------------------------------------------------
+
 Proxima.net.crackKey = function ()
     capFile = Proxima.globals.myPC.File(home_dir + "/file.cap")
     if capFile == null then exit(Proxima.cli.message.error("<b>file.cap</b> is missing"))
@@ -110,6 +116,8 @@ Proxima.net.connectNetwork = function ()
     connectionStatus = Proxima.globals.myPC.connect_wifi(self.interface, self.targetNetwork.bssid, self.targetNetwork.essid, self.networkKey)
     exit(Proxima.cli.addOutputEntry(Proxima.cli.message.success("Connection successfull, you are online!")))
 end function
+
+// ------------------------------------------------------------------------------------------------------------
 
 Proxima.net.autoHack = function ()
     self.setAutoTarget()

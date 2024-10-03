@@ -1,14 +1,12 @@
 Proxima.cli = {}
 
 Proxima.cli.cliString = null
-
 Proxima.cli.cliEntries = []
 
 Proxima.cli.message = {}
+Proxima.cli.message.line = "+----------------------------------------------------+"
 
 // ------------------------------------------------------------------------------------------------------------
-
-Proxima.cli.message.line = "+----------------------------------------------------+"
 
 Proxima.cli.message.colorize = function (txt, color)
     return "<color=" + color + ">" + txt + "</color>"

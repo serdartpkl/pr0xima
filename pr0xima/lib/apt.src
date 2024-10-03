@@ -2,6 +2,8 @@ Proxima.apt = {}
 
 Proxima.apt.hackShopIP = null
 
+// ------------------------------------------------------------------------------------------------------------
+
 Proxima.apt.findHackShop = function ()
     hackShopIP = null
     

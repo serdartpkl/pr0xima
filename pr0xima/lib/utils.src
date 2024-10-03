@@ -1,5 +1,7 @@
 Proxima.utils = {}
 
+// ------------------------------------------------------------------------------------------------------------
+
 Proxima.utils.formatList = function (headerList, contentList)
     maxLengths = []
 

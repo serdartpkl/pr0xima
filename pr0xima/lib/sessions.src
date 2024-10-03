@@ -1,8 +1,9 @@
 Proxima.sessions = {}
 
 Proxima.sessions.activeSession = null
-
 Proxima.sessions.targetSessions = []
+
+// ------------------------------------------------------------------------------------------------------------
 
 Proxima.sessions.getSession = function (sessionID)
     acquiredSession = null

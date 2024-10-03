@@ -2,6 +2,8 @@ Proxima.rshell = {}
 
 Proxima.rshell.targetRshells = []
 
+// ------------------------------------------------------------------------------------------------------------
+
 Proxima.rshell.checkActiveRshells = function ()
     self.targetRShells = []
     recievedShells = Proxima.globals.metaxploit.rshell_server()
