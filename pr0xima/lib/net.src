@@ -1,10 +1,5 @@
 Proxima.net = {}
 
-Proxima.net.interface = "wlan0"
-Proxima.net.maxACKRate = 300000
-
-Proxima.net.router = null
-
 Proxima.net.networkKey = null
 Proxima.net.targetNetwork = null
 Proxima.net.targetNetworks = []
@@ -17,12 +12,48 @@ Proxima.net.checkConnection = function ()
     end if
 end function
 
-Proxima.net.startMonitoring = function ()
-    airmonResult = Proxima.globals.crypto.airmon("start", self.interface)
-    if typeof(airmonResult) == "string" then
-        return false
+Proxima.net.getConnectedNetwork = function ()
+    if self.checkConnection() then
+        getRouter = Proxima.globals.myPC.get_router
+        networkESSID = getRouter.essid_name
+        networkBSSID = getRouter.bssid_name
+        return networkESSID + char(10) + networkBSSID
     else
-        return true
+        return null
+    end if
+end function
+
+Proxima.net.selectInterface = function ()
+    targetComputer = Proxima.globals.myPC
+    networkDevices = network_devices(targetComputer)
+
+    selectedInterface = null
+
+    deviceList = networkDevices.split(char(10))
+    for networkDevice in deviceList
+        deviceInfo = networkDevice.split(char(32))
+        interfaceName = deviceInfo[0]
+        chipsetModel = deviceInfo[1]
+        supportedMonitoring = deviceInfo[2]
+        if supportedMonitoring then
+            selectedInterface = interfaceName
+        end if
+    end for
+
+    return selectedInterface
+end function
+
+Proxima.net.startMonitoring = function ()
+    selectedInterface = self.selectInterface()
+    if selectedInterface != null 
+        airmonResult = Proxima.globals.crypto.airmon("start", selectedInterface)
+        if typeof(airmonResult) == "string" then
+            return false
+        else
+            return true
+        end if
+    else
+        return null
     end if
 end function
 
@@ -31,23 +62,25 @@ Proxima.net.setAutoTarget = function ()
         getNetworks = Proxima.globals.myPC.wifi_networks(self.interface)
         if getNetworks.len > 0 then
             for network in getNetworks
+                networkID = self.targetNetworks.len + 1
                 network = network.split(" ")
                 bssid = network[0]
                 essid = network[2]
                 strength = network[1][:-1].to_int
-                self.targetNetworks.push({"essid": essid, "bssid": bssid, "strength": strength})
+                self.targetNetworks.push({ "id": networkID, "essid": essid, "bssid": bssid, "strength": strength })
             end for
             self.targetNetwork = self.targetNetworks.sort("strength")[self.targetNetworks.len - 1]
+            return true
         else
-            exit(Proxima.cli.message.error(""))
+            return false
         end if
     else
-        exit(Proxima.cli.message.error(""))
+        return null
     end if
 end function
 
 Proxima.net.startSniffing = function ()
-    requiredACKs = ceil(self.maxACKRate / self.targetNetwork.strength)
+    requiredACKs = ceil(300000 / self.targetNetwork.strength)
     getACKs = Proxima.globals.crypto.aireplay(self.targetNetwork.bssid, self.targetNetwork.essid, requiredACKs)
     airmonResult = Proxima.globals.crypto.airmon("stop", self.interface)
 end function
