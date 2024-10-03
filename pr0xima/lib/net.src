@@ -45,7 +45,7 @@ end function
 
 Proxima.net.startMonitoring = function ()
     selectedInterface = self.selectInterface()
-    if selectedInterface != null 
+    if selectedInterface != null then
         airmonResult = Proxima.globals.crypto.airmon("start", selectedInterface)
         if typeof(airmonResult) == "string" then
             return false
@@ -59,7 +59,7 @@ end function
 
 Proxima.net.setAutoTarget = function ()
     if self.startMonitoring() then
-        getNetworks = Proxima.globals.myPC.wifi_networks(self.interface)
+        getNetworks = Proxima.globals.myPC.wifi_networks(self.selectInterface())
         if getNetworks.len > 0 then
             for network in getNetworks
                 networkID = self.targetNetworks.len + 1
@@ -79,10 +79,14 @@ Proxima.net.setAutoTarget = function ()
     end if
 end function
 
-Proxima.net.startSniffing = function ()
-    requiredACKs = ceil(300000 / self.targetNetwork.strength)
-    getACKs = Proxima.globals.crypto.aireplay(self.targetNetwork.bssid, self.targetNetwork.essid, requiredACKs)
-    airmonResult = Proxima.globals.crypto.airmon("stop", self.interface)
+Proxima.net.startSniffing = function (selectedInterface)
+    if self.setAutoTarget() then
+        requiredACKs = ceil(300000 / self.targetNetwork.strength)
+        getACKs = Proxima.globals.crypto.aireplay(self.targetNetwork.bssid, self.targetNetwork.essid, requiredACKs)
+        airmonResult = Proxima.globals.crypto.airmon("stop", self.selectInterface())
+    else
+
+    end if
 end function
 
 Proxima.net.crackKey = function ()
