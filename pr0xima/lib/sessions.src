@@ -51,6 +51,8 @@ Proxima.sessions.createSession = function (sessionType, targetIP, targetRouter)
         sessionMap.targetBanks = []
 
         sessionMap.payloadInjection = true
+
+        sessionMap.autoSave = false
         
         self.targetSessions.push(sessionMap)
         self.setSession(sessionMap.id)
