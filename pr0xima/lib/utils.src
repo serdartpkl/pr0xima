@@ -91,3 +91,12 @@ Proxima.utils.collectFiles = function (parentDir)
 
     return allFiles
 end function
+
+Proxima.utils.stringifyMap = function (obj)
+
+end function
+
+Proxima.utils.mapifyString = function (str)
+
+end function
+
