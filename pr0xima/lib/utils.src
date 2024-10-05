@@ -101,17 +101,17 @@ Proxima.utils.isInList = function(item, list)
     return false
 end function
 
-Proxima.utils.serialize = function(data, excludeKeys=[])
+Proxima.utils.serialize = function(data, excludeKeys = [])
     dataType = typeof(data)
     if dataType == "map" then
         serialized = "{"
         for key in data.indexes
-            if isInList(key, excludeKeys) then
+            if self.isInList(key, excludeKeys) then
                 continue
             end if
             value = data[key]
             serialized = serialized + char(34) + key + char(34) + ":"
-            serialized = serialized + serialize(value, excludeKeys)
+            serialized = serialized + self.serialize(value, excludeKeys)
             serialized = serialized + ","
         end for
         if serialized.hasIndex(serialized.len - 1) and serialized[-1] == "," then
@@ -121,7 +121,7 @@ Proxima.utils.serialize = function(data, excludeKeys=[])
     else if dataType == "list" then
         serialized = "["
         for value in data
-            serialized = serialized + serialize(value, excludeKeys)
+            serialized = serialized + self.serialize(value, excludeKeys)
             serialized = serialized + ","
         end for
         if serialized.hasIndex(serialized.len - 1) and serialized[-1] == "," then
@@ -159,7 +159,7 @@ Proxima.utils.splitSerializedItems = function(serialized, delimiter)
     return items
 end function
 
-Proxima.utils.deserialize = function(serialized, excludeKeys=[])
+Proxima.utils.deserialize = function(serialized, excludeKeys = [])
     serialized = serialized.trim
     if serialized.hasIndex(0) and serialized[0] == "{" and serialized.hasIndex(serialized.len - 1) and serialized[-1] == "}" then
         return self.deserializeMap(serialized, excludeKeys)
@@ -176,7 +176,7 @@ Proxima.utils.deserialize = function(serialized, excludeKeys=[])
     end if
 end function
 
-Proxima.utils.deserializeMap = function(serialized, excludeKeys=[])
+Proxima.utils.deserializeMap = function(serialized, excludeKeys = [])
     if not serialized.hasIndex(1) or not serialized.hasIndex(serialized.len - 2) then
         return {}
     end if
@@ -202,7 +202,7 @@ Proxima.utils.deserializeMap = function(serialized, excludeKeys=[])
     return map
 end function
 
-Proxima.utils.deserializeList = function(serialized, excludeKeys=[])
+Proxima.utils.deserializeList = function(serialized, excludeKeys = [])
     if not serialized.hasIndex(1) or not serialized.hasIndex(serialized.len - 2) then
         return []
     end if
@@ -217,11 +217,11 @@ Proxima.utils.deserializeList = function(serialized, excludeKeys=[])
     return list
 end function
 
-Proxima.utils.exportMapToFile = function(map, filePath, excludeKeys=[])
+Proxima.utils.exportMapToFile = function(map, filePath, excludeKeys = [])
     pathComponents = filePath.split("/")
     fileName = pathComponents.pop()
     directory = pathComponents.join("/")
-    serializedMap = serialize(map, excludeKeys)
+    serializedMap = self.serialize(map, excludeKeys)
     file = shell.host_computer.File(filePath)
     if not file then
         shell.host_computer.touch(directory, fileName)
@@ -230,7 +230,7 @@ Proxima.utils.exportMapToFile = function(map, filePath, excludeKeys=[])
     file.set_content(serializedMap)
 end function
 
-Proxima.utils.importMapFromFile = function(filePath, excludeKeys=[])
+Proxima.utils.importMapFromFile = function(filePath, excludeKeys = [])
     file = shell.host_computer.File(filePath)
     if not file then
         return null
@@ -239,6 +239,6 @@ Proxima.utils.importMapFromFile = function(filePath, excludeKeys=[])
     if content == null then
         return null
     end if
-    map = deserializeMap(content, excludeKeys)
+    map = self.deserializeMap(content, excludeKeys)
     return map
 end function
