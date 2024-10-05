@@ -217,20 +217,54 @@ Proxima.utils.deserializeList = function(serialized, excludeKeys = [])
     return list
 end function
 
-Proxima.utils.exportMapToFile = function(map, filePath, excludeKeys = [])
-    pathComponents = filePath.split("/")
-    fileName = pathComponents.pop()
-    directory = pathComponents.join("/")
-    serializedMap = self.serialize(map, excludeKeys)
-    file = shell.host_computer.File(filePath)
-    if not file then
-        shell.host_computer.touch(directory, fileName)
-        file = shell.host_computer.File(filePath)
+Proxima.utils.exportSession = function(sessionMap, excludeKeys = [])
+    targetIP = Proxima.sessions.getSessionValue("targetIP")
+    fileName = targetIP.split(".")
+    fileName = fileName.join("_")
+    fileName = fileName + ".txt"
+
+    serializedMap = self.serialize(sessionMap, excludeKeys)
+
+    sessionsFolder = Proxima.globals.myPC.File(home_dir + "/Desktop/Sessions")
+    if sessionsFolder != null and is_folder(sessionsFolder) then
+        sessionFile = Proxima.globals.myPC.File(sessionsFolder.path + "/" + fileName)
+        if sessionFile != null then
+            rewriteSessionInfo = sessionFile.set_content(serializedMap)
+            if rewriteSessionInfo != null then
+                // SUCCESS
+            else
+                // ERROR
+            end if
+        else
+            createSessionFile = Proxima.globals.myPC.touch(sessionsFolder.path, fileName)
+            if createSessionFile != null then
+                getSessionFile = Proxima.globals.myPC.File(sessionsFolder.path + "/" + fileName)
+                if getSessionFile != null then
+                    rewriteSessionInfo = getSessionFile.set_content(serializedMap)
+                else
+                    // ERROR
+                end if
+            end if
+        end if
+    else
+        createSessionsFolder = Proxima.globals.myPC.touch(home_dir + "/Desktop", "Sessions")
+        if createSessionsFolder != "" then
+            createSessionFile = Proxima.globals.myPC.touch(home_dir + "/Desktop/Sessions", fileName)
+            if createSessionFile != null then
+                getSessionFile = Proxima.globals.myPC.File(home_dir + "/Desktop/Sessions/" + fileName)
+                if getSessionFile != null then
+                    rewriteSessionInfo = getSessionFile.set_content(serializedMap)
+                else
+                    // ERROR
+                end if
+            else
+                // ERROR
+            end if
+        end if
     end if
-    file.set_content(serializedMap)
 end function
 
-Proxima.utils.importMapFromFile = function(filePath, excludeKeys = [])
+Proxima.utils.importSession = function(targetIP, excludeKeys = [])
     file = shell.host_computer.File(filePath)
     if not file then
         return null
