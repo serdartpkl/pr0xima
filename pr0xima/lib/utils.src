@@ -231,9 +231,9 @@ Proxima.utils.exportSession = function(sessionMap, excludeKeys = [])
         if sessionFile != null then
             rewriteSessionInfo = sessionFile.set_content(serializedMap)
             if rewriteSessionInfo != null then
-                // SUCCESS
+                return true
             else
-                // ERROR
+                return false
             end if
         else
             createSessionFile = Proxima.globals.myPC.touch(sessionsFolder.path, fileName)
@@ -241,8 +241,13 @@ Proxima.utils.exportSession = function(sessionMap, excludeKeys = [])
                 getSessionFile = Proxima.globals.myPC.File(sessionsFolder.path + "/" + fileName)
                 if getSessionFile != null then
                     rewriteSessionInfo = getSessionFile.set_content(serializedMap)
+                    if rewriteSessionInfo != null then
+                        return true
+                    else
+                        return false
+                    end if
                 else
-                    // ERROR
+                    return false
                 end if
             end if
         end if
@@ -255,10 +260,10 @@ Proxima.utils.exportSession = function(sessionMap, excludeKeys = [])
                 if getSessionFile != null then
                     rewriteSessionInfo = getSessionFile.set_content(serializedMap)
                 else
-                    // ERROR
+                    return true
                 end if
             else
-                // ERROR
+                return false
             end if
         end if
     end if
