@@ -92,24 +92,24 @@ Proxima.utils.collectFiles = function (parentDir)
     return allFiles
 end function
 
-Proxima.utils.isInList = function(item, list)
-    for element in list
-        if element == item then
+Proxima.utils.isInList = function(givenItem, givenList)
+    for item in givenList
+        if item == givenItem then
             return true
         end if
     end for
     return false
 end function
 
-Proxima.utils.serialize = function(data, excludeKeys = [])
-    dataType = typeof(data)
+Proxima.utils.serialize = function(sessionData, excludeKeys = [])
+    dataType = typeof(sessionData)
     if dataType == "map" then
         serialized = "{"
-        for key in data.indexes
+        for key in sessionData.indexes
             if self.isInList(key, excludeKeys) then
                 continue
             end if
-            value = data[key]
+            value = sessionData[key]
             serialized = serialized + char(34) + key + char(34) + ":"
             serialized = serialized + self.serialize(value, excludeKeys)
             serialized = serialized + ","
@@ -120,7 +120,7 @@ Proxima.utils.serialize = function(data, excludeKeys = [])
         serialized = serialized + "}"
     else if dataType == "list" then
         serialized = "["
-        for value in data
+        for value in sessionData
             serialized = serialized + self.serialize(value, excludeKeys)
             serialized = serialized + ","
         end for
@@ -129,18 +129,18 @@ Proxima.utils.serialize = function(data, excludeKeys = [])
         end if
         serialized = serialized + "]"
     else if dataType == "string" then
-        serialized = char(34) + data + char(34)
+        serialized = char(34) + sessionData + char(34)
     else
-        serialized = str(data)
+        serialized = str(sessionData)
     end if
     return serialized
 end function
 
-Proxima.utils.splitSerializedItems = function(serialized, delimiter)
+Proxima.utils.splitSerializedItems = function(serializedData, delimiter)
     items = []
     currentItem = ""
     depth = 0
-    for char in serialized
+    for char in serializedData
         if char == "{" or char == "[" then
             depth = depth + 1
         else if char == "}" or char == "]" then
@@ -242,3 +242,90 @@ Proxima.utils.importMapFromFile = function(filePath, excludeKeys = [])
     map = self.deserializeMap(content, excludeKeys)
     return map
 end function
+
+/*
+
+targetSession = {
+    "id": 1,
+    "targetIP": "112.43.128.12",
+    "targetRouter": null,
+    "targetLibraries": [
+        {
+            "id": 1,
+            "lib_name": "libssh.so",
+            "version": "1.0.0",
+            "path": "/lib/libssh.so"
+        }
+    ],
+    "sessionType": 0,
+    "targetExploits": [
+        {
+            "id": 1,
+            "lib_name": "libssh.so",
+            "version": "1.0.0",
+            "path": "/lib/libssh.so",
+            "memAddr": "0xD123719",
+            "unsecZone": "flipflox",
+            "result": 3
+        },
+        {
+            "id": 2,
+            "lib_name": "libssh.so",
+            "version": "1.0.0",
+            "path": "/lib/libssh.so",
+            "memAddr": "0x1239871",
+            "unsecZone": "doomms",
+            "result": 4
+        },
+        {
+            "id": 3,
+            "lib_name": "libssh.so",
+            "version": "1.0.0",
+            "path": "/lib/libssh.so",
+            "memAddr": "0xC981884A",
+            "unsecZone": "testmypatience",
+            "result": 1
+        },
+        {
+            "id": 4,
+            "lib_name": "libssh.so",
+            "version": "1.0.0",
+            "path": "/lib/libssh.so",
+            "memAddr": "0xAAA21323",
+            "unsecZone": "localmess",
+            "result": 2
+        },
+        
+    ],
+    "targetShells": [],
+    "targetUsers": [
+        {
+            "id": 1,
+            "username": "root",
+            "password": "f9a7d97f9970f7b0c006fe85fb087fb4"
+        },
+        {
+            "id": 2,
+            "username": "pr0ximan0va",
+            "password": "f9a7d97f9970f7b0c006fe85fb087fb4"
+        }
+    ],
+    "targetMails": [
+        {
+            "id": 1,
+            "mail_addr": "pr0ximan0ba-2938t982@aks.com",
+            "password": "f9a7d97f9970f7b0c006fe85fb087fb4"
+        }
+    ],
+    "targetBanks": [
+        {
+            "id": 1,
+            "account": "pr0ximan0va-1222439",
+            "password": "f9a7d97f9970f7b0c006fe85fb087fb4"
+        }
+    ],
+    "payloadInjection": true,
+    "autoSave": false
+}
+
+*/
