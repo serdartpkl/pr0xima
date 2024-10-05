@@ -265,16 +265,27 @@ Proxima.utils.exportSession = function(sessionMap, excludeKeys = [])
 end function
 
 Proxima.utils.importSession = function(targetIP, excludeKeys = [])
-    file = shell.host_computer.File(filePath)
-    if not file then
+    fileName = targetIP.split(".")
+    fileName = targetIP.join("_")
+    fileName = fileName + ".txt"
+
+    sessionsFolder = Proxima.globals.myPC.File(home_dir + "/Desktop/Sessions")
+    if sessionsFolder != null and is_folder(sessionsFolder) then
+        sessionFile = Proxima.globals.myPC.File(filaName)
+        if sessionFile != null then
+            sessionInfo = sessionFile.get_content()
+            if sessionInfo != null then
+                sessionMap = self.deserializeMap(sessionInfo, excludeKeys)
+                return sessionMap
+            else
+                return null
+            end if
+        else
+            return null
+        end if
+    else
         return null
     end if
-    content = file.get_content()
-    if content == null then
-        return null
-    end if
-    map = self.deserializeMap(content, excludeKeys)
-    return map
 end function
 
 /*
