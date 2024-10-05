@@ -174,7 +174,7 @@ Proxima.utils.splitSerializedItems = function(serializedData, delimiter)
         items.push(currentItem.trim)
     end if
     return items
-end 
+end function
 
 Proxima.utils.deserializeList = function(serialized, excludeKeys = [])
     if not serialized.hasIndex(1) or not serialized.hasIndex(serialized.len - 2) then
