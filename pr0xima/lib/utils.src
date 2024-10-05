@@ -136,6 +136,23 @@ Proxima.utils.serialize = function(sessionData, excludeKeys = [])
     return serialized
 end function
 
+Proxima.utils.deserialize = function(serialized, excludeKeys = [])
+    serialized = serialized.trim
+    if serialized.hasIndex(0) and serialized[0] == "{" and serialized.hasIndex(serialized.len - 1) and serialized[-1] == "}" then
+        return self.deserializeMap(serialized, excludeKeys)
+    else if serialized.hasIndex(0) and serialized[0] == "[" and serialized.hasIndex(serialized.len - 1) and serialized[-1] == "]" then
+        return self.deserializeList(serialized, excludeKeys)
+    else if serialized.hasIndex(0) and serialized[0] == char(34) and serialized.hasIndex(serialized.len - 1) and serialized[-1] == char(34) then
+        return serialized[1:-1]
+    else
+        value = serialized.to_int
+        if typeof(value) == "string" then
+            value = serialized * 1
+        end if
+        return value
+    end if
+end function
+
 Proxima.utils.splitSerializedItems = function(serializedData, delimiter)
     items = []
     currentItem = ""
@@ -157,23 +174,21 @@ Proxima.utils.splitSerializedItems = function(serializedData, delimiter)
         items.push(currentItem.trim)
     end if
     return items
-end function
+end 
 
-Proxima.utils.deserialize = function(serialized, excludeKeys = [])
-    serialized = serialized.trim
-    if serialized.hasIndex(0) and serialized[0] == "{" and serialized.hasIndex(serialized.len - 1) and serialized[-1] == "}" then
-        return self.deserializeMap(serialized, excludeKeys)
-    else if serialized.hasIndex(0) and serialized[0] == "[" and serialized.hasIndex(serialized.len - 1) and serialized[-1] == "]" then
-        return self.deserializeList(serialized, excludeKeys)
-    else if serialized.hasIndex(0) and serialized[0] == char(34) and serialized.hasIndex(serialized.len - 1) and serialized[-1] == char(34) then
-        return serialized[1:-1]
-    else
-        value = serialized.to_int
-        if typeof(value) == "string" then
-            value = serialized * 1
-        end if
-        return value
+Proxima.utils.deserializeList = function(serialized, excludeKeys = [])
+    if not serialized.hasIndex(1) or not serialized.hasIndex(serialized.len - 2) then
+        return []
     end if
+    serialized = serialized[1:-1].trim
+    list = []
+    items = self.splitSerializedItems(serialized, ",")
+    for item in items
+        valueStr = item.trim
+        value = self.deserialize(valueStr, excludeKeys)
+        list.push(value)
+    end for
+    return list
 end function
 
 Proxima.utils.deserializeMap = function(serialized, excludeKeys = [])
@@ -200,21 +215,6 @@ Proxima.utils.deserializeMap = function(serialized, excludeKeys = [])
         map[key] = value
     end for
     return map
-end function
-
-Proxima.utils.deserializeList = function(serialized, excludeKeys = [])
-    if not serialized.hasIndex(1) or not serialized.hasIndex(serialized.len - 2) then
-        return []
-    end if
-    serialized = serialized[1:-1].trim
-    list = []
-    items = self.splitSerializedItems(serialized, ",")
-    for item in items
-        valueStr = item.trim
-        value = self.deserialize(valueStr, excludeKeys)
-        list.push(value)
-    end for
-    return list
 end function
 
 Proxima.utils.exportSession = function(sessionMap, excludeKeys = [])
