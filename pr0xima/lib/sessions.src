@@ -103,7 +103,7 @@ Proxima.sessions.exportSession = function(excludeKeys = [])
             createSessionFile = Proxima.globals.myPC.touch(sessionsFolder.path, fileName)
             if createSessionFile != null then
                 getSessionFile = Proxima.globals.myPC.File(sessionsFolder.path + "/" + fileName)
-                if getSessionFile != null then
+                if getSessionFile != null and sessionFile.has_permission("w") then
                     rewriteSessionInfo = getSessionFile.set_content(serializedMap)
                     if rewriteSessionInfo != null then
                         return true
