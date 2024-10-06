@@ -17,7 +17,7 @@ if typeof(recievedShells) != "string" then
             end if
         end for
         if targetReverseShell != null then
-            clear_screen
+            clear_screen 
             targetReverseShell.start_terminal
         else
             exit(prx.cli.message.error("Couldn't find any shell connection from given IP address. <b>[IP:" + targetIP + "]</b>"))
