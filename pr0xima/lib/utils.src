@@ -216,3 +216,9 @@ Proxima.utils.deserializeMap = function(serialized, excludeKeys = [])
     end for
     return map
 end function
+
+Proxima.utils.serializeSession = function (sessionData, excludeKeys = [])
+end function
+
+Proxima.utils.deserializeSession = function (sessionData, excludeKeys = [])
+end function
