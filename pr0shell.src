@@ -2,30 +2,3 @@ import_code("pr0xima/main.src")
 
 prx = new Proxima
 prx.loadMetaxploit()
-
-targetIP = params[0].trim
-
-recievedShells = prx.globals.metaxploit.rshell_server()
-if typeof(recievedShells) != "string" then
-    if recievedShells.len > 0 then
-        targetReverseShell = null
-        for reverseShell in recievedShells
-            publicIP = reverseShell.host_computer.public_ip
-            if targetIP == publicIP then
-                targetReverseShell = reverseShell
-                break
-            end if
-        end for
-        if targetReverseShell != null then
-            clear_screen 
-            targetReverseShell.start_terminal
-        else
-            exit(prx.cli.message.error("Couldn't find any shell connection from given IP address. <b>[IP:" + targetIP + "]</b>"))
-        end if
-    else
-        exit(prx.cli.message.error("There is no open reverse shell connections at the moment."))
-    end if
-else
-    print(prx.cli.message.error("Couldn't start reverse shell server!"))
-    exit(prx.cli.message.error("Reason of failure: <b>[" + recievedShells + "]</b>"))
-end if
