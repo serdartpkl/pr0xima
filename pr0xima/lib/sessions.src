@@ -156,24 +156,6 @@ Proxima.sessions.importSession = function(targetIP, excludeKeys = [])
     end if
 end function
 
-Proxima.sessions.resetSession = function (sessionType, sessionID)
-end function
-
-Proxima.sessions.saveSession = function (sessionID)
-end function
-
-Proxima.sessions.saveSessions = function ()
-end function
-
-Proxima.sessions.reorderSessions = function ()
-end function
-
-Proxima.sessions.loadSession = function (sessionID)
-end function
-
-Proxima.sessions.loadSessions = function ()
-end function
-
 Proxima.sessions.pushMap = function (targetList, givenMap)
     acquiredSession = self.getSession(self.activeSession)
     if acquiredSession != null then

@@ -1,6 +1,7 @@
 Proxima.settings = {}
 
 Proxima.settings.downloadsFolder = home_dir + "/Downloads"
+Proxima.settings.sessionsFolder = home_dir + "/Sessions"
 Proxima.settings.toolsFolder = home_dir + "/Tools"
 
 Proxima.settings.cryptoLocations = [
