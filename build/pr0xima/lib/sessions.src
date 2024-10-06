@@ -1,6 +1,7 @@
 Proxima.sessions={}
 Proxima.sessions.activeSession=null
 Proxima.sessions.targetSessions=[]
+// ------------------------------------------------------------------------------------------------------------
 Proxima.sessions.getSession=function(sessionID)
 acquiredSession=null
 if self.targetSessions.len>0 then
@@ -40,6 +41,8 @@ sessionMap.targetUsers=[]
 sessionMap.targetMails=[]
 sessionMap.targetBanks=[]
 sessionMap.payloadInjection=true
+sessionMap.autoSave=false
+sessionMap.creationDate=current_date
 self.targetSessions.push(sessionMap)
 self.setSession(sessionMap.id)
 else
@@ -62,6 +65,73 @@ else
 return null
 end if
 end function
+Proxima.sessions.exportSession=function(excludeKeys=[])
+targetSession=self.getSession(self.getSessionValue("id"))
+targetIP=targetSession.targetIP
+fileName=targetIP.split(".")
+fileName=fileName.join("_")
+fileName=fileName+".txt"
+serializedMap=Proxima.utils.serializeSession(targetSession,excludeKeys)
+sessionsFolder=Proxima.globals.myPC.File(Proxima.settings.sessionsFolder)
+if sessionsFolder!=null and is_folder(sessionsFolder) then
+sessionFile=Proxima.globals.myPC.File(sessionsFolder.path+"/"+fileName)
+if sessionFile!=null and sessionFile.has_permission("w") then
+rewriteSessionInfo=sessionFile.set_content(serializedMap)
+if rewriteSessionInfo!=null then
+return true
+else
+return false
+end if
+else
+createSessionFile=Proxima.globals.myPC.touch(sessionsFolder.path,fileName)
+if createSessionFile!=null then
+getSessionFile=Proxima.globals.myPC.File(sessionsFolder.path+"/"+fileName)
+if getSessionFile!=null and sessionFile.has_permission("w") then
+rewriteSessionInfo=getSessionFile.set_content(serializedMap)
+if rewriteSessionInfo!=null then
+return true
+else
+return false
+end if
+else
+return false
+end if
+end if
+end if
+else
+createSessionsFolder=Proxima.globals.myPC.touch(home_dir+"/Desktop","Sessions")
+if createSessionsFolder!="" then
+createSessionFile=Proxima.globals.myPC.touch(home_dir+"/Desktop/Sessions",fileName)
+if createSessionFile!=null then
+getSessionFile=Proxima.globals.myPC.File(home_dir+"/Desktop/Sessions/"+fileName)
+if getSessionFile!=null then
+rewriteSessionInfo=getSessionFile.set_content(serializedMap)
+else
+return true
+end if
+else
+return false
+end if
+end if
+end if
+end function
+Proxima.sessions.importSession=function(targetIP,excludeKeys=[])
+fileName=targetIP.split(".")
+fileName=targetIP.join("_")
+fileName=fileName+".txt"
+acquiredSession=null
+sessionsFolder=Proxima.globals.myPC.File(Proxima.settings.sessionsFolder)
+if sessionsFolder!=null and is_folder(sessionsFolder) and sessionFolder.has_permission("r") then
+sessionFile=Proxima.globals.myPC.File(sessionsFolder.path+"/"+filaName)
+if sessionFile!=null and sessionFile.has_permission("r") then
+sessionInfo=sessionFile.get_content
+if sessionInfo!=null then
+acquiredSession=Proxima.utils.deserializeSession(sessionInfo,excludeKeys)
+end if
+end if
+end if
+return acquiredSession
+end function
 Proxima.sessions.pushMap=function(targetList,givenMap)
 acquiredSession=self.getSession(self.activeSession)
 if acquiredSession!=null then
@@ -74,9 +144,11 @@ Proxima.sessions.displaySessionInfo=function
 header_list=["ID","TARGET_IP","TYPE"]
 content_list=[]
 for targetSession in self.targetSessions
-s_id=str(targetSession.id)
-s_target_ip=targetSession.targetIP
-s_type=str(targetSession.sessionType)
+addColor=null
+if self.activeSession==targetSession.id then addColor="#08FF57"
+s_id=str(targetSession.id)+addColor
+s_target_ip=targetSession.targetIP+addColor
+s_type=str(targetSession.sessionType)+addColor
 content_list.push([s_id,s_target_ip,s_type])
 end for
 Proxima.utils.formatList(header_list,content_list)

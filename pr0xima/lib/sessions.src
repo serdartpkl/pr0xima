@@ -143,7 +143,7 @@ Proxima.sessions.importSession = function(targetIP, excludeKeys = [])
     sessionsFolder = Proxima.globals.myPC.File(Proxima.settings.sessionsFolder)
     if sessionsFolder != null and is_folder(sessionsFolder) and sessionFolder.has_permission("r") then
         sessionFile = Proxima.globals.myPC.File(sessionsFolder.path + "/" + filaName)
-        if sessionFile != null sessionFile.has_permission("r") then
+        if sessionFile != null and sessionFile.has_permission("r") then
             sessionInfo = sessionFile.get_content()
             if sessionInfo != null then
                 acquiredSession = Proxima.utils.deserializeSession(sessionInfo, excludeKeys)
