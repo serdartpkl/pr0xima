@@ -52,7 +52,8 @@ Proxima.sessions.createSession = function (sessionType, targetIP, targetRouter)
 
         sessionMap.payloadInjection = true
 
-        sessionMap.autoSave = false
+        sessionMap.autoSave = false 
+        sessionMap.creationDate =  current_date
         
         self.targetSessions.push(sessionMap)
         self.setSession(sessionMap.id)
