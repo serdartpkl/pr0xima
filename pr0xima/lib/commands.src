@@ -471,6 +471,20 @@ end function
 
 // ------------------------------------------------------------------------------------------------------------
 
+Proxima.cli.commands.rshell = {
+    "name": "rshell",
+    "description": "Inject reverse shell for specified open shell",
+    "usage": "rshell <id>",
+    "type": 2
+}
+Proxima.cli.commands.rshell.exec = function (params)
+    if params.len == 0 then
+        Proxima.cli.throwCLIError("No shell ID provided.", self.usage)
+    else
+        Proxima.exploit.injectRshell(params[0].to_int)
+    end if
+end function
+
 Proxima.cli.handleCommand = function (userCommand)
     if userCommand != null and userCommand != "" then
         parsedCommand = null

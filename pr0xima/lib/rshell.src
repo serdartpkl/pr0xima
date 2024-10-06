@@ -38,7 +38,7 @@ Proxima.rshell.launchRshell = function (targetIP)
         if acquiredShell == false then
             exit(Proxima.cli.message.error("No open reverse shell connection found with specified IP. <b>[IP:" + targetIP + "]</b>"))
         else if acquiredShell == null then
-            print(Proxima.cli.message.error("Couldn't launch reverse shell server!"))
+            exit(Proxima.cli.message.error("Couldn't launch reverse shell server!"))
         end if
     end if
 end function
