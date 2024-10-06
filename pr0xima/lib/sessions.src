@@ -87,12 +87,12 @@ Proxima.sessions.exportSession = function(excludeKeys = [])
     fileName = fileName.join("_")
     fileName = fileName + ".txt"
 
-    serializedMap = Proxima.utils.serialize(targetSession, excludeKeys)
+    serializedMap = Proxima.utils.serializeSession(targetSession, excludeKeys)
 
-    sessionsFolder = Proxima.globals.myPC.File(home_dir + "/Desktop/Sessions")
+    sessionsFolder = Proxima.globals.myPC.File(Proxima.settings.sessionsFolder)
     if sessionsFolder != null and is_folder(sessionsFolder) then
         sessionFile = Proxima.globals.myPC.File(sessionsFolder.path + "/" + fileName)
-        if sessionFile != null then
+        if sessionFile != null and sessionFile.has_permission("w") then
             rewriteSessionInfo = sessionFile.set_content(serializedMap)
             if rewriteSessionInfo != null then
                 return true
@@ -138,23 +138,20 @@ Proxima.sessions.importSession = function(targetIP, excludeKeys = [])
     fileName = targetIP.join("_")
     fileName = fileName + ".txt"
 
-    sessionsFolder = Proxima.globals.myPC.File(home_dir + "/Desktop/Sessions")
-    if sessionsFolder != null and is_folder(sessionsFolder) then
-        sessionFile = Proxima.globals.myPC.File(filaName)
-        if sessionFile != null then
+    acquiredSession = null
+
+    sessionsFolder = Proxima.globals.myPC.File(Proxima.settings.sessionsFolder)
+    if sessionsFolder != null and is_folder(sessionsFolder) and sessionFolder.has_permission("r") then
+        sessionFile = Proxima.globals.myPC.File(sessionsFolder.path + "/" + filaName)
+        if sessionFile != null sessionFile.has_permission("r") then
             sessionInfo = sessionFile.get_content()
             if sessionInfo != null then
-                sessionMap = Proxima.utils.deserializeMap(sessionInfo, excludeKeys)
-                return sessionMap
-            else
-                return null
+                acquiredSession = Proxima.utils.deserializeSession(sessionInfo, excludeKeys)
             end if
-        else
-            return null
         end if
-    else
-        return null
     end if
+
+    return acquiredSession
 end function
 
 Proxima.sessions.pushMap = function (targetList, givenMap)
@@ -169,10 +166,12 @@ end function
 Proxima.sessions.displaySessionInfo = function ()
     header_list = ["ID", "TARGET_IP", "TYPE"]
     content_list = []
-    for targetSession in self.targetSessions
-        s_id = str(targetSession.id)
-        s_target_ip = targetSession.targetIP
-        s_type = str(targetSession.sessionType)
+    for targetSession in self.targetSessions 
+        addColor = null
+        if self.activeSession == targetSession.id then addColor = "#08FF57"
+        s_id = str(targetSession.id) + addColor
+        s_target_ip = targetSession.targetIP + addColor
+        s_type = str(targetSession.sessionType) + addColor
         content_list.push([ s_id, s_target_ip, s_type ])
     end for
 
