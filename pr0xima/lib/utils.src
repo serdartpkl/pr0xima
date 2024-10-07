@@ -92,6 +92,39 @@ Proxima.utils.collectFiles = function (parentDir)
     return allFiles
 end function
 
+Proxima.utils.treeDirectory = function(targetComputer, givenDirectory, entryIndent = "")
+    fileHandler = targetComputer.File(givenDirectory)
+
+    if fileHandler.is_folder() then
+        getFolders = fileHandler.get_folders()
+        getFiles = fileHandler.get_files()
+        allEntries = getFolders + getFiles
+        for entryItem in allEntries
+            isLast = false
+            if entryItem.name == allEntries[allEntries.len - 1].name then isLast = true
+
+            entryPrefix = entryIndent
+            if isLast then
+                entryPrefix = entryPrefix + "`-- "
+            else
+                entryPrefix = entryPrefix + "|-- "
+            end if
+
+            print(entryPrefix + entryItem.name)
+
+            if entryItem.is_folder() then
+                newIndent = entryIndent
+                if isLast then
+                    newIndent = newIndent + "    "
+                else
+                    newIndent = newIndent + "|   "
+                end if
+                treeDirectory(targetComputer, entryItem.path, newIndent)
+            end if
+        end for
+    end if
+end function
+
 Proxima.utils.isInList = function(givenItem, givenList)
     for item in givenList
         if item == givenItem then
