@@ -163,6 +163,14 @@ Proxima.sessions.pushMap = function (targetList, givenMap)
     end if
 end function
 
+Proxima.sessions.colorizeSessionType = function (sessionType)
+    if sessionType == 0 then
+        return "LOCAL#FC8403"
+    else if sessionType == 1 then
+        return "REMOTE#FFC466"
+    end if
+end function
+
 Proxima.sessions.displaySessionInfo = function ()
     header_list = ["ID", "TARGET_IP", "TYPE"]
     content_list = []
@@ -171,7 +179,7 @@ Proxima.sessions.displaySessionInfo = function ()
         if self.activeSession == targetSession.id then addColor = "#08FF57"
         s_id = str(targetSession.id) + addColor
         s_target_ip = targetSession.targetIP + addColor
-        s_type = str(targetSession.sessionType) + addColor
+        s_type = self.colorizeSessionType(targetSession.sessionType)
         content_list.push([ s_id, s_target_ip, s_type ])
     end for
 
