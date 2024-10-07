@@ -92,45 +92,6 @@ Proxima.utils.collectFiles = function (parentDir)
     return allFiles
 end function
 
-tree = function(directory, indent = "")
-    treeLines = []
-    fileHandler = shell.host_computer.File(directory)
-
-    if fileHandler.is_folder() then
-        folders = fileHandler.get_folders()
-        files = fileHandler.get_files()
-        entries = folders + files
-
-        for entry in entries
-            isLast = false
-            if entry.name == entries[entries.len - 1].name then isLast = true
-
-            prefix = indent
-            if isLast then
-                prefix = prefix + "`-- "
-            else
-                prefix = prefix + "|-- "
-            end if
-
-            treeLines.push(prefix + entry.name)
-
-            if entry.is_folder() then
-                newIndent = indent
-                if isLast then
-                    newIndent = newIndent + "    "
-                else
-                    newIndent = newIndent + "|   "
-                end if
-                subtreeLines = tree(entry.path, newIndent)
-                treeLines = treeLines + subtreeLines  // Append all lines from the subtree
-            end if
-        end for
-    end if
-
-    return treeLines
-end function
-
-
 Proxima.utils.treeDirectory = function(targetComputer, givenDirectory, entryIndent = "")
     treeLines = []
     fileHandler = targetComputer.File(givenDirectory)
