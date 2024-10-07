@@ -12,3 +12,4 @@
 - clearCLI ve wait dengesini sağla, zamanlamayı kontrol et
 - pr0net ve pr0shell dosyalarını yap internet ve rshell için
 - rshell ve apt kütüphanesini bitir
+- Eğer açık port yoksa da ekle session olarak routerda açık olabilir. netmap alınabilir
