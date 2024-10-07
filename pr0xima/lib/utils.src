@@ -129,6 +129,25 @@ Proxima.utils.treeDirectory = function(targetComputer, givenDirectory, entryInde
     return treeLines
 end function
 
+Proxima.utils.getProcesses = function (targetComputer)
+    showProcs = targetComputer.show_procs
+    processesList = showProcs.split(char(10))[1:]
+
+    activeProcesses = []
+    for processItem in processesList
+        parsedItem = processItem.split(" ")
+        processMap = {}
+        processMap.pid = parsedItem[1]
+        processMap.name = parsedItem[4]
+        processMap.owner = parsedItem[0]
+        processMap.cpu_usage = parsedItem[2]
+        processMap.mem_usage = parsedItem[3]
+        activeProcesses.push(processMap)
+    end for
+
+    return activeProcesses
+end function
+
 Proxima.utils.isInList = function(givenItem, givenList)
     for item in givenList
         if item == givenItem then
