@@ -286,6 +286,11 @@ else
 Proxima.exploit.injectRshell(params[0].to_int)
 end if
 end function
+Proxima.cli.commands.analyze={"name":"analyze","description":"Analizes available methods.","usage":"analyze","type":2}
+Proxima.cli.commands.analyze.exec=function(params)
+analyzeResult=Proxima.exploit.analyzeExploitResults
+Proxima.exploit.generateAnalyzeReport(analyzeResult)
+end function
 Proxima.cli.handleCommand=function(userCommand)
 if userCommand!=null and userCommand!="" then
 parsedCommand=null

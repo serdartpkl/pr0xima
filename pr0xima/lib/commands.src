@@ -485,6 +485,17 @@ Proxima.cli.commands.rshell.exec = function (params)
     end if
 end function
 
+Proxima.cli.commands.analyze = {
+    "name": "analyze",
+    "description": "Analizes available methods.",
+    "usage": "analyze",
+    "type": 2
+}
+Proxima.cli.commands.analyze.exec = function (params)
+    analyzeResult = Proxima.exploit.analyzeExploitResults()
+    Proxima.exploit.generateAnalyzeReport(analyzeResult)
+end function
+
 Proxima.cli.handleCommand = function (userCommand)
     if userCommand != null and userCommand != "" then
         parsedCommand = null
