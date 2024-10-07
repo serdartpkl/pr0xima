@@ -1,0 +1,14 @@
+- Sessionları kaydetme/güncelleme, okuma ve silme özelliğini ekle
+- Sessionlar geri yüklendiğinde tekrardan tarama için redump özelliğini ekle
+- Analyze komutu için lokal taramalar için olan varyasyonu ekle
+- Program başlangıcında önce internet bağlantısını, sonra kütüphanelerin güncellenmesini sağla
+- Eğer root yetkisi yoksa güncelleme işlemini yapma, direkt belirlenen lokasyonlardan kütüphaneleri yükle
+- netmap, tree, procs, kill komutlarını ekle
+- Varolan komutları ve kütüphanelerdeki kodu kontrol et
+- İngilizceleri düzelt
+- scanrouter komutunu ve sistemini entegre et, açık port yoksa routerı dene ve netmap komutu ile bunları bir listeye kaydetme
+- Router exploitlerini 0 veya / portu ile listelere ekle
+- contact komutu ekle. komutun sonunda eğer usernameler varsa onları listele kullanılması için
+- clearCLI ve wait dengesini sağla, zamanlamayı kontrol et
+- pr0net ve pr0shell dosyalarını yap internet ve rshell için
+- rshell ve apt kütüphanesini bitir
