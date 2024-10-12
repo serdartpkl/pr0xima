@@ -157,7 +157,7 @@ Proxima.utils.isInList = function(givenItem, givenList)
     return false
 end function
 
-Proxima.utils.serialize = function(sessionData, excludeKeys = [])
+Proxima.utils.serializeMap = function(sessionData, excludeKeys = [])
     dataType = typeof(sessionData)
     if dataType == "map" then
         serialized = "{"
@@ -167,7 +167,7 @@ Proxima.utils.serialize = function(sessionData, excludeKeys = [])
             end if
             value = sessionData[key]
             serialized = serialized + char(34) + key + char(34) + ":"
-            serialized = serialized + self.serialize(value, excludeKeys)
+            serialized = serialized + self.serializeMap(value, excludeKeys)
             serialized = serialized + ","
         end for
         if serialized.hasIndex(serialized.len - 1) and serialized[-1] == "," then
@@ -177,7 +177,7 @@ Proxima.utils.serialize = function(sessionData, excludeKeys = [])
     else if dataType == "list" then
         serialized = "["
         for value in sessionData
-            serialized = serialized + self.serialize(value, excludeKeys)
+            serialized = serialized + self.serializeMap(value, excludeKeys)
             serialized = serialized + ","
         end for
         if serialized.hasIndex(serialized.len - 1) and serialized[-1] == "," then
@@ -271,10 +271,4 @@ Proxima.utils.deserializeMap = function(serialized, excludeKeys = [])
         map[key] = value
     end for
     return map
-end function
-
-Proxima.utils.serializeSession = function (sessionData, excludeKeys = [])
-end function
-
-Proxima.utils.deserializeSession = function (sessionData, excludeKeys = [])
 end function

@@ -80,14 +80,33 @@ Proxima.sessions.setSessionValue = function (sessionKey, sessionValue)
     end if
 end function
 
+Proxima.sessions.getSessionFile = function (sessionID)
+    acquiredSession = self.getSession(sessionID)
+    if acquiredSession != null then
+        targetIP = acquiredSession.targetIP
+        fileName = targetIP.split(".")
+        fileName = fileName.join("_")
+        fileName = fileName + ".txt"
+        sessionFile = Proxima.globals.myPC.File(Proxima.settings.sessionsFolder + "/" + fileName)
+        if sessionFile != null then
+            return sessionFile
+        else
+            return false
+        end if
+    else
+        return null
+    end if
+end function
+
 Proxima.sessions.exportSession = function(excludeKeys = [])
-    targetSession = self.getSession(self.getSessionValue("id"))
+    targetSession = self.getSession(self.activeSession)
     targetIP = targetSession.targetIP
     fileName = targetIP.split(".")
     fileName = fileName.join("_")
     fileName = fileName + ".txt"
 
-    serializedMap = Proxima.utils.serializeSession(targetSession, excludeKeys)
+    excludeKeys = ["targetRouter", "targetShells"]
+    serializedMap = Proxima.utils.serializeMap(targetSession, excludeKeys)
 
     sessionsFolder = Proxima.globals.myPC.File(Proxima.settings.sessionsFolder)
     if sessionsFolder != null and is_folder(sessionsFolder) then
@@ -146,7 +165,7 @@ Proxima.sessions.importSession = function(targetIP, excludeKeys = [])
         if sessionFile != null and sessionFile.has_permission("r") then
             sessionInfo = sessionFile.get_content()
             if sessionInfo != null then
-                acquiredSession = Proxima.utils.deserializeSession(sessionInfo, excludeKeys)
+                acquiredSession = Proxima.utils.deserializeMap(sessionInfo, excludeKeys)
             end if
         end if
     end if
