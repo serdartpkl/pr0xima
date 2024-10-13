@@ -267,6 +267,7 @@ end function
 Proxima.sessions.deleteSession = function (sessionID, isSavedSession = false)
     // if its a saved session then getSessionFile
     // if its not, just simply remove session with given id from target sessions
+    // reorderSessions
     // also check for if sessions folder exists or session file exists...
 end function
 
