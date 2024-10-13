@@ -421,22 +421,6 @@ end function
 
 // ------------------------------------------------------------------------------------------------------------
 
-Proxima.cli.commands.session = {
-    "name": "session",
-    "description": "Switched to specified session with given ID.",
-    "usage": "session <id>",
-    "type": 2
-}
-Proxima.cli.commands.session.exec = function (params)
-    if params.len == 0 then
-        Proxima.cli.throwCLIError("No session ID provided.", self.usage)
-    else
-
-    end if
-end function
-
-// ------------------------------------------------------------------------------------------------------------
-
 Proxima.cli.commands.sessions = {
     "name": "sessions",
     "description": "List available sessions.",
