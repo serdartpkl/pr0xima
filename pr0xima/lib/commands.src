@@ -463,8 +463,8 @@ end function
 // sessions saved - lists saved sessions
 // sessions load 1|all - loads saved session with given id
 // sessions save 1|all - saves target session|s with given id
-// sessions remove 1 - removes target session|s with given id
-// sessions remove 1 -s - removes saved session|s with given id
+// sessions remove 1 - removes target session with given id
+// sessions remove 1 -s - removes saved session with given id
 // sessions switch 1 - switches to target session with given id
 
 // ------------------------------------------------------------------------------------------------------------
