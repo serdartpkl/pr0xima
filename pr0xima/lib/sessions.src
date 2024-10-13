@@ -62,6 +62,8 @@ Proxima.sessions.createSession = function (sessionType, targetIP, targetRouter)
     end if
 end function
 
+// ------------------------------------------------------------------------------------------------------------
+
 Proxima.sessions.getSessionValue = function (sessionKey)
     acquiredSession = self.getSession(self.activeSession)
     if acquiredSession != null then
@@ -79,6 +81,8 @@ Proxima.sessions.setSessionValue = function (sessionKey, sessionValue)
         return null
     end if
 end function
+
+// ------------------------------------------------------------------------------------------------------------
 
 Proxima.sessions.getSessionFile = function (sessionID)
     acquiredSession = self.getSession(sessionID)
@@ -98,8 +102,62 @@ Proxima.sessions.getSessionFile = function (sessionID)
     end if
 end function
 
-Proxima.sessions.exportSession = function(excludeKeys = [])
-    targetSession = self.getSession(self.activeSession)
+Proxima.sessions.setSessionFile = function (sessionID)
+    acquiredSession = self.getSession(sessionID)
+    if acquiredSession != null then
+        targetIP = acquiredSession.targetIP
+        fileName = targetIP.split(".")
+        fileName = fileName.join("_")
+        fileName = fileName + ".txt"
+        sessionFile = Proxima.globals.myPC.File(Proxima.settings.sessionsFolder + "/" + fileName)
+        if sessionFile != null then
+            return sessionFile
+        else
+            return false
+        end if
+    else
+        return null
+    end if
+end function
+
+Proxima.sessions.createSessionFile = function (targetIP)
+end function
+
+Proxima.sessions.getSessionsFolder = function () 
+end function
+
+Proxima.sessions.createSessionsFolder = function ()
+end function
+
+Proxima.sessions.checkSavedSessions = function ()
+    savedSessions = []
+    sessionsFolder = self.getSessionsFolder()
+    if sessionsFolder != null then
+        savedSessionFiles = Proxima.utils.collectFiles(sessionsFolder.path)
+        if savedSessionFiles.len > 0 then
+            for sessionFile in savedSessionFiles
+                fileContent = sessionFile.get_content()
+                deserializedContent = Proxima.utils.deserializeMap(fileContent)
+                savedSessions.push(deserializedContent)
+            end for
+            return savedSessions
+        else
+            return false
+        end if
+    else
+        return null
+    end if
+end function
+
+// ------------------------------------------------------------------------------------------------------------
+
+Proxima.sessions.saveSession = function(sessionID, excludeKeys = [])
+    acquiredSession = self.getSession(sessionID)
+    if acquiredSession != null then
+
+    else
+
+    end if
     targetIP = targetSession.targetIP
     fileName = targetIP.split(".")
     fileName = fileName.join("_")
@@ -152,7 +210,7 @@ Proxima.sessions.exportSession = function(excludeKeys = [])
     end if
 end function
 
-Proxima.sessions.importSession = function(targetIP, excludeKeys = [])
+Proxima.sessions.loadSession = function(sessionID, excludeKeys = [])
     fileName = targetIP.split(".")
     fileName = targetIP.join("_")
     fileName = fileName + ".txt"
@@ -173,6 +231,11 @@ Proxima.sessions.importSession = function(targetIP, excludeKeys = [])
     return acquiredSession
 end function
 
+Proxima.sessions.deleteSession = function (sessionID, isSavedSession = false)
+end function
+
+// ------------------------------------------------------------------------------------------------------------
+
 Proxima.sessions.pushMap = function (targetList, givenMap)
     acquiredSession = self.getSession(self.activeSession)
     if acquiredSession != null then
@@ -181,6 +244,8 @@ Proxima.sessions.pushMap = function (targetList, givenMap)
         return null
     end if
 end function
+
+// ------------------------------------------------------------------------------------------------------------
 
 Proxima.sessions.colorizeSessionType = function (sessionType)
     if sessionType == 0 then
