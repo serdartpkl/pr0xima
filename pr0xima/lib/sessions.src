@@ -84,34 +84,31 @@ end function
 
 // ------------------------------------------------------------------------------------------------------------
 
-Proxima.sessions.getSessionFile = function (sessionID)
-    acquiredSession = self.getSession(sessionID)
-    if acquiredSession != null then
-        targetIP = acquiredSession.targetIP
-        fileName = targetIP.split(".")
-        fileName = fileName.join("_")
-        fileName = fileName + ".txt"
-        sessionFile = Proxima.globals.myPC.File(Proxima.settings.sessionsFolder + "/" + fileName)
-        if sessionFile != null then
-            return sessionFile
-        else
-            return false
-        end if
+Proxima.sessions.getSessionFile = function (targetIP)
+    fileName = targetIP.split(".")
+    fileName = fileName.join("_")
+    fileName = fileName + ".txt"
+    // self.getSessionsFolder
+    // if there is one ->
+    sessionFile = Proxima.globals.myPC.File(Proxima.settings.sessionsFolder + "/" + fileName)
+    if sessionFile != null then
+        return sessionFile
     else
         return null
     end if
 end function
 
-Proxima.sessions.setSessionFile = function (sessionID)
-    acquiredSession = self.getSession(sessionID)
-    if acquiredSession != null then
-        targetIP = acquiredSession.targetIP
-        fileName = targetIP.split(".")
-        fileName = fileName.join("_")
-        fileName = fileName + ".txt"
-        sessionFile = Proxima.globals.myPC.File(Proxima.settings.sessionsFolder + "/" + fileName)
-        if sessionFile != null then
-            return sessionFile
+Proxima.sessions.setSessionFile = function (targetIP, serializedMap)
+    fileName = targetIP.split(".")
+    fileName = fileName.join("_")
+    fileName = fileName + ".txt"
+    // self.getSessionsFolder
+    // if there is one ->
+    sessionFile = Proxima.globals.myPC.File(Proxima.settings.sessionsFolder + "/" + fileName)
+    if sessionFile != null then
+        setSessionFileContent = sessionFile.set_content(serializedMap)
+        if setSessionFileContent != null and typeof(setSessionFileContent) != "string" then
+            return true
         else
             return false
         end if
@@ -121,12 +118,28 @@ Proxima.sessions.setSessionFile = function (sessionID)
 end function
 
 Proxima.sessions.createSessionFile = function (targetIP)
+    fileName = targetIP.split(".")
+    fileName = fileName.join("_")
+    fileName = fileName + ".txt"
+    // self.getSessionsFolder
+    // if there is one ->
+    createSessionFile = Proxima.globals.myPC.touch(Proxima.settings.sessionsFolder, fileName)
+    if createSessionFile != null and typeof(createSessionFile) != "string" then
+        return true
+    else
+        return null
+    end if
 end function
 
-Proxima.sessions.getSessionsFolder = function () 
+Proxima.sessions.getSessionsFolder = function ()
+    // check if there is a sessions folder
+    // if not return null, if there is one return true
 end function
 
 Proxima.sessions.createSessionsFolder = function ()
+    // check if there is a sessions folder
+    // if not create one and return true
+    // if there is already a sessions folder, then return null
 end function
 
 Proxima.sessions.checkSavedSessions = function ()
