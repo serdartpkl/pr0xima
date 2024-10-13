@@ -10,3 +10,4 @@
 * Complete "rshell" and "apt" libraries.
 * Add library update/check on startup, also connection status to internet.
 * Refactor every function and variable.
+* Add "login" command for local sessions.
