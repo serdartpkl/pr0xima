@@ -1,6 +1,7 @@
 Proxima.sessions = {}
 
 Proxima.sessions.activeSession = null
+
 Proxima.sessions.targetSessions = []
 Proxima.sessions.savedSessions = []
 
@@ -148,6 +149,8 @@ Proxima.sessions.createSessionsFolder = function ()
     // if not create one and return true
     // if there is already a sessions folder, then return null
 end function
+
+// ------------------------------------------------------------------------------------------------------------
 
 Proxima.sessions.checkSavedSessions = function ()
     self.savedSessions = []
