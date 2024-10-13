@@ -2,6 +2,7 @@ Proxima.sessions = {}
 
 Proxima.sessions.activeSession = null
 Proxima.sessions.targetSessions = []
+Proxima.sessions.savedSessions = []
 
 // ------------------------------------------------------------------------------------------------------------
 
@@ -143,7 +144,7 @@ Proxima.sessions.createSessionsFolder = function ()
 end function
 
 Proxima.sessions.checkSavedSessions = function ()
-    savedSessions = []
+    self.savedSessions = []
     sessionsFolder = self.getSessionsFolder()
     if sessionsFolder != null then
         savedSessionFiles = Proxima.utils.collectFiles(sessionsFolder.path)
@@ -151,15 +152,25 @@ Proxima.sessions.checkSavedSessions = function ()
             for sessionFile in savedSessionFiles
                 fileContent = sessionFile.get_content()
                 deserializedContent = Proxima.utils.deserializeMap(fileContent)
-                savedSessions.push(deserializedContent)
+                self.savedSessions.push(deserializedContent)
             end for
-            return savedSessions
+            return true
         else
             return false
         end if
     else
         return null
     end if
+end function
+
+Proxima.sessions.reorderSavedSessions = function ()
+    // check if saved sessions returns true
+    // saved sessions does not have id,
+    // so we will get saved sessions, then sort it with creation date
+    // then will give id to then
+    // push tem to savedSessions list
+    // return true
+    // if couldn't return false
 end function
 
 // ------------------------------------------------------------------------------------------------------------
