@@ -431,13 +431,7 @@ Proxima.cli.commands.session.exec = function (params)
     if params.len == 0 then
         Proxima.cli.throwCLIError("No session ID provided.", self.usage)
     else
-        targetSession = Proxima.sessions.getSession(params[0].to_int)
-        if targetSession != null then
-            Proxima.sessions.setSession(params[0].to_int)
-            Proxima.cli.cliString = Proxima.cli.message.colorize("<b>" + targetSession.targetIP + "</b>", "#FFC466") + Proxima.cli.message.colorize("@pr0xima", "#FC8403") + Proxima.cli.message.colorize("> ", "#008DFF")
-        else
-            Proxima.cli.throwCLIError("No session found with provided ID.")
-        end if
+
     end if
 end function
 
@@ -450,10 +444,34 @@ Proxima.cli.commands.sessions = {
     "type": 2
 }
 Proxima.cli.commands.sessions.exec = function (params)
-    if Proxima.sessions.targetSessions.len > 0 then
-        Proxima.sessions.displaySessionInfo()
+    if params.len == 0 then
+        if Proxima.sessions.targetSessions.len > 0 then
+            Proxima.sessions.displaySessionInfo()
+        else
+            Proxima.cli.throwCLIError("No sessions available, please perform a scan first.")
+        end if
     else
-        Proxima.cli.throwCLIError("No sessions available, please perform a scan first.")
+        if params.len == 1 then
+            if params[0] == "saved" then
+            else
+            end if
+        else if params.len == 2 then
+            if params[0] == "load" then
+            else if params[0] == "save" then
+            else if params[0] == "switch" then
+                targetSession = Proxima.sessions.getSession(params[0].to_int)
+                if targetSession != null then
+                    Proxima.sessions.setSession(params[0].to_int)
+                    Proxima.cli.cliString = Proxima.cli.message.colorize("<b>" + targetSession.targetIP + "</b>", "#FFC466") + Proxima.cli.message.colorize("@pr0xima", "#FC8403") + Proxima.cli.message.colorize("> ", "#008DFF")
+                else
+                    Proxima.cli.throwCLIError("No session found with provided ID.")
+                end if
+            else if params[0] == "delete" then
+            else
+            end if
+        else if params.len == 3 then
+        else
+        end if
     end if
 end function
 
