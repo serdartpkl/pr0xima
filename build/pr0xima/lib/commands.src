@@ -249,11 +249,23 @@ Proxima.cli.commands.exit.exec=function(params)
 exit(Proxima.cli.message.success("Goodbye! Have a nice day."))
 end function
 // ------------------------------------------------------------------------------------------------------------
-Proxima.cli.commands.session={"name":"session","description":"Switched to specified session with given ID.","usage":"session <id>","type":2}
-Proxima.cli.commands.session.exec=function(params)
+Proxima.cli.commands.sessions={"name":"sessions","description":"List available sessions.","usage":"sessions","type":2}
+Proxima.cli.commands.sessions.exec=function(params)
 if params.len==0 then
-Proxima.cli.throwCLIError("No session ID provided.",self.usage)
+if Proxima.sessions.targetSessions.len>0 then
+Proxima.sessions.displaySessionInfo
 else
+Proxima.cli.throwCLIError("No sessions available, please perform a scan first.")
+end if
+else
+if params.len==1 then
+if params[0]=="saved" then
+else
+end if
+else if params.len==2 then
+if params[0]=="load" then
+else if params[0]=="save" then
+else if params[0]=="switch" then
 targetSession=Proxima.sessions.getSession(params[0].to_int)
 if targetSession!=null then
 Proxima.sessions.setSession(params[0].to_int)
@@ -261,17 +273,21 @@ Proxima.cli.cliString=Proxima.cli.message.colorize("<b>"+targetSession.targetIP+
 else
 Proxima.cli.throwCLIError("No session found with provided ID.")
 end if
-end if
-end function
-// ------------------------------------------------------------------------------------------------------------
-Proxima.cli.commands.sessions={"name":"sessions","description":"List available sessions.","usage":"sessions","type":2}
-Proxima.cli.commands.sessions.exec=function(params)
-if Proxima.sessions.targetSessions.len>0 then
-Proxima.sessions.displaySessionInfo
+else if params[0]=="remove" then
 else
-Proxima.cli.throwCLIError("No sessions available, please perform a scan first.")
+end if
+else if params.len==3 then
+else
+end if
 end if
 end function
+// sessions - lists target sessions
+// sessions saved - lists saved sessions
+// sessions load 1|all - loads saved session with given id
+// sessions save 1|all - saves target session|s with given id
+// sessions remove 1 - removes target session with given id
+// sessions remove 1 -s - removes saved session with given id
+// sessions switch 1 - switches to target session with given id
 // ------------------------------------------------------------------------------------------------------------
 Proxima.cli.commands.jump={"name":"jump","description":"List available sessions.","usage":"jump","type":2}
 Proxima.cli.commands.jump.exec=function(params)
