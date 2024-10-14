@@ -272,3 +272,183 @@ Proxima.utils.deserializeMap = function(serialized, excludeKeys = [])
     end for
     return map
 end function
+
+Proxima.utils.deepNetworkScan = function (targetIP, scannedIPs, indent = "")
+    scanResults = []
+
+    if scannedIPs.indexOf(targetIP) != null then
+        return scanResults
+    end if
+
+    isPingable = Proxima.globals.myShell.ping(targetIP)
+    scanData = { "ip": targetIP, "is_reachable": isPingable, "ports": [], "devices": [], "main_router": false, "type": "device", "kernel_version": null, "has_firewall": false }
+
+    if not isPingable then
+        scanResults.push(scanData)
+        return scanResults
+    end if
+
+    scannedIPs.push(targetIP)
+
+    targetRouter = get_router(targetIP)
+    if targetRouter != null then
+        routerFirewalls = targetRouter.firewall_rules()
+        if typeof(routerFirewalls) == "list" and routerFirewalls.len > 0 then scanData["has_firewall"] = true
+        if get_router(targetRouter.public_ip).local_ip == scanData["ip"] then scanData["main_router"] = true
+        scanData["kernel_version"] = targetRouter.kernel_version
+        scanData["type"] = "router"
+        for port in targetRouter.device_ports(targetIP)
+            portData = {}
+
+            if is_closed(port) then
+                portData["status"] = "closed"
+            else
+                portData["status"] = "open"
+            end if
+
+            lanIP = "unknown"
+            if targetRouter.port_info(port).indexOf(" ") != null then
+                portInfo = targetRouter.port_info(port)
+                lanIP = port.get_lan_ip
+            end if
+
+            portInfo = targetRouter.port_info(port)
+            parsedInfo = portInfo.split(" ")
+            portData["port_number"] = port.port_number
+            portData["service_name"] = parsedInfo[0]
+            portData["service_version"] = parsedInfo[1]
+            portData["lan_ip"] = lanIP
+            scanData["ports"].push(portData)
+        end for
+
+        targetDevices = targetRouter.devices_lan_ip
+        for device in targetDevices
+            if scannedIPs.indexOf(device) != null or device == targetIP then
+                continue
+            end if
+            deviceResults = deepNetworkScan(device, scannedIPs, indent + "    ")
+            for result in deviceResults
+                scanData["devices"].push(result)
+            end for
+        end for
+    else
+        mainRouter = get_router(scannedIPs[0])
+        if mainRouter != null then
+            for port in mainRouter.device_ports(targetIP)
+                portData = {}
+
+                if is_closed(port) then
+                    portData["status"] = "closed"
+                else
+                    portData["status"] = "open"
+                end if
+
+                lanIP = "unknown"
+                if mainRouter.port_info(port).indexOf(" ") != null then
+                    portInfo = mainRouter.port_info(port)
+                    lanIP = port.get_lan_ip
+                end if
+
+                portInfo = mainRouter.port_info(port)
+                parsedInfo = portInfo.split(" ")
+                portData["port_number"] = port.port_number
+                portData["service_name"] = parsedInfo[0]
+                portData["service_version"] = parsedInfo[1]
+                portData["lan_ip"] = lanIP
+                scanData["ports"].push(portData)
+            end for
+        end if
+    end if
+
+    scanResults.push(scanData)
+    return scanResults
+end function
+
+Proxima.utils.beautifyNetworkScan = function (networkData, indent = "")
+    for data in networkData
+        deviceTypePrefix = "|--"
+        portIndent = "|     "
+
+        if not data["is_reachable"] then
+            deviceTypePrefix = "|---- DEVICE"
+            print("<b>" + deviceTypePrefix + " [" + data["ip"] + "]</b>")
+            print("<color=#FF1548>" + portIndent + "|- IP_NOT_REACHABLE</color>")
+            continue
+        end if
+
+        isCCTV = false
+        for port in data["ports"]
+            if port["port_number"] == 37777 then
+                isCCTV = true
+                break
+            end if
+        end for
+
+        if isCCTV then
+            deviceTypePrefix = "|---- CCTV"
+            portIndent = "|     "
+        else if data["type"] == "router" then
+            routerPrefix = null
+            if data["main_router"] then
+                deviceTypePrefix = "|-- MAIN ROUTER"
+            else
+                deviceTypePrefix = "|-- ROUTER/SWITCH"
+            end if
+            portIndent = "|   "
+        else
+            deviceTypePrefix = "|---- COMPUTER"
+            portIndent = "|     "
+        end if
+
+        if data["has_firewall"] then
+            if data["kernel_version"] != null then
+                print("<color=#FFC466><b>" + deviceTypePrefix + " [" + data["ip"] + "|KERNEL_V:" + data["kernel_version"] + "]</b></color>")
+            else
+                print("<color=#FFC466><b>" + deviceTypePrefix + " [" + data["ip"] + "]</b></color>")
+            end if
+        else
+            if data["kernel_version"] != null then
+                print("<b>" + deviceTypePrefix + " [" + data["ip"] + "|KERNEL_V:" + data["kernel_version"] + "]</b>")
+            else
+                isMyComputer = null
+                if data["ip"] == Proxima.globals.myPC.local_ip then isMyComputer = "<b><color=#08FF57>[YOU]</color></b>"
+                print("<b>" + deviceTypePrefix + " [" + data["ip"] + "]</b>" + isMyComputer)
+            end if
+        end if
+
+        if data["ports"].len > 0 then
+            for port in data["ports"]
+                portInfo = "PORT:" + port["port_number"] + "|" + port["status"].upper() + "|" + port["service_name"].upper() + "/" + port["service_version"].upper
+
+                if data["main_router"] and port["lan_ip"] != data["ip"] then
+                    portInfo = portInfo + "|ROUTED_TO:" + port["lan_ip"]
+                end if
+
+                if port["status"].upper() == "OPEN" then
+                    print("<color=#08FF57>" + portIndent + "|- " + portInfo + "</color>")
+                else
+                    print("<color=#FF1548>" + portIndent + "|- " + portInfo + "</color>")
+                end if
+            end for
+        else
+            print("<color=#FF1548>" + portIndent + "|- NO_OPEN_PORTS</color>")
+        end if
+
+        if data["devices"].len > 0 then
+            printNetworkData(data["devices"], "    ")
+        end if
+    end for
+end function
+
+Proxima.utils.scanLAN = function ()
+    print("<b>/ START_SCANLAN >></b>")
+    print("<b>| START_PROBE [PUBLIC_IP:" + get_router.public_ip + "]</b>")
+    startingIP = get_router.local_ip
+    scannedIPs = []
+    networkData = deepNetworkScan(startingIP, scannedIPs, "")
+    printNetworkData(networkData)
+    print("<b>| END_PROBE</b>")
+    print("<b>\ END_SCANLAN <<</b>")
+end function
+
+

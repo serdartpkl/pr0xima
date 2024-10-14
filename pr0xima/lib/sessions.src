@@ -152,7 +152,7 @@ end function
 
 // ------------------------------------------------------------------------------------------------------------
 
-Proxima.sessions.checkSavedSessions = function ()
+Proxima.sessions.getSavedSessions = function ()
     self.savedSessions = []
     sessionsFolder = self.getSessionsFolder()
     if sessionsFolder != null then
