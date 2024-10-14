@@ -446,7 +446,7 @@ Proxima.utils.scanLAN = function ()
     startingIP = get_router.local_ip
     scannedIPs = []
     networkData = deepNetworkScan(startingIP, scannedIPs, "")
-    printNetworkData(networkData)
+    beautifyNetworkScan(networkData)
     print("<b>| END_PROBE</b>")
     print("<b>\ END_SCANLAN <<</b>")
 end function
