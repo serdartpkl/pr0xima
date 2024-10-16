@@ -8,6 +8,9 @@ import_code("/home/pr0ximan0va/Scripts/pr0xima/lib/sessions.src")
 import_code("/home/pr0ximan0va/Scripts/pr0xima/lib/net.src")
 import_code("/home/pr0ximan0va/Scripts/pr0xima/lib/rshell.src")
 import_code("/home/pr0ximan0va/Scripts/pr0xima/lib/exploit.src")
+import_code("/home/pr0ximan0va/Scripts/pr0xima/lib/defender.src")
+import_code("/home/pr0ximan0va/Scripts/pr0xima/lib/hardware.src")
 import_code("/home/pr0ximan0va/Scripts/pr0xima/lib/commands.src")
 import_code("/home/pr0ximan0va/Scripts/pr0xima/main.src")
 prx=new Proxima
+prx.run
