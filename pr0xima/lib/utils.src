@@ -297,7 +297,7 @@ Proxima.utils.softNetworkScan = function (targetIP)
     if targetRouter != null then
         scanData["ip"] = targetRouter.local_ip
 
-        for port in targetRouter.device_ports(targetIP)
+        for port in targetRouter.device_ports(targetRouter.local_ip)
             portMap = self.createPortMap(port, targetRouter)
             scanData["ports"].push(portMap)
         end for
