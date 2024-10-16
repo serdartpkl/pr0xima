@@ -34,10 +34,25 @@ Proxima.cli.addProgressBar=function
 self.cliEntries.push("[###################################]==[ 100% ]")
 end function
 Proxima.cli.addTransferProcess=function(fileSize)
-if fileSize.to_int<1000 then
-self.cliEntries.push("100%	"+str(floor(rnd*(900-50+1)+50))+"."+str(floor(rnd*(9-1+1)+1))+" KB/s  0 sec ("+fileSize+" Bytes of "+fileSize+" Bytes copied)")
+if fileSize.to_int>=1000000000 then
+fileSizeGB=round((fileSize.to_int/1000000000)*10)/10
+if fileSizeGB==round(fileSizeGB) then
+fileSizeGB=fileSizeGB+".0 GB"
 else
-self.cliEntries.push("100%	"+str(floor(rnd*(900-50+1)+50))+"."+str(floor(rnd*(9-1+1)+1))+" KB/s  0 sec ("+str((floor(fileSize*100)/100)/1000)[:3]+" MB of "+str((floor(fileSize*100)/100)/1000)[:3]+" MB copied)")
+fileSizeGB=fileSizeGB+" GB"
+end if
+self.cliEntries.push("100%    "+str(floor(rnd*(900-50+1)+50))+"."+str(floor(rnd*(9-1+1)+1))+" KB/s"+"    0 sec ("+fileSizeGB+" of "+fileSizeGB+" copied)")
+else if fileSize.to_int>=1000 then
+fileSizeMB=round((fileSize.to_int/1000000)*10)/10
+if fileSizeMB==round(fileSizeMB) then
+fileSizeMB=fileSizeMB+".0 MB"
+else
+fileSizeMB=fileSizeMB+" MB"
+end if
+self.cliEntries.push("100%    "+str(floor(rnd*(900-50+1)+50))+"."+str(floor(rnd*(9-1+1)+1))+" KB/s"+"    0 sec ("+fileSizeMB+" of "+fileSizeMB+" copied)")
+else
+fileSize=fileSize+" Bytes"
+self.cliEntries.push("100%    "+str(floor(rnd*(900-50+1)+50))+"."+str(floor(rnd*(9-1+1)+1))+" KB/s"+"    0 sec ("+fileSize+" of "+fileSize+" copied)")
 end if
 self.cliEntries.push("Processing...")
 end function
