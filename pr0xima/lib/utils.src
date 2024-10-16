@@ -292,7 +292,7 @@ Proxima.utils.createPortMap = function (portObject, targetRouter)
 end function
 
 Proxima.utils.softNetworkScan = function (targetIP)
-    scanData = { "ip": targetIP, "is_reachable": true, "ports": [], "devices": [], "main_router": true, "type": "router", "kernel_version": null, "has_firewall": false }
+    scanData = { "ip": targetIP, "is_reachable": true, "ports": [], "devices": [], "main_router": true, "type": "router", "kernel_version": null, "has_firewall": false, "is_owner": false }
     targetRouter = get_router(targetIP)
     if targetRouter != null then
         scanData["ip"] = targetRouter.local_ip
@@ -311,7 +311,7 @@ Proxima.utils.softNetworkScan = function (targetIP)
             if deviceIP == targetRouter.local_ip then
                 continue
             end if
-            deviceMap = { "ip": deviceIP, "is_reachable": true, "ports": [], "devices": [], "main_router": false, "type": "device", "kernel_version": null, "has_firewall": false } 
+            deviceMap = { "ip": deviceIP, "is_reachable": true, "ports": [], "devices": [], "main_router": false, "type": "device", "kernel_version": null, "has_firewall": false, "is_owner": false } 
             for port in targetRouter.device_ports(deviceIP)
                 if port.port_number == 8080 then deviceMap["type"] = "router"
                 devicePortMap = self.createPortMap(port, targetRouter)
@@ -334,7 +334,11 @@ Proxima.utils.deepNetworkScan = function (targetIP, scannedIPs)
     end if
 
     isReachable = Proxima.globals.myShell.ping(targetIP)
-    scanData = { "ip": targetIP, "is_reachable": isReachable, "ports": [], "devices": [], "main_router": false, "type": "device", "kernel_version": null, "has_firewall": false }
+
+    isOwner = false
+    if targetIP == Proxima.globals.myPC.local_ip then isOwner = true
+
+    scanData = { "ip": targetIP, "is_reachable": isReachable, "ports": [], "devices": [], "main_router": false, "type": "device", "kernel_version": null, "has_firewall": false, "is_owner": isOwner }
 
     if not isReachable then
         scanResults.push(scanData)
@@ -420,9 +424,9 @@ Proxima.utils.beautifyNetworkScan = function (networkData)
             if data["kernel_version"] != null then
                 print("<b>" + deviceTypePrefix + " [" + data["ip"] + "|KERNEL_V:" + data["kernel_version"] + "]</b>")
             else
-                isMyComputer = null
-                if data["ip"] == Proxima.globals.myPC.local_ip then isMyComputer = "<b><color=#08FF57>[YOU]</color></b>"
-                print("<b>" + deviceTypePrefix + " [" + data["ip"] + "]</b>" + isMyComputer)
+                isOwner = null
+                if data["is_owner"] then isOwner = "<b><color=#08FF57>[YOU]</color></b>"
+                print("<b>" + deviceTypePrefix + " [" + data["ip"] + "]</b>" + isOwner)
             end if
         end if
 
