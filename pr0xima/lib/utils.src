@@ -273,17 +273,39 @@ Proxima.utils.deserializeMap = function(serialized, excludeKeys = [])
     return map
 end function
 
-Proxima.utils.deepNetworkScan = function (targetIP, scannedIPs, indent = "")
+Proxima.utils.createPortMap = function (portObject, targetRouter)
+    portMap = {}
+    portMap["status"] = "open"
+    if is_closed(portObject) then portMap["status"] = "closed"
+    lanIP = "unknown"
+    if targetRouter.port_info(portObject).indexOf(" ") != null then
+        portInfo = targetRouter.port_info(portObject)
+        lanIP = portObject.get_lan_ip
+    end if
+    portInfo = targetRouter.port_info(portObject)
+    parsedInfo = portInfo.split(" ")
+    portMap["port_number"] = portObject.port_number
+    portMap["service_name"] = parsedInfo[0]
+    portMap["service_version"] = parsedInfo[1]
+    portMap["lan_ip"] = lanIP
+    return portMap
+end function
+
+Proxima.utils.softNetworkScan = function (targetIP, scannedIPs)
+
+end function
+
+Proxima.utils.deepNetworkScan = function (targetIP, scannedIPs)
     scanResults = []
 
     if scannedIPs.indexOf(targetIP) != null then
         return scanResults
     end if
 
-    isPingable = Proxima.globals.myShell.ping(targetIP)
-    scanData = { "ip": targetIP, "is_reachable": isPingable, "ports": [], "devices": [], "main_router": false, "type": "device", "kernel_version": null, "has_firewall": false }
+    isReachable = Proxima.globals.myShell.ping(targetIP)
+    scanData = { "ip": targetIP, "is_reachable": isReachable, "ports": [], "devices": [], "main_router": false, "type": "device", "kernel_version": null, "has_firewall": false }
 
-    if not isPingable then
+    if not isReachable then
         scanResults.push(scanData)
         return scanResults
     end if
@@ -291,73 +313,30 @@ Proxima.utils.deepNetworkScan = function (targetIP, scannedIPs, indent = "")
     scannedIPs.push(targetIP)
 
     targetRouter = get_router(targetIP)
-    if targetRouter != null then
+    if targetRouter == null then targetRouter = get_router(scannedIPs[0])
+
+    for port in targetRouter.device_ports(targetIP)
+        portMap = self.createPortMap(port, targetRouter)
+        scanData["ports"].push(portMap)
+    end for
+
+    if targetRouter.local_ip = targetIP then
         routerFirewalls = targetRouter.firewall_rules()
         if typeof(routerFirewalls) == "list" and routerFirewalls.len > 0 then scanData["has_firewall"] = true
         if get_router(targetRouter.public_ip).local_ip == scanData["ip"] then scanData["main_router"] = true
         scanData["kernel_version"] = targetRouter.kernel_version
         scanData["type"] = "router"
-        for port in targetRouter.device_ports(targetIP)
-            portData = {}
-
-            if is_closed(port) then
-                portData["status"] = "closed"
-            else
-                portData["status"] = "open"
-            end if
-
-            lanIP = "unknown"
-            if targetRouter.port_info(port).indexOf(" ") != null then
-                portInfo = targetRouter.port_info(port)
-                lanIP = port.get_lan_ip
-            end if
-
-            portInfo = targetRouter.port_info(port)
-            parsedInfo = portInfo.split(" ")
-            portData["port_number"] = port.port_number
-            portData["service_name"] = parsedInfo[0]
-            portData["service_version"] = parsedInfo[1]
-            portData["lan_ip"] = lanIP
-            scanData["ports"].push(portData)
-        end for
 
         targetDevices = targetRouter.devices_lan_ip
         for device in targetDevices
             if scannedIPs.indexOf(device) != null or device == targetIP then
                 continue
             end if
-            deviceResults = deepNetworkScan(device, scannedIPs, indent + "    ")
+            deviceResults = deepNetworkScan(device, scannedIPs)
             for result in deviceResults
                 scanData["devices"].push(result)
             end for
         end for
-    else
-        mainRouter = get_router(scannedIPs[0])
-        if mainRouter != null then
-            for port in mainRouter.device_ports(targetIP)
-                portData = {}
-
-                if is_closed(port) then
-                    portData["status"] = "closed"
-                else
-                    portData["status"] = "open"
-                end if
-
-                lanIP = "unknown"
-                if mainRouter.port_info(port).indexOf(" ") != null then
-                    portInfo = mainRouter.port_info(port)
-                    lanIP = port.get_lan_ip
-                end if
-
-                portInfo = mainRouter.port_info(port)
-                parsedInfo = portInfo.split(" ")
-                portData["port_number"] = port.port_number
-                portData["service_name"] = parsedInfo[0]
-                portData["service_version"] = parsedInfo[1]
-                portData["lan_ip"] = lanIP
-                scanData["ports"].push(portData)
-            end for
-        end if
     end if
 
     scanResults.push(scanData)
@@ -435,7 +414,7 @@ Proxima.utils.beautifyNetworkScan = function (networkData, indent = "")
         end if
 
         if data["devices"].len > 0 then
-            printNetworkData(data["devices"], "    ")
+            self.beautifyNetworkScan(data["devices"], "    ")
         end if
     end for
 end function
