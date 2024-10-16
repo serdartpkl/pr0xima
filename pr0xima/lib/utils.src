@@ -291,8 +291,46 @@ Proxima.utils.createPortMap = function (portObject, targetRouter)
     return portMap
 end function
 
-Proxima.utils.softNetworkScan = function (targetIP, scannedIPs)
+Proxima.utils.softNetworkScan = function (targetIP)
+    scanResults = []
 
+    if scannedIPs.indexOf(targetIP) != null then
+        return scanResults
+    end if
+
+    targetRouter = get_router(targetIP)
+    if targetRouter != null 
+        scanData = { "ip": targetRouter.local_ip, "is_reachable": true, "ports": [], "devices": [], "main_router": false, "type": "device", "kernel_version": null, "has_firewall": false }
+        for port in targetRouter.device_ports(targetIP)
+            portMap = self.createPortMap(port, targetRouter)
+            scanData["ports"].push(portMap)
+        end for
+
+        routerFirewalls = targetRouter.firewall_rules()
+        if typeof(routerFirewalls) == "list" and routerFirewalls.len > 0 then scanData["has_firewall"] = true
+        if get_router(targetRouter.public_ip).local_ip == scanData["ip"] then scanData["main_router"] = true
+        scanData["kernel_version"] = targetRouter.kernel_version
+        scanData["type"] = "router"
+
+        targetDevices = targetRouter.devices_lan_ip
+        for deviceIP in targetDevices
+            if deviceIP == targetRouter.local_ip then
+                continue
+            end if
+            deviceMap = { "ip": deviceIP, "is_reachable": true, "ports": [], "devices": [], "main_router": false, "type": "device", "kernel_version": null, "has_firewall": false } 
+            for port in targetRouter.device_ports(deviceIP)
+                if port.port_number == 8080 then deviceMap["type"] = "router"
+                devicePortMap = self.createPortMap(port, targetRouter)
+                deviceMap["ports"].push(devicePortMap)
+            end for
+            scanData["devices"].push(deviceMap)
+        end for
+    else
+        scanData["is_reachable"] = false
+    end if
+
+    scanResults.push(scanData)
+    return scanResults
 end function
 
 Proxima.utils.deepNetworkScan = function (targetIP, scannedIPs)
@@ -343,9 +381,9 @@ Proxima.utils.deepNetworkScan = function (targetIP, scannedIPs)
     return scanResults
 end function
 
-Proxima.utils.beautifyNetworkScan = function (networkData, indent = "")
+Proxima.utils.beautifyNetworkScan = function (networkData)
     for data in networkData
-        deviceTypePrefix = "|--"
+        deviceTypePrefix = null
         portIndent = "|     "
 
         if not data["is_reachable"] then
@@ -414,7 +452,7 @@ Proxima.utils.beautifyNetworkScan = function (networkData, indent = "")
         end if
 
         if data["devices"].len > 0 then
-            self.beautifyNetworkScan(data["devices"], "    ")
+            self.beautifyNetworkScan(data["devices"])
         end if
     end for
 end function
