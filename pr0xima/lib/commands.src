@@ -11,13 +11,18 @@ Proxima.cli.commands.dump = {
 Proxima.cli.commands.dump.exec = function (params)
     if params.len > 0 then
         targetIP = params[0]
-        checkPorts = Proxima.exploit.checkPorts(targetIP)
-        if checkPorts == null then
-            Proxima.cli.throwCLIError("Given IP address is not valid or does not exist!")
-        else if checkPorts == false then
-            Proxima.cli.throwCLIError("No open ports found on given IP address!")
-        else
-            Proxima.exploit.displayPortInfo()
+        checkTargetIP = Proxima.exploit.checkTargetIP(targetIP)
+        if checkTargetIP then
+            checkPorts = Proxima.exploit.checkPorts(targetIP)
+            if checkPorts then
+                Proxima.exploit.displayPortInfo()
+            else
+                Proxima.cli.throwCLIError("No open ports found on given IP address!")
+            end if
+        else if checkTargetIP == false then
+            Proxima.cli.throwCLIError("Given IP address is not reachable or do not exist!")
+        else if checkTargetIP == null then
+            Proxima.cli.throwCLIError("Given IP address is not valid!")
         end if
     else
         Proxima.exploit.checkLibraries()
