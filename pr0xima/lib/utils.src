@@ -355,7 +355,7 @@ Proxima.utils.deepNetworkScan = function (targetIP, scannedIPs)
         scanData["ports"].push(portMap)
     end for
 
-    if targetRouter.local_ip = targetIP then
+    if targetRouter.local_ip == targetIP then
         routerFirewalls = targetRouter.firewall_rules()
         if typeof(routerFirewalls) == "list" and routerFirewalls.len > 0 then scanData["has_firewall"] = true
         if get_router(targetRouter.public_ip).local_ip == scanData["ip"] then scanData["main_router"] = true
@@ -459,7 +459,7 @@ Proxima.utils.scanLAN = function ()
     print("<b>| START_PROBE [PUBLIC_IP:" + get_router.public_ip + "]</b>")
     startingIP = get_router.local_ip
     scannedIPs = []
-    networkData = deepNetworkScan(startingIP, scannedIPs, "")
+    networkData = deepNetworkScan(startingIP, scannedIPs)
     beautifyNetworkScan(networkData)
     print("<b>| END_PROBE</b>")
     print("<b>\ END_SCANLAN <<</b>")
