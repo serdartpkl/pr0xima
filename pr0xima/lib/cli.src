@@ -48,10 +48,11 @@ Proxima.cli.addProgressBar = function ()
 end function
 
 Proxima.cli.addTransferProcess = function (fileSize)
-    if fileSize.to_int < 1000 then
+    fileSize = fileSize.to_int
+    if fileSize < 1000 then
         self.cliEntries.push("100%	" + str(floor(rnd * (900 - 50 + 1) + 50)) + "." + str(floor(rnd * (9 - 1 + 1) + 1)) + " KB/s  0 sec (" + fileSize + " Bytes of " + fileSize + " Bytes copied)")
     else
-        self.cliEntries.push("100%	" + str(floor(rnd * (900 - 50 + 1) + 50)) + "." + str(floor(rnd * (9 - 1 + 1) + 1)) + " KB/s  0 sec (" + str((floor(fileSize * 100) / 100) / 1000)[:3] + " MB of " + str((floor(fileSize * 100) / 100) / 1000)[:3] + " MB copied)")
+        self.cliEntries.push("100%	" + str(floor(rnd * (900 - 50 + 1) + 50)) + "." + str(floor(rnd * (9 - 1 + 1) + 1)) + " KB/s  0 sec (" + str((floor(fileSize * 100) / 100) / 1000)[:4] + " MB of " + str((floor(fileSize * 100) / 100) / 1000)[:4] + " MB copied)")
     end if
     self.cliEntries.push("Processing...")
 end function
