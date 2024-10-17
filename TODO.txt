@@ -1,13 +1,14 @@
 # TO-DO LIST:
 
 * Complete the session manager.
-* Add "redump" command to reload all the exploits.
+* Add "redump" command to reset session values and do a rescan.
 * Complete "analyze" command.
-* Add "netmap", "scanlan", "tree", "procs", "kill" commands.
+* Add "scanlan", "tree", "procs", "kill" commands.
 * Add "scanrouter" command and functions.
-* Complete subtools such as "rsc" and "gn".
+* Complete subtools such as "pr0rsc" and "pr0net".
 * Fix grammar of output messages.
 * Complete "rshell" and "apt" libraries.
-* Add library update/check on startup, also connection status to internet.
+* Add library update/check on startup if active user is not guest, also connection status to internet.
 * Refactor every function and variable.
-* Add "login" command for local sessions.
+* Add "login" command for local sessions. Example usage: login root@123456
+* Add "sudo" command and it's methods.
