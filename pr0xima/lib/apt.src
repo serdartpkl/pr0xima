@@ -53,3 +53,15 @@ Proxima.apt.findHackShop = function ()
         return false
     end if
 end function
+
+Proxima.apt.checkLibraryUpdates = function ()
+    if Proxima.globals.activeUser != "guest" then
+        getSources = Proxima.globals.myPC.File("/etc/apt/sources.txt")
+        if getSources != null then
+            deserializedSource = Proxima.utils.deserializeMap(getSources.get_content)
+            print(deserializedSource.official_server)
+        else
+        end if
+    else
+    end if
+end function
