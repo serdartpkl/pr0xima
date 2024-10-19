@@ -85,7 +85,7 @@ print(self.addOutputEntry(self.message.colorize("<b>|   __/|__|    \_____  /__/\
 print(self.addOutputEntry(self.message.colorize("<b>|__|                 \/      \/        \/     \/ </b>","#FC8403")))
 print(self.addOutputEntry(""))
 print(self.addOutputEntry(self.message.colorize("<b>pr0xima — v"+Proxima.globals.version+"</b>","#FFC466")))
-print(self.addOutputEntry(self.message.colorize("<b>A simple easy-to-use multi purpose hacking tool</b>","#FFFFFF")))
+print(self.addOutputEntry(self.message.colorize("<b>A simple easy-to-use multi purpose hacking tool.</b>","#FFFFFF")))
 end function
 Proxima.cli.loadAptClient=function(output=true)
 isValidLocation=false
@@ -99,8 +99,10 @@ end if
 end for
 if isValidLocation then
 if output then print(self.addOutputEntry(self.message.success("<b>aptclient.so</b> is loaded.")))
+return true
 else
-exit(self.message.error("Unable to find <b>aptclient.so</b> library."))
+if output then exit(self.message.error("Unable to find <b>aptclient.so</b> library."))
+return false
 end if
 return isValidLocation
 end function
@@ -116,8 +118,10 @@ end if
 end for
 if isValidLocation then
 if output then print(self.addOutputEntry(self.message.success("<b>crypto.so</b> is loaded.")))
+return true
 else
-exit(self.message.error("Unable to find <b>crypto.so</b> library."))
+if output then exit(self.message.error("Unable to find <b>crypto.so</b> library."))
+return false
 end if
 return isValidLocation
 end function
@@ -133,12 +137,15 @@ end if
 end for
 if isValidLocation then
 if output then print(self.addOutputEntry(self.message.success("<b>metaxploit.so</b> is loaded.")))
+return true
 else
-exit(self.message.error("Unable to find <b>metaxploit.so</b> library."))
+if output then exit(self.message.error("Unable to find <b>metaxploit.so</b> library."))
+return false
 end if
 return isValidLocation
 end function
 Proxima.cli.loadLibraries=function(output=true)
+Proxima.apt.checkLibraryUpdates
 if output then print(self.addOutputEntry(self.message.line))
 self.loadAptClient(output)
 self.loadCrypto(output)

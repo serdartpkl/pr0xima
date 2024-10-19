@@ -352,6 +352,10 @@ end if
 end if
 end function
 Proxima.cli.startCLI=function
+if Proxima.net.checkConnection!=true then
+self.message.error("You are not connected to the internet! Terminating program...")
+exit(self.message.info("You can hack into any WiFi by using <b>pr0net</b> subtool."))
+end if
 activeTarget=null
 targetIP=Proxima.sessions.getSessionValue("targetIP")
 if targetIP!=null then

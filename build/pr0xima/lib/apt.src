@@ -51,3 +51,19 @@ else
 return false
 end if
 end function
+Proxima.apt.checkLibraryUpdates=function
+if Proxima.globals.activeUser!="guest" then
+getSources=Proxima.globals.myPC.File("/etc/apt/sources.txt")
+if getSources!=null then
+deserializedSource=Proxima.utils.deserializeMap(getSources.get_content)
+if deserializedSource.sourceList.len>0 then
+print(deserializedSource.sourceList.indexes[0])
+else
+end if
+else
+// no sources file... error
+end if
+else
+// not enough priv
+end if
+end function
