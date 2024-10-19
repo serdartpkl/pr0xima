@@ -127,23 +127,21 @@ Proxima.cli.loadAptClient = function (output = true)
 end function
 
 Proxima.cli.loadCrypto = function (output = true)
-    isValidLocation = false
+    cryptoLocation = null
     for location in Proxima.settings.cryptoLocations
         includeCrypto = include_lib(location)
         if includeCrypto != null then
             Proxima.globals.crypto = includeCrypto
-            isValidLocation = true
+            cryptoLocation = includeCrypto
             break
         end if
     end for
-    if isValidLocation then
+    if cryptoLocation != null then
         if output then print(self.addOutputEntry(self.message.success("<b>crypto.so</b> is loaded.")))
-        return true
     else
         if output then exit(self.message.error("Unable to find <b>crypto.so</b> library."))
-        return false
     end if
-    return isValidLocation
+    return cryptoLocation
 end function
 
 Proxima.cli.loadMetaxploit = function (output = true)
