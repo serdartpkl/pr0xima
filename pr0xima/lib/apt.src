@@ -56,40 +56,39 @@ end function
 
 Proxima.apt.checkLibraryUpdates = function ()
     if Proxima.globals.activeUser != "guest" then
-        updateRepoInfo = Proxima.globals.aptclient.update()
-        if updateRepoInfo == "" then
-            // update repos success
-        else
-            // couldnt update repor
-        end if
         getSources = Proxima.globals.myPC.File("/etc/apt/sources.txt")
         if getSources != null then
             deserializedSource = Proxima.utils.deserializeMap(getSources.get_content)
             if deserializedSource.sourceList.len > 0 then
                 isValidShop = is_valid_ip(deserializedSource.sourceList.indexes[0])
                 if isValidShop then
-                    libraryFiles = Proxima.utils.collectFiles("/lib")
-                    binaryFiles = Proxima.utils.collectFiles("/bin")
-                    acquiredFiles = libraryFiles + binaryFiles
-                    pendingForUpdate = []
-                    for acquiredFile in acquiredFiles
-                        isUpdateAvailable = Proxima.globals.aptclient.check_upgrade(acquiredFile)
-                        if isUpdateAvailable then
-                            libraryName = acquiredFile.split("/")[-1]
-                            pendingForUpdate.push(libraryName)
-                        end if
-                    end for
-                    if pendingForUpdate.len > 0 then
-                        for pendingPackage in pendingForUpdate
-                            updateLibrary = Proxima.globals.aptclient.install(pendingPackage)
-                            if updateLibrary then
-                                // success
-                            else
-                                // failed
+                    updateRepoInfo = Proxima.globals.aptclient.update()
+                    if updateRepoInfo == "" then
+                        libraryFiles = Proxima.utils.collectFiles("/lib")
+                        binaryFiles = Proxima.utils.collectFiles("/bin")
+                        acquiredFiles = libraryFiles + binaryFiles
+                        pendingForUpdate = []
+                        for acquiredFile in acquiredFiles
+                            isUpdateAvailable = Proxima.globals.aptclient.check_upgrade(acquiredFile)
+                            if isUpdateAvailable then
+                                libraryName = acquiredFile.split("/")[-1]
+                                pendingForUpdate.push(libraryName)
                             end if
                         end for
+                        if pendingForUpdate.len > 0 then
+                            for pendingPackage in pendingForUpdate
+                                updateLibrary = Proxima.globals.aptclient.install(pendingPackage)
+                                if updateLibrary then
+                                    // success
+                                else
+                                    // failed
+                                end if
+                            end for
+                        else
+                            // no updates needed
+                        end if
                     else
-                        // no updates needed
+                        // couldnt update repor
                     end if
                 else
                     // repor ip is not valid
