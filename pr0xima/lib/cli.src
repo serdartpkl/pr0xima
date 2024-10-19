@@ -106,24 +106,16 @@ Proxima.cli.printCLIHeader = function ()
     print(self.addOutputEntry(self.message.colorize("<b>A simple easy-to-use multi purpose hacking tool.</b>", "#FFFFFF")))
 end function
 
-Proxima.cli.loadAptClient = function (output = true)
-    isValidLocation = false
-    for location in Proxima.settings.cryptoLocations
-        includeAptClient = include_lib(location)
+Proxima.cli.searchAptClient = function ()
+    aptclientLocation = null
+    for libraryLocation in Proxima.settings.aptclientLocations
+        includeAptClient = include_lib(libraryLocation)
         if includeAptClient != null then
-            Proxima.globals.aptclient = includeAptClient
-            isValidLocation = true
+            aptclientLocation = includeAptClient
             break
         end if
     end for
-    if isValidLocation then
-        if output then print(self.addOutputEntry(self.message.success("<b>aptclient.so</b> is loaded.")))
-        return true
-    else
-        if output then exit(self.message.error("Unable to find <b>aptclient.so</b> library."))
-        return false
-    end if
-    return isValidLocation
+    return aptclientLocation
 end function
 
 Proxima.cli.searchCrypto = function ()
@@ -138,24 +130,16 @@ Proxima.cli.searchCrypto = function ()
     return cryptoLocation
 end function
 
-Proxima.cli.loadMetaxploit = function (output = true)
-    isValidLocation = false
-    for location in Proxima.settings.metaxploitLocations
-        includeMetaxploit = include_lib(location)
+Proxima.cli.searchMetaxploit = function ()
+    metaxploitLocation = false
+    for libraryLocation in Proxima.settings.metaxploitLocations
+        includeMetaxploit = include_lib(libraryLocation)
         if includeMetaxploit != null then
-            Proxima.globals.metaxploit = includeMetaxploit
-            isValidLocation = true
+            metaxploitLocation = includeMetaxploit
             break
         end if
     end for
-    if isValidLocation then
-        if output then print(self.addOutputEntry(self.message.success("<b>metaxploit.so</b> is loaded.")))
-        return true
-    else
-        if output then exit(self.message.error("Unable to find <b>metaxploit.so</b> library."))
-        return false
-    end if
-    return isValidLocation
+    return metaxploitLocation
 end function
 
 Proxima.cli.loadLibraries = function (output = true)
