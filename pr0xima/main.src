@@ -17,7 +17,7 @@ import_code("lib/hardware.src")
 import_code("lib/commands.src")
 import_code("lib/engine.src")
 
-Proxima.run = function ()
+Proxima.start = function ()
     self.ui.clearCLI()
     self.ui.printCLIHeader()
     self.cli.loadLibraries()
