@@ -5,12 +5,12 @@ Proxima.cli = {}
 Proxima.cli.throwCLIError = function (cmdMessage = null, cmdUsage = null)
     if cmdMessage != null then 
         if cmdUsage != null then
-            print(self.addOutputEntry(self.message.error(cmdMessage + " Usage: " + cmdUsage)))
+            print(Proxima.ui.addOutputEntry(Proxima.ui.message.error(cmdMessage + " Usage: " + cmdUsage)))
         else
-            print(self.addOutputEntry(self.message.error(cmdMessage)))
+            print(Proxima.ui.addOutputEntry(Proxima.ui.message.error(cmdMessage)))
         end if
     else
-        print(self.addOutputEntry(self.message.error("Unknown command! Type <b>help</b> to list available commands.")))
+        print(Proxima.ui.addOutputEntry(Proxima.ui.message.error("Unknown command! Type <b>help</b> to list available commands.")))
     end if
 end function
 
@@ -52,9 +52,9 @@ end function
 
 Proxima.cli.loadLibraries = function (output = true)
     Proxima.apt.checkLibraryUpdates()
-    if output then print(self.addOutputEntry(self.message.line))
+    if output then print(Proxima.ui.addOutputEntry(Proxima.ui.message.line))
     self.loadAptClient(output)
     self.loadCrypto(output)
     self.loadMetaxploit(output)
-    if output then print(self.addOutputEntry(self.message.line))
+    if output then print(Proxima.ui.addOutputEntry(Proxima.ui.message.line))
 end function

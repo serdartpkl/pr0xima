@@ -85,7 +85,7 @@ end function
 
 Proxima.apt.checkForUpdates = function ()
     updateRepoInfo = Proxima.globals.aptclient.update()
-    Proxima.cli.clearCLI()
+    Proxima.ui.clearCLI()
     wait(0.5)
     if updateRepoInfo == "" then
         pendingForUpdate = []
@@ -93,7 +93,7 @@ Proxima.apt.checkForUpdates = function ()
         binaryFiles = Proxima.utils.collectFiles("/bin")
         for acquiredFile in libraryFiles + binaryFiles
             isUpdateAvailable = Proxima.globals.aptclient.check_upgrade(acquiredFile)
-            Proxima.cli.clearCLI()
+            Proxima.ui.clearCLI()
             wait(0.5)
             if isUpdateAvailable then
                 libraryName = acquiredFile.split("/")[-1]
@@ -114,7 +114,7 @@ Proxima.aptclient.updateLibraries = function (pendingList)
     statusMap = { "successList": [], "failedList": [] }
     for pendingLibrary in pendingList
         updateLibrary = Proxima.globals.aptclient.install(pendingLibrary)
-        Proxima.cli.clearCLI()
+        Proxima.ui.clearCLI()
         wait(0.5)
         if updateLibrary == 1 then
             statusMap.successList.push(pendingLibrary)
