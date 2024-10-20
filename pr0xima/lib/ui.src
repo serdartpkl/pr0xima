@@ -2,6 +2,7 @@ Proxima.ui = {}
 
 Proxima.ui.cliString = null
 Proxima.ui.cliEntries = []
+
 Proxima.ui.previousCommands = []
 
 Proxima.ui.message = {}
