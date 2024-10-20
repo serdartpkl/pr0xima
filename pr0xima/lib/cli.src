@@ -50,11 +50,10 @@ Proxima.cli.searchMetaxploit = function ()
     return metaxploitLocation
 end function
 
-Proxima.cli.loadLibraries = function (output = true)
-    Proxima.apt.checkLibraryUpdates()
-    if output then print(Proxima.ui.addOutputEntry(Proxima.ui.message.line))
-    self.loadAptClient(output)
-    self.loadCrypto(output)
-    self.loadMetaxploit(output)
-    if output then print(Proxima.ui.addOutputEntry(Proxima.ui.message.line))
+Proxima.cli.initFileSystem = function ()
+    
+end function
+
+Proxima.cli.initLibraries = function ()
+
 end function

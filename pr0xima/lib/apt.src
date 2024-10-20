@@ -111,15 +111,15 @@ Proxima.apt.checkForUpdates = function ()
 end function
 
 Proxima.aptclient.updateLibraries = function (pendingList)
-    statusMap = { "successList": [], "failedList": [] }
+    statusMap = { "succeed": [], "failed": [] }
     for pendingLibrary in pendingList
         updateLibrary = Proxima.globals.aptclient.install(pendingLibrary)
         Proxima.ui.clearCLI()
         wait(0.5)
         if updateLibrary == 1 then
-            statusMap.successList.push(pendingLibrary)
+            statusMap.succeed.push(pendingLibrary)
         else
-            statusMap.failedList.push(pendingLibrary)
+            statusMap.failed.push(pendingLibrary)
         end if
     end for
     return statusMap
