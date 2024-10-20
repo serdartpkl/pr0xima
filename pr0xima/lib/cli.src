@@ -2,6 +2,18 @@ Proxima.cli = {}
 
 // ------------------------------------------------------------------------------------------------------------
 
+Proxima.cli.initFileSystem = function ()
+    // check Proxima folder and if not create
+    // check Sessions folder and if not create
+    // check Tools folder and if not create
+    // check Downloads folder and if not create
+    // check ExploitDB file and if not create
+end function
+
+Proxima.cli.initLibraries = function ()
+
+end function
+
 Proxima.cli.throwCLIError = function (cmdMessage = null, cmdUsage = null)
     if cmdMessage != null then 
         if cmdUsage != null then
@@ -13,6 +25,8 @@ Proxima.cli.throwCLIError = function (cmdMessage = null, cmdUsage = null)
         print(Proxima.ui.addOutputEntry(Proxima.ui.message.error("Unknown command! Type <b>help</b> to list available commands.")))
     end if
 end function
+
+// ------------------------------------------------------------------------------------------------------------
 
 Proxima.cli.searchAptClient = function ()
     aptclientLocation = null
@@ -48,16 +62,4 @@ Proxima.cli.searchMetaxploit = function ()
         end if
     end for
     return metaxploitLocation
-end function
-
-Proxima.cli.initFileSystem = function ()
-    // check Proxima folder and if not create
-    // check Sessions folder and if not create
-    // check Tools folder and if not create
-    // check Downloads folder and if not create
-    // check ExploitDB file and if not create
-end function
-
-Proxima.cli.initLibraries = function ()
-
 end function
