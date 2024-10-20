@@ -2,6 +2,7 @@ Proxima.ui = {}
 
 Proxima.ui.cliString = null
 Proxima.ui.cliEntries = []
+Proxima.ui.previousCommands = []
 
 Proxima.ui.message = {}
 Proxima.ui.message.line = "+----------------------------------------------------+"
@@ -92,4 +93,16 @@ Proxima.ui.printCLIHeader = function ()
     print(self.addOutputEntry(""))
     print(self.addOutputEntry(self.message.colorize("<b>pr0xima — v" + Proxima.globals.version + "</b>", "#FFC466")))
     print(self.addOutputEntry(self.message.colorize("<b>A simple easy-to-use multi purpose hacking tool.</b>", "#FFFFFF")))
+end function
+
+Proxima.ui.throwCLIError = function (cmdMessage = null, cmdUsage = null)
+    if cmdMessage != null then 
+        if cmdUsage != null then
+            print(self.addOutputEntry(self.message.error(cmdMessage + " Usage: " + cmdUsage)))
+        else
+            print(self.addOutputEntry(self.message.error(cmdMessage)))
+        end if
+    else
+        print(self.addOutputEntry(self.message.error("Unknown command! Type <b>help</b> to list available commands.")))
+    end if
 end function

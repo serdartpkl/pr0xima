@@ -1,8 +1,8 @@
-Proxima.cli = {}
+Proxima.engine = {}
 
 // ------------------------------------------------------------------------------------------------------------
 
-Proxima.cli.initFileSystem = function ()
+Proxima.engine.initFileSystem = function ()
     // check Proxima folder and if not create
     // check Sessions folder and if not create
     // check Tools folder and if not create
@@ -10,7 +10,7 @@ Proxima.cli.initFileSystem = function ()
     // check ExploitDB file and if not create
 end function
 
-Proxima.cli.searchLibraries = function (libraryList)
+Proxima.engine.searchLibraries = function (libraryList)
     libraryMap = {}    
     for libraryName in libraryList
         libraryMap[libraryName] = null
@@ -27,18 +27,6 @@ Proxima.cli.searchLibraries = function (libraryList)
     return libraryMap
 end function
 
-Proxima.cli.initLibraries = function ()
+Proxima.engine.initLibraries = function ()
 
-end function
-
-Proxima.cli.throwCLIError = function (cmdMessage = null, cmdUsage = null)
-    if cmdMessage != null then 
-        if cmdUsage != null then
-            print(Proxima.ui.addOutputEntry(Proxima.ui.message.error(cmdMessage + " Usage: " + cmdUsage)))
-        else
-            print(Proxima.ui.addOutputEntry(Proxima.ui.message.error(cmdMessage)))
-        end if
-    else
-        print(Proxima.ui.addOutputEntry(Proxima.ui.message.error("Unknown command! Type <b>help</b> to list available commands.")))
-    end if
 end function
