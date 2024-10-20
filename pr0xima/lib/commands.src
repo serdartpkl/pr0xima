@@ -1,14 +1,14 @@
-Proxima.cli.commands = {}
+Proxima.engine.commands = {}
 
 // ------------------------------------------------------------------------------------------------------------
 
-Proxima.cli.commands.dump = {
+Proxima.engine.commands.dump = {
     "name": "dump",
     "description": "Dumps target IPs ports or local libraries to perform a scan.",
     "usage": "dump <ip|local>",
     "type": 2
 }
-Proxima.cli.commands.dump.exec = function (params)
+Proxima.engine.commands.dump.exec = function (params)
     if params.len > 0 then
         targetIP = params[0]
         checkTargetIP = Proxima.exploit.checkTargetIP(targetIP)
@@ -32,13 +32,13 @@ end function
 
 // ------------------------------------------------------------------------------------------------------------
 
-Proxima.cli.commands.scanport = {
+Proxima.engine.commands.scanport = {
     "name": "scanport",
     "description": "Scans the specified port/ports for acquiring available remote exploits.",
     "usage": "scanport <id>",
     "type": 1
 }
-Proxima.cli.commands.scanport.exec = function (params)
+Proxima.engine.commands.scanport.exec = function (params)
     if params.len == 0 then
         Proxima.cli.throwCLIError("No port ID provided.", self.usage)
     else
@@ -52,13 +52,13 @@ end function
 
 // ------------------------------------------------------------------------------------------------------------
 
-Proxima.cli.commands.scanlib = {
+Proxima.engine.commands.scanlib = {
     "name": "scanlib",
     "description": "Scans the specified library/libraries for acquiring available local exploits.",
     "usage": "scanlib <id>",
     "type": 0
 }
-Proxima.cli.commands.scanlib.exec = function (params)
+Proxima.engine.commands.scanlib.exec = function (params)
     if params.len == 0 then
         Proxima.cli.throwCLIError("No library ID provided.", self.usage)
     else
@@ -72,13 +72,13 @@ end function
 
 // ------------------------------------------------------------------------------------------------------------
 
-Proxima.cli.commands.ports = {
+Proxima.engine.commands.ports = {
     "name": "ports",
     "description": "Lists all available target ports..",
     "usage": "ports",
     "type": 1
 }
-Proxima.cli.commands.ports.exec = function (params)
+Proxima.engine.commands.ports.exec = function (params)
     targetPorts = Proxima.sessions.getSessionValue("targetPorts")
     if targetPorts.len > 0 then
         Proxima.exploit.displayPortInfo()
@@ -89,13 +89,13 @@ end function
 
 // ------------------------------------------------------------------------------------------------------------
 
-Proxima.cli.commands.libraries = {
+Proxima.engine.commands.libraries = {
     "name": "libraries",
     "description": "Lists all available local libraries.",
     "usage": "libraries",
     "type": 0
 }
-Proxima.cli.commands.libraries.exec = function (params)
+Proxima.engine.commands.libraries.exec = function (params)
     targetLibraries = Proxima.sessions.getSessionValue("targetLibraries")
     if targetLibraries.len > 0 then
         Proxima.exploit.displayLibraryInfo()
@@ -106,13 +106,13 @@ end function
 
 // ------------------------------------------------------------------------------------------------------------
 
-Proxima.cli.commands.exploits = {
+Proxima.engine.commands.exploits = {
     "name": "exploits",
     "description": "Lists all available exploits gathered from current remote target or local libraries.",
     "usage": "exploits",
     "type": 2
 }
-Proxima.cli.commands.exploits.exec = function (params)
+Proxima.engine.commands.exploits.exec = function (params)
     targetExploits = Proxima.sessions.getSessionValue("targetExploits")
     if targetExploits.len > 0 then
         Proxima.exploit.displayExploitInfo()
@@ -123,13 +123,13 @@ end function
 
 // ------------------------------------------------------------------------------------------------------------
 
-Proxima.cli.commands.users = {
+Proxima.engine.commands.users = {
     "name": "users",
     "description": "Lists all available user informations gathered from executed exploit/exploits.",
     "usage": "users",
     "type": 2
 }
-Proxima.cli.commands.users.exec = function (params)
+Proxima.engine.commands.users.exec = function (params)
     targetUsers = Proxima.sessions.getSessionValue("targetUsers")
     if targetUsers.len > 0 then
         Proxima.exploit.displayUserInfo()
@@ -140,13 +140,13 @@ end function
 
 // ------------------------------------------------------------------------------------------------------------
 
-Proxima.cli.commands.mails = {
+Proxima.engine.commands.mails = {
     "name": "",
     "description": "Lists all available bank informations gathered from executed exploit/exploits.",
     "usage": "",
     "type": 2
 }
-Proxima.cli.commands.mails.exec = function (params)
+Proxima.engine.commands.mails.exec = function (params)
     targetMails = Proxima.sessions.getSessionValue("targetMails")
     if targetMails.len > 0 then
         Proxima.exploit.displayMailInfo()
@@ -157,13 +157,13 @@ end function
 
 // ------------------------------------------------------------------------------------------------------------
 
-Proxima.cli.commands.banks = {
+Proxima.engine.commands.banks = {
     "name": "mails",
     "description": "Lists all available mail informations gathered from executed exploit/exploits.",
     "usage": "mails",
     "type": 2
 }
-Proxima.cli.commands.banks.exec = function (params)
+Proxima.engine.commands.banks.exec = function (params)
     targetBanks = Proxima.sessions.getSessionValue("targetBanks")
     if targetBanks.len > 0 then
         Proxima.exploit.displayBankInfo()
@@ -174,13 +174,13 @@ end function
 
 // ------------------------------------------------------------------------------------------------------------
 
-Proxima.cli.commands.shells = {
+Proxima.engine.commands.shells = {
     "name": "shells",
     "description": "Lists all available shell connections gathered from executed exploit/exploits.",
     "usage": "shells",
     "type": 2
 }
-Proxima.cli.commands.shells.exec = function (params)
+Proxima.engine.commands.shells.exec = function (params)
     targetShells = Proxima.sessions.getSessionValue("targetShells")
     if targetShells.len > 0 then
         Proxima.exploit.displayShellInfo()
@@ -191,13 +191,13 @@ end function
 
 // ------------------------------------------------------------------------------------------------------------
 
-Proxima.cli.commands.execute = {
+Proxima.engine.commands.execute = {
     "name": "execute",
     "description": "Executes specified exploit with given ID.",
     "usage": "execute <id>",
     "type": 2
 }
-Proxima.cli.commands.execute.exec = function (params)
+Proxima.engine.commands.execute.exec = function (params)
     if params.len == 0 then
         Proxima.cli.throwCLIError("No exploit ID provided.", self.usage)
     else
@@ -211,13 +211,13 @@ end function
 
 // ------------------------------------------------------------------------------------------------------------
 
-Proxima.cli.commands.decipher = {
+Proxima.engine.commands.decipher = {
     "name": "decipher",
     "description": "Deciphers ",
     "usage": "decipher <list> <id>",
     "type": 2
 }
-Proxima.cli.commands.decipher.exec = function (params)
+Proxima.engine.commands.decipher.exec = function (params)
     if params.len < 2 then
         Proxima.cli.throwCLIError("No target list or ID provided.", self.usage)
     else if params.len == 2 then
@@ -237,13 +237,13 @@ end function
 
 // ------------------------------------------------------------------------------------------------------------
 
-Proxima.cli.commands.shell = {
+Proxima.engine.commands.shell = {
     "name": "shell",
     "description": "Starts terminal for specified shell with given ID.",
     "usage": "shell <id>",
     "type": 2
 }
-Proxima.cli.commands.shell.exec = function (params)
+Proxima.engine.commands.shell.exec = function (params)
     if params.len == 0 then
         Proxima.cli.throwCLIError("No shell ID provided.", self.usage)
     else
@@ -253,25 +253,25 @@ end function
 
 // ------------------------------------------------------------------------------------------------------------
 
-Proxima.cli.commands.tunnel = {
+Proxima.engine.commands.tunnel = {
     "name": "tunnel",
     "description": "",
     "usage": "tunnel",
     "type": 1
 }
-Proxima.cli.commands.tunnel.exec = function (params)
+Proxima.engine.commands.tunnel.exec = function (params)
     Proxima.exploit.tunnelConnection()
 end function
 
 // ------------------------------------------------------------------------------------------------------------
 
-Proxima.cli.commands.get = {
+Proxima.engine.commands.get = {
     "name": "get",
     "description": "Gets file from remote computer to local computer.",
     "usage": "get <path>",
     "type": 1
 }
-Proxima.cli.commands.get.exec = function (params)
+Proxima.engine.commands.get.exec = function (params)
     if params.len == 0 then
         Proxima.cli.throwCLIError("No remote file path provided.", self.usage)
     else
@@ -281,13 +281,13 @@ end function
 
 // ------------------------------------------------------------------------------------------------------------
 
-Proxima.cli.commands.put = {
+Proxima.engine.commands.put = {
     "name": "put",
     "description": "Uploads file from local computer to remote computer.",
     "usage": "put <path>",
     "type": 1
 }
-Proxima.cli.commands.put.exec = function (params)
+Proxima.engine.commands.put.exec = function (params)
     if params.len == 0 then
         Proxima.cli.throwCLIError("No local file path provided.", self.usage)
     else
@@ -301,15 +301,15 @@ end function
 
 // ------------------------------------------------------------------------------------------------------------
 
-Proxima.cli.commands.delete = {
+Proxima.engine.commands.delete = {
     "name": "delete",
     "description": "Deletes specified remote or local file.",
     "usage": "delete <path>",
     "type": 2
 }
-Proxima.cli.commands.delete.exec = function (params)
+Proxima.engine.commands.delete.exec = function (params)
     if params.len == 0 then
-        Proxima.cli.throwCLIError("No file path provided.", self.usage)
+        Proxima.engine.throwCLIError("No file path provided.", self.usage)
     else
         Proxima.exploit.deleteFile(params[0])
     end if
@@ -317,15 +317,15 @@ end function
 
 // ------------------------------------------------------------------------------------------------------------
 
-Proxima.cli.commands.launch = {
+Proxima.engine.commands.launch = {
     "name": "run",
     "description": "Executes ",
     "usage": "run <path>",
     "type": 2
 }
-Proxima.cli.commands.launch.exec = function (params)
+Proxima.engine.commands.launch.exec = function (params)
     if params.len == 0 then
-        Proxima.cli.throwCLIError("No binary file path provided.", self.usage)
+        Proxima.engine.throwCLIError("No binary file path provided.", self.usage)
     else
         Proxima.exploit.runBinaryFile(params[0])
     end if
@@ -333,37 +333,37 @@ end function
 
 // ------------------------------------------------------------------------------------------------------------
 
-Proxima.cli.commands.corrupt = {
+Proxima.engine.commands.corrupt = {
     "name": "corrupt",
     "description": "Corrupts remote target's computer and makes it unable to work.",
     "usage": "corrupt",
     "type": 2
 }
-Proxima.cli.commands.corrupt.exec = function (params)
+Proxima.engine.commands.corrupt.exec = function (params)
     Proxima.exploit.corruptComputer()
 end function
 
 // ------------------------------------------------------------------------------------------------------------
 
-Proxima.cli.commands.cleanup = {
+Proxima.engine.commands.cleanup = {
     "name": "cleanup",
     "description": "Removes remote or local system log file to leave no trace.",
     "usage": "cleanup",
     "type": 2
 }
-Proxima.cli.commands.cleanup.exec = function (params)
+Proxima.engine.commands.cleanup.exec = function (params)
     Proxima.exploit.cleanUpLogs()
 end function
 
 // ------------------------------------------------------------------------------------------------------------
 
-Proxima.cli.commands.whois = {
+Proxima.engine.commands.whois = {
     "name": "whois",
     "description": "Performs 'whois' command to gather contact information for remote target.",
     "usage": "whois",
     "type": 2
 }
-Proxima.cli.commands.whois.exec = function (params)
+Proxima.engine.commands.whois.exec = function (params)
     adminInfo = whois(Proxima.exploit.targetIP)
     adminInfo = adminInfo.split(char(10))
     print(Proxima.cli.addOutputEntry(Proxima.cli.message.colorize("<b>Domain Name:</b> ", "#0091FF") + adminInfo[0].split(":")[1].trim))
@@ -374,28 +374,28 @@ end function
 
 // ------------------------------------------------------------------------------------------------------------
 
-Proxima.cli.commands.cls = {
+Proxima.engine.commands.cls = {
     "name": "cls",
     "description": "Clears terminal screen.",
     "usage": "cls",
     "type": 2
 }
-Proxima.cli.commands.cls.exec = function (params)
-    Proxima.cli.cliEntries = []
-    Proxima.cli.clearCLI()
+Proxima.engine.commands.cls.exec = function (params)
+    Proxima.ui.cliEntries = []
+    Proxima.ui.clearCLI()
 end function
 
 // ------------------------------------------------------------------------------------------------------------
 
-Proxima.cli.commands.help = {
+Proxima.engine.commands.help = {
     "name": "help",
     "description": "Lists all available commands.",
     "usage": "help",
     "type": 2
 }
-Proxima.cli.commands.help.exec = function (params)
+Proxima.engine.commands.help.exec = function (params)
     i = 0
-    for command in Proxima.cli.commands
+    for command in Proxima.engine.commands
         cmd = command.values[1]
         cmd_name = cmd.name
         cmd_description = cmd.description
@@ -414,30 +414,30 @@ end function
 
 // ------------------------------------------------------------------------------------------------------------
 
-Proxima.cli.commands.exit = {
+Proxima.engine.commands.exit = {
     "name": "exit",
     "description": "Exits from script.",
     "usage": "exit",
     "type": 2
 }
-Proxima.cli.commands.exit.exec = function (params)
-    exit(Proxima.cli.message.success("Goodbye! Have a nice day."))
+Proxima.engine.commands.exit.exec = function (params)
+    exit(Proxima.ui.message.success("Goodbye! Have a nice day."))
 end function
 
 // ------------------------------------------------------------------------------------------------------------
 
-Proxima.cli.commands.sessions = {
+Proxima.engine.commands.sessions = {
     "name": "sessions",
     "description": "List available sessions.",
     "usage": "sessions",
     "type": 2
 }
-Proxima.cli.commands.sessions.exec = function (params)
+Proxima.engine.commands.sessions.exec = function (params)
     if params.len == 0 then
         if Proxima.sessions.targetSessions.len > 0 then
             Proxima.sessions.displaySessionInfo()
         else
-            Proxima.cli.throwCLIError("No sessions available, please perform a scan first.")
+            Proxima.engine.throwCLIError("No sessions available, please perform a scan first.")
         end if
     else
         if params.len == 1 then
@@ -474,44 +474,44 @@ end function
 
 // ------------------------------------------------------------------------------------------------------------
 
-Proxima.cli.commands.jump = {
+Proxima.engine.commands.jump = {
     "name": "jump",
     "description": "List available sessions.",
     "usage": "jump",
     "type": 2
 }
-Proxima.cli.commands.jump.exec = function (params)
+Proxima.engine.commands.jump.exec = function (params)
     Proxima.exploit.jumpShell()
 end function
 
 // ------------------------------------------------------------------------------------------------------------
 
-Proxima.cli.commands.rshell = {
+Proxima.engine.commands.rshell = {
     "name": "rshell",
     "description": "Inject reverse shell for specified open shell",
     "usage": "rshell <id>",
     "type": 2
 }
-Proxima.cli.commands.rshell.exec = function (params)
+Proxima.engine.commands.rshell.exec = function (params)
     if params.len == 0 then
-        Proxima.cli.throwCLIError("No shell ID provided.", self.usage)
+        Proxima.ui.throwCLIError("No shell ID provided.", self.usage)
     else
         Proxima.exploit.injectRshell(params[0].to_int)
     end if
 end function
 
-Proxima.cli.commands.analyze = {
+Proxima.engine.commands.analyze = {
     "name": "analyze",
     "description": "Analizes available methods.",
     "usage": "analyze",
     "type": 2
 }
-Proxima.cli.commands.analyze.exec = function (params)
+Proxima.engine.commands.analyze.exec = function (params)
     analyzeResult = Proxima.exploit.analyzeExploitResults()
     Proxima.exploit.generateAnalyzeReport(analyzeResult)
 end function
 
-Proxima.cli.handleCommand = function (userCommand)
+Proxima.engine.handleCommand = function (userCommand)
     if userCommand != null and userCommand != "" then
         parsedCommand = null
         params = null
@@ -553,7 +553,7 @@ Proxima.cli.handleCommand = function (userCommand)
     end if
 end function
 
-Proxima.cli.startCLI = function ()
+Proxima.engine.startCLI = function ()
     if Proxima.net.checkConnection != true then 
         self.message.error("You are not connected to the internet! Terminating program...")
         exit(self.message.info("You can hack into any WiFi by using <b>pr0net</b> subtool."))
