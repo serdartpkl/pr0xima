@@ -1,0 +1,5 @@
+// This script will be updated upon the release of a new version of GreyHack.
+
+import_code("../pr0xima/main.src")
+
+prx = new Proxima

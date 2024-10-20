@@ -55,18 +55,18 @@ Proxima.utils.formatList = function (headerList, contentList)
 end function
 
 Proxima.utils.mapHasValue = function (givenList, searchKey, searchValue)
-    hasFoundValue = false
+    foundedIndexes = []
     if givenList.len > 0 then
         for mapItem in givenList
             for key in mapItem.indexes
                 if key == searchKey and mapItem[key] == searchValue then
-                    hasFoundValue = true
-                    break
+                    foundedIndexes.push(givenList.indexOf(mapItem))
                 end if
             end for
         end for
     end if
-    return hasFoundValue
+    if foundedIndexes.len == 0 then foundedIndexes = null
+    return foundedIndexes
 end function
 
 Proxima.utils.collectFiles = function (parentDir)
