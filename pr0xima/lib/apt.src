@@ -4,6 +4,35 @@ Proxima.apt.hackShopIP = null
 
 // ------------------------------------------------------------------------------------------------------------
 
+Proxima.apt.checkSourcesFile = function ()
+    getSourcesFile = Proxima.globals.myPC.File("/etc/apt/sources.txt")
+    return getSourcesFile
+end function
+
+Proxima.apt.checkHackShop = function (sourcesFile)
+    deserializedSource = Proxima.utils.deserializeMap(sourcesFile.get_content)
+    if deserializedSource.sourceList.len > 0 then
+        return deserializedSource.sourceList.indexes[0]
+    else
+        return null
+    end if
+end function
+
+Proxima.apt.isValidHackShop = function (hackShopIP)
+    isValidHackShop = false
+    if is_valid_ip(hackShopIP) then
+        hackShopRouter = get_router(hackShopIP)
+        for acquiredPort in hackShopRouter.used_ports
+            serviceName = hackShopRouter.port_info(acquiredPort).split(" ")[0]
+            if serviceName == "repository" and is_closed(acquiredPort) != true then
+                isValidHackShop = true
+                break
+            end if
+        end for
+    end if
+    return isValidHackShop
+end function
+
 Proxima.apt.findHackShop = function ()
     hackShopIP = null
     
@@ -54,54 +83,44 @@ Proxima.apt.findHackShop = function ()
     end if
 end function
 
-Proxima.apt.checkLibraryUpdates = function ()
-    if Proxima.globals.activeUser != "guest" then
-        getSources = Proxima.globals.myPC.File("/etc/apt/sources.txt")
-        if getSources != null then
-            deserializedSource = Proxima.utils.deserializeMap(getSources.get_content)
-            if deserializedSource.sourceList.len > 0 then
-                isValidShop = is_valid_ip(deserializedSource.sourceList.indexes[0])
-                if isValidShop then
-                    updateRepoInfo = Proxima.globals.aptclient.update()
-                    if updateRepoInfo == "" then
-                        libraryFiles = Proxima.utils.collectFiles("/lib")
-                        binaryFiles = Proxima.utils.collectFiles("/bin")
-                        acquiredFiles = libraryFiles + binaryFiles
-                        pendingForUpdate = []
-                        for acquiredFile in acquiredFiles
-                            isUpdateAvailable = Proxima.globals.aptclient.check_upgrade(acquiredFile)
-                            if isUpdateAvailable then
-                                libraryName = acquiredFile.split("/")[-1]
-                                pendingForUpdate.push(libraryName)
-                            end if
-                        end for
-                        if pendingForUpdate.len > 0 then
-                            for pendingPackage in pendingForUpdate
-                                updateLibrary = Proxima.globals.aptclient.install(pendingPackage)
-                                if updateLibrary then
-                                    // success
-                                else
-                                    // failed
-                                end if
-                            end for
-                        else
-                            // no updates needed
-                        end if
-                    else
-                        // couldnt update repor
-                    end if
-                else
-                    // repor ip is not valid
-                    // delete it
-                    // find new hs
-                end if
-            else
-                // find hs
+Proxima.apt.checkForUpdates = function ()
+    updateRepoInfo = Proxima.globals.aptclient.update()
+    Proxima.cli.clearCLI()
+    wait(0.5)
+    if updateRepoInfo == "" then
+        pendingForUpdate = []
+        libraryFiles = Proxima.utils.collectFiles("/lib")
+        binaryFiles = Proxima.utils.collectFiles("/bin")
+        for acquiredFile in libraryFiles + binaryFiles
+            isUpdateAvailable = Proxima.globals.aptclient.check_upgrade(acquiredFile)
+            Proxima.cli.clearCLI()
+            wait(0.5)
+            if isUpdateAvailable then
+                libraryName = acquiredFile.split("/")[-1]
+                pendingForUpdate.push(libraryName)
             end if
+        end for
+        if pendingForUpdate.len > 0 then
+            return pendingForUpdate
         else
-            // no sources file... error
+            return false
         end if
     else
-        // not enough priv
+        return null
     end if
+end function
+
+Proxima.aptclient.updateLibraries = function (pendingList)
+    statusMap = { "successList": [], "failedList": [] }
+    for pendingLibrary in pendingList
+        updateLibrary = Proxima.globals.aptclient.install(pendingLibrary)
+        Proxima.cli.clearCLI()
+        wait(0.5)
+        if updateLibrary == 1 then
+            statusMap.successList.push(pendingLibrary)
+        else
+            statusMap.failedList.push(pendingLibrary)
+        end if
+    end for
+    return statusMap
 end function
