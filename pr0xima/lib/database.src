@@ -3,15 +3,33 @@ Proxima.database = {}
 // ------------------------------------------------------------------------------------------------------------
 
 Proxima.database.getDatabase = function (databaseName)
-
+    databaseFile = Proxima.globals.myPC.File(home_dir + "/Databases/" + databaseName)
+    if databaseFile != null then
+        return databaseFile
+    end if
+    return null
 end function
 
 Proxima.database.resetDatabase = function (databaseName)
-
+    databaseFile = self.getDatabase(databaseName)
+    if databaseFile != null then
+        resetFile = databaseFile.set_content("")
+        if resetFile != null or typeof(resetFile) != "string" then return true
+    end if
+    return null
 end function
 
 Proxima.database.getRecords = function (databaseName)
-
+    databaseFile = self.getDatabase(databaseName)
+    if databaseFile != null then
+        recordsList = []
+        deserializedDatabase = Proxima.utils.deserializeMap(databaseFile.get_content())
+        for acquiredRecord in deserializedDatabase.records
+            recordsList.push(acquiredRecord)
+        end for
+        return recordsList
+    end if
+    return null
 end function
 
 Proxima.database.deleteRecord = function (databaseName, recordID)
