@@ -33,7 +33,7 @@ Proxima.database.getRecords = function (databaseName)
 end function
 
 Proxima.database.deleteRecord = function (databaseName, recordID)
-
+    
 end function
 
 Proxima.database.getRecordValue = function (databaseName, recordID, recordKey)
