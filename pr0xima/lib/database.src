@@ -1,1 +1,27 @@
 Proxima.database = {}
+
+// ------------------------------------------------------------------------------------------------------------
+
+Proxima.database.getDatabase = function (databaseName)
+
+end function
+
+Proxima.database.resetDatabase = function (databaseName)
+
+end function
+
+Proxima.database.getRecords = function (databaseName)
+
+end function
+
+Proxima.database.deleteRecord = function (databaseName, recordID)
+
+end function
+
+Proxima.database.getRecordValue = function (databaseName, recordKey)
+
+end function
+
+Proxima.database.setRecordValue = function (databaseName, recordKey, recordValue)
+
+end function
