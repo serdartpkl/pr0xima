@@ -51,7 +51,11 @@ Proxima.cli.searchMetaxploit = function ()
 end function
 
 Proxima.cli.initFileSystem = function ()
-    
+    // check Proxima folder and if not create
+    // check Sessions folder and if not create
+    // check Tools folder and if not create
+    // check Downloads folder and if not create
+    // check ExploitDB file and if not create
 end function
 
 Proxima.cli.initLibraries = function ()
