@@ -7,7 +7,7 @@ import_code("lib/utils.src")
 import_code("lib/apt.src")
 import_code("lib/sessions.src")
 import_code("lib/database.src")
-import_code("lib/cli.src")
+import_code("lib/engine.src")
 
 import_code("lib/net.src")
 import_code("lib/rshell.src")
