@@ -7,7 +7,6 @@ import_code("lib/utils.src")
 import_code("lib/apt.src")
 import_code("lib/sessions.src")
 import_code("lib/database.src")
-import_code("lib/engine.src")
 
 import_code("lib/net.src")
 import_code("lib/rshell.src")
@@ -16,6 +15,7 @@ import_code("lib/defender.src")
 import_code("lib/hardware.src")
 
 import_code("lib/commands.src")
+import_code("lib/engine.src")
 
 Proxima.run = function ()
     self.ui.clearCLI()

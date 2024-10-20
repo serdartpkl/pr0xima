@@ -30,3 +30,65 @@ end function
 Proxima.engine.initLibraries = function ()
 
 end function
+
+Proxima.engine.handleCommand = function (userCommand)
+    if userCommand != null and userCommand != "" then
+        parsedCommand = null
+        params = null
+        if typeof(split(userCommand, " ")) == "list" then
+            parts = split(userCommand, " ")
+            parsedCommand = parts[0]
+            parts.remove(0)
+            params = parts
+        else
+            parsedCommand = userCommand
+            params = []
+        end if
+
+        selectedCommand = null
+        for command in self.commands
+            if command.values[0] == parsedCommand then
+                selectedCommand = command.values[1]
+                break
+            end if
+        end for
+
+        if selectedCommand != null then
+            if selectedCommand.type == 2 then
+                selectedCommand.exec(params)
+            else
+                if selectedCommand.type == Proxima.sessions.getSessionValue("sessionType") then
+                    selectedCommand.exec(params)
+                else
+                    if selectedCommand.type == 0 then
+                        self.throwCLIError("It is a remote session, this is a local command.")
+                    else if selectedCommand.type == 1 then
+                        self.throwCLIError("It is a local session, this is a remote command.")
+                    end if
+                end if
+            end if
+        else
+            self.throwCLIError()
+        end if
+    end if
+end function
+
+Proxima.engine.startCLI = function ()
+    if Proxima.net.checkConnection != true then 
+        self.message.error("You are not connected to the internet! Terminating program...")
+        exit(self.message.info("You can hack into any WiFi by using <b>pr0net</b> subtool."))
+    end if
+    activeTarget = null
+    targetIP = Proxima.sessions.getSessionValue("targetIP")
+    if targetIP != null then 
+        activeTarget = targetIP 
+    else
+        activeTarget = Proxima.globals.activeUser
+    end if
+    self.cliString = self.message.colorize("<b>" + activeTarget + "</b>", "#FFC466") + self.message.colorize("@pr0xima", "#FC8403") + self.message.colorize("> ", "#008DFF")
+    while true
+        userCommand = user_input(self.cliString, false, false).trim
+        self.addInputEntry(userCommand)
+        self.handleCommand(userCommand)
+    end while
+end function
