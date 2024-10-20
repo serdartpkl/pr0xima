@@ -1,18 +1,8 @@
 Proxima.settings = {}
 
-Proxima.settings.cryptoLocations = [
-    "/lib/crypto.so",
-    current_path + "/crypto.so"
-]
-
-Proxima.settings.metaxploitLocations = [
-    "/lib/metaxploit.so",
-    current_path + "/metaxploit.so"
-]
-
-Proxima.settings.aptclientLocations = [
-    "/lib/aptclient.so",
-    current_path + "/aptclient.so"
+Proxima.settings.libraryLocations = [
+    "/lib",
+    current_path
 ]
 
 Proxima.settings.rshellIP = Proxima.globals.myPC.public_ip

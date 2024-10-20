@@ -10,6 +10,23 @@ Proxima.cli.initFileSystem = function ()
     // check ExploitDB file and if not create
 end function
 
+Proxima.cli.searchLibraries = function (libraryList)
+    libraryMap = {}    
+    for libraryName in libraryList
+        libraryMap[libraryName] = null
+    end for
+    for libraryName in libraryMap.indexes
+        for libraryLocation in Proxima.settings.libraryLocations
+            includeLibrary = include_lib(libraryLocation + "/" + libraryName)
+            if includeLibrary != null then
+                libraryMap[key] = includeLibrary
+                break
+            end if
+        end for
+    end for
+    return libraryMap
+end function
+
 Proxima.cli.initLibraries = function ()
 
 end function
@@ -24,42 +41,4 @@ Proxima.cli.throwCLIError = function (cmdMessage = null, cmdUsage = null)
     else
         print(Proxima.ui.addOutputEntry(Proxima.ui.message.error("Unknown command! Type <b>help</b> to list available commands.")))
     end if
-end function
-
-// ------------------------------------------------------------------------------------------------------------
-
-Proxima.cli.searchAptClient = function ()
-    aptclientLocation = null
-    for libraryLocation in Proxima.settings.aptclientLocations
-        includeAptClient = include_lib(libraryLocation)
-        if includeAptClient != null then
-            aptclientLocation = includeAptClient
-            break
-        end if
-    end for
-    return aptclientLocation
-end function
-
-Proxima.cli.searchCrypto = function ()
-    cryptoLocation = null
-    for libraryLocation in Proxima.settings.cryptoLocations
-        includeCrypto = include_lib(libraryLocation)
-        if includeCrypto != null then
-            cryptoLocation = includeCrypto
-            break
-        end if
-    end for
-    return cryptoLocation
-end function
-
-Proxima.cli.searchMetaxploit = function ()
-    metaxploitLocation = false
-    for libraryLocation in Proxima.settings.metaxploitLocations
-        includeMetaxploit = include_lib(libraryLocation)
-        if includeMetaxploit != null then
-            metaxploitLocation = includeMetaxploit
-            break
-        end if
-    end for
-    return metaxploitLocation
 end function
