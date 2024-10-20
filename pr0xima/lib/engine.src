@@ -3,11 +3,21 @@ Proxima.engine = {}
 // ------------------------------------------------------------------------------------------------------------
 
 Proxima.engine.initFileSystem = function ()
+    getMainFolder = Proxima.globals.myPC.File(home_dir + "/Proxima")
+    if getMainFolder != null and is_folder(getMainFolder) then
+        
+    else
+        createMainFolder = Proxima.globals.myPC.create_folder(home_dir, "Proxima")
+        if typeof(createMainFolder) != "string" then
+            getMainFolder = Proxima.globals.myPC.File(home_dir + "/Proxima")
+        else
+
+        end if
+    end if
     // check Proxima folder and if not create
     // check Sessions folder and if not create
-    // check Tools folder and if not create
     // check Downloads folder and if not create
-    // check ExploitDB file and if not create
+    // check Databases folder and if not create
 end function
 
 Proxima.engine.searchLibraries = function (libraryList)
