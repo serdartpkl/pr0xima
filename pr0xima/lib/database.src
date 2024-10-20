@@ -18,10 +18,10 @@ Proxima.database.deleteRecord = function (databaseName, recordID)
 
 end function
 
-Proxima.database.getRecordValue = function (databaseName, recordKey)
+Proxima.database.getRecordValue = function (databaseName, recordID, recordKey)
 
 end function
 
-Proxima.database.setRecordValue = function (databaseName, recordKey, recordValue)
+Proxima.database.setRecordValue = function (databaseName, recordID, recordKey, recordValue)
 
 end function
