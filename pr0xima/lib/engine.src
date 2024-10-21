@@ -119,50 +119,43 @@ Proxima.engine.initLibraries = function ()
                 findHackShop = Proxima.apt.findHackShop()
                 if findHackShop then
                     hasHackShopRepo = true
-                    updateRepoInfo = Proxima.globals.aptclient.update()
-                    Proxima.ui.clearCLI()
-                    wait(0.5)
-                    //...
+                    // pring msg
+                end if
+            end if
+
+            updateRepoInfo = Proxima.globals.aptclient.update()
+            Proxima.ui.clearCLI()
+            wait(0.5)
+
+            if updateRepoInfo == "" then
+                if cryptoLib == null and hasHackShopRepo then
+                    installCryptoLib = Proxima.globals.aptclient.install("crypto.so")
+                    if installCryptoLib then
+                    else
+                    end if
+                end if
+    
+                if metaxploitLib == null and hasHackShopRepo then
+                    installMetaxploitLib = Proxima.globals.aptclient.install("metaxploit.so")
+                    if installMetaxploitLib then
+                    else
+                    end if
+                end if
+                
+                checkForUpdates = Proxima.apt.checkForUpdates()
+                if typeof(checkForUpdates) == "list" then
+                    // update items
                 else
-                    //...
+                    // no updates needed
                 end if
-            end if
-
-            if cryptoLib == null then
-                installCryptoLib = Proxima.globals.aptclient.install("crypto.so")
-            end if
-
-            if metaxploitLib == null then
-                installMetaxploitLib = Proxima.globals.aptclient.install("metaxploit.so")
-            end if
-            
-            checkForUpdates = Proxima.apt.checkForUpdates()
-            if typeof(checkForUpdates) == "list" then
             else
-                if checkForUpdates == false then
-                else if checkForUpdates == null then
-                end if
+                // couldnt update repo info
             end if
         else
             // msg couldnt find aptclient.so
         end if
     else
-
-    end if
-
-    if Proxima.globals.aptclient != null and Proxima.globals.activeUser != "guest" then
-
-    if searchLibraries["crypto.so"] == null then
-        
-            // ...
-        end if
-    else
-
-    end if
-
-    if searchLibraries["metaxploit.so"] == null then
-    end if
-    else
+        //...
     end if
 end function
 

@@ -84,29 +84,22 @@ Proxima.apt.findHackShop = function ()
 end function
 
 Proxima.apt.checkForUpdates = function ()
-    updateRepoInfo = Proxima.globals.aptclient.update()
-    Proxima.ui.clearCLI()
-    wait(0.5)
-    if updateRepoInfo == "" then
-        pendingForUpdate = []
-        libraryFiles = Proxima.utils.collectFiles("/lib")
-        binaryFiles = Proxima.utils.collectFiles("/bin")
-        for acquiredFile in libraryFiles + binaryFiles
-            isUpdateAvailable = Proxima.globals.aptclient.check_upgrade(acquiredFile)
-            Proxima.ui.clearCLI()
-            wait(0.5)
-            if isUpdateAvailable then
-                libraryName = acquiredFile.split("/")[-1]
-                pendingForUpdate.push(libraryName)
-            end if
-        end for
-        if pendingForUpdate.len > 0 then
-            return pendingForUpdate
-        else
-            return false
+    pendingForUpdate = []
+    libraryFiles = Proxima.utils.collectFiles("/lib")
+    binaryFiles = Proxima.utils.collectFiles("/bin")
+    for acquiredFile in libraryFiles + binaryFiles
+        isUpdateAvailable = Proxima.globals.aptclient.check_upgrade(acquiredFile)
+        Proxima.ui.clearCLI()
+        wait(0.5)
+        if isUpdateAvailable then
+            libraryName = acquiredFile.split("/")[-1]
+            pendingForUpdate.push(libraryName)
         end if
+    end for
+    if pendingForUpdate.len > 0 then
+        return pendingForUpdate
     else
-        return null
+        return false
     end if
 end function
 
