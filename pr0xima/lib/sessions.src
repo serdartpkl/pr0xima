@@ -139,17 +139,6 @@ Proxima.sessions.createSessionFile = function (targetIP)
     end if
 end function
 
-Proxima.sessions.getSessionsFolder = function ()
-    // check if there is a sessions folder
-    // if not return null, if there is one return true
-end function
-
-Proxima.sessions.createSessionsFolder = function ()
-    // check if there is a sessions folder
-    // if not create one and return true
-    // if there is already a sessions folder, then return null
-end function
-
 // ------------------------------------------------------------------------------------------------------------
 
 Proxima.sessions.getSavedSessions = function ()

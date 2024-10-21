@@ -2,22 +2,75 @@ Proxima.engine = {}
 
 // ------------------------------------------------------------------------------------------------------------
 
-Proxima.engine.initFileSystem = function ()
+Proxima.engine.checkMainFolder = function ()
     getMainFolder = Proxima.globals.myPC.File(home_dir + "/Proxima")
-    if getMainFolder != null and is_folder(getMainFolder) then
-        
-    else
+    if getMainFolder == null and is_folder(getMainFolder) == false then
         createMainFolder = Proxima.globals.myPC.create_folder(home_dir, "Proxima")
+        Proxima.ui.clearCLI()
+        wait(0.5)
         if typeof(createMainFolder) != "string" then
             getMainFolder = Proxima.globals.myPC.File(home_dir + "/Proxima")
-        else
-
         end if
     end if
-    // check Proxima folder and if not create
-    // check Sessions folder and if not create
-    // check Downloads folder and if not create
-    // check Databases folder and if not create
+    return getMainFolder
+end function
+
+Proxima.engine.checkSystemFolders = function ()
+    folderMap = { "Proxima": null, "Sessions": null, "Downloads": null, "Databases": null }
+    for folderName in folderMap.indexes
+        getFolder = Proxima.globals.myPC.File(home_dir + "/Proxima/" + folderName)
+        if getFolder == null and is_folder(getFolder) == false then
+            createFolder = Proxima.globals.myPC.create_folder(home_dir + "/Proxima", folderName)
+            Proxima.ui.clearCLI()
+            wait(0.5)
+            if typeof(createFolder) != "string" then
+                getFolder = Proxima.globals.myPC.File(home_dir + "/Proxima/" + folderName)
+            end if
+        end if
+        folderMap[folderName] = getFolder.path
+    end for
+    return folderMap
+end function
+
+Proxima.engine.checkDatabaseFiles = function ()
+    databaseMap = { "Exploits": null, "Users": null, "MailAccounts": null, "BankAccounts": null }
+    for databaseName in databaseMap.indexes
+        getDatabase = Proxima.globals.myPC.File(home_dir + "/Proxima/Databases/" + databaseName + ".db")
+        if getDatabase == null then
+            createDatabase = Proxima.globals.myPC.touch(home_dir + "/Proxima/Databases", databaseName + ".db")
+            Proxima.ui.clearCLI()
+            wait(0.5)
+            if typeof(createDatabase) != "string" then
+                getDatabase = Proxima.globals.myPC.File(home_dir + "/Proxima/Databases/" + databaseName + ".db")
+            end if
+        end if
+        databaseMap[databaseName] = getDatabase.path
+    end for
+    return databaseMap
+end function
+
+Proxima.engine.initFileSystem = function ()
+    hasCreatedFileSystem = true
+
+    checkMainFolder = self.checkMainFolder()
+    if checkMainFolder != null then
+        checkSystemFolders = self.checkSystemFolders()
+        checkDatabaseFiles = self.checkDatabaseFiles()
+        for systemFolder in checkSystemFolders
+            if systemFolder == null then
+                hasCreatedFileSystem = false
+                break
+            end if
+        end for
+        for databaseFile in checkDatabaseFiles
+            if databaseFile == null then
+                hasCreatedFileSystem = false
+                break
+            end if
+        end for
+    end if
+
+    return hasCreatedFileSystem
 end function
 
 Proxima.engine.searchLibraries = function (libraryList)
@@ -29,7 +82,7 @@ Proxima.engine.searchLibraries = function (libraryList)
         for libraryLocation in Proxima.settings.libraryLocations
             includeLibrary = include_lib(libraryLocation + "/" + libraryName)
             if includeLibrary != null then
-                libraryMap[key] = includeLibrary
+                libraryMap[key] = libraryLocation + "/" + libraryName + ".so"
                 break
             end if
         end for
