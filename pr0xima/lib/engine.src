@@ -12,7 +12,7 @@ Proxima.engine.getMainFolder = function ()
             getMainFolder = Proxima.globals.myPC.File(home_dir + "/Proxima")
         end if
     end if
-    return getMainFolder
+    return getMainFolder.path
 end function
 
 Proxima.engine.getSystemFolders = function ()
@@ -50,27 +50,24 @@ Proxima.engine.getDatabaseFiles = function ()
 end function
 
 Proxima.engine.initFileSystem = function ()
-    hasCreatedFileSystem = true
+    hasInitializedFileSystem = true
 
     getMainFolder = self.getMainFolder()
     if getMainFolder != null then
         getSystemFolders = self.getSystemFolders()
         getDatabaseFiles = self.getDatabaseFiles()
-        for systemFolder in getSystemFolders
-            if systemFolder == null then
-                hasCreatedFileSystem = false
+        fileSystemMap = { "Proxima": getMainFolder } + getSystemFolders + getDatabaseFiles
+        for fileSystemItem in fileSystemMap
+            if fileSystemItem == null then
+                hasInitializedFileSystem = false
                 break
             end if
         end for
-        for databaseFile in getDatabaseFiles
-            if databaseFile == null then
-                hasCreatedFileSystem = false
-                break
-            end if
-        end for
+    else
+        hasInitializedFileSystem = false
     end if
 
-    return hasCreatedFileSystem
+    return hasInitializedFileSystem
 end function
 
 Proxima.engine.searchLibraries = function (libraryList)
@@ -82,7 +79,7 @@ Proxima.engine.searchLibraries = function (libraryList)
         for libraryLocation in Proxima.settings.libraryLocations
             includeLibrary = include_lib(libraryLocation + "/" + libraryName)
             if includeLibrary != null then
-                libraryMap[key] = libraryLocation + "/" + libraryName + ".so"
+                libraryMap[key] = libraryLocation + "/" + libraryName
                 break
             end if
         end for
@@ -91,7 +88,56 @@ Proxima.engine.searchLibraries = function (libraryList)
 end function
 
 Proxima.engine.initLibraries = function ()
+    libraryList = ["aptclient.so", "crypto.so", "metaxploit.so"]
+    searchLibraries = self.searchLibraries(libraryList)
 
+    hasHackShopRepo = false
+    sourcesFile = Proxima.apt.checkSourcesFile()
+    if sourcesFile != null then
+        hackShopIP = Proxima.apt.checkHackShop(sourcesFile)
+        if hackShopIP != null then
+            isValidHackShop = Proxima.apt.isValidHackShop(hackShopIP)
+            if isValidHackShop then
+                hasHackShopRepo = true
+            end if
+        end if
+    end if
+
+    if hasHackShopRepo == false then
+        findHackShop = Proxima.apt.findHackShop()
+        if findHackShop then
+        else
+        end if
+    end if
+
+    checkForUpdates = Proxima.apt.checkForUpdates()
+    if typeof(checkForUpdates) == "list" then
+    else
+        if checkForUpdates == false then
+        else if checkForUpdates == null then
+        end if
+    end if
+
+    if searchLibraries["aptclient.so"] != null then
+        Proxima.globals.aptclient = include_lib(searchLibraries["aptclient.so"])
+    else
+        // msg couldnt find aptclient.so
+    end if
+
+    if Proxima.globals.aptclient != null and Proxima.globals.activeUser != "guest" then
+
+    if searchLibraries["crypto.so"] == null then
+        
+            // ...
+        end if
+    else
+
+    end if
+
+    if searchLibraries["metaxploit.so"] == null then
+    end if
+    else
+    end if
 end function
 
 Proxima.engine.handleCommand = function (userCommand)
@@ -137,10 +183,6 @@ Proxima.engine.handleCommand = function (userCommand)
 end function
 
 Proxima.engine.startCLI = function ()
-    if Proxima.net.checkConnection != true then 
-        self.message.error("You are not connected to the internet! Terminating program...")
-        exit(self.message.info("You can hack into any WiFi by using <b>pr0net</b> subtool."))
-    end if
     activeTarget = null
     targetIP = Proxima.sessions.getSessionValue("targetIP")
     if targetIP != null then 
