@@ -103,25 +103,51 @@ Proxima.engine.initLibraries = function ()
         end if
     end if
 
-    if hasHackShopRepo == false then
-        findHackShop = Proxima.apt.findHackShop()
-        if findHackShop then
+    aptClient = searchLibraries["aptclient.so"]
+    cryptoLib = searchLibraries["crypto.so"]
+    metaxploitLib = searchLibraries["metaxploit.so"]
+
+    if aptClient != null then aptClient = include_lib(aptClient)
+    if cryptoLib != null then cryptoLib = include_lib(cryptoLib)
+    if metaxploitLib != null then metaxploitLib = include_lib(metaxploitLib)
+
+    if Proxima.globals.activeUser != "guest" then
+        if aptClient != null then
+            Proxima.globals.aptclient = aptClient
+
+            if hasHackShopRepo == false then
+                findHackShop = Proxima.apt.findHackShop()
+                if findHackShop then
+                    hasHackShopRepo = true
+                    updateRepoInfo = Proxima.globals.aptclient.update()
+                    Proxima.ui.clearCLI()
+                    wait(0.5)
+                    //...
+                else
+                    //...
+                end if
+            end if
+
+            if cryptoLib == null then
+                installCryptoLib = Proxima.globals.aptclient.install("crypto.so")
+            end if
+
+            if metaxploitLib == null then
+                installMetaxploitLib = Proxima.globals.aptclient.install("metaxploit.so")
+            end if
+            
+            checkForUpdates = Proxima.apt.checkForUpdates()
+            if typeof(checkForUpdates) == "list" then
+            else
+                if checkForUpdates == false then
+                else if checkForUpdates == null then
+                end if
+            end if
         else
+            // msg couldnt find aptclient.so
         end if
-    end if
-
-    checkForUpdates = Proxima.apt.checkForUpdates()
-    if typeof(checkForUpdates) == "list" then
     else
-        if checkForUpdates == false then
-        else if checkForUpdates == null then
-        end if
-    end if
 
-    if searchLibraries["aptclient.so"] != null then
-        Proxima.globals.aptclient = include_lib(searchLibraries["aptclient.so"])
-    else
-        // msg couldnt find aptclient.so
     end if
 
     if Proxima.globals.aptclient != null and Proxima.globals.activeUser != "guest" then
