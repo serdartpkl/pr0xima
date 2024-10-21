@@ -2,9 +2,9 @@ Proxima.engine = {}
 
 // ------------------------------------------------------------------------------------------------------------
 
-Proxima.engine.checkMainFolder = function ()
+Proxima.engine.getMainFolder = function ()
     getMainFolder = Proxima.globals.myPC.File(home_dir + "/Proxima")
-    if getMainFolder == null and is_folder(getMainFolder) == false then
+    if getMainFolder == null or is_folder(getMainFolder) == false then
         createMainFolder = Proxima.globals.myPC.create_folder(home_dir, "Proxima")
         Proxima.ui.clearCLI()
         wait(0.5)
@@ -15,11 +15,11 @@ Proxima.engine.checkMainFolder = function ()
     return getMainFolder
 end function
 
-Proxima.engine.checkSystemFolders = function ()
-    folderMap = { "Proxima": null, "Sessions": null, "Downloads": null, "Databases": null }
+Proxima.engine.getSystemFolders = function ()
+    folderMap = { "Sessions": null, "Downloads": null, "Databases": null }
     for folderName in folderMap.indexes
         getFolder = Proxima.globals.myPC.File(home_dir + "/Proxima/" + folderName)
-        if getFolder == null and is_folder(getFolder) == false then
+        if getFolder == null or is_folder(getFolder) == false then
             createFolder = Proxima.globals.myPC.create_folder(home_dir + "/Proxima", folderName)
             Proxima.ui.clearCLI()
             wait(0.5)
@@ -32,7 +32,7 @@ Proxima.engine.checkSystemFolders = function ()
     return folderMap
 end function
 
-Proxima.engine.checkDatabaseFiles = function ()
+Proxima.engine.getDatabaseFiles = function ()
     databaseMap = { "Exploits": null, "Users": null, "MailAccounts": null, "BankAccounts": null }
     for databaseName in databaseMap.indexes
         getDatabase = Proxima.globals.myPC.File(home_dir + "/Proxima/Databases/" + databaseName + ".db")
@@ -52,17 +52,17 @@ end function
 Proxima.engine.initFileSystem = function ()
     hasCreatedFileSystem = true
 
-    checkMainFolder = self.checkMainFolder()
-    if checkMainFolder != null then
-        checkSystemFolders = self.checkSystemFolders()
-        checkDatabaseFiles = self.checkDatabaseFiles()
-        for systemFolder in checkSystemFolders
+    getMainFolder = self.getMainFolder()
+    if getMainFolder != null then
+        getSystemFolders = self.getSystemFolders()
+        getDatabaseFiles = self.getDatabaseFiles()
+        for systemFolder in getSystemFolders
             if systemFolder == null then
                 hasCreatedFileSystem = false
                 break
             end if
         end for
-        for databaseFile in checkDatabaseFiles
+        for databaseFile in getDatabaseFiles
             if databaseFile == null then
                 hasCreatedFileSystem = false
                 break
