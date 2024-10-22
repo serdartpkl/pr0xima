@@ -130,14 +130,14 @@ Proxima.engine.initLibraries = function ()
             if updateRepoInfo == "" then
                 if cryptoLib == null and hasHackShopRepo then
                     installCryptoLib = Proxima.globals.aptclient.install("crypto.so")
-                    if installCryptoLib then
+                    if installCryptoLib == 1 then
                     else
                     end if
                 end if
     
                 if metaxploitLib == null and hasHackShopRepo then
                     installMetaxploitLib = Proxima.globals.aptclient.install("metaxploit.so")
-                    if installMetaxploitLib then
+                    if installMetaxploitLib == 1 then
                     else
                     end if
                 end if
