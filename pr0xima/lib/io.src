@@ -1,55 +1,55 @@
-Proxima.ui = {}
+Proxima.io = {}
 
-Proxima.ui.cliString = null
-Proxima.ui.cliEntries = []
+Proxima.io.cliString = null
+Proxima.io.cliEntries = []
 
-Proxima.ui.previousCommands = []
+Proxima.io.previousCommands = []
 
-Proxima.ui.message = {}
-Proxima.ui.message.line = "+----------------------------------------------------+"
+Proxima.io.message = {}
+Proxima.io.message.line = "+----------------------------------------------------+"
 
 // ------------------------------------------------------------------------------------------------------------
 
-Proxima.ui.message.colorize = function (txt, color)
+Proxima.io.message.colorize = function (txt, color)
     return "<color=" + color + ">" + txt + "</color>"
 end function
 
-Proxima.ui.message.info = function (txt)
+Proxima.io.message.info = function (txt)
     return self.colorize("[i] " + txt, "#0091FF")
 end function
 
-Proxima.ui.message.progress = function (txt)
+Proxima.io.message.progress = function (txt)
     return self.colorize("[*] " + txt, "#00FFBB")
 end function
 
-Proxima.ui.message.warning = function (txt)
+Proxima.io.message.warning = function (txt)
     return self.colorize("[!] " + txt, "#FFDD00")
 end function
 
-Proxima.ui.message.error = function (txt)
+Proxima.io.message.error = function (txt)
     return self.colorize("[!] " + txt, "#FF1548")
 end function
 
-Proxima.ui.message.success = function (txt)
+Proxima.io.message.success = function (txt)
     return self.colorize("[+] " + txt, "#08FF57")
 end function
 
 // ------------------------------------------------------------------------------------------------------------
 
-Proxima.ui.addInputEntry = function (userCommand)
+Proxima.io.addInputEntry = function (userCommand)
     self.cliEntries.push(self.cliString + userCommand)
 end function
 
-Proxima.ui.addOutputEntry = function (outputString)
+Proxima.io.addOutputEntry = function (outputString)
     self.cliEntries.push(outputString)
     return outputString
 end function
 
-Proxima.ui.addProgressBar = function ()
+Proxima.io.addProgressBar = function ()
     self.cliEntries.push("[###################################]==[ 100% ]")
 end function
 
-Proxima.ui.addTransferProcess = function (fileSize)
+Proxima.io.addTransferProcess = function (fileSize)
     if fileSize.to_int >= 1000000000 then
         fileSizeGB = round((fileSize.to_int / 1000000000) * 10) / 10
         if fileSizeGB == round(fileSizeGB) then
@@ -73,7 +73,7 @@ Proxima.ui.addTransferProcess = function (fileSize)
     self.cliEntries.push("Processing...")
 end function
 
-Proxima.ui.clearCLI = function ()
+Proxima.io.clearScreen = function ()
     clear_screen
     if self.cliEntries.len > 0 then
         for cliEntry in self.cliEntries
@@ -84,7 +84,7 @@ end function
 
 // ------------------------------------------------------------------------------------------------------------
 
-Proxima.ui.printCLIHeader = function ()
+Proxima.io.printHeader = function ()
     print(self.addOutputEntry(self.message.colorize("<b>              _______         .__                </b>", "#FC8403")))
     print(self.addOutputEntry(self.message.colorize("<b>_____________ \   _  \ ___  __|__| _____ _____   </b>", "#FC8403")))
     print(self.addOutputEntry(self.message.colorize("<b>\____ \_  __ \/  /_\  \\  \/  /  |/     \\__  \  </b>", "#FC8403")))
@@ -96,7 +96,7 @@ Proxima.ui.printCLIHeader = function ()
     print(self.addOutputEntry(self.message.colorize("<b>A simple easy-to-use multi purpose hacking tool.</b>", "#FFFFFF")))
 end function
 
-Proxima.ui.throwCLIError = function (cmdMessage = null, cmdUsage = null)
+Proxima.io.throwInputError = function (cmdMessage = null, cmdUsage = null)
     if cmdMessage != null then 
         if cmdUsage != null then
             print(self.addOutputEntry(self.message.error(cmdMessage + " Usage: " + cmdUsage)))
