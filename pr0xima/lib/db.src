@@ -83,9 +83,35 @@ Proxima.db.searchRecord = function (databaseName, recordKey, recordValue)
 end function
 
 Proxima.db.getRecordValue = function (databaseName, recordID, recordKey)
-
+    databaseFile = self.getDatabase(databaseName)
+    if databaseFile != null then
+        deserializedDatabase = Proxima.utils.deserializeMap(databaseFile.get_content())
+        for acquiredRecord in deserializedDatabase.records
+            if acquiredRecord.id == recordID then
+                for key in acquiredRecord.indexes
+                    if key == recordKey then return acquiredRecord[recordKey]
+                end for
+            end if
+        end for
+    end if
+    return null
 end function
 
 Proxima.db.setRecordValue = function (databaseName, recordID, recordKey, recordValue)
-
+    databaseFile = self.getDatabase(databaseName)
+    if databaseFile != null then
+        deserializedDatabase = Proxima.utils.deserializeMap(databaseFile.get_content())
+        for acquiredRecord in deserializedDatabase.records
+            if acquiredRecord.id == recordID then
+                for key in acquiredRecord.indexes
+                    if key == recordKey then
+                        acquiredRecord[recordKey] = recordValue
+                        setDatabase = self.setDatabase(databaseName, deserializedDatabase.records)
+                        if setDatabase then return true
+                    end if
+                end for
+            end if
+        end for
+    end if
+    return null
 end function
