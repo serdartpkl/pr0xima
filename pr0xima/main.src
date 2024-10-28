@@ -1,18 +1,18 @@
 import_code("env/init.src")
 import_code("env/globals.src")
 
-import_code("lib/io.src")
-import_code("lib/utils.src")
-import_code("lib/db.src")
-import_code("lib/sessions.src")
+import_code("core/io.src")
+import_code("core/utils.src")
+import_code("core/db.src")
+import_code("core/sessions.src")
 
 import_code("lib/apt.src")
 import_code("lib/net.src")
 import_code("lib/rshell.src")
 import_code("lib/exploit.src")
 
-import_code("lib/commands.src")
-import_code("lib/engine.src")
+import_code("sys/commands.src")
+import_code("sys/engine.src")
 
 Proxima.start = function ()
     if Proxima.net.checkConnection != true then 
