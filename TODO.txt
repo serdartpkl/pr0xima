@@ -21,11 +21,12 @@ pr0xima
 -- mail_accounts.db
 -- bank_accounts.db
 - downloads
+-- secret.bin
 - pr0xima.conf
 
 {
     "init": {
-        "v1_0_0": [
+        "1.0.0": [
             {
                 "id": 1,
                 "memAddr": "memaddrtext"
@@ -33,7 +34,7 @@ pr0xima
                 "expectedResult": 3
             }
         ],
-        "v1_0_1": [
+        "1.0.1": [
             {
                 "id": 1,
                 "memAddr": "memaddrtext"
