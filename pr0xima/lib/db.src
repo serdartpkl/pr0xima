@@ -3,7 +3,7 @@ Proxima.db = {}
 // ------------------------------------------------------------------------------------------------------------
 
 Proxima.db.getDatabase = function (databaseName)
-    databaseFile = Proxima.globals.myPC.File(home_dir + "/Databases/" + databaseName)
+    databaseFile = Proxima.globals.myPC.File(home_dir + "/databases/" + databaseName)
     if databaseFile != null then
         if databaseFile.get_content() == "" then return false
         return databaseFile
