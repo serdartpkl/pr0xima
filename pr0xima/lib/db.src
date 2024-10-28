@@ -43,10 +43,7 @@ Proxima.db.getRecords = function (databaseName)
     if databaseFile != null then
         recordsList = []
         deserializedDatabase = Proxima.utils.deserializeMap(databaseFile.get_content())
-        for acquiredRecord in deserializedDatabase.records
-            recordsList.push(acquiredRecord)
-        end for
-        return recordsList
+        return deserializedDatabase.records
     end if
     return null
 end function
