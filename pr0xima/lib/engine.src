@@ -3,28 +3,28 @@ Proxima.engine = {}
 // ------------------------------------------------------------------------------------------------------------
 
 Proxima.engine.getMainFolder = function ()
-    getMainFolder = Proxima.globals.myPC.File(home_dir + "/Proxima")
+    getMainFolder = Proxima.globals.myPC.File(home_dir + "/pr0xima")
     if getMainFolder == null or is_folder(getMainFolder) == false then
-        createMainFolder = Proxima.globals.myPC.create_folder(home_dir, "Proxima")
+        createMainFolder = Proxima.globals.myPC.create_folder(home_dir, "pr0xima")
         Proxima.ui.clearCLI()
         wait(0.5)
         if typeof(createMainFolder) != "string" then
-            getMainFolder = Proxima.globals.myPC.File(home_dir + "/Proxima")
+            getMainFolder = Proxima.globals.myPC.File(home_dir + "/pr0xima")
         end if
     end if
     return getMainFolder.path
 end function
 
 Proxima.engine.getSystemFolders = function ()
-    folderMap = { "Sessions": null, "Downloads": null, "Databases": null }
+    folderMap = { "downloads": null, "databases": null }
     for folderName in folderMap.indexes
-        getFolder = Proxima.globals.myPC.File(home_dir + "/Proxima/" + folderName)
+        getFolder = Proxima.globals.myPC.File(home_dir + "/pr0xima/" + folderName)
         if getFolder == null or is_folder(getFolder) == false then
-            createFolder = Proxima.globals.myPC.create_folder(home_dir + "/Proxima", folderName)
+            createFolder = Proxima.globals.myPC.create_folder(home_dir + "/pr0xima", folderName)
             Proxima.ui.clearCLI()
             wait(0.5)
             if typeof(createFolder) != "string" then
-                getFolder = Proxima.globals.myPC.File(home_dir + "/Proxima/" + folderName)
+                getFolder = Proxima.globals.myPC.File(home_dir + "/pr0xima/" + folderName)
             end if
         end if
         folderMap[folderName] = getFolder.path
@@ -33,20 +33,32 @@ Proxima.engine.getSystemFolders = function ()
 end function
 
 Proxima.engine.getDatabaseFiles = function ()
-    databaseMap = { "Exploits": null, "Users": null, "MailAccounts": null, "BankAccounts": null }
+    databaseMap = { "sessions": null, "exploits": null, "users": null, "mail_accounts": null, "bank_accounts": null }
     for databaseName in databaseMap.indexes
-        getDatabase = Proxima.globals.myPC.File(home_dir + "/Proxima/Databases/" + databaseName + ".db")
+        getDatabase = Proxima.globals.myPC.File(home_dir + "/pr0xima/databases/" + databaseName + ".db")
         if getDatabase == null then
-            createDatabase = Proxima.globals.myPC.touch(home_dir + "/Proxima/Databases", databaseName + ".db")
+            createDatabase = Proxima.globals.myPC.touch(home_dir + "/pr0xima/databases", databaseName + ".db")
             Proxima.ui.clearCLI()
             wait(0.5)
             if typeof(createDatabase) != "string" then
-                getDatabase = Proxima.globals.myPC.File(home_dir + "/Proxima/Databases/" + databaseName + ".db")
+                getDatabase = Proxima.globals.myPC.File(home_dir + "/pr0xima/databases/" + databaseName + ".db")
             end if
         end if
         databaseMap[databaseName] = getDatabase.path
     end for
     return databaseMap
+end function
+
+Proxima.engine.loadSettings = function ()
+
+end function
+
+Proxima.engine.setSettingsValue = function (settingKey, settingValue)
+
+end function
+
+Proxima.engine.getSettingsValue = function (settingKey)
+
 end function
 
 Proxima.engine.initFileSystem = function ()
@@ -56,7 +68,7 @@ Proxima.engine.initFileSystem = function ()
     if getMainFolder != null then
         getSystemFolders = self.getSystemFolders()
         getDatabaseFiles = self.getDatabaseFiles()
-        fileSystemMap = { "Proxima": getMainFolder } + getSystemFolders + getDatabaseFiles
+        fileSystemMap = { "pr0xima": getMainFolder } + getSystemFolders + getDatabaseFiles
         for fileSystemItem in fileSystemMap
             if fileSystemItem == null then
                 hasInitializedFileSystem = false
@@ -157,18 +169,6 @@ Proxima.engine.initLibraries = function ()
     else
         //...
     end if
-end function
-
-Proxima.engine.loadSettings = function ()
-
-end function
-
-Proxima.engine.setSettingsValue = function (settingKey, settingValue)
-
-end function
-
-Proxima.engine.getSettingsValue = function (settingKey)
-
 end function
 
 Proxima.engine.handleCommand = function (userCommand)
