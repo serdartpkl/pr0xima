@@ -1,4 +1,5 @@
-import_code("env/init.src")
+Proxima = {}
+
 import_code("env/globals.src")
 
 import_code("sys/core/io.src")
@@ -6,10 +7,10 @@ import_code("sys/core/utils.src")
 import_code("sys/core/db.src")
 import_code("sys/core/sessions.src")
 
-import_code("lib/apt.src")
-import_code("lib/net.src")
-import_code("lib/rshell.src")
-import_code("lib/exploit.src")
+import_code("modules/apt.src")
+import_code("modules/net.src")
+import_code("modules/rshell.src")
+import_code("modules/exploit.src")
 
 import_code("sys/commands.src")
 import_code("sys/engine.src")

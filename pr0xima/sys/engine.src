@@ -224,3 +224,14 @@ Proxima.engine.startCLI = function ()
         self.handleCommand(userCommand)
     end while
 end function
+
+Proxima.engine.start = function ()
+    if Proxima.net.checkConnection != true then 
+        self.message.error("You are not connected to the internet! Terminating program...")
+        exit(self.message.info("You can hack into any WiFi by using <b>pr0net</b> subtool."))
+    end if
+    self.ui.clearCLI()
+    self.ui.printCLIHeader()
+    self.loadLibraries()
+    self.startCLI()
+end function
