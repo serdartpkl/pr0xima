@@ -15,9 +15,7 @@ Proxima.db.setDatabase = function (databaseName, mutatedRecords)
         deserializedDatabase.records = mutatedRecords
         serializeRecords = Proxima.utils.serializeMap(deserializedDatabase)
         setRecords = databaseFile.set_content(serializeRecords)
-        if setRecords == 1 then
-            return true
-        end if
+        if setRecords == 1 then return true
     end if
     return null
 end function
@@ -26,7 +24,7 @@ Proxima.db.resetDatabase = function (databaseName)
     databaseFile = self.getDatabase(databaseName)
     if databaseFile != null then
         resetFile = databaseFile.set_content("")
-        if resetFile != null or typeof(resetFile) != "string" then return true
+        if resetFile == 1 then return true
     end if
     return null
 end function
