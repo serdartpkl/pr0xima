@@ -13,17 +13,15 @@
 * Add "login" command for local sessions. Example usage: login root@123456
 * Add "sudo" command and it's methods.
 
-Proxima
-- Databases
--- Exploits
--- Users
--- MailAccounts
--- BankAccounts
-- Downloads
--- secret.bin
-- Sessions
--- 192_168_1_1
--- 2_2_2_2
+pr0xima
+- databases
+-- sessions.db
+-- exploits.db
+-- users.db
+-- mail_accounts.db
+-- bank_accounts.db
+- downloads
+- pr0xima.conf
 
 {
     "init": {
@@ -45,4 +43,15 @@ Proxima
         ]
     },
     "libhttp": {},
+}
+
+{
+    "rshell_ip": "172.33.21.3",
+    "rshell_port": 1222,
+    "rshell_proc_name": "prx",
+    "injection_password": "123456",
+    "library_locations": [
+        "/lib",
+        current_path
+    ]
 }
