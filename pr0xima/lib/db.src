@@ -1,8 +1,8 @@
-Proxima.database = {}
+Proxima.db = {}
 
 // ------------------------------------------------------------------------------------------------------------
 
-Proxima.database.getDatabase = function (databaseName)
+Proxima.db.getDatabase = function (databaseName)
     databaseFile = Proxima.globals.myPC.File(home_dir + "/Databases/" + databaseName)
     if databaseFile != null then
         if databaseFile.get_content() == "" then return false
@@ -11,7 +11,7 @@ Proxima.database.getDatabase = function (databaseName)
     return null
 end function
 
-Proxima.database.resetDatabase = function (databaseName)
+Proxima.db.resetDatabase = function (databaseName)
     databaseFile = self.getDatabase(databaseName)
     if databaseFile != null then
         resetFile = databaseFile.set_content("")
@@ -20,7 +20,7 @@ Proxima.database.resetDatabase = function (databaseName)
     return null
 end function
 
-Proxima.database.getRecords = function (databaseName)
+Proxima.db.getRecords = function (databaseName)
     databaseFile = self.getDatabase(databaseName)
     if databaseFile != null and databaseFile != false then
         recordsList = []
@@ -33,18 +33,18 @@ Proxima.database.getRecords = function (databaseName)
     return null
 end function
 
-Proxima.database.deleteRecord = function (databaseName, recordID)
+Proxima.db.deleteRecord = function (databaseName, recordID)
 
 end function
 
-Proxima.database.searchRecord = function (databaseName, recordKey, recordValue)
+Proxima.db.searchRecord = function (databaseName, recordKey, recordValue)
 
 end function
 
-Proxima.database.getRecordValue = function (databaseName, recordID, recordKey)
+Proxima.db.getRecordValue = function (databaseName, recordID, recordKey)
 
 end function
 
-Proxima.database.setRecordValue = function (databaseName, recordID, recordKey, recordValue)
+Proxima.db.setRecordValue = function (databaseName, recordID, recordKey, recordValue)
 
 end function
