@@ -50,9 +50,5 @@ pr0xima
     "rshell_ip": "172.33.21.3",
     "rshell_port": 1222,
     "rshell_proc_name": "prx",
-    "injection_password": "123456",
-    "library_locations": [
-        "/lib",
-        current_path
-    ]
+    "injection_password": "123456"
 }

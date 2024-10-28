@@ -49,15 +49,11 @@ Proxima.engine.getDatabaseFiles = function ()
     return databaseMap
 end function
 
-Proxima.engine.loadSettings = function ()
+Proxima.engine.getSettings = function ()
 
 end function
 
-Proxima.engine.setSettingsValue = function (settingKey, settingValue)
-
-end function
-
-Proxima.engine.getSettingsValue = function (settingKey)
+Proxima.engine.setSettings = function (settingKey, settingValue)
 
 end function
 
