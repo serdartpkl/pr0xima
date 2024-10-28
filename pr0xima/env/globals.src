@@ -1,6 +1,11 @@
 Proxima.globals = {}
 Proxima.globals.version = "1.0.0"
 
+Proxima.globals.libraryLocations = [
+    "/lib",
+    current_path
+]
+
 Proxima.globals.aptclient = null
 Proxima.globals.crypto = null
 Proxima.globals.metaxploit = null
