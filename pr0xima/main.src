@@ -1,10 +1,10 @@
 import_code("env/init.src")
 import_code("env/globals.src")
 
-import_code("core/io.src")
-import_code("core/utils.src")
-import_code("core/db.src")
-import_code("core/sessions.src")
+import_code("sys/core/io.src")
+import_code("sys/core/utils.src")
+import_code("sys/core/db.src")
+import_code("sys/core/sessions.src")
 
 import_code("lib/apt.src")
 import_code("lib/net.src")
