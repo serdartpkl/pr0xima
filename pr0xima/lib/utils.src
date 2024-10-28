@@ -65,7 +65,6 @@ Proxima.utils.mapHasValue = function (givenList, searchKey, searchValue)
             end for
         end for
     end if
-    if foundedIndexes.len == 0 then foundedIndexes = null
     return foundedIndexes
 end function
 
