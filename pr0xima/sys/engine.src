@@ -80,22 +80,27 @@ end function
 
 Proxima.engine.createMissingFiles = function ()
     isProcessCompleted = true
-    for systemFile in self.fileSystem
-        if systemFile.has_found == false then
-            if systemFile.folder then
-                createFolder = Proxima.globals.myPC.create_folder(systemFile.parent_dir, systemFile.name)
-                if createFolder == 0 or typeof(createFolder) == "string" then isProcessCompleted = false
-            else
-                createFile = Proxima.globals.myPC.touch(systemFile.parent_dir, systemFile.name)
-                if createFile == 1 then
-                    setDefaultContent = Proxima.globals.myPC.File(systemFile.parent_dir + "/" + systemFile.name).set_content(systemFile.default_content)
-                    if setDefaultContent == 0 or typeof(setDefaultContent) == "string" then isProcessCompleted = false
+    homeFolder = Proxima.globals.myPC.File(home_dir)
+    if homeFolder.has_permission("r") and homeFolder.has_permission("w") then 
+        for systemFile in self.fileSystem
+            if systemFile.has_found == false then
+                if systemFile.folder then
+                    createFolder = Proxima.globals.myPC.create_folder(systemFile.parent_dir, systemFile.name)
+                    if createFolder == 0 or typeof(createFolder) == "string" then isProcessCompleted = false
                 else
-                    isProcessCompleted = false
+                    createFile = Proxima.globals.myPC.touch(systemFile.parent_dir, systemFile.name)
+                    if createFile == 1 then
+                        setDefaultContent = Proxima.globals.myPC.File(systemFile.parent_dir + "/" + systemFile.name).set_content(systemFile.default_content)
+                        if setDefaultContent == 0 or typeof(setDefaultContent) == "string" then isProcessCompleted = false
+                    else
+                        isProcessCompleted = false
+                    end if
                 end if
             end if
-        end if
-    end for
+        end for
+    else
+        isProcessCompleted = false
+    end if
     return isProcessCompleted
 end function
 
