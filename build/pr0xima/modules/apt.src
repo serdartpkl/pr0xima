@@ -82,8 +82,7 @@ end function
 Proxima.apt.checkForUpdates=function
 pendingForUpdate=[]
 libraryFiles=Proxima.utils.collectFiles("/lib")
-binaryFiles=Proxima.utils.collectFiles("/bin")
-for acquiredFile in libraryFiles+binaryFiles
+for acquiredFile in libraryFiles
 isUpdateAvailable=Proxima.globals.aptclient.check_upgrade(acquiredFile)
 Proxima.io.clearScreen
 wait(0.5)
