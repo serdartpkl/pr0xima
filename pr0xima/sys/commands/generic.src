@@ -9,25 +9,8 @@ Proxima.commands.dump = {
     "type": 2
 }
 Proxima.commands.dump.exec = function (params)
-    if params.len > 0 then
-        targetIP = params[0]
-        checkTargetIP = Proxima.exploit.checkTargetIP(targetIP)
-        if checkTargetIP then
-            checkPorts = Proxima.exploit.checkPorts(targetIP)
-            if checkPorts then
-                Proxima.exploit.displayPortInfo()
-            else
-                Proxima.io.throwCLIError("No open ports found on given IP address!")
-            end if
-        else if checkTargetIP == false then
-            Proxima.io.throwCLIError("Given IP address is not reachable or do not exist!")
-        else if checkTargetIP == null then
-            Proxima.io.throwCLIError("Given IP address is not valid!")
-        end if
-    else
-        Proxima.exploit.checkLibraries()
-        Proxima.exploit.displayLibraryInfo()
-    end if
+    Proxima.exploit.checkLibraries()
+    Proxima.exploit.displayLibraryInfo()
 end function
 
 // ------------------------------------------------------------------------------------------------------------
@@ -39,24 +22,19 @@ Proxima.commands.nmap = {
     "type": 2
 }
 Proxima.commands.nmap.exec = function (params)
-    if params.len > 0 then
-        targetIP = params[0]
-        checkTargetIP = Proxima.exploit.checkTargetIP(targetIP)
-        if checkTargetIP then
-            checkPorts = Proxima.exploit.checkPorts(targetIP)
-            if checkPorts then
-                Proxima.exploit.displayPortInfo()
-            else
-                Proxima.io.throwCLIError("No open ports found on given IP address!")
-            end if
-        else if checkTargetIP == false then
-            Proxima.io.throwCLIError("Given IP address is not reachable or do not exist!")
-        else if checkTargetIP == null then
-            Proxima.io.throwCLIError("Given IP address is not valid!")
+    targetIP = params[0]
+    checkTargetIP = Proxima.exploit.checkTargetIP(targetIP)
+    if checkTargetIP then
+        checkPorts = Proxima.exploit.checkPorts(targetIP)
+        if checkPorts then
+            Proxima.exploit.displayPortInfo()
+        else
+            Proxima.io.throwCLIError("No open ports found on given IP address!")
         end if
-    else
-        Proxima.exploit.checkLibraries()
-        Proxima.exploit.displayLibraryInfo()
+    else if checkTargetIP == false then
+        Proxima.io.throwCLIError("Given IP address is not reachable or do not exist!")
+    else if checkTargetIP == null then
+        Proxima.io.throwCLIError("Given IP address is not valid!")
     end if
 end function
 
