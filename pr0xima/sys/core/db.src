@@ -2,11 +2,20 @@ Proxima.db = {}
 
 // ------------------------------------------------------------------------------------------------------------
 
-Proxima.db.createDatabase = function (databaseName)
+Proxima.db.createDatabase = function (databaseName) 
+    if Proxima.globals.myPC.File(home_dir + "/pr0xima/databases/" + databaseName + ".db") == null then
+        createDatabaseFile = Proxima.globals.myPC.touch(home_dir + "/pr0xima/databases", databaseName + ".db")
+        if typeof(createDatabaseFile) != "string" then
+            databaseFile = Proxima.globals.myPC.File(home_dir + "/pr0xima/databases/" + databaseName + ".db")
+            setFileContent = databaseFile.set_content("{" + char(34) + "records" + char(34) + ":[]}")
+            if setFileContent == 1 then return true
+        end if
+    end if
+    return null
 end function
 
 Proxima.db.getDatabase = function (databaseName)
-    databaseFile = Proxima.globals.myPC.File(home_dir + "/pr0xima/databases/" + databaseName)
+    databaseFile = Proxima.globals.myPC.File(home_dir + "/pr0xima/databases/" + databaseName + ".db")
     if databaseFile != null and databaseFile.get_content() != "" then return databaseFile
     return null
 end function
