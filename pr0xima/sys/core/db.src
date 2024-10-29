@@ -40,18 +40,6 @@ Proxima.db.reorderRecords = function (databaseRecords)
     return databaseRecords
 end function
 
-Proxima.db.addRecord = function (databaseName, recordMap)
-    databaseFile = self.getDatabase(databaseName)
-    if databaseFile != null then
-        deserializedDatabase = Proxima.utils.deserializeMap(databaseFile.get_content())
-        deserializedDatabase.records.push({"id": deserializedDatabase.records.len + 1} + recordMap)
-        reorderedRecords = self.reorderRecords(deserializedDatabase.records)
-        setDatabase = self.setRecords(databaseName, reorderedRecords)
-        if setDatabase != null then return true
-    end if
-    return null
-end function
-
 Proxima.db.getRecords = function (databaseName)
     databaseFile = self.getDatabase(databaseName)
     if databaseFile != null then
@@ -73,19 +61,14 @@ Proxima.db.setRecords = function (databaseName, mutatedRecords)
     return null
 end function
 
-Proxima.db.deleteRecord = function (databaseName, recordID)
+Proxima.db.addRecord = function (databaseName, recordMap)
     databaseFile = self.getDatabase(databaseName)
     if databaseFile != null then
         deserializedDatabase = Proxima.utils.deserializeMap(databaseFile.get_content())
-        for acquiredRecord in deserializedDatabase.records
-            if acquiredRecord.id == recordID then
-                foundedRecord = deserializedDatabase.records.indexOf(acquiredRecord)
-                removeRecord = deserializedDatabase.records.remove(foundedRecord)
-                reorderedRecords = self.reorderRecords(deserializedDatabase.records)
-                setDatabase = self.setRecords(databaseName, reorderedRecords)
-                if setDatabase != null then return true
-            end if
-        end for
+        deserializedDatabase.records.push({"id": deserializedDatabase.records.len + 1} + recordMap)
+        reorderedRecords = self.reorderRecords(deserializedDatabase.records)
+        setDatabase = self.setRecords(databaseName, reorderedRecords)
+        if setDatabase != null then return true
     end if
     return null
 end function
@@ -103,6 +86,23 @@ Proxima.db.searchRecord = function (databaseName, recordKey, recordValue)
             end for
             return foundedRecords
         end if
+    end if
+    return null
+end function
+
+Proxima.db.deleteRecord = function (databaseName, recordID)
+    databaseFile = self.getDatabase(databaseName)
+    if databaseFile != null then
+        deserializedDatabase = Proxima.utils.deserializeMap(databaseFile.get_content())
+        for acquiredRecord in deserializedDatabase.records
+            if acquiredRecord.id == recordID then
+                foundedRecord = deserializedDatabase.records.indexOf(acquiredRecord)
+                removeRecord = deserializedDatabase.records.remove(foundedRecord)
+                reorderedRecords = self.reorderRecords(deserializedDatabase.records)
+                setDatabase = self.setRecords(databaseName, reorderedRecords)
+                if setDatabase != null then return true
+            end if
+        end for
     end if
     return null
 end function
