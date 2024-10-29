@@ -7,6 +7,8 @@ import_code("sys/core/sessions.src")
 import_code("modules/apt.src")
 import_code("modules/net.src")
 import_code("modules/rshell.src")
+import_code("modules/sapls.src")
+import_code("modules/debug.src")
 import_code("modules/exploit.src")
 
 import_code("sys/commands.src")
