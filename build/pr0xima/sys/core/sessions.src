@@ -69,7 +69,18 @@ return null
 end if
 end function
 // ------------------------------------------------------------------------------------------------------------
-Proxima.sessions.getSessionFile=function(sessionID)
+Proxima.sessions.setSavedSessions=function
+self.savedSessions=[]
+getSessionRecords=Proxima.db.getRecords("sessions")
+if getSessionRecords.len>0 then
+for sessionRecord in getSessionRecords
+self.savedSessions.push(sessionRecord)
+end for
+return true
+end if
+return null
+end function
+Proxima.sessions.getSessionRecord=function(sessionID)
 // get session info with session id
 // if does not exist return null
 // if not continue...
@@ -85,146 +96,13 @@ else
 return null
 end if
 end function
-Proxima.sessions.setSessionFile=function(sessionID,serializedMap)
-// get session info with session id
-// if does not exist return null
-// if not continue...
-fileName=targetIP.split(".")
-fileName=fileName.join("_")
-fileName=fileName+".txt"
-// self.getSessionsFolder
-// if there is one ->
-sessionFile=Proxima.globals.myPC.File(Proxima.settings.sessionsFolder+"/"+fileName)
-if sessionFile!=null then
-setSessionFileContent=sessionFile.set_content(serializedMap)
-if setSessionFileContent!=null and typeof(setSessionFileContent)!="string" then
-return true
-else
-return false
-end if
-else
-return null
-end if
+Proxima.sessions.setSessionRecord=function(sessionID,serializedMap)
 end function
-Proxima.sessions.createSessionFile=function(targetIP)
-fileName=targetIP.split(".")
-fileName=fileName.join("_")
-fileName=fileName+".txt"
-// self.getSessionsFolder
-// if there is one ->
-createSessionFile=Proxima.globals.myPC.touch(Proxima.settings.sessionsFolder,fileName)
-if createSessionFile!=null and typeof(createSessionFile)!="string" then
-return true
-else
-return null
-end if
+Proxima.sessions.createSessionRecord=function(targetIP)
 end function
-// ------------------------------------------------------------------------------------------------------------
-Proxima.sessions.getSavedSessions=function
-self.savedSessions=[]
-sessionsFolder=self.getSessionsFolder
-if sessionsFolder!=null then
-savedSessionFiles=Proxima.utils.collectFiles(sessionsFolder.path)
-if savedSessionFiles.len>0 then
-for sessionFile in savedSessionFiles
-fileContent=sessionFile.get_content
-deserializedContent=Proxima.utils.deserializeMap(fileContent)
-self.savedSessions.push(deserializedContent)
-end for
-return true
-else
-return false
-end if
-else
-return null
-end if
+Proxima.sessions.reorderSessionRecords=function
 end function
-Proxima.sessions.reorderSavedSessions=function
-// check if saved sessions returns true
-// saved sessions does not have id,
-// so we will get saved sessions, then sort it with creation date
-// then will give id to then
-// push tem to savedSessions list
-// return true
-// if couldn't return false
-end function
-// ------------------------------------------------------------------------------------------------------------
-Proxima.sessions.saveSession=function(sessionID,excludeKeys=[])
-acquiredSession=self.getSession(sessionID)
-if acquiredSession!=null then
-else
-end if
-targetIP=targetSession.targetIP
-fileName=targetIP.split(".")
-fileName=fileName.join("_")
-fileName=fileName+".txt"
-excludeKeys=["targetRouter","targetShells"]
-serializedMap=Proxima.utils.serializeMap(targetSession,excludeKeys)
-sessionsFolder=Proxima.globals.myPC.File(Proxima.settings.sessionsFolder)
-if sessionsFolder!=null and is_folder(sessionsFolder) then
-sessionFile=Proxima.globals.myPC.File(sessionsFolder.path+"/"+fileName)
-if sessionFile!=null and sessionFile.has_permission("w") then
-rewriteSessionInfo=sessionFile.set_content(serializedMap)
-if rewriteSessionInfo!=null then
-return true
-else
-return false
-end if
-else
-createSessionFile=Proxima.globals.myPC.touch(sessionsFolder.path,fileName)
-if createSessionFile!=null then
-getSessionFile=Proxima.globals.myPC.File(sessionsFolder.path+"/"+fileName)
-if getSessionFile!=null and sessionFile.has_permission("w") then
-rewriteSessionInfo=getSessionFile.set_content(serializedMap)
-if rewriteSessionInfo!=null then
-return true
-else
-return false
-end if
-else
-return false
-end if
-end if
-end if
-else
-createSessionsFolder=Proxima.globals.myPC.touch(home_dir+"/Desktop","Sessions")
-if createSessionsFolder!="" then
-createSessionFile=Proxima.globals.myPC.touch(home_dir+"/Desktop/Sessions",fileName)
-if createSessionFile!=null then
-getSessionFile=Proxima.globals.myPC.File(home_dir+"/Desktop/Sessions/"+fileName)
-if getSessionFile!=null then
-rewriteSessionInfo=getSessionFile.set_content(serializedMap)
-else
-return true
-end if
-else
-return false
-end if
-end if
-end if
-end function
-Proxima.sessions.loadSession=function(sessionID,excludeKeys=[])
-fileName=targetIP.split(".")
-fileName=targetIP.join("_")
-fileName=fileName+".txt"
-acquiredSession=null
-sessionsFolder=Proxima.globals.myPC.File(Proxima.settings.sessionsFolder)
-if sessionsFolder!=null and is_folder(sessionsFolder) and sessionFolder.has_permission("r") then
-sessionFile=Proxima.globals.myPC.File(sessionsFolder.path+"/"+filaName)
-if sessionFile!=null and sessionFile.has_permission("r") then
-sessionInfo=sessionFile.get_content
-if sessionInfo!=null then
-acquiredSession=Proxima.utils.deserializeMap(sessionInfo,excludeKeys)
-end if
-end if
-end if
-return acquiredSession
-end function
-Proxima.sessions.deleteSession=function(sessionID,isSavedSession=false)
-// if its a saved session then getSessionFile
-// if its not, just simply remove session with given id from target sessions
-// reorderSessions
-// also check for if sessions folder exists or session file exists...
+Proxima.sessions.deleteSessionRecord=function(sessionID,isSavedSession=false)
 end function
 // ------------------------------------------------------------------------------------------------------------
 Proxima.sessions.pushMap=function(targetList,givenMap)
