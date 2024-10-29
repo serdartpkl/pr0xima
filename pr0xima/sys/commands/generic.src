@@ -1,5 +1,7 @@
 Proxima.commands = {}
 
+// ------------------------------------------------------------------------------------------------------------
+
 Proxima.commands.dump = {
     "name": "dump",
     "description": "Dumps target IPs ports or local libraries to perform a scan.",
@@ -205,6 +207,8 @@ Proxima.commands.shell.exec = function (params)
     end if
 end function
 
+// ------------------------------------------------------------------------------------------------------------
+
 Proxima.commands.delete = {
     "name": "delete",
     "description": "Deletes specified remote or local file.",
@@ -359,6 +363,8 @@ end function
 // sessions remove 1 -s - removes saved session with given id
 // sessions switch 1 - switches to target session with given id
 
+// ------------------------------------------------------------------------------------------------------------
+
 Proxima.commands.whois = {
     "name": "whois",
     "description": "Performs 'whois' command to gather contact information for remote target.",
@@ -374,6 +380,8 @@ Proxima.commands.whois.exec = function (params)
     print(Proxima.cli.addOutputEntry(Proxima.cli.message.colorize("<b>Phone Number:</b> ", "#0091FF") + adminInfo[3].split(":")[1].trim))
 end function
 
+// ------------------------------------------------------------------------------------------------------------
+
 Proxima.commands.rshell = {
     "name": "rshell",
     "description": "Inject reverse shell for specified open shell",
@@ -387,6 +395,8 @@ Proxima.commands.rshell.exec = function (params)
         Proxima.exploit.injectRshell(params[0].to_int)
     end if
 end function
+
+// ------------------------------------------------------------------------------------------------------------
 
 Proxima.commands.analyze = {
     "name": "analyze",

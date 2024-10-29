@@ -33,6 +33,8 @@ Proxima.commands.ports.exec = function (params)
     end if
 end function
 
+// ------------------------------------------------------------------------------------------------------------
+
 Proxima.commands.put = {
     "name": "put",
     "description": "Uploads file from local computer to remote computer.",
@@ -50,6 +52,7 @@ Proxima.commands.put.exec = function (params)
         end if
     end if
 end function
+// ------------------------------------------------------------------------------------------------------------
 
 Proxima.commands.tunnel = {
     "name": "tunnel",
@@ -76,6 +79,8 @@ Proxima.commands.get.exec = function (params)
         Proxima.exploit.getFile(params[0])
     end if
 end function
+
+// ------------------------------------------------------------------------------------------------------------
 
 Proxima.commands.jump = {
     "name": "jump",
