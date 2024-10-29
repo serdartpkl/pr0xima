@@ -322,18 +322,26 @@ Proxima.engine.startEngine = function ()
     if initializeFileSystem then
         print(Proxima.io.addOutputEntry(Proxima.io.output.success("File system initialized successfully!")))
     else
-        exit(Proxima.io.addOutputEntry(Proxima.io.output.error("Couldn't initialize file system!")))
+        exit(Proxima.io.output.error("Couldn't initialize file system!"))
     end if
     print(Proxima.io.addOutputEntry(Proxima.io.output.progress("Loading settings...")))
     getSettings = self.getSettings()
     if getSettings != null then
         print(Proxima.io.addOutputEntry(Proxima.io.output.success("Settings loaded successfully!")))
     else
-        exit(Proxima.io.addOutputEntry(Proxima.io.output.error("Couldn't load settings!")))
+        exit(Proxima.io.output.error("Couldn't load settings!"))
     end if
     print(Proxima.io.addOutputEntry(Proxima.io.output.line))
     self.initLibraries()
     print(Proxima.io.addOutputEntry(Proxima.io.output.line))
+    loadSavedSessions = Proxima.sessions.loadSavedSessions()
+    if loadSavedSessions then
+        print(Proxima.io.addOutputEntry(Proxima.io.output.success("Sessions loaded successfully!")))
+    else if loadSavedSessions == false then
+        print(Proxima.io.addOutputEntry(Proxima.io.output.info("No saved sessions found.")))
+    else
+        exit(Proxima.io.output.error("Couldn't load saved sessions!"))
+    end if
     print(Proxima.io.addOutputEntry(Proxima.io.output.progress("Creating local session...")))
     localIP = Proxima.globals.myPC.local_ip
     localRouter = get_router(localIP)
@@ -341,6 +349,6 @@ Proxima.engine.startEngine = function ()
     if createSession then 
         self.startCLI()
     else
-        exit(Proxima.io.addOutputEntry(Proxima.io.output.error("Couldn't create local session due to unexpected error. Terminating program...")))
+        exit(Proxima.io.output.error("Couldn't create local session due to unexpected error. Terminating program..."))
     end if
 end function
