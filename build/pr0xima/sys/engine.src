@@ -104,7 +104,7 @@ if updateRepoInfo=="" then
 if cryptoLib==null and hasHackShopRepo then
 installCryptoLib=Proxima.globals.aptclient.install("crypto.so")
 if installCryptoLib==1 then
-print(Proxima.io.addOutputEntry(Proxima.io.output.success("installed crypto successfuly")))
+print(Proxima.io.addOutputEntry(Proxima.io.output.success("crypto.so     : loaded")))
 else
 exit(Proxima.io.output.error("couldnt install crypto"))
 end if
@@ -115,7 +115,7 @@ end if
 if metaxploitLib==null and hasHackShopRepo then
 installMetaxploitLib=Proxima.globals.aptclient.install("metaxploit.so")
 if installMetaxploitLib==1 then
-print(Proxima.io.addOutputEntry(Proxima.io.output.success("installed metaxploit successfuly")))
+print(Proxima.io.addOutputEntry(Proxima.io.output.success("metaxploit.so : loaded")))
 else
 exit(Proxima.io.output.error("couldnt install metaxploit"))
 end if
