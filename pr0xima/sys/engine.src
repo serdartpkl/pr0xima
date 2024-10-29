@@ -271,7 +271,7 @@ Proxima.engine.handleCommand = function (userCommand)
         end if
 
         selectedCommand = null
-        for command in self.commands
+        for command in Proxima.commands
             if command.values[0] == parsedCommand then
                 selectedCommand = command.values[1]
                 break
@@ -286,14 +286,14 @@ Proxima.engine.handleCommand = function (userCommand)
                     selectedCommand.exec(params)
                 else
                     if selectedCommand.type == 0 then
-                        self.throwCLIError("It is a remote session, this is a local command.")
+                        Proxima.io.throwInputError("It is a remote session, this is a local command.")
                     else if selectedCommand.type == 1 then
-                        self.throwCLIError("It is a local session, this is a remote command.")
+                        Proxima.io.throwInputError("It is a local session, this is a remote command.")
                     end if
                 end if
             end if
         else
-            self.throwCLIError()
+            Proxima.io.throwInputError()
         end if
     end if
 end function
