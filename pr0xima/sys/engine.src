@@ -286,9 +286,9 @@ Proxima.engine.handleCommand = function (userCommand)
                     selectedCommand.exec(params)
                 else
                     if selectedCommand.type == 0 then
-                        Proxima.io.throwInputError("It is a remote session, this is a local command.")
+                        Proxima.io.throwInputError("You are currently working with a remote session, this command is for local sessions.")
                     else if selectedCommand.type == 1 then
-                        Proxima.io.throwInputError("It is a local session, this is a remote command.")
+                        Proxima.io.throwInputError("You are currently working with a local session, this command is for remote sessions.")
                     end if
                 end if
             end if
