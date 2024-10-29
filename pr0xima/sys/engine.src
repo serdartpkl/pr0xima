@@ -341,6 +341,6 @@ Proxima.engine.startEngine = function ()
     if createSession then 
         self.startCLI()
     else
-        exit(Proxima.io.addOutputEntry(Proxima.io.output.error("Couldn't create local session due to unexpected error. Terminating...")))
+        exit(Proxima.io.addOutputEntry(Proxima.io.output.error("Couldn't create local session due to unexpected error. Terminating program...")))
     end if
 end function
