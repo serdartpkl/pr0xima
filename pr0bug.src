@@ -1,0 +1,3 @@
+import_code("pr0xima/init.src")
+
+prx = new Proxima
