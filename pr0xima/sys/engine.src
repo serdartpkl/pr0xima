@@ -168,7 +168,7 @@ Proxima.engine.initLibraries = function ()
                 findHackShop = Proxima.apt.findHackShop()
                 if findHackShop then
                     hasHackShopRepo = true
-                    print(Proxima.io.addOutputEntry(Proxima.io.output.success("Found one! Added hack shop IP to repository sources.")))
+                    print(Proxima.io.addOutputEntry(Proxima.io.output.success("Found one! Successfully added hack shop IP to repository sources.")))
                 end if
             end if
 
@@ -203,7 +203,6 @@ Proxima.engine.initLibraries = function ()
                 
                 checkForUpdates = Proxima.apt.checkForUpdates()
                 if typeof(checkForUpdates) == "list" then
-                    print(Proxima.io.addOutputEntry(Proxima.io.output.info("update needed")))
                     updateLibraries = Proxima.apt.updateLibraries(checkForUpdates)
                     if updateLibraries.failed.indexOf(null) != null then
                         print(Proxima.io.addOutputEntry(Proxima.io.output.warning("Couldn't update libraries properly.")))
