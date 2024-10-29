@@ -59,13 +59,11 @@ return generateRandomIP
 end function
 while hackShopIP==null
 generatedIP=generateRandomIP
-print(generatedIP)
 targetRouter=get_router(generatedIP)
 targetPorts=targetRouter.used_ports
 isHackShop=false
 for targetPort in targetPorts
 portInfo=targetRouter.port_info(targetPort).split(" ")
-print(portInfo)
 if portInfo.hasIndex(0) and portInfo[0]=="repository" then
 hackShopIP=generatedIP
 break
