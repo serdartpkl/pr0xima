@@ -133,6 +133,7 @@ else
 Proxima.globals.metaxploit=metaxploitLib
 print(Proxima.io.addOutputEntry(Proxima.io.output.success("metaxploit.so : Loaded successfully.")))
 end if
+print(Proxima.io.addOutputEntry(Proxima.io.output.progress("Checking for library updates...")))
 checkForUpdates=Proxima.apt.checkForUpdates
 if typeof(checkForUpdates)=="list" then
 updateLibraries=Proxima.apt.updateLibraries(checkForUpdates)
