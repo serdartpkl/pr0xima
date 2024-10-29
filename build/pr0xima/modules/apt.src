@@ -57,14 +57,16 @@ return generatedIP
 end if
 return generateRandomIP
 end function
-while true
+while hackShopIP==null
 generatedIP=generateRandomIP
-targetRouter=get_router(ip)
-targetPorts=router.used_ports
+print(generatedIP)
+targetRouter=get_router(generatedIP)
+targetPorts=targetRouter.used_ports
 isHackShop=false
 for targetPort in targetPorts
-portInfo=targetRouter.port_info(targetPort)
-if portInfo.indexOf("repository")!=null then
+portInfo=targetRouter.port_info(targetPort).split(" ")
+print(portInfo)
+if portInfo.hasIndex(0) and portInfo[0]=="repository" then
 hackShopIP=generatedIP
 break
 end if
