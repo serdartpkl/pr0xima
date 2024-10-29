@@ -11,4 +11,9 @@ import_code("/home/pr0ximan0va/Scripts/pr0xima/sys/commands.src")
 import_code("/home/pr0ximan0va/Scripts/pr0xima/sys/engine.src")
 import_code("/home/pr0ximan0va/Scripts/pr0xima/init.src")
 prx=new Proxima
-print(prx.engine.initFileSystem)
+prx.engine.scanFileSystem
+print(prx.engine.createMissingFiles)
+print(prx.engine.searchLibraries)
+print(prx.engine.getSettings.rshell_ip)
+prx.engine.setSettings("rshell_ip","1.1.1.1")
+print(prx.engine.getSettings.rshell_ip)

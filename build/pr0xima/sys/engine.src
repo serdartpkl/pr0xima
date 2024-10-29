@@ -1,82 +1,64 @@
 Proxima.engine={}
+Proxima.engine.fileSystem=[{"name":"pr0xima","folder":true,"parent":home_dir,"has_found":false},{"name":"downloads","folder":true,"parent":home_dir+"/pr0xima","has_found":false},{"name":"databases","folder":true,"parent":home_dir+"/pr0xima","has_found":false},{"name":"settings.conf","folder":false,"parent":home_dir+"/pr0xima","default_content":"{"+char(34)+"rshell_ip"+char(34)+":"+char(34)+Proxima.globals.myPC.public_ip+char(34)+","+char(34)+"rshell_port"+char(34)+":1222,"+char(34)+"rshell_proc_name"+char(34)+":"+char(34)+"prx"+char(34)+","+char(34)+"injection_password"+char(34)+":"+char(34)+"123456"+char(34)+"}","has_found":false},{"name":"sessions.db","folder":false,"parent":home_dir+"/pr0xima/databases","default_content":"{"+char(34)+"records"+char(34)+":[]"+"}","has_found":false},{"name":"exploits.db","folder":false,"parent":home_dir+"/pr0xima/databases","default_content":"{"+char(34)+"records"+char(34)+":[]"+"}","has_found":false},{"name":"users.db","folder":false,"parent":home_dir+"/pr0xima/databases","default_content":"{"+char(34)+"records"+char(34)+":[]"+"}","has_found":false},{"name":"mail_accounts.db","folder":false,"parent":home_dir+"/pr0xima/databases","default_content":"{"+char(34)+"records"+char(34)+":[]"+"}","has_found":false},{"name":"bank_accounts.db","folder":false,"parent":home_dir+"/pr0xima/databases","default_content":"{"+char(34)+"records"+char(34)+":[]"+"}","has_found":false}]
 // ------------------------------------------------------------------------------------------------------------
-Proxima.engine.getMainFolder=function
-getMainFolder=Proxima.globals.myPC.File(home_dir+"/pr0xima")
-if getMainFolder==null or is_folder(getMainFolder)==false then
-createMainFolder=Proxima.globals.myPC.create_folder(home_dir,"pr0xima")
-Proxima.io.clearScreen
-wait(0.5)
-if typeof(createMainFolder)!="string" then
-getMainFolder=Proxima.globals.myPC.File(home_dir+"/pr0xima")
+Proxima.engine.scanFileSystem=function
+for systemFile in self.fileSystem
+getFile=Proxima.globals.myPC.File(systemFile.parent+"/"+systemFile.name)
+if getFile!=null then
+if systemFile.folder then
+if is_folder(getFile) then systemFile.has_found=true
+else
+systemFile.has_found=true
 end if
 end if
-return getMainFolder.path
-end function
-Proxima.engine.getSystemFolders=function
-folderMap={"downloads":null,"databases":null}
-for folderName in folderMap.indexes
-getFolder=Proxima.globals.myPC.File(home_dir+"/pr0xima/"+folderName)
-if getFolder==null or is_folder(getFolder)==false then
-createFolder=Proxima.globals.myPC.create_folder(home_dir+"/pr0xima",folderName)
-Proxima.io.clearScreen
-wait(0.5)
-if typeof(createFolder)!="string" then
-getFolder=Proxima.globals.myPC.File(home_dir+"/pr0xima/"+folderName)
-end if
-end if
-folderMap[folderName]=getFolder.path
 end for
-return folderMap
 end function
-Proxima.engine.getDatabaseFiles=function
-databaseMap={"sessions":null,"exploits":null,"users":null,"mail_accounts":null,"bank_accounts":null}
-for databaseName in databaseMap.indexes
-getDatabase=Proxima.globals.myPC.File(home_dir+"/pr0xima/databases/"+databaseName+".db")
-if getDatabase==null then
-createDatabase=Proxima.globals.myPC.touch(home_dir+"/pr0xima/databases",databaseName+".db")
-Proxima.io.clearScreen
-wait(0.5)
-if typeof(createDatabase)!="string" then
-getDatabase=Proxima.globals.myPC.File(home_dir+"/pr0xima/databases/"+databaseName+".db")
+Proxima.engine.createMissingFiles=function
+isProcessCompleted=true
+for systemFile in self.fileSystem
+if systemFile.has_found==false then
+if systemFile.folder then
+createFolder=Proxima.globals.myPC.create_folder(systemFile.parent,systemFile.name)
+if createFolder==0 or typeof(createFolder)=="string" then isProcessCompleted=false
+else
+createFile=Proxima.globals.myPC.touch(systemFile.parent,systemFile.name)
+if createFile==1 then
+setDefaultContent=Proxima.globals.myPC.File(systemFile.parent+"/"+systemFile.name).set_content(systemFile.default_content)
+if setDefaultContent==0 or typeof(setDefaultContent)=="string" then isProcessCompleted=false
+else
+isProcessCompleted=false
 end if
 end if
-setFileContent=getDatabase.set_content("{"+char(34)+"records"+char(34)+":[]}")
-databaseMap[databaseName]=getDatabase.path
+end if
 end for
-return databaseMap
+return isProcessCompleted
 end function
 Proxima.engine.getSettings=function
+settingsFile=Proxima.globals.myPC.File(home_dir+"/pr0xima/settings.conf")
+if settingsFile!=null then
+deserializedSettings=Proxima.utils.deserializeMap(settingsFile.get_content)
+return deserializedSettings
+end if
+return null
 end function
 Proxima.engine.setSettings=function(settingKey,settingValue)
-end function
-Proxima.engine.initFileSystem=function
-hasInitializedFileSystem=true
-getMainFolder=self.getMainFolder
-if getMainFolder!=null then
-getSystemFolders=self.getSystemFolders
-getDatabaseFiles=self.getDatabaseFiles
-fileSystemMap={"pr0xima":getMainFolder}+getSystemFolders+getDatabaseFiles
-for fileSystemItem in fileSystemMap
-if fileSystemItem==null then
-hasInitializedFileSystem=false
-break
+settingsMap=self.getSettings
+if settingsMap!=null then
+settingsMap[settingKey]=settingValue
+serializedSettingsMap=Proxima.utils.serializeMap(settingsMap)
+settingsFile=Proxima.globals.myPC.File(home_dir+"/pr0xima/settings.conf")
+setFileContent=settingsFile.set_content(serializedSettingsMap)
+if setFileContent!=0 and typeof(setFileContent)=="string" then return true
 end if
-end for
-else
-hasInitializedFileSystem=false
-end if
-return hasInitializedFileSystem
+return null
 end function
-Proxima.engine.searchLibraries=function(libraryList)
-libraryMap={}
-for libraryName in libraryList
-libraryMap[libraryName]=null
-end for
+Proxima.engine.searchLibraries=function
+libraryMap={"aptclient.so":null,"crypto.so":null,"metaxploit.so":null}
 for libraryName in libraryMap.indexes
-for libraryLocation in Proxima.settings.libraryLocations
+for libraryLocation in Proxima.globals.libraryLocations
 includeLibrary=include_lib(libraryLocation+"/"+libraryName)
 if includeLibrary!=null then
-libraryMap[key]=libraryLocation+"/"+libraryName
+libraryMap[libraryName]=libraryLocation+"/"+libraryName
 break
 end if
 end for
@@ -84,8 +66,7 @@ end for
 return libraryMap
 end function
 Proxima.engine.initLibraries=function
-libraryList=["aptclient.so","crypto.so","metaxploit.so"]
-searchLibraries=self.searchLibraries(libraryList)
+searchLibraries=self.searchLibraries
 hasHackShopRepo=false
 sourcesFile=Proxima.apt.checkSourcesFile
 if sourcesFile!=null then
