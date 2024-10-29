@@ -17,12 +17,12 @@ Proxima.commands.dump.exec = function (params)
             if checkPorts then
                 Proxima.exploit.displayPortInfo()
             else
-                Proxima.cli.throwCLIError("No open ports found on given IP address!")
+                Proxima.io.throwCLIError("No open ports found on given IP address!")
             end if
         else if checkTargetIP == false then
-            Proxima.cli.throwCLIError("Given IP address is not reachable or do not exist!")
+            Proxima.io.throwCLIError("Given IP address is not reachable or do not exist!")
         else if checkTargetIP == null then
-            Proxima.cli.throwCLIError("Given IP address is not valid!")
+            Proxima.io.throwCLIError("Given IP address is not valid!")
         end if
     else
         Proxima.exploit.checkLibraries()
