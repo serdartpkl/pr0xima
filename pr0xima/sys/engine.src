@@ -312,7 +312,7 @@ Proxima.engine.startCLI = function ()
     end while
 end function
 
-Proxima.engine.start = function ()
+Proxima.engine.startEngine = function ()
     Proxima.io.clearScreen()
     Proxima.io.printHeader()
     print(Proxima.io.addOutputEntry(Proxima.io.output.line))
