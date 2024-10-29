@@ -11,7 +11,7 @@ import_code("modules/sapls.src")
 import_code("modules/debug.src")
 import_code("modules/exploit.src")
 
+import_code("sys/commands/generic.src")
 import_code("sys/commands/local.src")
 import_code("sys/commands/remote.src")
-import_code("sys/commands/generic.src")
 import_code("sys/engine.src")

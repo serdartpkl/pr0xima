@@ -1,4 +1,5 @@
 Proxima = {}
+
 Proxima.globals = {}
 Proxima.globals.version = "1.0.0"
 
