@@ -69,7 +69,7 @@ return null
 end if
 end function
 // ------------------------------------------------------------------------------------------------------------
-Proxima.sessions.setSavedSessions=function
+Proxima.sessions.loadSavedSessions=function
 self.savedSessions=[]
 getSessionRecords=Proxima.db.getRecords("sessions")
 if getSessionRecords.len>0 then
@@ -77,32 +77,10 @@ for sessionRecord in getSessionRecords
 self.savedSessions.push(sessionRecord)
 end for
 return true
-end if
-return null
-end function
-Proxima.sessions.getSessionRecord=function(sessionID)
-// get session info with session id
-// if does not exist return null
-// if not continue...
-fileName=targetIP.split(".")
-fileName=fileName.join("_")
-fileName=fileName+".txt"
-// self.getSessionsFolder
-// if there is one ->
-sessionFile=Proxima.globals.myPC.File(Proxima.settings.sessionsFolder+"/"+fileName)
-if sessionFile!=null then
-return sessionFile
 else
-return null
+return false
 end if
-end function
-Proxima.sessions.setSessionRecord=function(sessionID,serializedMap)
-end function
-Proxima.sessions.createSessionRecord=function(targetIP)
-end function
-Proxima.sessions.reorderSessionRecords=function
-end function
-Proxima.sessions.deleteSessionRecord=function(sessionID,isSavedSession=false)
+return null
 end function
 // ------------------------------------------------------------------------------------------------------------
 Proxima.sessions.pushMap=function(targetList,givenMap)

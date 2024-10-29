@@ -336,7 +336,7 @@ Proxima.engine.startEngine = function ()
     print(Proxima.io.addOutputEntry(Proxima.io.output.line))
     loadSavedSessions = Proxima.sessions.loadSavedSessions()
     if loadSavedSessions then
-        print(Proxima.io.addOutputEntry(Proxima.io.output.success("Sessions loaded successfully!")))
+        print(Proxima.io.addOutputEntry(Proxima.io.output.success("Saved sessions loaded successfully! <b>[TOTAL:" + Proxima.db.getRecords("sessions").len + "]</b>")))
     else if loadSavedSessions == false then
         print(Proxima.io.addOutputEntry(Proxima.io.output.info("No saved sessions found.")))
     else

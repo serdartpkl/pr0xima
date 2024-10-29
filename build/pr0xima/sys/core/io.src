@@ -1,7 +1,6 @@
 Proxima.io={}
 Proxima.io.inputString=null
 Proxima.io.ioEntries=[]
-Proxima.io.previousInputs=[]
 Proxima.io.output={}
 Proxima.io.output.line="+----------------------------------------------------+"
 // ------------------------------------------------------------------------------------------------------------
