@@ -24,7 +24,7 @@ return null
 end if
 end function
 Proxima.sessions.createSession=function(sessionType,targetIP,targetRouter)
-if Proxima.utils.mapHasValue(self.targetSessions,"targetIP",targetIP)==false then
+if Proxima.utils.mapHasValue(self.targetSessions,"targetIP",targetIP)==[] then
 sessionMap={}
 sessionMap.id=self.targetSessions.len+1
 sessionMap.targetIP=targetIP
@@ -46,6 +46,7 @@ sessionMap.autoSave=false
 sessionMap.creationDate=current_date
 self.targetSessions.push(sessionMap)
 self.setSession(sessionMap.id)
+return true
 else
 return null
 end if

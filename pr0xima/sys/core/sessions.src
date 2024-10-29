@@ -30,7 +30,7 @@ Proxima.sessions.setSession = function (sessionID)
 end function
 
 Proxima.sessions.createSession = function (sessionType, targetIP, targetRouter)
-    if Proxima.utils.mapHasValue(self.targetSessions, "targetIP", targetIP) == false then
+    if Proxima.utils.mapHasValue(self.targetSessions, "targetIP", targetIP) == [] then
         sessionMap = {}
 
         sessionMap.id = self.targetSessions.len + 1

@@ -215,17 +215,11 @@ end if
 end if
 end function
 Proxima.engine.startCLI=function
-activeTarget=null
 targetIP=Proxima.sessions.getSessionValue("targetIP")
-if targetIP!=null then
-activeTarget=targetIP
-else
-activeTarget=Proxima.globals.activeUser
-end if
-self.cliString=self.message.colorize("<b>"+activeTarget+"</b>","#FFC466")+self.message.colorize("@pr0xima","#FC8403")+self.message.colorize("> ","#008DFF")
+Proxima.io.inputString=Proxima.io.output.colorize("<b>"+Proxima.globals.activeUser+"</b>","#FFC466")+Proxima.io.output.colorize("@["+targetIP+"]","#FF1548")+Proxima.io.output.colorize("> ","#008DFF")
 while true
-userCommand=user_input(self.cliString,false,false).trim
-self.addInputEntry(userCommand)
+userCommand=user_input(Proxima.io.inputString,false,false).trim
+Proxima.io.addInputEntry(userCommand)
 self.handleCommand(userCommand)
 end while
 end function
@@ -256,4 +250,12 @@ print(Proxima.io.addOutputEntry(Proxima.io.output.line))
 self.initLibraries
 print(Proxima.io.addOutputEntry(Proxima.io.output.line))
 print(Proxima.io.addOutputEntry(Proxima.io.output.progress("Creating local session...")))
+localIP=Proxima.globals.myPC.local_ip
+localRouter=get_router(localIP)
+createSession=Proxima.sessions.createSession(0,localIP,localRouter)
+if createSession then
+self.startCLI
+else
+exit(Proxima.io.addOutputEntry(Proxima.io.output.error("Couldn't create local session due to unexpected error. Terminating...")))
+end if
 end function
