@@ -182,7 +182,7 @@ Proxima.engine.initLibraries = function ()
                     if installCryptoLib == 1 then
                         print(Proxima.io.addOutputEntry(Proxima.io.output.success("crypto.so     : Loaded successfully.")))
                     else
-                        exit(Proxima.io.output.error("Couldn't install <b>crypto.so</b>"))
+                        exit(Proxima.io.output.error("Couldn't install <b>crypto.so</b>."))
                     end if
                 else
                     Proxima.globals.crypto = cryptoLib
@@ -194,7 +194,7 @@ Proxima.engine.initLibraries = function ()
                     if installMetaxploitLib == 1 then
                         print(Proxima.io.addOutputEntry(Proxima.io.output.success("metaxploit.so : Loaded successfully.")))
                     else
-                        exit(Proxima.io.output.error("Couldn't install <b>metaxploit</b>"))
+                        exit(Proxima.io.output.error("Couldn't install <b>metaxploit</b>."))
                     end if
                 else
                     Proxima.globals.metaxploit = metaxploitLib
@@ -216,7 +216,7 @@ Proxima.engine.initLibraries = function ()
                 print(Proxima.io.addOutputEntry(Proxima.io.output.warning("Couldn't update repository information!")))
             end if
         else
-            print(Proxima.io.addOutputEntry(Proxima.io.output.warning("Couldn't find <b>aptclient.so</b>")))
+            print(Proxima.io.addOutputEntry(Proxima.io.output.warning("Couldn't find <b>aptclient.so</b>.")))
             print(Proxima.io.addOutputEntry(Proxima.io.output.error("aptclient.so  : Failed to load.")))
             if cryptoLib == null or metaxploitLib == null then
                 if cryptoLib == null then print(Proxima.io.addOutputEntry(Proxima.io.output.error("crypto.so     : Failed to load.")))
