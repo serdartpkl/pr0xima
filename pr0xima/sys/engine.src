@@ -217,7 +217,7 @@ Proxima.engine.initLibraries = function ()
                 print(Proxima.io.addOutputEntry(Proxima.io.output.warning("couldnt update repo info")))
             end if
         else
-            print(Proxima.io.addOutputEntry(Proxima.io.output.warning("coulndt find aptclient")))
+            print(Proxima.io.addOutputEntry(Proxima.io.output.warning("couldnt find aptclient")))
             print(Proxima.io.addOutputEntry(Proxima.io.output.error("aptclient.so  : failed")))
             if cryptoLib == null or metaxploitLib == null then
                 if cryptoLib == null then print(Proxima.io.addOutputEntry(Proxima.io.output.error("crypto.so     : failed")))
