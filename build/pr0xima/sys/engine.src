@@ -102,22 +102,32 @@ Proxima.io.clearScreen
 wait(0.5)
 if updateRepoInfo=="" then
 if cryptoLib==null and hasHackShopRepo then
+print(Proxima.io.addOutputEntry(Proxima.io.output.progress("Installing <b>crypto.so</b>...")))
+print(Proxima.io.addOutputEntry(Proxima.io.output.line))
 installCryptoLib=Proxima.globals.aptclient.install("crypto.so")
+cryptoLibSize=Proxima.globals.myPC.File("/lib/crypto.so").size
+Proxima.io.addTransferProcess(cryptoLibSize)
+print(Proxima.io.addOutputEntry(Proxima.io.output.line))
 if installCryptoLib==1 then
-print(Proxima.io.addOutputEntry(Proxima.io.output.success("crypto.so     : Loaded successfully.")))
+print(Proxima.io.addOutputEntry(Proxima.io.output.success("crypto.so     : Installed successfully.")))
 else
-exit(Proxima.io.output.error("Couldn't install <b>crypto.so</b>"))
+exit(Proxima.io.output.error("Couldn't install <b>crypto.so</b>."))
 end if
 else
 Proxima.globals.crypto=cryptoLib
 print(Proxima.io.addOutputEntry(Proxima.io.output.success("crypto.so     : Loaded successfully.")))
 end if
 if metaxploitLib==null and hasHackShopRepo then
+print(Proxima.io.addOutputEntry(Proxima.io.output.progress("Installing <b>metaxploit.so</b>...")))
+print(Proxima.io.addOutputEntry(Proxima.io.output.line))
 installMetaxploitLib=Proxima.globals.aptclient.install("metaxploit.so")
+metaxploitLibSize=Proxima.globals.myPC.File("/lib/metaxploit.so").size
+Proxima.io.addTransferProcess(metaxploitLibSize)
+print(Proxima.io.addOutputEntry(Proxima.io.output.line))
 if installMetaxploitLib==1 then
-print(Proxima.io.addOutputEntry(Proxima.io.output.success("metaxploit.so : Loaded successfully.")))
+print(Proxima.io.addOutputEntry(Proxima.io.output.success("metaxploit.so : Installed successfully.")))
 else
-exit(Proxima.io.output.error("Couldn't install <b>metaxploit</b>"))
+exit(Proxima.io.output.error("Couldn't install <b>metaxploit</b>."))
 end if
 else
 Proxima.globals.metaxploit=metaxploitLib
@@ -132,13 +142,13 @@ else
 print(Proxima.io.addOutputEntry(Proxima.io.output.success("Updated libraries successfully!")))
 end if
 else
-print(Proxima.io.addOutputEntry(Proxima.io.output.info("No updates needed.")))
+print(Proxima.io.addOutputEntry(Proxima.io.output.info("No updates available.")))
 end if
 else
 print(Proxima.io.addOutputEntry(Proxima.io.output.warning("Couldn't update repository information!")))
 end if
 else
-print(Proxima.io.addOutputEntry(Proxima.io.output.warning("Couldn't find <b>aptclient.so</b>")))
+print(Proxima.io.addOutputEntry(Proxima.io.output.warning("Couldn't find <b>aptclient.so</b>.")))
 print(Proxima.io.addOutputEntry(Proxima.io.output.error("aptclient.so  : Failed to load.")))
 if cryptoLib==null or metaxploitLib==null then
 if cryptoLib==null then print(Proxima.io.addOutputEntry(Proxima.io.output.error("crypto.so     : Failed to load.")))
@@ -221,12 +231,27 @@ end while
 end function
 Proxima.engine.start=function
 Proxima.io.clearScreen
+Proxima.io.printHeader
+print(Proxima.io.addOutputEntry(Proxima.io.output.line))
 if Proxima.net.checkConnection!=true then
 print(Proxima.io.output.error("You are not connected to the internet! Terminating program..."))
 exit(Proxima.io.output.info("You can hack into any WiFi by using <b>pr0net</b> subtool."))
 end if
-Proxima.io.printHeader
+print(Proxima.io.addOutputEntry(Proxima.io.output.progress("Initializing file system...")))
 self.scanFileSystem
-self.createMissingFiles
+initializeFileSystem=self.createMissingFiles
+if initializeFileSystem then
+print(Proxima.io.addOutputEntry(Proxima.io.output.success("Initialized file system successfully!")))
+else
+exit(Proxima.io.addOutputEntry(Proxima.io.output.error("Couldn't initialize file system!")))
+end if
+print(Proxima.io.addOutputEntry(Proxima.io.output.progress("Loading settings...")))
+getSettings=self.getSettings
+if getSettings!=null then
+print(Proxima.io.addOutputEntry(Proxima.io.output.success("Loaded settings successfully!")))
+else
+exit(Proxima.io.addOutputEntry(Proxima.io.output.error("Couldn't load settings!")))
+end if
+print(Proxima.io.addOutputEntry(Proxima.io.output.line))
 self.initLibraries
 end function
