@@ -87,6 +87,26 @@ end function
 
 // ------------------------------------------------------------------------------------------------------------
 
+Proxima.sessions.getSessionRecords = function ()
+    self.savedSessions = []
+    sessionsFolder = self.getSessionsFolder()
+    if sessionsFolder != null then
+        savedSessionFiles = Proxima.utils.collectFiles(sessionsFolder.path)
+        if savedSessionFiles.len > 0 then
+            for sessionFile in savedSessionFiles
+                fileContent = sessionFile.get_content()
+                deserializedContent = Proxima.utils.deserializeMap(fileContent)
+                self.savedSessions.push(deserializedContent)
+            end for
+            return true
+        else
+            return false
+        end if
+    else
+        return null
+    end if
+end function
+
 Proxima.sessions.getSessionRecord = function (sessionID)
     // get session info with session id
     // if does not exist return null
@@ -140,35 +160,6 @@ Proxima.sessions.createSessionRecord = function (targetIP)
     end if
 end function
 
-Proxima.sessions.deleteSessionRecord = function (sessionID, isSavedSession = false)
-    // if its a saved session then getSessionFile
-    // if its not, just simply remove session with given id from target sessions
-    // reorderSessions
-    // also check for if sessions folder exists or session file exists...
-end function
-
-// ------------------------------------------------------------------------------------------------------------
-
-Proxima.sessions.getSessionRecords = function ()
-    self.savedSessions = []
-    sessionsFolder = self.getSessionsFolder()
-    if sessionsFolder != null then
-        savedSessionFiles = Proxima.utils.collectFiles(sessionsFolder.path)
-        if savedSessionFiles.len > 0 then
-            for sessionFile in savedSessionFiles
-                fileContent = sessionFile.get_content()
-                deserializedContent = Proxima.utils.deserializeMap(fileContent)
-                self.savedSessions.push(deserializedContent)
-            end for
-            return true
-        else
-            return false
-        end if
-    else
-        return null
-    end if
-end function
-
 Proxima.sessions.reorderSessionRecords = function ()
     // check if saved sessions returns true
     // saved sessions does not have id,
@@ -177,6 +168,13 @@ Proxima.sessions.reorderSessionRecords = function ()
     // push tem to savedSessions list
     // return true
     // if couldn't return false
+end function
+
+Proxima.sessions.deleteSessionRecord = function (sessionID, isSavedSession = false)
+    // if its a saved session then getSessionFile
+    // if its not, just simply remove session with given id from target sessions
+    // reorderSessions
+    // also check for if sessions folder exists or session file exists...
 end function
 
 // ------------------------------------------------------------------------------------------------------------
