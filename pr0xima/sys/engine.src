@@ -232,7 +232,7 @@ Proxima.engine.initLibraries = function ()
             if cryptoLib == null or metaxploitLib == null then
                 if cryptoLib == null then print(Proxima.io.addOutputEntry(Proxima.io.output.error("crypto.so <b>[STATUS:FAILED]</b>.")))
                 if metaxploitLib == null then print(Proxima.io.addOutputEntry(Proxima.io.output.error("metaxploit.so <b>[STATUS:FAILED]</b>.")))
-                exit(Proxima.io.output.error("Couldn't start script due to missing library or libraries!"))
+                exit(Proxima.io.output.error("Couldn't start script due to missing library/libraries!"))
             else
                 print(Proxima.io.addOutputEntry(Proxima.io.output.success("crypto.so <b>[STATUS:LOADED]</b>.")))
                 print(Proxima.io.addOutputEntry(Proxima.io.output.success("metaxploit.so <b>[STATUS:LOADED]</b>.")))
