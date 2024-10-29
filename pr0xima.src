@@ -73,3 +73,6 @@ if crDB != null then
 else
     exit("error creation")
 end if
+
+userRecords = prx.db.getRecords("users")
+print(userRecords)

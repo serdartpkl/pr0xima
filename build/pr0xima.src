@@ -65,3 +65,11 @@ print(getRecVal)
 else
 exit("couldnt get new val")
 end if
+crDB=prx.db.createDatabase("unit_tests")
+if crDB!=null then
+print("created!")
+else
+exit("error creation")
+end if
+userRecords=prx.db.getRecords("users")
+print(userRecords)
