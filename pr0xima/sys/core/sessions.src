@@ -59,6 +59,7 @@ Proxima.sessions.createSession = function (sessionType, targetIP, targetRouter)
         
         self.targetSessions.push(sessionMap)
         self.setSession(sessionMap.id)
+        return true
     else
         return null
     end if
