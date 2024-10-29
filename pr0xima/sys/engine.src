@@ -160,7 +160,7 @@ Proxima.engine.initLibraries = function ()
     if Proxima.globals.activeUser != "guest" then
         if aptClient != null then
             Proxima.globals.aptclient = aptClient
-            print(Proxima.io.addOutputEntry(Proxima.io.output.success("aptclient.so <b>[STATUS:LOADED]</b>.")))
+            print(Proxima.io.addOutputEntry(Proxima.io.output.success("Found aptclient.so library. <b>[STATUS:LOADED]</b>")))
 
             if hasHackShopRepo == false then
                 print(Proxima.io.addOutputEntry(Proxima.io.output.error("Couldn't find any hack shop IP!")))
@@ -185,13 +185,13 @@ Proxima.engine.initLibraries = function ()
                     Proxima.io.addTransferProcess(cryptoLibSize)
                     print(Proxima.io.addOutputEntry(Proxima.io.output.line))
                     if installCryptoLib == 1 then
-                        print(Proxima.io.addOutputEntry(Proxima.io.output.success("crypto.so <b>[STATUS:INSTALLED]</b>.")))
+                        print(Proxima.io.addOutputEntry(Proxima.io.output.success("Installed crypto.so library. <b>[STATUS:INSTALLED]</b>")))
                     else
                         exit(Proxima.io.output.error("Couldn't install <b>crypto.so</b>."))
                     end if
                 else
                     Proxima.globals.crypto = cryptoLib
-                    print(Proxima.io.addOutputEntry(Proxima.io.output.success("crypto.so <b>[STATUS:LOADED]</b>.")))
+                    print(Proxima.io.addOutputEntry(Proxima.io.output.success("Found crypto.so library. <b>[STATUS:LOADED]</b>")))
                 end if
     
                 if metaxploitLib == null and hasHackShopRepo then
@@ -202,13 +202,13 @@ Proxima.engine.initLibraries = function ()
                     Proxima.io.addTransferProcess(metaxploitLibSize)
                     print(Proxima.io.addOutputEntry(Proxima.io.output.line))
                     if installMetaxploitLib == 1 then
-                        print(Proxima.io.addOutputEntry(Proxima.io.output.success("metaxploit.so <b>[STATUS:INSTALLED]</b>.")))
+                        print(Proxima.io.addOutputEntry(Proxima.io.output.success("Installed metaxploit.so library. <b>[STATUS:INSTALLED]</b>")))
                     else
                         exit(Proxima.io.output.error("Couldn't install <b>metaxploit</b>."))
                     end if
                 else
                     Proxima.globals.metaxploit = metaxploitLib
-                    print(Proxima.io.addOutputEntry(Proxima.io.output.success("metaxploit.so <b>[STATUS:LOADED]</b>.")))
+                    print(Proxima.io.addOutputEntry(Proxima.io.output.success("Found metaxploit.so library. <b>[STATUS:LOADED]</b>")))
                 end if
                 
                 print(Proxima.io.addOutputEntry(Proxima.io.output.progress("Checking for library updates...")))
@@ -228,30 +228,30 @@ Proxima.engine.initLibraries = function ()
             end if
         else
             print(Proxima.io.addOutputEntry(Proxima.io.output.warning("Couldn't check for updates due to missing <b>aptclient.so</b> library.")))
-            print(Proxima.io.addOutputEntry(Proxima.io.output.error("aptclient.so <b>[STATUS:FAILED]</b>.")))
+            print(Proxima.io.addOutputEntry(Proxima.io.output.error("Failed to locate aptclient.so library. <b>[STATUS:FAILED]</b>")))
             if cryptoLib == null or metaxploitLib == null then
-                if cryptoLib == null then print(Proxima.io.addOutputEntry(Proxima.io.output.error("crypto.so <b>[STATUS:FAILED]</b>.")))
-                if metaxploitLib == null then print(Proxima.io.addOutputEntry(Proxima.io.output.error("metaxploit.so <b>[STATUS:FAILED]</b>.")))
+                if cryptoLib == null then print(Proxima.io.addOutputEntry(Proxima.io.output.error("Failed to locate crypto.so library. <b>[STATUS:FAILED]</b>")))
+                if metaxploitLib == null then print(Proxima.io.addOutputEntry(Proxima.io.output.error("Failed to locate metaxploit.so library. <b>[STATUS:FAILED]</b>")))
                 exit(Proxima.io.output.error("Couldn't start script due to missing library/libraries!"))
             else
-                print(Proxima.io.addOutputEntry(Proxima.io.output.success("crypto.so <b>[STATUS:LOADED]</b>.")))
-                print(Proxima.io.addOutputEntry(Proxima.io.output.success("metaxploit.so <b>[STATUS:LOADED]</b>.")))
+                print(Proxima.io.addOutputEntry(Proxima.io.output.success("Found crypto.so library. <b>[STATUS:LOADED]</b>")))
+                print(Proxima.io.addOutputEntry(Proxima.io.output.success("Found metaxploit.so library. <b>[STATUS:LOADED]</b>")))
             end if
         end if
     else
         print(Proxima.io.addOutputEntry(Proxima.io.output.warning("Couldn't check for updates due to insufficient user privileges.")))
         if aptClient != null then
-            print(Proxima.io.addOutputEntry(Proxima.io.output.warning("aptclient.so <b>[STATUS:LOADED]</b>.")))
+            print(Proxima.io.addOutputEntry(Proxima.io.output.warning("Found aptclient.so library. <b>[STATUS:LOADED]</b>")))
         else
-            print(Proxima.io.addOutputEntry(Proxima.io.output.warning("aptclient.so <b>[STATUS:FAILED]</b>.")))
+            print(Proxima.io.addOutputEntry(Proxima.io.output.warning("Failed to locate aptclient.so library. <b>[STATUS:FAILED]</b>")))
         end if
         if cryptoLib == null or metaxploitLib == null then
-            if cryptoLib == null then print(Proxima.io.addOutputEntry(Proxima.io.output.error("crypto.so <b>[STATUS:FAILED]</b>.")))
-            if metaxploitLib == null then print(Proxima.io.addOutputEntry(Proxima.io.output.error("metaxploit.so <b>[STATUS:FAILED]</b>.")))
+            if cryptoLib == null then print(Proxima.io.addOutputEntry(Proxima.io.output.error("Failed to locate crypto.so library. <b>[STATUS:FAILED]</b>")))
+            if metaxploitLib == null then print(Proxima.io.addOutputEntry(Proxima.io.output.error("Failed to locate metaxploit.so library. <b>[STATUS:FAILED]</b>")))
             exit(Proxima.io.output.error("Couldn't start script due to missing library/libraries!"))
         else
-            print(Proxima.io.addOutputEntry(Proxima.io.output.success("crypto.so <b>[STATUS:LOADED]</b>.")))
-            print(Proxima.io.addOutputEntry(Proxima.io.output.success("metaxploit.so <b>[STATUS:LOADED]</b>.")))
+            print(Proxima.io.addOutputEntry(Proxima.io.output.success("Found crypto.so library. <b>[STATUS:LOADED]</b>")))
+            print(Proxima.io.addOutputEntry(Proxima.io.output.success("Found metaxploit.so library. <b>[STATUS:LOADED]</b>")))
         end if
     end if
 end function
