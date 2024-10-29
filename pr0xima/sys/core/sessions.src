@@ -87,7 +87,7 @@ end function
 
 // ------------------------------------------------------------------------------------------------------------
 
-Proxima.sessions.getSessionFile = function (sessionID)
+Proxima.sessions.getSessionRecord = function (sessionID)
     // get session info with session id
     // if does not exist return null
     // if not continue...
@@ -104,7 +104,7 @@ Proxima.sessions.getSessionFile = function (sessionID)
     end if
 end function
 
-Proxima.sessions.setSessionFile = function (sessionID, serializedMap)
+Proxima.sessions.setSessionRecord = function (sessionID, serializedMap)
     // get session info with session id
     // if does not exist return null
     // if not continue...
@@ -126,7 +126,7 @@ Proxima.sessions.setSessionFile = function (sessionID, serializedMap)
     end if
 end function
 
-Proxima.sessions.createSessionFile = function (targetIP)
+Proxima.sessions.createSessionRecord = function (targetIP)
     fileName = targetIP.split(".")
     fileName = fileName.join("_")
     fileName = fileName + ".txt"

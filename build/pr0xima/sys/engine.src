@@ -154,7 +154,7 @@ print(Proxima.io.addOutputEntry(Proxima.io.output.error("aptclient.so  : Failed 
 if cryptoLib==null or metaxploitLib==null then
 if cryptoLib==null then print(Proxima.io.addOutputEntry(Proxima.io.output.error("crypto.so     : Failed to load.")))
 if metaxploitLib==null then print(Proxima.io.addOutputEntry(Proxima.io.output.error("metaxploit.so : Failed to load.")))
-exit(Proxima.io.output.error("Couldn't start script due to missing libraries!"))
+exit(Proxima.io.output.error("Couldn't start script due to missing library or libraries!"))
 else
 print(Proxima.io.addOutputEntry(Proxima.io.output.success("crypto.so     : Loaded successfully.")))
 print(Proxima.io.addOutputEntry(Proxima.io.output.success("metaxploit.so : Loaded successfully.")))
@@ -236,14 +236,14 @@ print(Proxima.io.addOutputEntry(Proxima.io.output.progress("Initializing file sy
 self.scanFileSystem
 initializeFileSystem=self.createMissingFiles
 if initializeFileSystem then
-print(Proxima.io.addOutputEntry(Proxima.io.output.success("Initialized file system successfully!")))
+print(Proxima.io.addOutputEntry(Proxima.io.output.success("File system initialized successfully!")))
 else
 exit(Proxima.io.addOutputEntry(Proxima.io.output.error("Couldn't initialize file system!")))
 end if
 print(Proxima.io.addOutputEntry(Proxima.io.output.progress("Loading settings...")))
 getSettings=self.getSettings
 if getSettings!=null then
-print(Proxima.io.addOutputEntry(Proxima.io.output.success("Loaded settings successfully!")))
+print(Proxima.io.addOutputEntry(Proxima.io.output.success("Settings loaded successfully!")))
 else
 exit(Proxima.io.addOutputEntry(Proxima.io.output.error("Couldn't load settings!")))
 end if
