@@ -1,0 +1,210 @@
+Proxima.engine={}
+// ------------------------------------------------------------------------------------------------------------
+Proxima.engine.getMainFolder=function
+getMainFolder=Proxima.globals.myPC.File(home_dir+"/pr0xima")
+if getMainFolder==null or is_folder(getMainFolder)==false then
+createMainFolder=Proxima.globals.myPC.create_folder(home_dir,"pr0xima")
+Proxima.ui.clearCLI
+wait(0.5)
+if typeof(createMainFolder)!="string" then
+getMainFolder=Proxima.globals.myPC.File(home_dir+"/pr0xima")
+end if
+end if
+return getMainFolder.path
+end function
+Proxima.engine.getSystemFolders=function
+folderMap={"downloads":null,"databases":null}
+for folderName in folderMap.indexes
+getFolder=Proxima.globals.myPC.File(home_dir+"/pr0xima/"+folderName)
+if getFolder==null or is_folder(getFolder)==false then
+createFolder=Proxima.globals.myPC.create_folder(home_dir+"/pr0xima",folderName)
+Proxima.ui.clearCLI
+wait(0.5)
+if typeof(createFolder)!="string" then
+getFolder=Proxima.globals.myPC.File(home_dir+"/pr0xima/"+folderName)
+end if
+end if
+folderMap[folderName]=getFolder.path
+end for
+return folderMap
+end function
+Proxima.engine.getDatabaseFiles=function
+databaseMap={"sessions":null,"exploits":null,"users":null,"mail_accounts":null,"bank_accounts":null}
+for databaseName in databaseMap.indexes
+getDatabase=Proxima.globals.myPC.File(home_dir+"/pr0xima/databases/"+databaseName+".db")
+if getDatabase==null then
+createDatabase=Proxima.globals.myPC.touch(home_dir+"/pr0xima/databases",databaseName+".db")
+Proxima.ui.clearCLI
+wait(0.5)
+if typeof(createDatabase)!="string" then
+getDatabase=Proxima.globals.myPC.File(home_dir+"/pr0xima/databases/"+databaseName+".db")
+end if
+end if
+databaseMap[databaseName]=getDatabase.path
+end for
+return databaseMap
+end function
+Proxima.engine.getSettings=function
+end function
+Proxima.engine.setSettings=function(settingKey,settingValue)
+end function
+Proxima.engine.initFileSystem=function
+hasInitializedFileSystem=true
+getMainFolder=self.getMainFolder
+if getMainFolder!=null then
+getSystemFolders=self.getSystemFolders
+getDatabaseFiles=self.getDatabaseFiles
+fileSystemMap={"pr0xima":getMainFolder}+getSystemFolders+getDatabaseFiles
+for fileSystemItem in fileSystemMap
+if fileSystemItem==null then
+hasInitializedFileSystem=false
+break
+end if
+end for
+else
+hasInitializedFileSystem=false
+end if
+return hasInitializedFileSystem
+end function
+Proxima.engine.searchLibraries=function(libraryList)
+libraryMap={}
+for libraryName in libraryList
+libraryMap[libraryName]=null
+end for
+for libraryName in libraryMap.indexes
+for libraryLocation in Proxima.settings.libraryLocations
+includeLibrary=include_lib(libraryLocation+"/"+libraryName)
+if includeLibrary!=null then
+libraryMap[key]=libraryLocation+"/"+libraryName
+break
+end if
+end for
+end for
+return libraryMap
+end function
+Proxima.engine.initLibraries=function
+libraryList=["aptclient.so","crypto.so","metaxploit.so"]
+searchLibraries=self.searchLibraries(libraryList)
+hasHackShopRepo=false
+sourcesFile=Proxima.apt.checkSourcesFile
+if sourcesFile!=null then
+hackShopIP=Proxima.apt.checkHackShop(sourcesFile)
+if hackShopIP!=null then
+isValidHackShop=Proxima.apt.isValidHackShop(hackShopIP)
+if isValidHackShop then
+hasHackShopRepo=true
+end if
+end if
+end if
+aptClient=searchLibraries["aptclient.so"]
+cryptoLib=searchLibraries["crypto.so"]
+metaxploitLib=searchLibraries["metaxploit.so"]
+if aptClient!=null then aptClient=include_lib(aptClient)
+if cryptoLib!=null then cryptoLib=include_lib(cryptoLib)
+if metaxploitLib!=null then metaxploitLib=include_lib(metaxploitLib)
+if Proxima.globals.activeUser!="guest" then
+if aptClient!=null then
+Proxima.globals.aptclient=aptClient
+if hasHackShopRepo==false then
+findHackShop=Proxima.apt.findHackShop
+if findHackShop then
+hasHackShopRepo=true
+// pring msg
+end if
+end if
+updateRepoInfo=Proxima.globals.aptclient.update
+Proxima.ui.clearCLI
+wait(0.5)
+if updateRepoInfo=="" then
+if cryptoLib==null and hasHackShopRepo then
+installCryptoLib=Proxima.globals.aptclient.install("crypto.so")
+if installCryptoLib==1 then
+else
+end if
+end if
+if metaxploitLib==null and hasHackShopRepo then
+installMetaxploitLib=Proxima.globals.aptclient.install("metaxploit.so")
+if installMetaxploitLib==1 then
+else
+end if
+end if
+checkForUpdates=Proxima.apt.checkForUpdates
+if typeof(checkForUpdates)=="list" then
+// update items
+else
+// no updates needed
+end if
+else
+// couldnt update repo info
+end if
+else
+// msg couldnt find aptclient.so
+end if
+else
+//...
+end if
+end function
+Proxima.engine.handleCommand=function(userCommand)
+if userCommand!=null and userCommand!="" then
+parsedCommand=null
+params=null
+if typeof(split(userCommand," "))=="list" then
+parts=split(userCommand," ")
+parsedCommand=parts[0]
+parts.remove(0)
+params=parts
+else
+parsedCommand=userCommand
+params=[]
+end if
+selectedCommand=null
+for command in self.commands
+if command.values[0]==parsedCommand then
+selectedCommand=command.values[1]
+break
+end if
+end for
+if selectedCommand!=null then
+if selectedCommand.type==2 then
+selectedCommand.exec(params)
+else
+if selectedCommand.type==Proxima.sessions.getSessionValue("sessionType") then
+selectedCommand.exec(params)
+else
+if selectedCommand.type==0 then
+self.throwCLIError("It is a remote session, this is a local command.")
+else if selectedCommand.type==1 then
+self.throwCLIError("It is a local session, this is a remote command.")
+end if
+end if
+end if
+else
+self.throwCLIError
+end if
+end if
+end function
+Proxima.engine.startCLI=function
+activeTarget=null
+targetIP=Proxima.sessions.getSessionValue("targetIP")
+if targetIP!=null then
+activeTarget=targetIP
+else
+activeTarget=Proxima.globals.activeUser
+end if
+self.cliString=self.message.colorize("<b>"+activeTarget+"</b>","#FFC466")+self.message.colorize("@pr0xima","#FC8403")+self.message.colorize("> ","#008DFF")
+while true
+userCommand=user_input(self.cliString,false,false).trim
+self.addInputEntry(userCommand)
+self.handleCommand(userCommand)
+end while
+end function
+Proxima.engine.start=function
+if Proxima.net.checkConnection!=true then
+self.message.error("You are not connected to the internet! Terminating program...")
+exit(self.message.info("You can hack into any WiFi by using <b>pr0net</b> subtool."))
+end if
+self.ui.clearCLI
+self.ui.printCLIHeader
+self.loadLibraries
+self.startCLI
+end function

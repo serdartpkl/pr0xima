@@ -1,5 +1,3 @@
-Proxima = {}
-
 import_code("sys/core/globals.src")
 import_code("sys/core/io.src")
 import_code("sys/core/utils.src")

@@ -1,0 +1,112 @@
+Proxima.apt={}
+Proxima.apt.hackShopIP=null
+// ------------------------------------------------------------------------------------------------------------
+Proxima.apt.checkSourcesFile=function
+getSourcesFile=Proxima.globals.myPC.File("/etc/apt/sources.txt")
+return getSourcesFile
+end function
+Proxima.apt.checkHackShop=function(sourcesFile)
+deserializedSource=Proxima.utils.deserializeMap(sourcesFile.get_content)
+if deserializedSource.sourceList.len>0 then
+return deserializedSource.sourceList.indexes[0]
+else
+return null
+end if
+end function
+Proxima.apt.isValidHackShop=function(hackShopIP)
+isValidHackShop=false
+if is_valid_ip(hackShopIP) then
+hackShopRouter=get_router(hackShopIP)
+for acquiredPort in hackShopRouter.used_ports
+serviceName=hackShopRouter.port_info(acquiredPort).split(" ")[0]
+if serviceName=="repository" and is_closed(acquiredPort)!=true then
+isValidHackShop=true
+break
+end if
+end for
+end if
+return isValidHackShop
+end function
+Proxima.apt.findHackShop=function
+hackShopIP=null
+generateRandomIP=function
+firstByteRange=range(0,255)
+firstByteRange.remove(192)
+//reserved
+firstByteRange.remove(191)
+//reserved
+firstByteRange.remove(0)
+//reserved
+firstByteRange.remove(10)
+//private
+firstByteRange.remove(172)
+//private
+firstByteRange.remove(128)
+//reserved
+firstByteRange.remove(223)
+//reserved
+restByteRange=range(0,255)
+generatedIP=[]
+generatedIP.push(floor(rnd*firstByteRange.len))
+for i in range(2)
+generatedIP.push(floor(rnd*restByteRange.len))
+end for
+generatedIP=generatedIP.join(".")
+if is_valid_ip(generatedIP) and get_router(generatedIP) and get_shell.ping(generatedIP) then
+return generatedIP
+end if
+return generateRandomIP
+end function
+while true
+generatedIP=generateRandomIP
+targetRouter=get_router(ip)
+targetPorts=router.used_ports
+isHackShop=false
+for targetPort in targetPorts
+portInfo=targetRouter.port_info(targetPort)
+if portInfo.indexOf("repository")!=null then
+hackShopIP=generatedIP
+break
+end if
+end for
+end while
+if hackShopIP!=null then
+Proxima.globals.aptclient.add_repo(hackShopIP)
+return true
+else
+return false
+end if
+end function
+Proxima.apt.checkForUpdates=function
+pendingForUpdate=[]
+libraryFiles=Proxima.utils.collectFiles("/lib")
+binaryFiles=Proxima.utils.collectFiles("/bin")
+for acquiredFile in libraryFiles+binaryFiles
+isUpdateAvailable=Proxima.globals.aptclient.check_upgrade(acquiredFile)
+Proxima.ui.clearCLI
+wait(0.5)
+if isUpdateAvailable then
+libraryName=acquiredFile.split("/")[-1]
+pendingForUpdate.push(libraryName)
+end if
+end for
+if pendingForUpdate.len>0 then
+return pendingForUpdate
+else
+return false
+end if
+end function
+Proxima.aptclient.updateLibraries=function(pendingList)
+statusMap={"succeed":[],"failed":[]}
+for pendingLibrary in pendingList
+updateLibrary=Proxima.globals.aptclient.install(pendingLibrary)
+Proxima.ui.clearCLI
+wait(0.5)
+if updateLibrary==1 then
+statusMap.succeed.push(pendingLibrary)
+else
+statusMap.failed.push(pendingLibrary)
+end if
+end for
+return statusMap
+end function
