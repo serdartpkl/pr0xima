@@ -227,8 +227,8 @@ end function
 // ------------------------------------------------------------------------------------------------------------
 Proxima.commands.cls={"name":"cls","description":"Clears terminal screen.","usage":"cls","type":2}
 Proxima.commands.cls.exec=function(params)
-Proxima.ui.cliEntries=[]
-Proxima.ui.clearCLI
+Proxima.io.cliEntries=[]
+Proxima.io.clearScreen
 end function
 // ------------------------------------------------------------------------------------------------------------
 Proxima.commands.help={"name":"help","description":"Lists all available commands.","usage":"help","type":2}
@@ -251,7 +251,7 @@ end function
 // ------------------------------------------------------------------------------------------------------------
 Proxima.commands.exit={"name":"exit","description":"Exits from script.","usage":"exit","type":2}
 Proxima.commands.exit.exec=function(params)
-exit(Proxima.ui.message.success("Goodbye! Have a nice day."))
+exit(Proxima.io.message.success("Goodbye! Have a nice day."))
 end function
 // ------------------------------------------------------------------------------------------------------------
 Proxima.commands.sessions={"name":"sessions","description":"List available sessions.","usage":"sessions","type":2}
@@ -302,7 +302,7 @@ end function
 Proxima.commands.rshell={"name":"rshell","description":"Inject reverse shell for specified open shell","usage":"rshell <id>","type":2}
 Proxima.commands.rshell.exec=function(params)
 if params.len==0 then
-Proxima.ui.throwCLIError("No shell ID provided.",self.usage)
+Proxima.io.throwCLIError("No shell ID provided.",self.usage)
 else
 Proxima.exploit.injectRshell(params[0].to_int)
 end if

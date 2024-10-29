@@ -6,7 +6,7 @@ Proxima.engine.getMainFolder = function ()
     getMainFolder = Proxima.globals.myPC.File(home_dir + "/pr0xima")
     if getMainFolder == null or is_folder(getMainFolder) == false then
         createMainFolder = Proxima.globals.myPC.create_folder(home_dir, "pr0xima")
-        Proxima.ui.clearCLI()
+        Proxima.io.clearScreen()
         wait(0.5)
         if typeof(createMainFolder) != "string" then
             getMainFolder = Proxima.globals.myPC.File(home_dir + "/pr0xima")
@@ -21,7 +21,7 @@ Proxima.engine.getSystemFolders = function ()
         getFolder = Proxima.globals.myPC.File(home_dir + "/pr0xima/" + folderName)
         if getFolder == null or is_folder(getFolder) == false then
             createFolder = Proxima.globals.myPC.create_folder(home_dir + "/pr0xima", folderName)
-            Proxima.ui.clearCLI()
+            Proxima.io.clearScreen()
             wait(0.5)
             if typeof(createFolder) != "string" then
                 getFolder = Proxima.globals.myPC.File(home_dir + "/pr0xima/" + folderName)
@@ -38,12 +38,13 @@ Proxima.engine.getDatabaseFiles = function ()
         getDatabase = Proxima.globals.myPC.File(home_dir + "/pr0xima/databases/" + databaseName + ".db")
         if getDatabase == null then
             createDatabase = Proxima.globals.myPC.touch(home_dir + "/pr0xima/databases", databaseName + ".db")
-            Proxima.ui.clearCLI()
+            Proxima.io.clearScreen()
             wait(0.5)
             if typeof(createDatabase) != "string" then
                 getDatabase = Proxima.globals.myPC.File(home_dir + "/pr0xima/databases/" + databaseName + ".db")
             end if
         end if
+        setFileContent = getDatabase.set_content("{" + char(34) + "records" + char(34) + ":[]}")
         databaseMap[databaseName] = getDatabase.path
     end for
     return databaseMap
@@ -132,7 +133,7 @@ Proxima.engine.initLibraries = function ()
             end if
 
             updateRepoInfo = Proxima.globals.aptclient.update()
-            Proxima.ui.clearCLI()
+            Proxima.io.clearScreen()
             wait(0.5)
 
             if updateRepoInfo == "" then
@@ -230,8 +231,8 @@ Proxima.engine.start = function ()
         self.message.error("You are not connected to the internet! Terminating program...")
         exit(self.message.info("You can hack into any WiFi by using <b>pr0net</b> subtool."))
     end if
-    self.ui.clearCLI()
-    self.ui.printCLIHeader()
+    self.io.clearScreen()
+    self.io.printCLIHeader()
     self.loadLibraries()
     self.startCLI()
 end function
