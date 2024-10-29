@@ -298,7 +298,7 @@ end function
 
 Proxima.engine.startCLI = function ()
     targetIP = Proxima.sessions.getSessionValue("targetIP")
-    Proxima.io.inputString = Proxima.io.output.colorize("<b>" + Proxima.globals.activeUser + "</b>", "#FFC466") + Proxima.io.output.colorize("@[" + targetIP + "]", "#FF1548") + Proxima.io.output.colorize("> ", "#008DFF")
+    Proxima.io.inputString = Proxima.io.output.colorize("<b>" + Proxima.globals.activeUser + "</b>", "#FFC466") + Proxima.io.output.colorize("@", "#08FF57") + Proxima.io.output.colorize("[" + targetIP + "]", "#FF1548") + Proxima.io.output.colorize("> ", "#008DFF")
     while true
         userCommand = user_input(Proxima.io.inputString, false, false).trim
         Proxima.io.addInputEntry(userCommand)

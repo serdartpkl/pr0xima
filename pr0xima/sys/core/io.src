@@ -37,7 +37,7 @@ end function
 // ------------------------------------------------------------------------------------------------------------
 
 Proxima.io.addInputEntry = function (userCommand)
-    self.ioEntries.push(self.cliString + userCommand)
+    self.ioEntries.push(self.inputString + userCommand)
 end function
 
 Proxima.io.addOutputEntry = function (outputString)
