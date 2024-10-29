@@ -57,7 +57,7 @@ Proxima.io.addTransferProcess = function (fileSize)
         else
             fileSizeGB = fileSizeGB + " GB"
         end if
-        self.ioEntries.push("100%    " + str(floor(rnd * (900 - 50 + 1) + 50)) + "." + str(floor(rnd * (9 - 1 + 1) + 1)) + " KB/s" + "    0 sec (" + fileSizeGB + " of " + fileSizeGB + " copied)")
+        self.ioEntries.push("100%   " + str(floor(rnd * (900 - 50 + 1) + 50)) + "." + str(floor(rnd * (9 - 1 + 1) + 1)) + " KB/s" + "   0 sec (" + fileSizeGB + " of " + fileSizeGB + " copied)")
     else if fileSize.to_int >= 1000 then
         fileSizeMB = round((fileSize.to_int / 1000000) * 10) / 10 
         if fileSizeMB == round(fileSizeMB) then
@@ -65,10 +65,10 @@ Proxima.io.addTransferProcess = function (fileSize)
         else
             fileSizeMB = fileSizeMB + " MB"
         end if
-        self.ioEntries.push("100%    " + str(floor(rnd * (900 - 50 + 1) + 50)) + "." + str(floor(rnd * (9 - 1 + 1) + 1)) + " KB/s" + "    0 sec (" + fileSizeMB + " of " + fileSizeMB + " copied)")
+        self.ioEntries.push("100%   " + str(floor(rnd * (900 - 50 + 1) + 50)) + "." + str(floor(rnd * (9 - 1 + 1) + 1)) + " KB/s" + "   0 sec (" + fileSizeMB + " of " + fileSizeMB + " copied)")
     else
         fileSize = fileSize + " Bytes"
-        self.ioEntries.push("100%    " + str(floor(rnd * (900 - 50 + 1) + 50)) + "." + str(floor(rnd * (9 - 1 + 1) + 1)) + " KB/s" + "    0 sec (" + fileSize + " of " + fileSize + " copied)")
+        self.ioEntries.push("100%   " + str(floor(rnd * (900 - 50 + 1) + 50)) + "." + str(floor(rnd * (9 - 1 + 1) + 1)) + " KB/s" + "   0 sec (" + fileSize + " of " + fileSize + " copied)")
     end if
     self.ioEntries.push("Processing...")
 end function

@@ -11,4 +11,4 @@ import_code("/home/pr0ximan0va/Scripts/pr0xima/sys/commands.src")
 import_code("/home/pr0ximan0va/Scripts/pr0xima/sys/engine.src")
 import_code("/home/pr0ximan0va/Scripts/pr0xima/init.src")
 prx=new Proxima
-prx.engine.start
+prx.engine.startEngine

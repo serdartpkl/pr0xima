@@ -229,7 +229,7 @@ self.addInputEntry(userCommand)
 self.handleCommand(userCommand)
 end while
 end function
-Proxima.engine.start=function
+Proxima.engine.startEngine=function
 Proxima.io.clearScreen
 Proxima.io.printHeader
 print(Proxima.io.addOutputEntry(Proxima.io.output.line))
@@ -254,4 +254,6 @@ exit(Proxima.io.addOutputEntry(Proxima.io.output.error("Couldn't load settings!"
 end if
 print(Proxima.io.addOutputEntry(Proxima.io.output.line))
 self.initLibraries
+print(Proxima.io.addOutputEntry(Proxima.io.output.line))
+print(Proxima.io.addOutputEntry(Proxima.io.output.progress("Creating local session...")))
 end function
