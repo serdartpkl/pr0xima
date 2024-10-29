@@ -319,14 +319,14 @@ Proxima.engine.startEngine = function ()
     self.scanFileSystem()
     initializeFileSystem = self.createMissingFiles()
     if initializeFileSystem then
-        print(Proxima.io.addOutputEntry(Proxima.io.output.success("Initialized file system successfully!")))
+        print(Proxima.io.addOutputEntry(Proxima.io.output.success("File system initialized successfully!")))
     else
         exit(Proxima.io.addOutputEntry(Proxima.io.output.error("Couldn't initialize file system!")))
     end if
     print(Proxima.io.addOutputEntry(Proxima.io.output.progress("Loading settings...")))
     getSettings = self.getSettings()
     if getSettings != null then
-        print(Proxima.io.addOutputEntry(Proxima.io.output.success("Loaded settings successfully!")))
+        print(Proxima.io.addOutputEntry(Proxima.io.output.success("Settings loaded successfully!")))
     else
         exit(Proxima.io.addOutputEntry(Proxima.io.output.error("Couldn't load settings!")))
     end if
