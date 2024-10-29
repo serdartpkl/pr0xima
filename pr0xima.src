@@ -2,7 +2,4 @@ import_code("pr0xima/init.src")
 
 prx = new Proxima
 
-prx.engine.scanFileSystem()
-prx.engine.createMissingFiles()
-
-prx.engine.initLibraries()
+prx.engine.start()
