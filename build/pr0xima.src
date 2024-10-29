@@ -17,3 +17,51 @@ print(prx.engine.searchLibraries)
 print(prx.engine.getSettings.rshell_ip)
 prx.engine.setSettings("rshell_ip","1.1.1.1")
 print(prx.engine.getSettings.rshell_ip)
+userRecords=prx.db.getRecords("users")
+print(userRecords)
+clearRecs=prx.db.resetDatabase("users")
+if clearRecs!=null then
+print("cleared users")
+else
+exit("error cleaning")
+end if
+prx.db.addRecord("users",{"username":"root","password":"919665"})
+prx.db.addRecord("users",{"username":"pr0ximan0va","password":"123456"})
+prx.db.addRecord("users",{"username":"guest","password":"789012"})
+if prx.db.getRecords("users").len>0 then
+print("added records")
+else
+exit("couldnt add records")
+end if
+deleteRec=prx.db.deleteRecord("users",2)
+if deleteRec!=null then
+print("deleted!")
+userRecords=prx.db.getRecords("users")
+print(userRecords)
+else
+exit("couldnt delete")
+end if
+searchRec=prx.db.searchRecord("users","password","919665")
+if searchRec!=null then
+print(searchRec)
+else
+exit("couldnt find user/s with password 919665")
+end if
+getRecVal=prx.db.getRecordValue("users",2,"password")
+if getRecVal!=null then
+print(getRecVal)
+else
+exit("couldnt get val")
+end if
+setRecVal=prx.db.setRecordValue("users",2,"password","919665")
+if setRecVal!=null then
+print("changed value")
+else
+exit("couldnt change val")
+end if
+getRecVal=prx.db.getRecordValue("users",2,"password")
+if getRecVal!=null then
+print(getRecVal)
+else
+exit("couldnt get new val")
+end if

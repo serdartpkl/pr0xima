@@ -91,7 +91,7 @@ if hasHackShopRepo==false then
 findHackShop=Proxima.apt.findHackShop
 if findHackShop then
 hasHackShopRepo=true
-// pring msg
+Proxima.io.addOutputEntry(Proxima.io.success("founded hack shop ip"))
 end if
 end if
 updateRepoInfo=Proxima.globals.aptclient.update
@@ -101,29 +101,53 @@ if updateRepoInfo=="" then
 if cryptoLib==null and hasHackShopRepo then
 installCryptoLib=Proxima.globals.aptclient.install("crypto.so")
 if installCryptoLib==1 then
+Proxima.io.addOutputEntry(Proxima.io.success("installed crypto successfuly"))
 else
+exit(Proxima.io.error("couldnt install crypto"))
 end if
 end if
 if metaxploitLib==null and hasHackShopRepo then
 installMetaxploitLib=Proxima.globals.aptclient.install("metaxploit.so")
 if installMetaxploitLib==1 then
+Proxima.io.addOutputEntry(Proxima.io.success("installed metaxploit successfuly"))
 else
+exit(Proxima.io.error("couldnt install metaxploit"))
 end if
 end if
 checkForUpdates=Proxima.apt.checkForUpdates
 if typeof(checkForUpdates)=="list" then
 // update items
 else
-// no updates needed
+Proxima.io.addOutputEntry(Proxima.io.info("no updates needed"))
 end if
 else
-// couldnt update repo info
+Proxima.io.addOutputEntry(Proxima.io.warning("couldnt update repo info"))
 end if
 else
-// msg couldnt find aptclient.so
+Proxima.io.addOutputEntry(Proxima.io.warning("coulndt find aptclient"))
+Proxima.io.addOutputEntry(Proxima.io.error("aptclient.so  : failed"))
+if cryptoLib==null or metaxploitLib==null then
+if cryptoLib==null then Proxima.io.addOutputEntry(Proxima.io.error("crypto.so     : failed"))
+if metaxploitLib==null then Proxima.io.addOutputEntry(Proxima.io.error("metaxploit.so : failed"))
+else
+Proxima.io.addOutputEntry(Proxima.io.success("crypto.so     : loaded"))
+Proxima.io.addOutputEntry(Proxima.io.success("metaxploit.so : loaded"))
+end if
 end if
 else
-//...
+Proxima.io.addOutputEntry(Proxima.io.warning("coulndt check updates due to insufficient user privileges"))
+if aptClient!=null then
+Proxima.io.addOutputEntry(Proxima.io.warning("aptclient.so  : loaded"))
+else
+Proxima.io.addOutputEntry(Proxima.io.warning("aptclient.so  : failed"))
+end if
+if cryptoLib==null or metaxploitLib==null then
+if cryptoLib==null then Proxima.io.addOutputEntry(Proxima.io.error("crypto.so     : failed"))
+if metaxploitLib==null then Proxima.io.addOutputEntry(Proxima.io.error("metaxploit.so : failed"))
+else
+Proxima.io.addOutputEntry(Proxima.io.success("crypto.so     : loaded"))
+Proxima.io.addOutputEntry(Proxima.io.success("metaxploit.so : loaded"))
+end if
 end if
 end function
 Proxima.engine.handleCommand=function(userCommand)
