@@ -4,60 +4,60 @@ Proxima.engine.fileSystem = [
     {
         "name": "pr0xima",
         "folder": true,
-        "parent": home_dir,
+        "parent_dir": home_dir,
         "has_found": false
     },
     {
         "name": "downloads",
         "folder": true,
-        "parent": home_dir + "/pr0xima",
+        "parent_dir": home_dir + "/pr0xima",
         "has_found": false
     },
     {
         "name": "databases",
         "folder": true,
-        "parent": home_dir + "/pr0xima",
+        "parent_dir": home_dir + "/pr0xima",
         "has_found": false
     },
     {
         "name": "settings.conf",
         "folder": false,
-        "parent": home_dir + "/pr0xima",
+        "parent_dir": home_dir + "/pr0xima",
         "default_content": "{" + char(34) + "rshell_ip" + char(34) + ":" + char(34) + Proxima.globals.myPC.public_ip + char(34) + "," + char(34) + "rshell_port" + char(34) + ":1222," + char(34) + "rshell_proc_name" + char(34) + ":" + char(34) + "prx" + char(34) + "," + char(34) + "injection_password" + char(34) + ":" + char(34) + "123456" + char(34) + "}",
         "has_found": false
     },
     {
         "name": "sessions.db",
         "folder": false,
-        "parent": home_dir + "/pr0xima/databases",
+        "parent_dir": home_dir + "/pr0xima/databases",
         "default_content": "{" + char(34) + "records" + char(34) + ":[]" + "}",
         "has_found": false
     },
     {
         "name": "exploits.db",
         "folder": false,
-        "parent": home_dir + "/pr0xima/databases",
+        "parent_dir": home_dir + "/pr0xima/databases",
         "default_content": "{" + char(34) + "records" + char(34) + ":[]" + "}",
         "has_found": false
     },
     {
         "name": "users.db",
         "folder": false,
-        "parent": home_dir + "/pr0xima/databases",
+        "parent_dir": home_dir + "/pr0xima/databases",
         "default_content": "{" + char(34) + "records" + char(34) + ":[]" + "}",
         "has_found": false
     },
     {
         "name": "mail_accounts.db",
         "folder": false,
-        "parent": home_dir + "/pr0xima/databases",
+        "parent_dir": home_dir + "/pr0xima/databases",
         "default_content": "{" + char(34) + "records" + char(34) + ":[]" + "}",
         "has_found": false
     },
     {
         "name": "bank_accounts.db",
         "folder": false,
-        "parent": home_dir + "/pr0xima/databases",
+        "parent_dir": home_dir + "/pr0xima/databases",
         "default_content": "{" + char(34) + "records" + char(34) + ":[]" + "}",
         "has_found": false
     }
@@ -67,7 +67,7 @@ Proxima.engine.fileSystem = [
 
 Proxima.engine.scanFileSystem = function ()
     for systemFile in self.fileSystem
-        getFile = Proxima.globals.myPC.File(systemFile.parent + "/" + systemFile.name)
+        getFile = Proxima.globals.myPC.File(systemFile.parent_dir + "/" + systemFile.name)
         if getFile != null then
             if systemFile.folder then
                 if is_folder(getFile) then systemFile.has_found = true
@@ -83,12 +83,12 @@ Proxima.engine.createMissingFiles = function ()
     for systemFile in self.fileSystem
         if systemFile.has_found == false then
             if systemFile.folder then
-                createFolder = Proxima.globals.myPC.create_folder(systemFile.parent, systemFile.name)
+                createFolder = Proxima.globals.myPC.create_folder(systemFile.parent_dir, systemFile.name)
                 if createFolder == 0 or typeof(createFolder) == "string" then isProcessCompleted = false
             else
-                createFile = Proxima.globals.myPC.touch(systemFile.parent, systemFile.name)
+                createFile = Proxima.globals.myPC.touch(systemFile.parent_dir, systemFile.name)
                 if createFile == 1 then
-                    setDefaultContent = Proxima.globals.myPC.File(systemFile.parent + "/" + systemFile.name).set_content(systemFile.default_content)
+                    setDefaultContent = Proxima.globals.myPC.File(systemFile.parent_dir + "/" + systemFile.name).set_content(systemFile.default_content)
                     if setDefaultContent == 0 or typeof(setDefaultContent) == "string" then isProcessCompleted = false
                 else
                     isProcessCompleted = false
