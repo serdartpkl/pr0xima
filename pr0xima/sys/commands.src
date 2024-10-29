@@ -1,7 +1,3 @@
-Proxima.commands = {}
-
-// ------------------------------------------------------------------------------------------------------------
-
 Proxima.commands.dump = {
     "name": "dump",
     "description": "Dumps target IPs ports or local libraries to perform a scan.",
