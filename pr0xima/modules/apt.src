@@ -37,14 +37,14 @@ Proxima.apt.findHackShop = function ()
     hackShopIP = null
     
     generateRandomIP = function()
-        firstByteRange = range(0,	255)
-        firstByteRange.remove(192) //reserved
-        firstByteRange.remove(191) //reserved
-        firstByteRange.remove(0) //reserved
-        firstByteRange.remove(10) //private
-        firstByteRange.remove(172) //private
-        firstByteRange.remove(128) //reserved
-        firstByteRange.remove(223) //reserved
+        firstByteRange = range(0, 255)
+        firstByteRange.remove(192)
+        firstByteRange.remove(191)
+        firstByteRange.remove(0)
+        firstByteRange.remove(10)
+        firstByteRange.remove(172)
+        firstByteRange.remove(128)
+        firstByteRange.remove(223)
 
         restByteRange = range(0,255)
         
