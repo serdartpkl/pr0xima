@@ -23,7 +23,7 @@ end function
 Proxima.db.resetDatabase = function (databaseName)
     databaseFile = self.getDatabase(databaseName)
     if databaseFile != null then
-        resetFile = databaseFile.set_content("")
+        resetFile = databaseFile.set_content("{" + char(34) + "records" + char(34) + ":[]}")
         if resetFile == 1 then return true
     end if
     return null
@@ -43,7 +43,6 @@ end function
 Proxima.db.getRecords = function (databaseName)
     databaseFile = self.getDatabase(databaseName)
     if databaseFile != null then
-        recordsList = []
         deserializedDatabase = Proxima.utils.deserializeMap(databaseFile.get_content())
         return deserializedDatabase.records
     end if
