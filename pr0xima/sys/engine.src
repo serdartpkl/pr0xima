@@ -321,6 +321,7 @@ end function
 Proxima.engine.startEngine = function ()
     Proxima.io.clearScreen()
     Proxima.io.printHeader()
+    
     print(Proxima.io.addOutputEntry(Proxima.io.output.line))
 
     if Proxima.net.checkConnection != true then 
@@ -361,7 +362,7 @@ Proxima.engine.startEngine = function ()
     end if
 
     print(Proxima.io.addOutputEntry(Proxima.io.output.progress("Creating local session...")))
-    
+
     localIP = Proxima.globals.myPC.local_ip
     localRouter = get_router(localIP)
     createSession = Proxima.sessions.createSession(0, localIP, localRouter)
