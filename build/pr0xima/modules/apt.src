@@ -33,9 +33,8 @@ packageList.pop
 for packageItem in packageList
 itemEntry=packageItem.split(char(10))
 packageName=itemEntry[0]
-print(Proxima.io.addOutputEntry(packageName))
 Proxima.globals.aptclient.del_repo(repositoryIP)
-if packageName=="metaxploit.so" or packageName=="crypto.so" then return repositoryIP
+if packageName=="<b>metaxploit.so</b>" or packageName=="<b>crypto.so</b>" then return repositoryIP
 end for
 end if
 end for
