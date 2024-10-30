@@ -22,16 +22,20 @@ end function
 
 Proxima.apt.isValidShop = function (repositoryIPs)
     for repositoryIP in repositoryIPs
+        hasAlreadyInSources = false
+        if self.getRepositories(self.checkSourcesFile).indexOf(repositoryIP) != null then hasAlreadyInSources = true
+
         if is_valid_ip(repositoryIP) then
             repositoryRouter = get_router(repositoryIP)
             for acquiredPort in repositoryRouter.used_ports
                 serviceName = repositoryRouter.port_info(acquiredPort).split(" ")[0]
                 if serviceName == "repository" and is_closed(acquiredPort) != true then
-                    if self.getRepositories(self.checkSourcesFile).indexOf(repositoryIP) == null then
+                    if hasAlreadyInSources != true then
                         Proxima.globals.aptclient.add_repo(repositoryIP)
                         Proxima.globals.aptclient.update()
                         Proxima.io.clearScreen
                         wait(0.5)
+                        hasAlreadyInSources = true
                     end if
                     repositoryPackages = Proxima.globals.aptclient.show(repositoryIP)
                     packageList = repositoryPackages.split(char(10) + char(10))
@@ -45,11 +49,8 @@ Proxima.apt.isValidShop = function (repositoryIPs)
                         packageName = packageName.replace("</b>", "")
                         parsedList.push(packageName)
                     end for
-                    if parsedList.indexOf("metaxploit.so") != null or parsedList.indexOf("crypto.so") != null then 
-                        return repositoryIP
-                    else
-                        Proxima.globals.aptclient.del_repo(repositoryIP)
-                    end if
+                    if parsedList.indexOf("metaxploit.so") != null or parsedList.indexOf("crypto.so") != null then return repositoryIP
+                    if hasAlreadyInSources then Proxima.globals.aptclient.del_repo(repositoryIP)
                 end if
             end for
         end if
