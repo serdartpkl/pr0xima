@@ -252,7 +252,7 @@ Proxima.engine.initLibraries = function ()
             else
                 print(Proxima.io.addOutputEntry(Proxima.io.output.success("Updated all libraries successfully!")))
             end if
-        else
+        else if checkForUpdates == false then
             print(Proxima.io.addOutputEntry(Proxima.io.output.info("No updates available at the moment.")))
         end if
     else
