@@ -9,7 +9,7 @@ Proxima.apt.checkSourcesFile = function ()
     return getSourcesFile
 end function
 
-Proxima.apt.checkRepositories = function (sourcesFile)
+Proxima.apt.getRepositories = function (sourcesFile)
     repositoryIPs = []
     deserializedSource = Proxima.utils.deserializeMap(sourcesFile.get_content)
     if deserializedSource.sourceList.len > 0 then
