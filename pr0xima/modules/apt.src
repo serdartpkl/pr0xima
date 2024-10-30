@@ -9,32 +9,41 @@ Proxima.apt.checkSourcesFile = function ()
     return getSourcesFile
 end function
 
-Proxima.apt.checkHackShop = function (sourcesFile)
+Proxima.apt.checkRepositories = function (sourcesFile)
+    repositoryIPs = []
     deserializedSource = Proxima.utils.deserializeMap(sourcesFile.get_content)
     if deserializedSource.sourceList.len > 0 then
-        return deserializedSource.sourceList.indexes[0]
-    else
-        return null
+        for repositoryIP in deserializedSource.sourceList.indexes
+            repositoryIPs.push(repositoryIP)
+        end if
     end if
+    return repositoryIPs
 end function
 
-Proxima.apt.isValidHackShop = function (hackShopIP)
-    isValidHackShop = false
-    if is_valid_ip(hackShopIP) then
-        hackShopRouter = get_router(hackShopIP)
-        for acquiredPort in hackShopRouter.used_ports
-            serviceName = hackShopRouter.port_info(acquiredPort).split(" ")[0]
-            if serviceName == "repository" and is_closed(acquiredPort) != true then
-                isValidHackShop = true
-                break
-            end if
-        end for
-    end if
-    return isValidHackShop
+Proxima.apt.isValidShop = function (repositoryIPs)
+    for repositoryIP in repositoryIPs
+        if is_valid_ip(hackShopIP) then
+            repositoryRouter = get_router(repositoryIP)
+            for acquiredPort in repositoryRouter.used_ports
+                serviceName = repositoryRouter.port_info(acquiredPort).split(" ")[0]
+                if serviceName == "repository" and is_closed(acquiredPort) != true then
+                    repositoryPackages = Proxima.globals.aptclient.show(repositoryIP)
+                    packageList = repositoryPackages.split(char(10) + char(10))
+                    packageList.pop()
+                    for packageItem in packageList
+                        itemEntry = packageItem.split(char(10))
+                        packageName = itemEntry[0]
+                        if packageName == "metaxploit.so" or packageName == "crypto.so" then return repositoryIP
+                    end for
+                end if
+            end for
+        end if
+    end for
+    return null
 end function
 
-Proxima.apt.findHackShop = function ()
-    hackShopIP = null
+Proxima.apt.findShop = function ()
+    shopIP = null
     
     generateRandomIP = function()
         firstByteRange = range(0, 255)
@@ -61,22 +70,14 @@ Proxima.apt.findHackShop = function ()
         return generateRandomIP
     end function
 
-    while hackShopIP == null
+    while shopIP == null
         generatedIP = generateRandomIP()
-        targetRouter = get_router(generatedIP)
-        targetPorts = targetRouter.used_ports
-        isHackShop = false
-        for targetPort in targetPorts
-            portInfo = targetRouter.port_info(targetPort).split(" ")
-            if portInfo.hasIndex(0) and portInfo[0] == "repository" then
-                hackShopIP = generatedIP
-                break
-            end if
-        end for
+        isValidShop = self.isValidShop([generatedIP])
+        if isValidShop != null and typeof(isValidShop) == "string" then shopIP = generatedIP
     end while
 
-    if hackShopIP != null then
-        Proxima.globals.aptclient.add_repo(hackShopIP)
+    if shopIP != null then
+        Proxima.globals.aptclient.add_repo(shopIP)
         return true
     else
         return false
