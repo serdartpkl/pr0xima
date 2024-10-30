@@ -44,10 +44,13 @@ packageName=packageName.replace("</b>","")
 parsedList.push(packageName)
 end for
 if parsedList.indexOf("metaxploit.so")!=null or parsedList.indexOf("crypto.so")!=null then return repositoryIP
+else
+if hasAlreadyInSources then Proxima.globals.aptclient.del_repo(repositoryIP)
 end if
 end for
-end if
+else
 if hasAlreadyInSources then Proxima.globals.aptclient.del_repo(repositoryIP)
+end if
 end for
 return null
 end function
