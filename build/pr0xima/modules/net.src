@@ -1,0 +1,109 @@
+Proxima.net={}
+Proxima.net.networkKey=null
+Proxima.net.targetNetwork=null
+Proxima.net.targetNetworks=[]
+// ------------------------------------------------------------------------------------------------------------
+Proxima.net.checkConnection=function
+if Proxima.globals.myPC.is_network_active then
+return true
+else
+return false
+end if
+end function
+Proxima.net.getConnectedNetwork=function
+if self.checkConnection then
+getRouter=Proxima.globals.myPC.get_router
+networkESSID=getRouter.essid_name
+networkBSSID=getRouter.bssid_name
+return networkESSID+char(10)+networkBSSID
+else
+return null
+end if
+end function
+// ------------------------------------------------------------------------------------------------------------
+Proxima.net.selectInterface=function
+targetComputer=Proxima.globals.myPC
+activeNetworkCard=targetComputer.active_net_card
+selectedInterface=null
+if activeNetworkCard=="WIFI" then
+networkDevices=network_devices(targetComputer)
+deviceList=networkDevices.split(char(10))
+for networkDevice in deviceList
+deviceInfo=networkDevice.split(char(32))
+interfaceName=deviceInfo[0]
+chipsetModel=deviceInfo[1]
+supportedMonitoring=deviceInfo[2]
+if supportedMonitoring then
+selectedInterface=interfaceName
+break
+end if
+end for
+end if
+return selectedInterface
+end function
+Proxima.net.startMonitoring=function
+selectedInterface=self.selectInterface
+if selectedInterface!=null then
+airmonResult=Proxima.globals.crypto.airmon("start",selectedInterface)
+if typeof(airmonResult)=="string" then
+return false
+else
+return true
+end if
+else
+return null
+end if
+end function
+Proxima.net.setAutoTarget=function
+if self.startMonitoring then
+getNetworks=Proxima.globals.myPC.wifi_networks(self.selectInterface)
+if getNetworks.len>0 then
+for network in getNetworks
+networkID=self.targetNetworks.len+1
+network=network.split(" ")
+bssid=network[0]
+essid=network[2]
+strength=network[1][:-1].to_int
+self.targetNetworks.push({"id":networkID,"essid":essid,"bssid":bssid,"strength":strength})
+end for
+self.targetNetwork=self.targetNetworks.sort("strength")[self.targetNetworks.len-1]
+return true
+else
+return false
+end if
+else
+return null
+end if
+end function
+Proxima.net.startSniffing=function(selectedInterface)
+if self.setAutoTarget then
+requiredACKs=ceil(300000/self.targetNetwork.strength)
+getACKs=Proxima.globals.crypto.aireplay(self.targetNetwork.bssid,self.targetNetwork.essid,requiredACKs)
+airmonResult=Proxima.globals.crypto.airmon("stop",self.selectInterface)
+else
+end if
+end function
+// ------------------------------------------------------------------------------------------------------------
+Proxima.net.crackKey=function
+capFile=Proxima.globals.myPC.File(home_dir+"/file.cap")
+if capFile==null then exit(Proxima.cli.message.error("<b>file.cap</b> is missing"))
+if capFile.has_permission("r")!=true or capFile.has_permission("w")!=true then exit(Proxima.cli.message.error("Insufficient permission to open <b>file.cap</b> for reading."))
+if capFile then
+self.networkKey=Proxima.globals.crypto.aircrack(capFile.path)
+if self.networkKey==null then exit(Proxima.cli.message.error("Could not crack key. Please try again later..."))
+print(Proxima.cli.addOutputEntry(Proxima.cli.message.success("Network key cracked! <b>[KEY:"+self.networkKey+"]</b>")))
+capFile.delete
+end if
+end function
+Proxima.net.connectNetwork=function
+print(Proxima.cli.addOutputEntry(Proxima.cli.message.progress("Connecting to <b>"+self.targetNetwork.essid+"</b>...")))
+connectionStatus=Proxima.globals.myPC.connect_wifi(self.interface,self.targetNetwork.bssid,self.targetNetwork.essid,self.networkKey)
+exit(Proxima.cli.addOutputEntry(Proxima.cli.message.success("Connection successfull, you are online!")))
+end function
+// ------------------------------------------------------------------------------------------------------------
+Proxima.net.autoHack=function
+self.setAutoTarget
+self.startSniffing
+self.crackKey
+self.connectNetwork
+end function

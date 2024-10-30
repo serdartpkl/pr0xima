@@ -1,0 +1,276 @@
+Proxima.engine={}
+Proxima.engine.fileSystem=[{"name":"pr0xima","folder":true,"parent_dir":home_dir,"has_found":false},{"name":"downloads","folder":true,"parent_dir":home_dir+"/pr0xima","has_found":false},{"name":"databases","folder":true,"parent_dir":home_dir+"/pr0xima","has_found":false},{"name":"settings.conf","folder":false,"parent_dir":home_dir+"/pr0xima","default_content":"{"+char(34)+"rshell_ip"+char(34)+":"+char(34)+Proxima.globals.myPC.public_ip+char(34)+","+char(34)+"rshell_port"+char(34)+":1222,"+char(34)+"rshell_proc_name"+char(34)+":"+char(34)+"prx"+char(34)+","+char(34)+"injection_password"+char(34)+":"+char(34)+"123456"+char(34)+"}","has_found":false},{"name":"sessions.db","folder":false,"parent_dir":home_dir+"/pr0xima/databases","default_content":"{"+char(34)+"records"+char(34)+":[]"+"}","has_found":false},{"name":"exploits.db","folder":false,"parent_dir":home_dir+"/pr0xima/databases","default_content":"{"+char(34)+"records"+char(34)+":[]"+"}","has_found":false},{"name":"users.db","folder":false,"parent_dir":home_dir+"/pr0xima/databases","default_content":"{"+char(34)+"records"+char(34)+":[]"+"}","has_found":false},{"name":"mail_accounts.db","folder":false,"parent_dir":home_dir+"/pr0xima/databases","default_content":"{"+char(34)+"records"+char(34)+":[]"+"}","has_found":false},{"name":"bank_accounts.db","folder":false,"parent_dir":home_dir+"/pr0xima/databases","default_content":"{"+char(34)+"records"+char(34)+":[]"+"}","has_found":false}]
+// ------------------------------------------------------------------------------------------------------------
+Proxima.engine.scanFileSystem=function
+for systemFile in self.fileSystem
+getFile=Proxima.globals.myPC.File(systemFile.parent_dir+"/"+systemFile.name)
+if getFile!=null then
+if systemFile.folder then
+if is_folder(getFile) then systemFile.has_found=true
+else
+systemFile.has_found=true
+end if
+end if
+end for
+end function
+Proxima.engine.createMissingFiles=function
+isProcessCompleted=true
+homeFolder=Proxima.globals.myPC.File(home_dir)
+if homeFolder.has_permission("r") and homeFolder.has_permission("w") then
+for systemFile in self.fileSystem
+if systemFile.has_found==false then
+if systemFile.folder then
+createFolder=Proxima.globals.myPC.create_folder(systemFile.parent_dir,systemFile.name)
+if createFolder==0 or typeof(createFolder)=="string" then isProcessCompleted=false
+else
+createFile=Proxima.globals.myPC.touch(systemFile.parent_dir,systemFile.name)
+if createFile==1 then
+setDefaultContent=Proxima.globals.myPC.File(systemFile.parent_dir+"/"+systemFile.name).set_content(systemFile.default_content)
+if setDefaultContent==0 or typeof(setDefaultContent)=="string" then isProcessCompleted=false
+else
+isProcessCompleted=false
+end if
+end if
+end if
+end for
+else
+isProcessCompleted=false
+end if
+return isProcessCompleted
+end function
+Proxima.engine.getSettings=function
+settingsFile=Proxima.globals.myPC.File(home_dir+"/pr0xima/settings.conf")
+if settingsFile!=null then
+deserializedSettings=Proxima.utils.deserializeMap(settingsFile.get_content)
+return deserializedSettings
+end if
+return null
+end function
+Proxima.engine.setSettings=function(settingKey,settingValue)
+settingsMap=self.getSettings
+if settingsMap!=null then
+settingsMap[settingKey]=settingValue
+serializedSettingsMap=Proxima.utils.serializeMap(settingsMap)
+settingsFile=Proxima.globals.myPC.File(home_dir+"/pr0xima/settings.conf")
+setFileContent=settingsFile.set_content(serializedSettingsMap)
+if setFileContent!=0 and typeof(setFileContent)=="string" then return true
+end if
+return null
+end function
+Proxima.engine.searchLibraries=function
+libraryMap={"aptclient.so":null,"crypto.so":null,"metaxploit.so":null}
+for libraryName in libraryMap.indexes
+for libraryLocation in Proxima.globals.libraryLocations
+includeLibrary=include_lib(libraryLocation+"/"+libraryName)
+if includeLibrary!=null then
+libraryMap[libraryName]=libraryLocation+"/"+libraryName
+break
+end if
+end for
+end for
+return libraryMap
+end function
+Proxima.engine.initLibraries=function
+searchLibraries=self.searchLibraries
+hasHackShopRepo=false
+sourcesFile=Proxima.apt.checkSourcesFile
+if sourcesFile!=null then
+hackShopIP=Proxima.apt.checkHackShop(sourcesFile)
+if hackShopIP!=null then
+isValidHackShop=Proxima.apt.isValidHackShop(hackShopIP)
+if isValidHackShop then
+hasHackShopRepo=true
+end if
+end if
+end if
+aptClient=searchLibraries["aptclient.so"]
+cryptoLib=searchLibraries["crypto.so"]
+metaxploitLib=searchLibraries["metaxploit.so"]
+if aptClient!=null then aptClient=include_lib(aptClient)
+if cryptoLib!=null then cryptoLib=include_lib(cryptoLib)
+if metaxploitLib!=null then metaxploitLib=include_lib(metaxploitLib)
+if Proxima.globals.activeUser!="guest" then
+if aptClient!=null then
+Proxima.globals.aptclient=aptClient
+print(Proxima.io.addOutputEntry(Proxima.io.output.success("Found aptclient.so library. <b>[STATUS:LOADED]</b>")))
+if hasHackShopRepo==false then
+print(Proxima.io.addOutputEntry(Proxima.io.output.error("Couldn't find any hack shop IP!")))
+print(Proxima.io.addOutputEntry(Proxima.io.output.progress("Searching for hack shop...")))
+findHackShop=Proxima.apt.findHackShop
+if findHackShop then
+hasHackShopRepo=true
+print(Proxima.io.addOutputEntry(Proxima.io.output.success("Found one! Successfully added hack shop IP to repository sources.")))
+end if
+end if
+updateRepoInfo=Proxima.globals.aptclient.update
+Proxima.io.clearScreen
+wait(0.5)
+if updateRepoInfo=="" then
+if cryptoLib==null and hasHackShopRepo then
+print(Proxima.io.addOutputEntry(Proxima.io.output.progress("Installing <b>crypto.so</b>...")))
+print(Proxima.io.addOutputEntry(Proxima.io.output.line))
+installCryptoLib=Proxima.globals.aptclient.install("crypto.so")
+cryptoLibSize=Proxima.globals.myPC.File("/lib/crypto.so").size
+Proxima.io.addTransferProcess(cryptoLibSize)
+print(Proxima.io.addOutputEntry(Proxima.io.output.line))
+if installCryptoLib==1 then
+print(Proxima.io.addOutputEntry(Proxima.io.output.success("Installed crypto.so library. <b>[STATUS:INSTALLED]</b>")))
+else
+exit(Proxima.io.output.error("Couldn't install <b>crypto.so</b>."))
+end if
+else
+Proxima.globals.crypto=cryptoLib
+print(Proxima.io.addOutputEntry(Proxima.io.output.success("Found crypto.so library. <b>[STATUS:LOADED]</b>")))
+end if
+if metaxploitLib==null and hasHackShopRepo then
+print(Proxima.io.addOutputEntry(Proxima.io.output.progress("Installing <b>metaxploit.so</b>...")))
+print(Proxima.io.addOutputEntry(Proxima.io.output.line))
+installMetaxploitLib=Proxima.globals.aptclient.install("metaxploit.so")
+metaxploitLibSize=Proxima.globals.myPC.File("/lib/metaxploit.so").size
+Proxima.io.addTransferProcess(metaxploitLibSize)
+print(Proxima.io.addOutputEntry(Proxima.io.output.line))
+if installMetaxploitLib==1 then
+print(Proxima.io.addOutputEntry(Proxima.io.output.success("Installed metaxploit.so library. <b>[STATUS:INSTALLED]</b>")))
+else
+exit(Proxima.io.output.error("Couldn't install <b>metaxploit</b>."))
+end if
+else
+Proxima.globals.metaxploit=metaxploitLib
+print(Proxima.io.addOutputEntry(Proxima.io.output.success("Found metaxploit.so library. <b>[STATUS:LOADED]</b>")))
+end if
+print(Proxima.io.addOutputEntry(Proxima.io.output.progress("Checking for library updates...")))
+checkForUpdates=Proxima.apt.checkForUpdates
+if typeof(checkForUpdates)=="list" then
+updateLibraries=Proxima.apt.updateLibraries(checkForUpdates)
+if updateLibraries.failed.indexOf(null)!=null then
+print(Proxima.io.addOutputEntry(Proxima.io.output.warning("Couldn't update libraries properly.")))
+else
+print(Proxima.io.addOutputEntry(Proxima.io.output.success("Updated libraries successfully!")))
+end if
+else
+print(Proxima.io.addOutputEntry(Proxima.io.output.info("No updates available.")))
+end if
+else
+print(Proxima.io.addOutputEntry(Proxima.io.output.warning("Couldn't update repository information!")))
+end if
+else
+print(Proxima.io.addOutputEntry(Proxima.io.output.warning("Couldn't check for updates due to missing <b>aptclient.so</b> library.")))
+print(Proxima.io.addOutputEntry(Proxima.io.output.error("Failed to locate aptclient.so library. <b>[STATUS:FAILED]</b>")))
+if cryptoLib==null or metaxploitLib==null then
+if cryptoLib==null then print(Proxima.io.addOutputEntry(Proxima.io.output.error("Failed to locate crypto.so library. <b>[STATUS:FAILED]</b>")))
+if metaxploitLib==null then print(Proxima.io.addOutputEntry(Proxima.io.output.error("Failed to locate metaxploit.so library. <b>[STATUS:FAILED]</b>")))
+exit(Proxima.io.output.error("Couldn't start script due to missing library/libraries!"))
+else
+print(Proxima.io.addOutputEntry(Proxima.io.output.success("Found crypto.so library. <b>[STATUS:LOADED]</b>")))
+print(Proxima.io.addOutputEntry(Proxima.io.output.success("Found metaxploit.so library. <b>[STATUS:LOADED]</b>")))
+end if
+end if
+else
+print(Proxima.io.addOutputEntry(Proxima.io.output.warning("Couldn't check for updates due to insufficient user privileges.")))
+if aptClient!=null then
+print(Proxima.io.addOutputEntry(Proxima.io.output.warning("Found aptclient.so library. <b>[STATUS:LOADED]</b>")))
+else
+print(Proxima.io.addOutputEntry(Proxima.io.output.warning("Failed to locate aptclient.so library. <b>[STATUS:FAILED]</b>")))
+end if
+if cryptoLib==null or metaxploitLib==null then
+if cryptoLib==null then print(Proxima.io.addOutputEntry(Proxima.io.output.error("Failed to locate crypto.so library. <b>[STATUS:FAILED]</b>")))
+if metaxploitLib==null then print(Proxima.io.addOutputEntry(Proxima.io.output.error("Failed to locate metaxploit.so library. <b>[STATUS:FAILED]</b>")))
+exit(Proxima.io.output.error("Couldn't start script due to missing library/libraries!"))
+else
+print(Proxima.io.addOutputEntry(Proxima.io.output.success("Found crypto.so library. <b>[STATUS:LOADED]</b>")))
+print(Proxima.io.addOutputEntry(Proxima.io.output.success("Found metaxploit.so library. <b>[STATUS:LOADED]</b>")))
+end if
+end if
+end function
+Proxima.engine.handleCommand=function(userCommand)
+if userCommand!=null and userCommand!="" then
+parsedCommand=null
+params=null
+if typeof(split(userCommand," "))=="list" then
+parts=split(userCommand," ")
+parsedCommand=parts[0]
+parts.remove(0)
+params=parts
+else
+parsedCommand=userCommand
+params=[]
+end if
+selectedCommand=null
+for command in Proxima.commands
+if command.values[0]==parsedCommand then
+selectedCommand=command.values[1]
+break
+end if
+end for
+if selectedCommand!=null then
+if selectedCommand.type==2 then
+selectedCommand.exec(params)
+else
+if selectedCommand.type==Proxima.sessions.getSessionValue("sessionType") then
+selectedCommand.exec(params)
+else
+if selectedCommand.type==0 then
+Proxima.io.throwInputError("You are currently working with a remote session, this command is for local sessions.")
+else if selectedCommand.type==1 then
+Proxima.io.throwInputError("You are currently working with a local session, this command is for remote sessions.")
+end if
+end if
+end if
+else
+Proxima.io.throwInputError
+end if
+end if
+end function
+Proxima.engine.startCLI=function
+targetIP=Proxima.sessions.getSessionValue("targetIP")
+Proxima.io.inputString=Proxima.io.output.colorize("<b>"+Proxima.globals.activeUser+"</b>","#FFC466")+Proxima.io.output.colorize("@","#08FF57")+Proxima.io.output.colorize("["+targetIP+"]","#FF1548")+Proxima.io.output.colorize("> ","#008DFF")
+while true
+userCommand=user_input(Proxima.io.inputString,false,false).trim
+Proxima.io.addInputEntry(userCommand)
+self.handleCommand(userCommand)
+end while
+end function
+Proxima.engine.startEngine=function
+Proxima.io.clearScreen
+Proxima.io.printHeader
+print(Proxima.io.addOutputEntry(Proxima.io.output.line))
+if Proxima.net.checkConnection!=true then
+print(Proxima.io.output.error("You are not connected to the internet! Terminating program..."))
+exit(Proxima.io.output.info("You can hack into any WiFi by using <b>pr0net</b> subtool."))
+end if
+print(Proxima.io.addOutputEntry(Proxima.io.output.progress("Initializing file system...")))
+self.scanFileSystem
+initializeFileSystem=self.createMissingFiles
+if initializeFileSystem then
+print(Proxima.io.addOutputEntry(Proxima.io.output.success("File system initialized successfully!")))
+else
+exit(Proxima.io.output.error("Couldn't initialize file system!"))
+end if
+print(Proxima.io.addOutputEntry(Proxima.io.output.progress("Loading settings...")))
+getSettings=self.getSettings
+if getSettings!=null then
+print(Proxima.io.addOutputEntry(Proxima.io.output.success("Settings loaded successfully!")))
+else
+exit(Proxima.io.output.error("Couldn't load settings!"))
+end if
+print(Proxima.io.addOutputEntry(Proxima.io.output.line))
+self.initLibraries
+print(Proxima.io.addOutputEntry(Proxima.io.output.line))
+loadSavedSessions=Proxima.sessions.loadSavedSessions
+if loadSavedSessions then
+print(Proxima.io.addOutputEntry(Proxima.io.output.success("Saved sessions loaded successfully! <b>[TOTAL:"+Proxima.db.getRecords("sessions").len+"]</b>")))
+else if loadSavedSessions==false then
+print(Proxima.io.addOutputEntry(Proxima.io.output.info("No saved sessions found.")))
+else
+exit(Proxima.io.output.error("Couldn't load saved sessions!"))
+end if
+print(Proxima.io.addOutputEntry(Proxima.io.output.progress("Creating local session...")))
+localIP=Proxima.globals.myPC.local_ip
+localRouter=get_router(localIP)
+createSession=Proxima.sessions.createSession(0,localIP,localRouter)
+if createSession then
+self.startCLI
+else
+exit(Proxima.io.output.error("Couldn't create local session due to unexpected error. Terminating program..."))
+end if
+end function
