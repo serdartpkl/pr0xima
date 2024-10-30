@@ -168,14 +168,6 @@ Proxima.engine.initLibraries = function ()
             if getValidShop != null and typeof(getValidShop) == "string" then
                 hasShopRepo = true
             end if
-            for shopIP in shopIPs
-                isValidShop = Proxima.apt.isValidShop([shopIP])
-                if isValidShop == null then
-                    Proxima.globals.aptclient.del_repo(shopIP)
-                    Proxima.io.clearScreen
-                    wait(0.5)
-                end if
-            end for
         end if
     end if
 

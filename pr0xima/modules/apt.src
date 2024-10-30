@@ -27,10 +27,12 @@ Proxima.apt.isValidShop = function (repositoryIPs)
             for acquiredPort in repositoryRouter.used_ports
                 serviceName = repositoryRouter.port_info(acquiredPort).split(" ")[0]
                 if serviceName == "repository" and is_closed(acquiredPort) != true then
-                    Proxima.globals.aptclient.add_repo(repositoryIP)
-                    Proxima.globals.aptclient.update()
-                    Proxima.io.clearScreen
-                    wait(0.5)
+                    if self.getRepositories(self.checkSourcesFile).indexOf(repositoryIP) == null then
+                        Proxima.globals.aptclient.add_repo(repositoryIP)
+                        Proxima.globals.aptclient.update()
+                        Proxima.io.clearScreen
+                        wait(0.5)
+                    end if
                     repositoryPackages = Proxima.globals.aptclient.show(repositoryIP)
                     packageList = repositoryPackages.split(char(10) + char(10))
                     packageList.pop()

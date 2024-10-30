@@ -22,20 +22,29 @@ repositoryRouter=get_router(repositoryIP)
 for acquiredPort in repositoryRouter.used_ports
 serviceName=repositoryRouter.port_info(acquiredPort).split(" ")[0]
 if serviceName=="repository" and is_closed(acquiredPort)!=true then
+if self.getRepositories(self.checkSourcesFile).indexOf(repositoryIP)==null then
 Proxima.globals.aptclient.add_repo(repositoryIP)
 Proxima.globals.aptclient.update
 Proxima.io.clearScreen
+end if
 wait(0.5)
 repositoryPackages=Proxima.globals.aptclient.show(repositoryIP)
 packageList=repositoryPackages.split(char(10)+char(10))
 packageList.pop
 packageList.pop
+parsedList=[]
 for packageItem in packageList
 itemEntry=packageItem.split(char(10))
 packageName=itemEntry[0]
-Proxima.globals.aptclient.del_repo(repositoryIP)
-if packageName=="<b>metaxploit.so</b>" or packageName=="<b>crypto.so</b>" then return repositoryIP
+packageName=packageName.replace("<b>","")
+packageName=packageName.replace("</b>","")
+parsedList.push(packageName)
 end for
+if parsedList.indexOf("metaxploit.so")!=null or parsedList.indexOf("crypto.so")!=null then
+return repositoryIP
+else
+Proxima.globals.aptclient.del_repo(repositoryIP)
+end if
 end if
 end for
 end if
