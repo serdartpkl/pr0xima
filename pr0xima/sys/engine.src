@@ -195,6 +195,7 @@ Proxima.engine.initLibraries = function ()
             wait(0.5)
             if updateRepositoryInfo == "" then
                 hasUpdatedRepositoryInfo = true
+                print(Proxima.io.addOutputEntry(Proxima.io.output.success("Updated repository information successfully!")))
             else
                 print(Proxima.io.addOutputEntry(Proxima.io.output.warning("Couldn't update repository information, it won't be able to check updates.")))
             end if
