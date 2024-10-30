@@ -50,10 +50,11 @@ Proxima.apt.isValidShop = function (repositoryIPs)
                         parsedList.push(packageName)
                     end for
                     if parsedList.indexOf("metaxploit.so") != null or parsedList.indexOf("crypto.so") != null then return repositoryIP
-                    if hasAlreadyInSources then Proxima.globals.aptclient.del_repo(repositoryIP)
                 end if
             end for
         end if
+
+        if hasAlreadyInSources then Proxima.globals.aptclient.del_repo(repositoryIP)
     end for
     return null
 end function
