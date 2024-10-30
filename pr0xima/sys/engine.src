@@ -140,6 +140,8 @@ Proxima.engine.searchLibraries = function ()
 end function
 
 Proxima.engine.initLibraries = function ()
+    print(Proxima.io.addOutputEntry(Proxima.io.output.progress("Locating libraries...")))
+    
     searchLibraries = self.searchLibraries()
 
     aptClient = searchLibraries["aptclient.so"]
