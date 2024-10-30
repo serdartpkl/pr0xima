@@ -184,8 +184,8 @@ Proxima.engine.initLibraries = function ()
         if hasShopRepo == false then
             print(Proxima.io.addOutputEntry(Proxima.io.output.error("Couldn't find any repository IP!")))
             print(Proxima.io.addOutputEntry(Proxima.io.output.progress("Searching for a repository IP...")))
-            findHackShop = Proxima.apt.findHackShop()
-            if findHackShop then
+            findShop = Proxima.apt.findShop()
+            if findShop then
                 hasShopRepo = true
                 print(Proxima.io.addOutputEntry(Proxima.io.output.success("Found one! Successfully added to repository sources.")))
             else
