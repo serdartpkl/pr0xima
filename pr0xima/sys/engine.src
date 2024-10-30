@@ -174,7 +174,7 @@ Proxima.engine.initLibraries = function ()
     hasUpdatedRepositoryInfo = false
     if Proxima.globals.activeUser != "guest" and aptClient != null then
         if hasShopRepo == false then
-            print(Proxima.io.addOutputEntry(Proxima.io.output.error("Couldn't find any repository IP!")))
+            print(Proxima.io.addOutputEntry(Proxima.io.output.warning("Couldn't find any repository IP!")))
             print(Proxima.io.addOutputEntry(Proxima.io.output.progress("Searching for a repository IP...")))
             findShop = Proxima.apt.findShop()
             if findShop then
