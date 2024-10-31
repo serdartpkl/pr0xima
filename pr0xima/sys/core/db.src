@@ -85,6 +85,8 @@ Proxima.db.searchRecord = function (databaseName, recordKey, recordValue)
                 recordCounter = recordCounter + 1
             end for
             return foundedRecords
+        else
+            return []
         end if
     end if
     return null

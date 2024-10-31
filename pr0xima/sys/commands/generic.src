@@ -308,39 +308,50 @@ Proxima.commands.sessions.exec = function (params)
         else
             Proxima.io.throwCLIError("No sessions available, please perform a scan first.")
         end if
-    else
-        if params.len == 1 then
-            if params[0] == "saved" then
-                Proxima.sessions.displaySavedSessionInfo()
-            else
-                Proxima.io.throwCLIError("Unknown session parameter.", self.usage)
-            end if
-        else if params.len >= 2 then
-            if params[0] == "load" then
-                //...
-            else if params[0] == "save" then
-                //...
-            else if params[0] == "switch" then
-                sessionID = params[1].to_int
-                targetSession = Proxima.sessions.getSession(sessionID)
-                if targetSession != null then
-                    if targetSession.id != Proxima.sessions.activeSession then
-                        Proxima.sessions.setSession(sessionID)
-                        Proxima.io.inputString = Proxima.io.output.colorize("<b>pr0xima</b>", "#FFC466") + Proxima.io.output.colorize("@", "#08FF57") + Proxima.io.output.colorize("[" + targetSession.targetIP + "]", "#FF1548") + Proxima.io.output.colorize("> ", "#008DFF")
-                    else
-                        Proxima.io.throwCLIError("You are already at this session. <b>[ID:" + sessionID + "]</b>")
-                    end if
+    else if params.len >= 1 then
+        if params[0] == "saved" then
+            Proxima.sessions.displaySavedSessionInfo()
+        else if params[0] == "load" then
+            //...
+        else if params[0] == "save" then
+            sessionID = params[1].to_int
+            targetSession = Proxima.sessions.getSession(sessionID)
+            if targetSession != null then
+                searchSession = Proxima.db.searchRecord("sessions", "targetIP", targetSession.targetIP)
+                if searchSession != null and searchSession.len > 0 then
+                    //...
                 else
-                    Proxima.io.throwCLIError("No session found with provided ID.")
+                    //...
                 end if
-            else if params[0] == "remove" then
-                //...
             else
-                Proxima.io.throwCLIError()
+                Proxima.io.throwCLIError("No session found with provided ID.")
+            end if
+        else if params[0] == "switch" then
+            sessionID = params[1].to_int
+            targetSession = Proxima.sessions.getSession(sessionID)
+            if targetSession != null then
+                if targetSession.id != Proxima.sessions.activeSession then
+                    Proxima.sessions.setSession(sessionID)
+                    Proxima.io.inputString = Proxima.io.output.colorize("<b>pr0xima</b>", "#FFC466") + Proxima.io.output.colorize("@", "#08FF57") + Proxima.io.output.colorize("[" + targetSession.targetIP + "]", "#FF1548") + Proxima.io.output.colorize("> ", "#008DFF")
+                else
+                    sessionType = "LOCAL"
+                    if targetSession.sessionType == 1 then sessionType = "REMOTE"
+                    Proxima.io.throwCLIError("You are already at this session. <b>[ID:" + sessionID + "|" + sessionType + "]</b>")
+                end if
+            else
+                Proxima.io.throwCLIError("No session found with provided ID.")
+            end if
+        else if params[0] == "remove" then
+            if params.hasIndex(2) and params[2] == "--saved" then
+                
+            else
+                
             end if
         else
-            Proxima.io.throwCLIError()
+            Proxima.io.throwCLIError("Unknown session operation.", self.usage)
         end if
+    else if params.len > 3 then
+        Proxima.io.throwCLIError("Too many arguements.", self.usage)
     end if
 end function
 
