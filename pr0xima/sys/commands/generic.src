@@ -51,7 +51,7 @@ Proxima.commands.exploits.exec = function (params)
     if targetExploits.len > 0 then
         Proxima.exploit.displayExploitInfo()
     else
-        Proxima.cli.throwCLIError("No exploits available, please scan an IP address first.")
+        Proxima.io.throwCLIError("No exploits available, please scan an IP address first.")
     end if
 end function
 
@@ -68,7 +68,7 @@ Proxima.commands.users.exec = function (params)
     if targetUsers.len > 0 then
         Proxima.exploit.displayUserInfo()
     else
-        Proxima.cli.throwCLIError("No users found, please execute an exploit first.")
+        Proxima.io.throwCLIError("No users found, please execute an exploit first.")
     end if
 end function
 
@@ -85,7 +85,7 @@ Proxima.commands.mails.exec = function (params)
     if targetMails.len > 0 then
         Proxima.exploit.displayMailInfo()
     else
-        Proxima.cli.throwCLIError("No mail information available, please execute an exploit first.")
+        Proxima.io.throwCLIError("No mail information available, please execute an exploit first.")
     end if
 end function
 
@@ -102,7 +102,7 @@ Proxima.commands.banks.exec = function (params)
     if targetBanks.len > 0 then
         Proxima.exploit.displayBankInfo()
     else
-        Proxima.cli.throwCLIError("No bank information available, please execute an exploit first.")
+        Proxima.io.throwCLIError("No bank information available, please execute an exploit first.")
     end if
 end function
 
@@ -119,7 +119,7 @@ Proxima.commands.shells.exec = function (params)
     if targetShells.len > 0 then
         Proxima.exploit.displayShellInfo()
     else
-        Proxima.cli.throwCLIError("No open shells available, please execute an exploit first.")
+        Proxima.io.throwCLIError("No open shells available, please execute an exploit first.")
     end if
 end function
 
@@ -133,7 +133,7 @@ Proxima.commands.execute = {
 }
 Proxima.commands.execute.exec = function (params)
     if params.len == 0 then
-        Proxima.cli.throwCLIError("No exploit ID provided.", self.usage)
+        Proxima.io.throwCLIError("No exploit ID provided.", self.usage)
     else
         if params[0] == "all" then
             Proxima.exploit.autoExecute()
@@ -153,7 +153,7 @@ Proxima.commands.decipher = {
 }
 Proxima.commands.decipher.exec = function (params)
     if params.len < 2 then
-        Proxima.cli.throwCLIError("No target list or ID provided.", self.usage)
+        Proxima.io.throwCLIError("No target list or ID provided.", self.usage)
     else if params.len == 2 then
         if params[0] == "users" then
             Proxima.exploit.decipherUserPassword(params[1].to_int)
@@ -162,10 +162,10 @@ Proxima.commands.decipher.exec = function (params)
         else if params[0] == "banks" then
             Proxima.exploit.decipherBankPassword(params[1].to_int)
         else
-            Proxima.cli.throwCLIError("Unknown list type.", self.usage)
+            Proxima.io.throwCLIError("Unknown list type.", self.usage)
         end if
     else if params.len > 2 then
-        Proxima.cli.throwCLIError("Too many arguements.", self.usage)
+        Proxima.io.throwCLIError("Too many arguements.", self.usage)
     end if
 end function
 
@@ -179,7 +179,7 @@ Proxima.commands.shell = {
 }
 Proxima.commands.shell.exec = function (params)
     if params.len == 0 then
-        Proxima.cli.throwCLIError("No shell ID provided.", self.usage)
+        Proxima.io.throwCLIError("No shell ID provided.", self.usage)
     else
         Proxima.exploit.launchShell(params[0].to_int)
     end if
@@ -269,12 +269,12 @@ Proxima.commands.help.exec = function (params)
         cmd_name = cmd.name
         cmd_description = cmd.description
         cmd_usage = cmd.usage
-        print(Proxima.cli.addOutputEntry("<b>" + cmd_name + "</b>:"))
-        print(Proxima.cli.addOutputEntry(cmd_description))
-        print(Proxima.cli.addOutputEntry("<b>Usage:</b> " + cmd_usage))
+        print(Proxima.io.addOutputEntry("<b>" + cmd_name + "</b>:"))
+        print(Proxima.io.addOutputEntry(cmd_description))
+        print(Proxima.io.addOutputEntry("<b>Usage:</b> " + cmd_usage))
 
-        if i != Proxima.cli.commands.len - 1 then
-            print(Proxima.cli.addOutputEntry("+------------------------------------+"))
+        if i != Proxima.io.commands.len - 1 then
+            print(Proxima.io.addOutputEntry("+------------------------------------+"))
         end if
 
         i = i + 1
@@ -328,10 +328,10 @@ Proxima.commands.sessions.exec = function (params)
                         Proxima.sessions.setSession(sessionID)
                         Proxima.io.inputString = Proxima.io.output.colorize("<b>pr0xima</b>", "#FFC466") + Proxima.io.output.colorize("@", "#08FF57") + Proxima.io.output.colorize("[" + targetSession.targetIP + "]", "#FF1548") + Proxima.io.output.colorize("> ", "#008DFF")
                     else
-                        Proxima.cli.throwCLIError("You are already at this session. <b>[ID:" + sessionID + "]</b>")
+                        Proxima.io.throwCLIError("You are already at this session. <b>[ID:" + sessionID + "]</b>")
                     end if
                 else
-                    Proxima.cli.throwCLIError("No session found with provided ID.")
+                    Proxima.io.throwCLIError("No session found with provided ID.")
                 end if
             else if params[0] == "remove" then
                 //...
@@ -363,10 +363,10 @@ Proxima.commands.whois = {
 Proxima.commands.whois.exec = function (params)
     adminInfo = whois(Proxima.exploit.targetIP)
     adminInfo = adminInfo.split(char(10))
-    print(Proxima.cli.addOutputEntry(Proxima.cli.message.colorize("<b>Domain Name:</b> ", "#0091FF") + adminInfo[0].split(":")[1].trim))
-    print(Proxima.cli.addOutputEntry(Proxima.cli.message.colorize("<b>Administrative Contact:</b> ", "#0091FF") + adminInfo[1].split(":")[1].trim))
-    print(Proxima.cli.addOutputEntry(Proxima.cli.message.colorize("<b>Email Address:</b> ", "#0091FF") + adminInfo[2].split(":")[1].trim))
-    print(Proxima.cli.addOutputEntry(Proxima.cli.message.colorize("<b>Phone Number:</b> ", "#0091FF") + adminInfo[3].split(":")[1].trim))
+    print(Proxima.io.addOutputEntry(Proxima.io.message.colorize("<b>Domain Name:</b> ", "#0091FF") + adminInfo[0].split(":")[1].trim))
+    print(Proxima.io.addOutputEntry(Proxima.io.message.colorize("<b>Administrative Contact:</b> ", "#0091FF") + adminInfo[1].split(":")[1].trim))
+    print(Proxima.io.addOutputEntry(Proxima.io.message.colorize("<b>Email Address:</b> ", "#0091FF") + adminInfo[2].split(":")[1].trim))
+    print(Proxima.io.addOutputEntry(Proxima.io.message.colorize("<b>Phone Number:</b> ", "#0091FF") + adminInfo[3].split(":")[1].trim))
 end function
 
 // ------------------------------------------------------------------------------------------------------------
