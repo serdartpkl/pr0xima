@@ -195,7 +195,7 @@ Proxima.commands.delete = {
 }
 Proxima.commands.delete.exec = function (params)
     if params.len == 0 then
-        Proxima.throwCLIError("No file path provided.", self.usage)
+        Proxima.io.throwCLIError("No file path provided.", self.usage)
     else
         Proxima.exploit.deleteFile(params[0])
     end if
@@ -211,7 +211,7 @@ Proxima.commands.launch = {
 }
 Proxima.commands.launch.exec = function (params)
     if params.len == 0 then
-        Proxima.throwCLIError("No binary file path provided.", self.usage)
+        Proxima.io.throwCLIError("No binary file path provided.", self.usage)
     else
         Proxima.exploit.runBinaryFile(params[0])
     end if
