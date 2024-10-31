@@ -87,7 +87,7 @@ print(Proxima.io.addOutputEntry(Proxima.io.output.error("Couldn't locate aptclie
 end if
 hasShopRepo=false
 sourcesFile=Proxima.apt.checkSourcesFile
-if sourcesFile!=null then
+if aptClient!=null and sourcesFile!=null then
 shopIPs=Proxima.apt.getRepositories(sourcesFile)
 if shopIPs.len>0 then
 for shopIP in shopIPs
@@ -100,7 +100,7 @@ end for
 end if
 end if
 hasUpdatedRepositoryInfo=false
-if Proxima.globals.activeUser!="guest" and aptClient!=null then
+if aptClient!=null and Proxima.globals.activeUser!="guest" then
 if hasShopRepo==false then
 print(Proxima.io.addOutputEntry(Proxima.io.output.warning("Couldn't find any repository IP!")))
 print(Proxima.io.addOutputEntry(Proxima.io.output.progress("Searching for a repository IP...")))
@@ -132,7 +132,7 @@ if cryptoLib!=null then
 Proxima.globals.crypto=cryptoLib
 print(Proxima.io.addOutputEntry(Proxima.io.output.success("Found crypto.so library. <b>[LOADED]</b>")))
 else
-if Proxima.globals.activeUser!="guest" and aptClient!=null and hasShopRepo and hasUpdatedRepositoryInfo then
+if aptClient!=null and Proxima.globals.activeUser!="guest" and hasShopRepo and hasUpdatedRepositoryInfo then
 print(Proxima.io.addOutputEntry(Proxima.io.output.progress("Installing <b>crypto.so</b>...")))
 print(Proxima.io.addOutputEntry(Proxima.io.output.line))
 installCryptoLib=Proxima.globals.aptclient.install("crypto.so")
@@ -153,7 +153,7 @@ if metaxploitLib!=null then
 Proxima.globals.metaxploit=metaxploitLib
 print(Proxima.io.addOutputEntry(Proxima.io.output.success("Found metaxploit.so library. <b>[LOADED]</b>")))
 else
-if Proxima.globals.activeUser!="guest" and aptClient!=null and hasShopRepo and hasUpdatedRepositoryInfo then
+if aptClient!=null and Proxima.globals.activeUser!="guest" and hasShopRepo and hasUpdatedRepositoryInfo then
 print(Proxima.io.addOutputEntry(Proxima.io.output.progress("Installing <b>metaxploit.so</b>...")))
 print(Proxima.io.addOutputEntry(Proxima.io.output.line))
 installMetaxploitLib=Proxima.globals.aptclient.install("metaxploit.so")
@@ -170,7 +170,7 @@ print(Proxima.io.addOutputEntry(Proxima.io.output.error("Couldn't locate metaxpl
 exit(Proxima.io.output.error("Couldn't start script due to missing library/libraries!"))
 end if
 end if
-if Proxima.globals.activeUser!="guest" and aptClient!=null and hasShopRepo and hasUpdatedRepositoryInfo then
+if aptClient!=null and Proxima.globals.activeUser!="guest" and hasShopRepo and hasUpdatedRepositoryInfo then
 print(Proxima.io.addOutputEntry(Proxima.io.output.progress("Checking for library updates...")))
 checkForUpdates=Proxima.apt.checkForUpdates
 if typeof(checkForUpdates)=="list" then
