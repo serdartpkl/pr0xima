@@ -16,7 +16,7 @@ end for
 padRight=function(str,length,rowColor)
 padding=" "*(length-str.len)
 if rowColor!=null then
-return Proxima.cli.message.colorize(str+padding,"#"+rowColor)
+return Proxima.io.output.colorize(str+padding,"#"+rowColor)
 else
 return str+padding
 end if
@@ -28,9 +28,9 @@ idx=headerList.indexOf(i)
 separator=separator+"-"*(maxLengths[idx]+2)+"+"
 headerRow=headerRow+" "+padRight(i,maxLengths[idx],null)+" |"
 end for
-print(Proxima.cli.addOutputEntry(separator))
-print(Proxima.cli.addOutputEntry(headerRow))
-print(Proxima.cli.addOutputEntry(separator))
+print(Proxima.io.addOutputEntry(separator))
+print(Proxima.io.addOutputEntry(headerRow))
+print(Proxima.io.addOutputEntry(separator))
 for row in contentList
 rowStr="|"
 for i in headerList
@@ -43,8 +43,8 @@ rowColor=splitRow[1]
 end if
 rowStr=rowStr+" "+padRight(row[idx],maxLengths[idx],rowColor)+" |"
 end for
-print(Proxima.cli.addOutputEntry(rowStr))
-print(Proxima.cli.addOutputEntry(separator))
+print(Proxima.io.addOutputEntry(rowStr))
+print(Proxima.io.addOutputEntry(separator))
 end for
 end function
 Proxima.utils.mapHasValue=function(givenList,searchKey,searchValue)

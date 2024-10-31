@@ -152,9 +152,9 @@ Proxima.engine.initLibraries = function ()
 
     if aptClient != null then
         Proxima.globals.aptclient = aptClient
-        print(Proxima.io.addOutputEntry(Proxima.io.output.success("Found aptclient.so library. <b>[LOADED]</b>")))
+        print(Proxima.io.addOutputEntry(Proxima.io.output.success("Found <b>aptclient.so</b> library. <b>[LOADED]</b>")))
     else
-        print(Proxima.io.addOutputEntry(Proxima.io.output.error("Couldn't locate aptclient.so library. <b>[FAILED]</b>")))
+        print(Proxima.io.addOutputEntry(Proxima.io.output.error("Couldn't locate <b>aptclient.so</b> library. <b>[FAILED]</b>")))
     end if
 
     hasShopRepo = false
@@ -204,7 +204,7 @@ Proxima.engine.initLibraries = function ()
 
     if cryptoLib != null then
         Proxima.globals.crypto = cryptoLib
-        print(Proxima.io.addOutputEntry(Proxima.io.output.success("Found crypto.so library. <b>[LOADED]</b>")))
+        print(Proxima.io.addOutputEntry(Proxima.io.output.success("Found <b>crypto.so</b> library. <b>[LOADED]</b>")))
     else
         if aptClient != null and Proxima.globals.activeUser != "guest" and hasShopRepo and hasUpdatedRepositoryInfo then
             print(Proxima.io.addOutputEntry(Proxima.io.output.progress("Installing <b>crypto.so</b>...")))
@@ -214,19 +214,19 @@ Proxima.engine.initLibraries = function ()
                 cryptoLibSize = Proxima.globals.myPC.File("/lib/crypto.so").size
                 Proxima.io.addTransferProcess(cryptoLibSize)
                 print(Proxima.io.addOutputEntry(Proxima.io.output.line))
-                print(Proxima.io.addOutputEntry(Proxima.io.output.success("Installed crypto.so library. <b>[LOADED]</b>")))
+                print(Proxima.io.addOutputEntry(Proxima.io.output.success("Installed <b>crypto.so</b> library. <b>[LOADED]</b>")))
             else
                 exit(Proxima.io.output.error("Couldn't install <b>crypto.so</b> library."))
             end if
         else
-            print(Proxima.io.addOutputEntry(Proxima.io.output.error("Couldn't locate crypto.so library. <b>[FAILED]</b>")))
+            print(Proxima.io.addOutputEntry(Proxima.io.output.error("Couldn't locate <b>crypto.so</b> library. <b>[FAILED]</b>")))
             exit(Proxima.io.output.error("Couldn't start script due to missing library/libraries!"))
         end if
     end if
 
     if metaxploitLib != null then
         Proxima.globals.metaxploit = metaxploitLib
-        print(Proxima.io.addOutputEntry(Proxima.io.output.success("Found metaxploit.so library. <b>[LOADED]</b>")))
+        print(Proxima.io.addOutputEntry(Proxima.io.output.success("Found <b>metaxploit.so</b> library. <b>[LOADED]</b>")))
     else
         if aptClient != null and Proxima.globals.activeUser != "guest" and hasShopRepo and hasUpdatedRepositoryInfo then
             print(Proxima.io.addOutputEntry(Proxima.io.output.progress("Installing <b>metaxploit.so</b>...")))
@@ -236,12 +236,12 @@ Proxima.engine.initLibraries = function ()
                 metaxploitLibSize = Proxima.globals.myPC.File("/lib/metaxploit.so").size
                 Proxima.io.addTransferProcess(metaxploitLibSize)
                 print(Proxima.io.addOutputEntry(Proxima.io.output.line))
-                print(Proxima.io.addOutputEntry(Proxima.io.output.success("Installed metaxploit.so library. <b>[LOADED]</b>")))
+                print(Proxima.io.addOutputEntry(Proxima.io.output.success("Installed <b>metaxploit.so</b> library. <b>[LOADED]</b>")))
             else
                 exit(Proxima.io.output.error("Couldn't install <b>metaxploit.so</b> library."))
             end if
         else
-            print(Proxima.io.addOutputEntry(Proxima.io.output.error("Couldn't locate metaxploit.so library. <b>[FAILED]</b>")))
+            print(Proxima.io.addOutputEntry(Proxima.io.output.error("Couldn't locate <b>metaxploit.so</b> library. <b>[FAILED]</b>")))
             exit(Proxima.io.output.error("Couldn't start script due to missing library/libraries!"))
         end if
     end if

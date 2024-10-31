@@ -80,9 +80,9 @@ if cryptoLib!=null then cryptoLib=include_lib(cryptoLib)
 if metaxploitLib!=null then metaxploitLib=include_lib(metaxploitLib)
 if aptClient!=null then
 Proxima.globals.aptclient=aptClient
-print(Proxima.io.addOutputEntry(Proxima.io.output.success("Found aptclient.so library. <b>[LOADED]</b>")))
+print(Proxima.io.addOutputEntry(Proxima.io.output.success("Found <b>aptclient.so</b> library. <b>[LOADED]</b>")))
 else
-print(Proxima.io.addOutputEntry(Proxima.io.output.error("Couldn't locate aptclient.so library. <b>[FAILED]</b>")))
+print(Proxima.io.addOutputEntry(Proxima.io.output.error("Couldn't locate <b>aptclient.so</b> library. <b>[FAILED]</b>")))
 end if
 hasShopRepo=false
 sourcesFile=Proxima.apt.checkSourcesFile
@@ -129,7 +129,7 @@ end if
 print(Proxima.io.addOutputEntry(Proxima.io.output.line))
 if cryptoLib!=null then
 Proxima.globals.crypto=cryptoLib
-print(Proxima.io.addOutputEntry(Proxima.io.output.success("Found crypto.so library. <b>[LOADED]</b>")))
+print(Proxima.io.addOutputEntry(Proxima.io.output.success("Found <b>crypto.so</b> library. <b>[LOADED]</b>")))
 else
 if aptClient!=null and Proxima.globals.activeUser!="guest" and hasShopRepo and hasUpdatedRepositoryInfo then
 print(Proxima.io.addOutputEntry(Proxima.io.output.progress("Installing <b>crypto.so</b>...")))
@@ -139,18 +139,18 @@ if installCryptoLib==1 then
 cryptoLibSize=Proxima.globals.myPC.File("/lib/crypto.so").size
 Proxima.io.addTransferProcess(cryptoLibSize)
 print(Proxima.io.addOutputEntry(Proxima.io.output.line))
-print(Proxima.io.addOutputEntry(Proxima.io.output.success("Installed crypto.so library. <b>[LOADED]</b>")))
+print(Proxima.io.addOutputEntry(Proxima.io.output.success("Installed <b>crypto.so</b> library. <b>[LOADED]</b>")))
 else
 exit(Proxima.io.output.error("Couldn't install <b>crypto.so</b> library."))
 end if
 else
-print(Proxima.io.addOutputEntry(Proxima.io.output.error("Couldn't locate crypto.so library. <b>[FAILED]</b>")))
+print(Proxima.io.addOutputEntry(Proxima.io.output.error("Couldn't locate <b>crypto.so</b> library. <b>[FAILED]</b>")))
 exit(Proxima.io.output.error("Couldn't start script due to missing library/libraries!"))
 end if
 end if
 if metaxploitLib!=null then
 Proxima.globals.metaxploit=metaxploitLib
-print(Proxima.io.addOutputEntry(Proxima.io.output.success("Found metaxploit.so library. <b>[LOADED]</b>")))
+print(Proxima.io.addOutputEntry(Proxima.io.output.success("Found <b>metaxploit.so</b> library. <b>[LOADED]</b>")))
 else
 if aptClient!=null and Proxima.globals.activeUser!="guest" and hasShopRepo and hasUpdatedRepositoryInfo then
 print(Proxima.io.addOutputEntry(Proxima.io.output.progress("Installing <b>metaxploit.so</b>...")))
@@ -160,12 +160,12 @@ if installMetaxploitLib==1 then
 metaxploitLibSize=Proxima.globals.myPC.File("/lib/metaxploit.so").size
 Proxima.io.addTransferProcess(metaxploitLibSize)
 print(Proxima.io.addOutputEntry(Proxima.io.output.line))
-print(Proxima.io.addOutputEntry(Proxima.io.output.success("Installed metaxploit.so library. <b>[LOADED]</b>")))
+print(Proxima.io.addOutputEntry(Proxima.io.output.success("Installed <b>metaxploit.so</b> library. <b>[LOADED]</b>")))
 else
 exit(Proxima.io.output.error("Couldn't install <b>metaxploit.so</b> library."))
 end if
 else
-print(Proxima.io.addOutputEntry(Proxima.io.output.error("Couldn't locate metaxploit.so library. <b>[FAILED]</b>")))
+print(Proxima.io.addOutputEntry(Proxima.io.output.error("Couldn't locate <b>metaxploit.so</b> library. <b>[FAILED]</b>")))
 exit(Proxima.io.output.error("Couldn't start script due to missing library/libraries!"))
 end if
 end if
@@ -232,7 +232,7 @@ end if
 end function
 Proxima.engine.startCLI=function
 targetIP=Proxima.sessions.getSessionValue("targetIP")
-Proxima.io.inputString=Proxima.io.output.colorize("<b>"+Proxima.globals.activeUser+"</b>","#FFC466")+Proxima.io.output.colorize("@","#08FF57")+Proxima.io.output.colorize("["+targetIP+"]","#FF1548")+Proxima.io.output.colorize("> ","#008DFF")
+Proxima.io.inputString=Proxima.io.output.colorize("<b>pr0xima</b>","#FFC466")+Proxima.io.output.colorize("@","#08FF57")+Proxima.io.output.colorize("["+targetIP+"]","#FF1548")+Proxima.io.output.colorize("> ","#008DFF")
 while true
 userCommand=user_input(Proxima.io.inputString,false,false).trim
 Proxima.io.addInputEntry(userCommand)

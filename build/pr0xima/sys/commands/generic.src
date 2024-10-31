@@ -178,29 +178,40 @@ if params.len==0 then
 if Proxima.sessions.targetSessions.len>0 then
 Proxima.sessions.displaySessionInfo
 else
-Proxima.throwCLIError("No sessions available, please perform a scan first.")
+Proxima.io.throwCLIError("No sessions available, please perform a scan first.")
 end if
 else
 if params.len==1 then
 if params[0]=="saved" then
+Proxima.sessions.displaySavedSessionInfo
 else
+Proxima.io.throwCLIError("Unknown session parameter.",self.usage)
 end if
-else if params.len==2 then
+else if params.len>=2 then
 if params[0]=="load" then
+//...
 else if params[0]=="save" then
+//...
 else if params[0]=="switch" then
-targetSession=Proxima.sessions.getSession(params[0].to_int)
+sessionID=params[1].to_int
+targetSession=Proxima.sessions.getSession(sessionID)
 if targetSession!=null then
-Proxima.sessions.setSession(params[0].to_int)
-Proxima.cli.cliString=Proxima.cli.message.colorize("<b>"+targetSession.targetIP+"</b>","#FFC466")+Proxima.cli.message.colorize("@pr0xima","#FC8403")+Proxima.cli.message.colorize("> ","#008DFF")
+if targetSession.id!=Proxima.sessions.activeSession then
+Proxima.sessions.setSession(sessionID)
+Proxima.io.inputString=Proxima.io.output.colorize("<b>pr0xima</b>","#FFC466")+Proxima.io.output.colorize("@","#08FF57")+Proxima.io.output.colorize("["+targetSession.targetIP+"]","#FF1548")+Proxima.io.output.colorize("> ","#008DFF")
+else
+Proxima.cli.throwCLIError("You are already at this session. <b>[ID:"+sessionID+"]</b>")
+end if
 else
 Proxima.cli.throwCLIError("No session found with provided ID.")
 end if
 else if params[0]=="remove" then
+//...
 else
+Proxima.io.throwCLIError
 end if
-else if params.len==3 then
 else
+Proxima.io.throwCLIError
 end if
 end if
 end function
