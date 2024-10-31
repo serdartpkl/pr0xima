@@ -7,6 +7,10 @@ Proxima.sessions.savedSessions = []
 
 // ------------------------------------------------------------------------------------------------------------
 
+Proxima.sessions.reorderSessions = function ()
+
+end function
+
 Proxima.sessions.getSession = function (sessionID)
     acquiredSession = null
     if self.targetSessions.len > 0 then
@@ -28,6 +32,10 @@ Proxima.sessions.setSession = function (sessionID)
     else
         return null
     end if
+end function
+
+Proxima.sessions.addSession = function (sessionMap)
+
 end function
 
 Proxima.sessions.createSession = function (sessionType, targetIP, targetRouter)
@@ -67,6 +75,10 @@ Proxima.sessions.createSession = function (sessionType, targetIP, targetRouter)
         return true
     end if
     return null
+end function
+
+Proxima.sessions.deleteSession = function (sessionID)
+
 end function
 
 // ------------------------------------------------------------------------------------------------------------

@@ -326,10 +326,13 @@ Proxima.commands.sessions.exec = function (params)
                 if targetSession != null then
                     searchSession = Proxima.utils.mapHasValue(Proxima.sessions.targetSessions, "targetIP", targetSession.targetIP)
                     if searchSession != null and searchSession.len == 1 then
+                        print(Proxima.io.addOutputEntry(Proxima.io.output.progress("This session is already saved, updating session information...")))
                         //...
                     else
+                        print(Proxima.io.addOutputEntry(Proxima.io.output.progress("Saving session...")))
                         //...
                     end if
+                    print(Proxima.io.addOutputEntry(Proxima.io.output.success("Saved session successfully!")))
                 else
                     Proxima.io.throwCLIError("No saved session found with provided ID.")
                 end if
