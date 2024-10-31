@@ -132,12 +132,8 @@ Proxima.apt.findShop = function ()
         if typeof(isValidShop) == "string" then shopIP = generatedIP
     end while
 
-    if shopIP != null then
-        Proxima.globals.aptclient.add_repo(shopIP)
-        return true
-    else
-        return false
-    end if
+    if shopIP != null then return shopIP
+    return null
 end function
 
 Proxima.apt.checkForUpdates = function ()
