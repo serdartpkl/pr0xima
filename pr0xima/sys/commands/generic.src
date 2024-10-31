@@ -316,7 +316,24 @@ Proxima.commands.sessions.exec = function (params)
                 Proxima.io.throwCLIError("No saved sessions found.")
             end if
         else if params[0] == "load" then
-            //...
+            sessionID = params[1].to_int
+            savedSessions = Proxima.db.getRecords("sessions")
+            targetSession = null
+            if savedSessions.len == 0 then
+                Proxima.io.throwCLIError("No saved sessions found.")
+            else
+                if savedSessions.hasIndex(sessionID - 1) then targetSession = savedSessions[sessionID - 1] 
+                if targetSession != null then
+                    searchSession = Proxima.utils.mapHasValue(Proxima.sessions.targetSessions, "targetIP", targetSession.targetIP)
+                    if searchSession != null and searchSession.len == 1 then
+                        //...
+                    else
+                        //...
+                    end if
+                else
+                    Proxima.io.throwCLIError("No saved session found with provided ID.")
+                end if
+            end if
         else if params[0] == "save" then
             sessionID = params[1].to_int
             targetSession = Proxima.sessions.getSession(sessionID)
@@ -346,10 +363,33 @@ Proxima.commands.sessions.exec = function (params)
                 Proxima.io.throwCLIError("No session found with provided ID.")
             end if
         else if params[0] == "remove" then
+            sessionID = params[1].to_int
             if params.hasIndex(2) and params[2] == "--saved" then
-                
+                savedSessions = Proxima.db.getRecords("sessions")
+                targetSession = null
+                if savedSessions.len == 0 then
+                    Proxima.io.throwCLIError("No saved sessions found.")
+                else
+                    if savedSessions.hasIndex(sessionID - 1) then targetSession = savedSessions[sessionID - 1] 
+                    if targetSession != null then
+                        //...
+                    else
+                        Proxima.io.throwCLIError("No saved session found with provided ID.")
+                    end if
+                end if
             else
-
+                targetSessions = Proxima.sessions.targetSessions
+                targetSession = null
+                if targetSessions.len == 0 then
+                    Proxima.io.throwCLIError("No sessions found.")
+                else
+                    if targetSessions.hasIndex(sessionID - 1) then targetSession = targetSessions[sessionID - 1] 
+                    if targetSession != null then
+                        //...
+                    else
+                        Proxima.io.throwCLIError("No session found with provided ID.")
+                    end if
+                end if
             end if
         else
             Proxima.io.throwCLIError("Unknown session operation.", self.usage)
