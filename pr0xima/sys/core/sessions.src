@@ -39,7 +39,12 @@ Proxima.sessions.createSession = function (sessionType, targetIP, targetRouter)
         sessionMap.targetIP = targetIP
         sessionMap.targetRouter = targetRouter
 
+        sessionMap.targetLAN = null
+        sessionMap.targetLANs = []
+
         if sessionType == 0 then
+            sessionMap.targetLAN = targetIP
+            sessionMap.targetLANs.push(targetIP)
             sessionMap.targetLibraries = []
             sessionMap.sessionType = sessionType
         else if sessionType == 1 then
@@ -55,8 +60,7 @@ Proxima.sessions.createSession = function (sessionType, targetIP, targetRouter)
 
         sessionMap.payloadInjection = true
 
-        sessionMap.autoSave = false 
-        sessionMap.creationDate =  current_date
+        sessionMap.creationDate = current_date
         
         self.targetSessions.push(sessionMap)
         self.setSession(sessionMap.id)

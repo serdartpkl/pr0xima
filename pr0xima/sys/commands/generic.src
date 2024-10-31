@@ -310,7 +310,11 @@ Proxima.commands.sessions.exec = function (params)
         end if
     else if params.len >= 1 then
         if params[0] == "saved" then
-            Proxima.sessions.displaySavedSessionInfo()
+            if Proxima.db.getRecords("sessions").len > 0 then
+                Proxima.sessions.displaySavedSessionInfo()
+            else
+                Proxima.io.throwCLIError("No saved sessions found.")
+            end if
         else if params[0] == "load" then
             //...
         else if params[0] == "save" then
@@ -318,7 +322,7 @@ Proxima.commands.sessions.exec = function (params)
             targetSession = Proxima.sessions.getSession(sessionID)
             if targetSession != null then
                 searchSession = Proxima.db.searchRecord("sessions", "targetIP", targetSession.targetIP)
-                if searchSession != null and searchSession.len > 0 then
+                if searchSession != null and searchSession.len == 1 then
                     //...
                 else
                     //...
@@ -345,7 +349,7 @@ Proxima.commands.sessions.exec = function (params)
             if params.hasIndex(2) and params[2] == "--saved" then
                 
             else
-                
+
             end if
         else
             Proxima.io.throwCLIError("Unknown session operation.", self.usage)
