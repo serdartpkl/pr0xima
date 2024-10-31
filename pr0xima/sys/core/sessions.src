@@ -7,8 +7,13 @@ Proxima.sessions.savedSessions = []
 
 // ------------------------------------------------------------------------------------------------------------
 
-Proxima.sessions.reorderSessions = function ()
-
+Proxima.sessions.reorderSessions = function (targetSessions)
+    idCounter = 1
+    for acquiredSession in targetSessions
+        if acquiredSession.id != idCounter then acquiredSession.id = idCounter
+        idCounter = idCounter + 1
+    end for
+    return targetSessions
 end function
 
 Proxima.sessions.getSession = function (sessionID)
