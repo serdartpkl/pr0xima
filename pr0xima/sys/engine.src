@@ -362,8 +362,6 @@ Proxima.engine.startEngine = function ()
         exit(Proxima.io.output.error("Couldn't load saved sessions!"))
     end if
 
-    print(Proxima.io.addOutputEntry(Proxima.io.output.progress("Creating local session...")))
-
     localIP = Proxima.globals.myPC.local_ip
     localRouter = get_router(localIP)
     createSession = Proxima.sessions.createSession(0, localIP, localRouter)

@@ -117,7 +117,6 @@ print(Proxima.io.addOutputEntry(Proxima.io.output.warning("Couldn't find any rep
 end if
 end if
 if hasShopRepo then
-print(Proxima.io.addOutputEntry(Proxima.io.output.progress("Updating repository information...")))
 updateRepositoryInfo=Proxima.apt.updateRepositoryInformation
 if updateRepositoryInfo then
 hasUpdatedRepositoryInfo=true
@@ -171,7 +170,6 @@ exit(Proxima.io.output.error("Couldn't start script due to missing library/libra
 end if
 end if
 if aptClient!=null and Proxima.globals.activeUser!="guest" and hasShopRepo and hasUpdatedRepositoryInfo then
-print(Proxima.io.addOutputEntry(Proxima.io.output.progress("Checking for library updates...")))
 checkForUpdates=Proxima.apt.checkForUpdates
 if typeof(checkForUpdates)=="list" then
 updateLibraries=Proxima.apt.updateLibraries(checkForUpdates)
