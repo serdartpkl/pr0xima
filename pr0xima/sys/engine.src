@@ -364,9 +364,14 @@ Proxima.engine.startEngine = function ()
 
     localIP = Proxima.globals.myPC.local_ip
     localRouter = get_router(localIP)
-    createSession = Proxima.sessions.createSession(0, localIP, localRouter)
-    if createSession then 
-        self.startCLI()
+    createLocalSession = Proxima.sessions.createSession(0, localIP, localRouter)
+    if createLocalSession != null and typeof(createLocalSession) == "number" then
+        setActiveSession = Proxima.session.setSession(createLocalSession)
+        if setActiveSession then
+            self.startCLI()
+        else
+            exit(Proxima.io.output.error("Couldn't switch to created session due to unexpected error. Terminating program..."))
+        end if
     else
         exit(Proxima.io.output.error("Couldn't create local session due to unexpected error. Terminating program..."))
     end if
