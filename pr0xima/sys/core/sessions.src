@@ -71,7 +71,6 @@ Proxima.sessions.createSession = function (sessionType, targetIP, targetRouter)
         sessionMap.creationDate = current_date
         
         self.targetSessions.push(sessionMap)
-        self.setSession(sessionMap.id)
         return true
     end if
     return null

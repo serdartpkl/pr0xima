@@ -165,7 +165,7 @@ Proxima.commands.decipher.exec = function (params)
             Proxima.io.throwCLIError("Unknown list type.", self.usage)
         end if
     else if params.len > 2 then
-        Proxima.io.throwCLIError("Too many arguements.", self.usage)
+        Proxima.io.throwCLIError("Too many arguments.", self.usage)
     end if
 end function
 
