@@ -15,12 +15,12 @@ checkPorts=Proxima.exploit.checkPorts(targetIP)
 if checkPorts then
 Proxima.exploit.displayPortInfo
 else
-Proxima.io.throwCLIError("No open ports found on given IP address!")
+Proxima.io.throwInputError("No open ports found on given IP address!")
 end if
 else if checkTargetIP==false then
-Proxima.io.throwCLIError("Given IP address is not reachable or do not exist!")
+Proxima.io.throwInputError("Given IP address is not reachable or do not exist!")
 else if checkTargetIP==null then
-Proxima.io.throwCLIError("Given IP address is not valid!")
+Proxima.io.throwInputError("Given IP address is not valid!")
 end if
 end function
 // ------------------------------------------------------------------------------------------------------------
@@ -30,7 +30,7 @@ targetExploits=Proxima.sessions.getSessionValue("targetExploits")
 if targetExploits.len>0 then
 Proxima.exploit.displayExploitInfo
 else
-Proxima.io.throwCLIError("No exploits available, please scan an IP address first.")
+Proxima.io.throwInputError("No exploits available, please scan an IP address first.")
 end if
 end function
 // ------------------------------------------------------------------------------------------------------------
@@ -40,7 +40,7 @@ targetUsers=Proxima.sessions.getSessionValue("targetUsers")
 if targetUsers.len>0 then
 Proxima.exploit.displayUserInfo
 else
-Proxima.io.throwCLIError("No users found, please execute an exploit first.")
+Proxima.io.throwInputError("No users found, please execute an exploit first.")
 end if
 end function
 // ------------------------------------------------------------------------------------------------------------
@@ -50,7 +50,7 @@ targetMails=Proxima.sessions.getSessionValue("targetMails")
 if targetMails.len>0 then
 Proxima.exploit.displayMailInfo
 else
-Proxima.io.throwCLIError("No mail information available, please execute an exploit first.")
+Proxima.io.throwInputError("No mail information available, please execute an exploit first.")
 end if
 end function
 // ------------------------------------------------------------------------------------------------------------
@@ -60,7 +60,7 @@ targetBanks=Proxima.sessions.getSessionValue("targetBanks")
 if targetBanks.len>0 then
 Proxima.exploit.displayBankInfo
 else
-Proxima.io.throwCLIError("No bank information available, please execute an exploit first.")
+Proxima.io.throwInputError("No bank information available, please execute an exploit first.")
 end if
 end function
 // ------------------------------------------------------------------------------------------------------------
@@ -70,14 +70,14 @@ targetShells=Proxima.sessions.getSessionValue("targetShells")
 if targetShells.len>0 then
 Proxima.exploit.displayShellInfo
 else
-Proxima.io.throwCLIError("No open shells available, please execute an exploit first.")
+Proxima.io.throwInputError("No open shells available, please execute an exploit first.")
 end if
 end function
 // ------------------------------------------------------------------------------------------------------------
 Proxima.commands.execute={"name":"execute","description":"Executes specified exploit with given ID.","usage":"execute <id>","type":2}
 Proxima.commands.execute.exec=function(params)
 if params.len==0 then
-Proxima.io.throwCLIError("No exploit ID provided.",self.usage)
+Proxima.io.throwInputError("No exploit ID provided.",self.usage)
 else
 if params[0]=="all" then
 Proxima.exploit.autoExecute
@@ -90,7 +90,7 @@ end function
 Proxima.commands.decipher={"name":"decipher","description":"Deciphers ","usage":"decipher <list> <id>","type":2}
 Proxima.commands.decipher.exec=function(params)
 if params.len<2 then
-Proxima.io.throwCLIError("No target list or ID provided.",self.usage)
+Proxima.io.throwInputError("No target list or ID provided.",self.usage)
 else if params.len==2 then
 if params[0]=="users" then
 Proxima.exploit.decipherUserPassword(params[1].to_int)
@@ -99,17 +99,17 @@ Proxima.exploit.decipherMailPassword(params[1].to_int)
 else if params[0]=="banks" then
 Proxima.exploit.decipherBankPassword(params[1].to_int)
 else
-Proxima.io.throwCLIError("Unknown list type.",self.usage)
+Proxima.io.throwInputError("Unknown list type.",self.usage)
 end if
 else if params.len>2 then
-Proxima.io.throwCLIError("Too many arguements.",self.usage)
+Proxima.io.throwInputError("Too many arguments.",self.usage)
 end if
 end function
 // ------------------------------------------------------------------------------------------------------------
 Proxima.commands.shell={"name":"shell","description":"Starts terminal for specified shell with given ID.","usage":"shell <id>","type":2}
 Proxima.commands.shell.exec=function(params)
 if params.len==0 then
-Proxima.io.throwCLIError("No shell ID provided.",self.usage)
+Proxima.io.throwInputError("No shell ID provided.",self.usage)
 else
 Proxima.exploit.launchShell(params[0].to_int)
 end if
@@ -118,7 +118,7 @@ end function
 Proxima.commands.delete={"name":"delete","description":"Deletes specified remote or local file.","usage":"delete <path>","type":2}
 Proxima.commands.delete.exec=function(params)
 if params.len==0 then
-Proxima.io.throwCLIError("No file path provided.",self.usage)
+Proxima.io.throwInputError("No file path provided.",self.usage)
 else
 Proxima.exploit.deleteFile(params[0])
 end if
@@ -127,7 +127,7 @@ end function
 Proxima.commands.launch={"name":"run","description":"Executes ","usage":"run <path>","type":2}
 Proxima.commands.launch.exec=function(params)
 if params.len==0 then
-Proxima.io.throwCLIError("No binary file path provided.",self.usage)
+Proxima.io.throwInputError("No binary file path provided.",self.usage)
 else
 Proxima.exploit.runBinaryFile(params[0])
 end if
@@ -178,20 +178,50 @@ if params.len==0 then
 if Proxima.sessions.targetSessions.len>0 then
 Proxima.sessions.displaySessionInfo
 else
-Proxima.io.throwCLIError("No sessions available, please perform a scan first.")
+Proxima.io.throwInputError("No sessions available, please perform a scan first.")
 end if
-else
-if params.len==1 then
+else if params.len>=1 then
 if params[0]=="saved" then
-Proxima.sessions.displaySavedSessionInfo
+if Proxima.db.getRecords("sessions").len>0 then
+Proxima.sessions.displaySessionInfo(true)
 else
-Proxima.io.throwCLIError("Unknown session parameter.",self.usage)
+Proxima.io.throwInputError("No saved sessions found.")
 end if
-else if params.len>=2 then
-if params[0]=="load" then
+else if params[0]=="load" then
+sessionID=params[1].to_int
+savedSessions=Proxima.db.getRecords("sessions")
+targetSession=null
+if savedSessions.len==0 then
+Proxima.io.throwInputError("No saved sessions found.")
+else
+if savedSessions.hasIndex(sessionID-1) then targetSession=savedSessions[sessionID-1]
+if targetSession!=null then
+searchSession=Proxima.utils.mapHasValue(Proxima.sessions.targetSessions,"targetIP",targetSession.targetIP)
+if searchSession!=null and searchSession.len==1 then
+print(Proxima.io.addOutputEntry(Proxima.io.output.progress("This session is already saved, updating session information...")))
 //...
+else
+print(Proxima.io.addOutputEntry(Proxima.io.output.progress("Saving session...")))
+//...
+end if
+print(Proxima.io.addOutputEntry(Proxima.io.output.success("Saved session successfully!")))
+else
+Proxima.io.throwInputError("No saved session found with provided ID.")
+end if
+end if
 else if params[0]=="save" then
+sessionID=params[1].to_int
+targetSession=Proxima.sessions.getSession(sessionID)
+if targetSession!=null then
+searchSession=Proxima.db.searchRecord("sessions","targetIP",targetSession.targetIP)
+if searchSession!=null and searchSession.len==1 then
 //...
+else
+//...
+end if
+else
+Proxima.io.throwInputError("No session found with provided ID.")
+end if
 else if params[0]=="switch" then
 sessionID=params[1].to_int
 targetSession=Proxima.sessions.getSession(sessionID)
@@ -200,19 +230,47 @@ if targetSession.id!=Proxima.sessions.activeSession then
 Proxima.sessions.setSession(sessionID)
 Proxima.io.inputString=Proxima.io.output.colorize("<b>pr0xima</b>","#FFC466")+Proxima.io.output.colorize("@","#08FF57")+Proxima.io.output.colorize("["+targetSession.targetIP+"]","#FF1548")+Proxima.io.output.colorize("> ","#008DFF")
 else
-Proxima.io.throwCLIError("You are already at this session. <b>[ID:"+sessionID+"]</b>")
+sessionType="LOCAL"
+if targetSession.sessionType==1 then sessionType="REMOTE"
+Proxima.io.throwInputError("You are already at this session. <b>[ID:"+sessionID+"|"+sessionType+"]</b>")
 end if
 else
-Proxima.io.throwCLIError("No session found with provided ID.")
+Proxima.io.throwInputError("No session found with provided ID.")
 end if
 else if params[0]=="remove" then
+sessionID=params[1].to_int
+if params.hasIndex(2) and params[2]=="--saved" then
+savedSessions=Proxima.db.getRecords("sessions")
+targetSession=null
+if savedSessions.len==0 then
+Proxima.io.throwInputError("No saved sessions found.")
+else
+if savedSessions.hasIndex(sessionID-1) then targetSession=savedSessions[sessionID-1]
+if targetSession!=null then
 //...
 else
-Proxima.io.throwCLIError
+Proxima.io.throwInputError("No saved session found with provided ID.")
+end if
 end if
 else
-Proxima.io.throwCLIError
+targetSessions=Proxima.sessions.targetSessions
+targetSession=null
+if targetSessions.len==0 then
+Proxima.io.throwInputError("No sessions found.")
+else
+if targetSessions.hasIndex(sessionID-1) then targetSession=targetSessions[sessionID-1]
+if targetSession!=null then
+//...
+else
+Proxima.io.throwInputError("No session found with provided ID.")
 end if
+end if
+end if
+else
+Proxima.io.throwInputError("Unknown session operation.",self.usage)
+end if
+else if params.len>3 then
+Proxima.io.throwInputError("Too many arguements.",self.usage)
 end if
 end function
 // sessions - lists target sessions
@@ -236,7 +294,7 @@ end function
 Proxima.commands.rshell={"name":"rshell","description":"Inject reverse shell for specified open shell","usage":"rshell <id>","type":2}
 Proxima.commands.rshell.exec=function(params)
 if params.len==0 then
-Proxima.io.throwCLIError("No shell ID provided.",self.usage)
+Proxima.io.throwInputError("No shell ID provided.",self.usage)
 else
 Proxima.exploit.injectRshell(params[0].to_int)
 end if

@@ -3,6 +3,14 @@ Proxima.sessions.activeSession=null
 Proxima.sessions.targetSessions=[]
 Proxima.sessions.savedSessions=[]
 // ------------------------------------------------------------------------------------------------------------
+Proxima.sessions.reorderSessions=function(targetSessions)
+idCounter=1
+for acquiredSession in targetSessions
+if acquiredSession.id!=idCounter then acquiredSession.id=idCounter
+idCounter=idCounter+1
+end for
+return targetSessions
+end function
 Proxima.sessions.getSession=function(sessionID)
 acquiredSession=null
 if self.targetSessions.len>0 then
@@ -24,13 +32,19 @@ else
 return null
 end if
 end function
+Proxima.sessions.addSession=function(sessionMap)
+end function
 Proxima.sessions.createSession=function(sessionType,targetIP,targetRouter)
 if Proxima.utils.mapHasValue(self.targetSessions,"targetIP",targetIP)==[] then
 sessionMap={}
 sessionMap.id=self.targetSessions.len+1
 sessionMap.targetIP=targetIP
 sessionMap.targetRouter=targetRouter
+sessionMap.targetLAN=null
+sessionMap.targetLANs=[]
 if sessionType==0 then
+sessionMap.targetLAN=targetIP
+sessionMap.targetLANs.push(targetIP)
 sessionMap.targetLibraries=[]
 sessionMap.sessionType=sessionType
 else if sessionType==1 then
@@ -43,13 +57,13 @@ sessionMap.targetUsers=[]
 sessionMap.targetMails=[]
 sessionMap.targetBanks=[]
 sessionMap.payloadInjection=true
-sessionMap.autoSave=false
 sessionMap.creationDate=current_date
 self.targetSessions.push(sessionMap)
-self.setSession(sessionMap.id)
-return true
+return sessionMap.id
 end if
 return null
+end function
+Proxima.sessions.deleteSession=function(sessionID)
 end function
 // ------------------------------------------------------------------------------------------------------------
 Proxima.sessions.getSessionValue=function(sessionKey)
@@ -93,27 +107,21 @@ Proxima.sessions.colorizeSessionType=function(sessionType)
 if sessionType==0 then return "LOCAL#FC8403"
 if sessionType==1 then return "REMOTE#FFC466"
 end function
-Proxima.sessions.displaySessionInfo=function
-header_list=["ID","TARGET_IP","TYPE"]
+Proxima.sessions.displaySessionInfo=function(displaySaved=false)
+header_list=["ID","TARGET_IP","TYPE","DATE"]
 content_list=[]
-for targetSession in self.targetSessions
+sessionList=self.targetSessions
+if displaySaved then sessionList=self.savedSessions
+for targetSession in sessionList
 addColor=null
+if displaySaved==false then
 if self.activeSession==targetSession.id then addColor="#08FF57"
+end if
 s_id=str(targetSession.id)+addColor
 s_target_ip=targetSession.targetIP+addColor
 s_type=self.colorizeSessionType(targetSession.sessionType)
-content_list.push([s_id,s_target_ip,s_type])
-end for
-Proxima.utils.formatList(header_list,content_list)
-end function
-Proxima.sessions.displaySavedSessionInfo=function
-header_list=["ID","TARGET_IP","TYPE"]
-content_list=[]
-for targetSession in self.savedSessions
-s_id=str(targetSession.id)
-s_target_ip=targetSession.targetIP
-s_type=self.colorizeSessionType(targetSession.sessionType)
-content_list.push([s_id,s_target_ip,s_type])
+s_date=targetSession.creationDate
+content_list.push([s_id,s_target_ip,s_type,s_date])
 end for
 Proxima.utils.formatList(header_list,content_list)
 end function

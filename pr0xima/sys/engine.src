@@ -366,7 +366,7 @@ Proxima.engine.startEngine = function ()
     localRouter = get_router(localIP)
     createLocalSession = Proxima.sessions.createSession(0, localIP, localRouter)
     if createLocalSession != null and typeof(createLocalSession) == "number" then
-        setActiveSession = Proxima.session.setSession(createLocalSession)
+        setActiveSession = Proxima.sessions.setSession(createLocalSession)
         if setActiveSession then
             self.startCLI()
         else
