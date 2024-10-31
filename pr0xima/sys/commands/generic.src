@@ -311,7 +311,7 @@ Proxima.commands.sessions.exec = function (params)
     else if params.len >= 1 then
         if params[0] == "saved" then
             if Proxima.db.getRecords("sessions").len > 0 then
-                Proxima.sessions.displaySavedSessionInfo()
+                Proxima.sessions.displaySessionInfo(true)
             else
                 Proxima.io.throwCLIError("No saved sessions found.")
             end if
