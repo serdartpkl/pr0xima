@@ -33,7 +33,7 @@ Proxima.apt.addRepo = function (repositoryIP)
         if addRepo == "" then return true
     end if
     return null
-function
+end function
 
 Proxima.apt.deleteRepo = function (repositoryIP)
     if self.checkRepo(repositoryIP) then
@@ -81,11 +81,11 @@ Proxima.apt.isValidShop = function (repositoryIP)
             for repoPort in repoPorts
                 serviceName = repoRouter.port_info(repoPort).split(" ")[0]
                 if serviceName == "repository" and is_closed(repoPort) != true then
-                    if self.checkRepo(repositoryIP) == null then addRepo = self.addRepo(repositoryIP)
+                    if self.checkRepo(repositoryIP) == null then self.addRepo(repositoryIP)
                     updateRepoInfo = self.updateRepoInfo()
                     if updateRepoInfo then
                         repoPackageList = self.getPackageList(repositoryIP)
-                        if repoPackageList.indexOf("metaxploit.so") != null and repoPackageList.indexOf("crypto.so") != null then isValidShop = true
+                        if repoPackageList != null and repoPackageList.indexOf("metaxploit.so") != null and repoPackageList.indexOf("crypto.so") != null then isValidShop = true
                     end if
                 end if
             end for

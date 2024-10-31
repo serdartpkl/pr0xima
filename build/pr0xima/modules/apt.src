@@ -15,24 +15,30 @@ end for
 end if
 return repositoryIPs
 end function
-Proxima.apt.isValidShop=function(repositoryIPs)
-for repositoryIP in repositoryIPs
-hasAlreadyInSources=false
-if self.getRepositories(self.checkSourcesFile).indexOf(repositoryIP)!=null then hasAlreadyInSources=true
-if is_valid_ip(repositoryIP) then
-repositoryRouter=get_router(repositoryIP)
-repositoryPorts=repositoryRouter.used_ports
-if repositoryPorts.len>0 then
-for acquiredPort in repositoryRouter.used_ports
-serviceName=repositoryRouter.port_info(acquiredPort).split(" ")[0]
-if serviceName=="repository" and is_closed(acquiredPort)!=true then
-if hasAlreadyInSources!=true then
-Proxima.globals.aptclient.add_repo(repositoryIP)
-Proxima.globals.aptclient.update
+Proxima.apt.checkRepo=function(repositoryIP)
+if self.getRepositories(self.checkSourcesFile).indexOf(repositoryIP)!=null then return true
+return null
+end function
+Proxima.apt.addRepo=function(repositoryIP)
+if self.checkRepo(repositoryIP)==null then
+addRepo=Proxima.globals.aptclient.add_repo(repositoryIP)
 Proxima.io.clearScreen
-wait(0.5)
-hasAlreadyInSources=true
+wait(0.35)
+if addRepo=="" then return true
 end if
+return null
+end function
+Proxima.apt.deleteRepo=function(repositoryIP)
+if self.checkRepo(repositoryIP) then
+delRepo=Proxima.globals.aptclient.del_repo(repositoryIP)
+Proxima.io.clearScreen
+wait(0.35)
+if delRepo=="" then return true
+end if
+return null
+end function
+Proxima.apt.getPackageList=function(repositoryIP)
+if self.checkRepo(repositoryIP) then
 repositoryPackages=Proxima.globals.aptclient.show(repositoryIP)
 packageList=repositoryPackages.split(char(10)+char(10))
 packageList.pop
@@ -45,23 +51,40 @@ packageName=packageName.replace("<b>","")
 packageName=packageName.replace("</b>","")
 parsedList.push(packageName)
 end for
-if hasAlreadyInSources then Proxima.globals.aptclient.del_repo(repositoryIP)
-if parsedList.indexOf("metaxploit.so")!=null and parsedList.indexOf("crypto.so")!=null then
-return repositoryIP
-else
-if hasAlreadyInSources then Proxima.globals.aptclient.del_repo(repositoryIP)
+return parsedList
 end if
-else
-if hasAlreadyInSources then Proxima.globals.aptclient.del_repo(repositoryIP)
+return null
+end function
+Proxima.apt.updateRepoInfo=function
+updateRepoInfo=Proxima.globals.aptclient.update
+Proxima.io.clearScreen
+wait(0.35)
+if updateRepoInfo=="" then return true
+return null
+end function
+Proxima.apt.isValidShop=function(repositoryIP)
+isValidShop=false
+if is_valid_ip(repositoryIP) then
+repoRouter=get_router(repositoryIP)
+repoPorts=repoRouter.used_ports
+if repoPorts.len>0 then
+for repoPort in repoPorts
+serviceName=repoRouter.port_info(repoPort).split(" ")[0]
+if serviceName=="repository" and is_closed(repoPort)!=true then
+if self.checkRepo(repositoryIP)==null then self.addRepo(repositoryIP)
+updateRepoInfo=self.updateRepoInfo
+if updateRepoInfo then
+repoPackageList=self.getPackageList(repositoryIP)
+if repoPackageList!=null and repoPackageList.indexOf("metaxploit.so")!=null and repoPackageList.indexOf("crypto.so")!=null then isValidShop=true
+end if
 end if
 end for
-else
-if hasAlreadyInSources then Proxima.globals.aptclient.del_repo(repositoryIP)
 end if
-else
-if hasAlreadyInSources then Proxima.globals.aptclient.del_repo(repositoryIP)
 end if
-end for
+if self.checkRepo(repositoryIP) then
+deleteRepo=self.deleteRepo(repositoryIP)
+if deleteRepo and isValidShop then return repositoryIP
+end if
 return null
 end function
 Proxima.apt.findShop=function
@@ -89,15 +112,11 @@ return generateRandomIP
 end function
 while shopIP==null
 generatedIP=generateRandomIP
-isValidShop=self.isValidShop([generatedIP])
-if isValidShop!=null and typeof(isValidShop)=="string" then shopIP=generatedIP
+isValidShop=self.isValidShop(generatedIP)
+if typeof(isValidShop)=="string" then shopIP=generatedIP
 end while
-if shopIP!=null then
-Proxima.globals.aptclient.add_repo(shopIP)
-return true
-else
-return false
-end if
+if shopIP!=null then return shopIP
+return null
 end function
 Proxima.apt.checkForUpdates=function
 pendingForUpdate=[]
@@ -105,7 +124,7 @@ libraryFiles=Proxima.utils.collectFiles("/lib")
 for acquiredFile in libraryFiles
 isUpdateAvailable=Proxima.globals.aptclient.check_upgrade(acquiredFile)
 Proxima.io.clearScreen
-wait(0.5)
+wait(0.35)
 if isUpdateAvailable then
 libraryName=acquiredFile.split("/")[-1]
 pendingForUpdate.push(libraryName)
@@ -122,7 +141,7 @@ statusMap={"succeed":[],"failed":[]}
 for pendingLibrary in pendingList
 updateLibrary=Proxima.globals.aptclient.install(pendingLibrary)
 Proxima.io.clearScreen
-wait(0.5)
+wait(0.35)
 if updateLibrary==1 then
 statusMap.succeed.push(pendingLibrary)
 else

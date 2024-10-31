@@ -167,9 +167,8 @@ Proxima.engine.initLibraries = function ()
             for shopIP in shopIPs
                 isValidShop = Proxima.apt.isValidShop(shopIP)
                 if typeof(isValidShop) == "string" then
-                    hasShopRepo = true
-                else
-                    Proxima.apt.deleteRepo(shopIP)
+                    addRepo = Proxima.apt.addRepo(shopIP)
+                    if addRepo then hasShopRepo = true
                 end if
             end for
         end if
@@ -182,9 +181,9 @@ Proxima.engine.initLibraries = function ()
             print(Proxima.io.addOutputEntry(Proxima.io.output.progress("Searching for a repository IP...")))
             getShopIP = Proxima.apt.findShop()
             if typeof(getShopIP) == "string" then
-                hasShopRepo = true
                 addRepo = Proxima.apt.addRepo(getShopIP)
                 if addRepo then
+                    hasShopRepo = true
                     print(Proxima.io.addOutputEntry(Proxima.io.output.success("Found one! Successfully added to repository sources.")))
                 else
                     print(Proxima.io.addOutputEntry(Proxima.io.output.warning("Found one, but couldn't add repository information to sources.")))
