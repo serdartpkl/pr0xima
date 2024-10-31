@@ -164,10 +164,14 @@ Proxima.engine.initLibraries = function ()
     if sourcesFile != null then
         shopIPs = Proxima.apt.getRepositories(sourcesFile)
         if shopIPs.len > 0 then
-            getValidShop = Proxima.apt.isValidShop(shopIPs)
-            if getValidShop != null and typeof(getValidShop) == "string" then
-                hasShopRepo = true
-            end if
+            for shopIP in shopIPs
+                isValidShop = Proxima.apt.isValidShop(shopIP)
+                if typeof(isValidShop) == "string" then
+                    hasShopRepo = true
+                else
+                    Proxima.apt.deleteRepo(shopIP)
+                end if
+            end for
         end if
     end if
 
@@ -176,20 +180,23 @@ Proxima.engine.initLibraries = function ()
         if hasShopRepo == false then
             print(Proxima.io.addOutputEntry(Proxima.io.output.warning("Couldn't find any repository IP!")))
             print(Proxima.io.addOutputEntry(Proxima.io.output.progress("Searching for a repository IP...")))
-            findShop = Proxima.apt.findShop()
-            if findShop then
+            getShopIP = Proxima.apt.findShop()
+            if typeof(getShopIP) == "string" then
                 hasShopRepo = true
-                print(Proxima.io.addOutputEntry(Proxima.io.output.success("Found one! Successfully added to repository sources.")))
+                addRepo = Proxima.apt.addRepo(getShopIP)
+                if addRepo then
+                    print(Proxima.io.addOutputEntry(Proxima.io.output.success("Found one! Successfully added to repository sources.")))
+                else
+                    print(Proxima.io.addOutputEntry(Proxima.io.output.warning("Found one, but couldn't add repository information to sources.")))
+                end if
             else
                 print(Proxima.io.addOutputEntry(Proxima.io.output.warning("Couldn't find any repository IP, it won't be able to check updates properly.")))
             end if
         end if
         if hasShopRepo then
             print(Proxima.io.addOutputEntry(Proxima.io.output.progress("Updating repository information...")))
-            updateRepositoryInfo = Proxima.globals.aptclient.update()
-            Proxima.io.clearScreen()
-            wait(0.5)
-            if updateRepositoryInfo == "" then
+            updateRepositoryInfo = Proxima.apt.updateRepoInfo()
+            if updateRepositoryInfo then
                 hasUpdatedRepositoryInfo = true
                 print(Proxima.io.addOutputEntry(Proxima.io.output.success("Updated repository information successfully!")))
             else
