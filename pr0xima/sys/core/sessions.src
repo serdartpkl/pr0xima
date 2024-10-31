@@ -120,29 +120,23 @@ Proxima.sessions.colorizeSessionType = function (sessionType)
     if sessionType == 1 then return "REMOTE#FFC466"
 end function
 
-Proxima.sessions.displaySessionInfo = function ()
-    header_list = ["ID", "TARGET_IP", "TYPE"]
+Proxima.sessions.displaySessionInfo = function (displaySaved = false)
+    header_list = ["ID", "TARGET_IP", "TYPE", "DATE"]
     content_list = []
-    for targetSession in self.targetSessions 
+    
+    sessionList = self.targetSessions
+    if displaySaved then sessionList = self.savedSessions
+
+    for targetSession in sessionList
         addColor = null
-        if self.activeSession == targetSession.id then addColor = "#08FF57"
+        if displaySaved == false then
+            if self.activeSession == targetSession.id then addColor = "#08FF57"
+        end if
         s_id = str(targetSession.id) + addColor
         s_target_ip = targetSession.targetIP + addColor
         s_type = self.colorizeSessionType(targetSession.sessionType)
-        content_list.push([ s_id, s_target_ip, s_type ])
-    end for
-
-    Proxima.utils.formatList(header_list, content_list)
-end function
-
-Proxima.sessions.displaySavedSessionInfo = function ()
-    header_list = ["ID", "TARGET_IP", "TYPE"]
-    content_list = []
-    for targetSession in self.savedSessions 
-        s_id = str(targetSession.id)
-        s_target_ip = targetSession.targetIP
-        s_type = self.colorizeSessionType(targetSession.sessionType)
-        content_list.push([ s_id, s_target_ip, s_type ])
+        s_date = targetSession.creationDate
+        content_list.push([ s_id, s_target_ip, s_type, s_date ])
     end for
 
     Proxima.utils.formatList(header_list, content_list)
