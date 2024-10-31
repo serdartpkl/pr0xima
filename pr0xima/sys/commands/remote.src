@@ -6,7 +6,7 @@ Proxima.commands.scanport = {
 }
 Proxima.commands.scanport.exec = function (params)
     if params.len == 0 then
-        Proxima.io.throwCLIError("No port ID provided.", self.usage)
+        Proxima.io.throwInputError("No port ID provided.", self.usage)
     else
         if params[0] == "all" then
             Proxima.exploit.scanPorts()
@@ -29,7 +29,7 @@ Proxima.commands.ports.exec = function (params)
     if targetPorts.len > 0 then
         Proxima.exploit.displayPortInfo()
     else
-        Proxima.io.throwCLIError("No ports available, please scan an IP address first.")
+        Proxima.io.throwInputError("No ports available, please scan an IP address first.")
     end if
 end function
 
@@ -43,7 +43,7 @@ Proxima.commands.put = {
 }
 Proxima.commands.put.exec = function (params)
     if params.len == 0 then
-        Proxima.io.throwCLIError("No local file path provided.", self.usage)
+        Proxima.io.throwInputError("No local file path provided.", self.usage)
     else
         if params[0] == "tools" then
             Proxima.exploit.putTools()
@@ -74,7 +74,7 @@ Proxima.commands.get = {
 }
 Proxima.commands.get.exec = function (params)
     if params.len == 0 then
-        Proxima.io.throwCLIError("No remote file path provided.", self.usage)
+        Proxima.io.throwInputError("No remote file path provided.", self.usage)
     else
         Proxima.exploit.getFile(params[0])
     end if
