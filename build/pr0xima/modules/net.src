@@ -86,19 +86,19 @@ end function
 // ------------------------------------------------------------------------------------------------------------
 Proxima.net.crackKey=function
 capFile=Proxima.globals.myPC.File(home_dir+"/file.cap")
-if capFile==null then exit(Proxima.cli.message.error("<b>file.cap</b> is missing"))
-if capFile.has_permission("r")!=true or capFile.has_permission("w")!=true then exit(Proxima.cli.message.error("Insufficient permission to open <b>file.cap</b> for reading."))
+if capFile==null then exit(Proxima.io.message.error("<b>file.cap</b> is missing"))
+if capFile.has_permission("r")!=true or capFile.has_permission("w")!=true then exit(Proxima.io.message.error("Insufficient permission to open <b>file.cap</b> for reading."))
 if capFile then
 self.networkKey=Proxima.globals.crypto.aircrack(capFile.path)
-if self.networkKey==null then exit(Proxima.cli.message.error("Could not crack key. Please try again later..."))
-print(Proxima.cli.addOutputEntry(Proxima.cli.message.success("Network key cracked! <b>[KEY:"+self.networkKey+"]</b>")))
+if self.networkKey==null then exit(Proxima.io.message.error("Could not crack key. Please try again later..."))
+print(Proxima.io.addOutputEntry(Proxima.io.message.success("Network key cracked! <b>[KEY:"+self.networkKey+"]</b>")))
 capFile.delete
 end if
 end function
 Proxima.net.connectNetwork=function
-print(Proxima.cli.addOutputEntry(Proxima.cli.message.progress("Connecting to <b>"+self.targetNetwork.essid+"</b>...")))
+print(Proxima.io.addOutputEntry(Proxima.io.message.progress("Connecting to <b>"+self.targetNetwork.essid+"</b>...")))
 connectionStatus=Proxima.globals.myPC.connect_wifi(self.interface,self.targetNetwork.bssid,self.targetNetwork.essid,self.networkKey)
-exit(Proxima.cli.addOutputEntry(Proxima.cli.message.success("Connection successfull, you are online!")))
+exit(Proxima.io.addOutputEntry(Proxima.io.message.success("Connection successfull, you are online!")))
 end function
 // ------------------------------------------------------------------------------------------------------------
 Proxima.net.autoHack=function

@@ -32,9 +32,9 @@ clear_screen
 acquiredShell.start_terminal
 else
 if acquiredShell==false then
-exit(Proxima.cli.message.error("No open reverse shell connection found with specified IP. <b>[IP:"+targetIP+"]</b>"))
+exit(Proxima.io.message.error("No open reverse shell connection found with specified IP. <b>[IP:"+targetIP+"]</b>"))
 else if acquiredShell==null then
-exit(Proxima.cli.message.error("Couldn't launch reverse shell server!"))
+exit(Proxima.io.message.error("Couldn't launch reverse shell server!"))
 end if
 end if
 end function
