@@ -71,7 +71,6 @@ end for
 return libraryMap
 end function
 Proxima.engine.initLibraries=function
-print(Proxima.io.addOutputEntry(Proxima.io.output.progress("Locating libraries...")))
 searchLibraries=self.searchLibraries
 aptClient=searchLibraries["aptclient.so"]
 cryptoLib=searchLibraries["crypto.so"]
@@ -250,7 +249,6 @@ if Proxima.net.checkConnection!=true then
 print(Proxima.io.output.error("You are not connected to the internet! Terminating program..."))
 exit(Proxima.io.output.info("You can hack into any WiFi by using <b>pr0net</b> subtool."))
 end if
-print(Proxima.io.addOutputEntry(Proxima.io.output.progress("Initializing file system...")))
 self.scanFileSystem
 initializeFileSystem=self.createMissingFiles
 if initializeFileSystem then
@@ -258,7 +256,6 @@ print(Proxima.io.addOutputEntry(Proxima.io.output.success("File system initializ
 else
 exit(Proxima.io.output.error("Couldn't initialize file system!"))
 end if
-print(Proxima.io.addOutputEntry(Proxima.io.output.progress("Loading settings...")))
 getSettings=self.getSettings
 if getSettings!=null then
 print(Proxima.io.addOutputEntry(Proxima.io.output.success("Settings loaded successfully!")))
