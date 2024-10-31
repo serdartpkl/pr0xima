@@ -140,8 +140,6 @@ Proxima.engine.searchLibraries = function ()
 end function
 
 Proxima.engine.initLibraries = function ()
-    print(Proxima.io.addOutputEntry(Proxima.io.output.progress("Locating libraries...")))
-
     searchLibraries = self.searchLibraries()
 
     aptClient = searchLibraries["aptclient.so"]
@@ -336,7 +334,6 @@ Proxima.engine.startEngine = function ()
         exit(Proxima.io.output.info("You can hack into any WiFi by using <b>pr0net</b> subtool."))
     end if
 
-    print(Proxima.io.addOutputEntry(Proxima.io.output.progress("Initializing file system...")))
     self.scanFileSystem()
     initializeFileSystem = self.createMissingFiles()
     if initializeFileSystem then
@@ -345,7 +342,6 @@ Proxima.engine.startEngine = function ()
         exit(Proxima.io.output.error("Couldn't initialize file system!"))
     end if
 
-    print(Proxima.io.addOutputEntry(Proxima.io.output.progress("Loading settings...")))
     getSettings = self.getSettings()
     if getSettings != null then
         print(Proxima.io.addOutputEntry(Proxima.io.output.success("Settings loaded successfully!")))

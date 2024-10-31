@@ -15,12 +15,12 @@ end for
 end if
 return repositoryIPs
 end function
-Proxima.apt.checkRepo=function(repositoryIP)
+Proxima.apt.checkRepository=function(repositoryIP)
 if self.getRepositories(self.checkSourcesFile).indexOf(repositoryIP)!=null then return true
 return null
 end function
-Proxima.apt.addRepo=function(repositoryIP)
-if self.checkRepo(repositoryIP)==null then
+Proxima.apt.addRepository=function(repositoryIP)
+if self.checkRepository(repositoryIP)==null then
 addRepo=Proxima.globals.aptclient.add_repo(repositoryIP)
 Proxima.io.clearScreen
 wait(0.35)
@@ -28,8 +28,8 @@ if addRepo=="" then return true
 end if
 return null
 end function
-Proxima.apt.deleteRepo=function(repositoryIP)
-if self.checkRepo(repositoryIP) then
+Proxima.apt.deleteRepository=function(repositoryIP)
+if self.checkRepository(repositoryIP) then
 delRepo=Proxima.globals.aptclient.del_repo(repositoryIP)
 Proxima.io.clearScreen
 wait(0.35)
@@ -38,7 +38,7 @@ end if
 return null
 end function
 Proxima.apt.getPackageList=function(repositoryIP)
-if self.checkRepo(repositoryIP) then
+if self.checkRepository(repositoryIP) then
 repositoryPackages=Proxima.globals.aptclient.show(repositoryIP)
 packageList=repositoryPackages.split(char(10)+char(10))
 packageList.pop
@@ -55,7 +55,7 @@ return parsedList
 end if
 return null
 end function
-Proxima.apt.updateRepoInfo=function
+Proxima.apt.updateRepositoryInformation=function
 updateRepoInfo=Proxima.globals.aptclient.update
 Proxima.io.clearScreen
 wait(0.35)
@@ -71,8 +71,8 @@ if repoPorts.len>0 then
 for repoPort in repoPorts
 serviceName=repoRouter.port_info(repoPort).split(" ")[0]
 if serviceName=="repository" and is_closed(repoPort)!=true then
-if self.checkRepo(repositoryIP)==null then self.addRepo(repositoryIP)
-updateRepoInfo=self.updateRepoInfo
+if self.checkRepository(repositoryIP)==null then self.addRepository(repositoryIP)
+updateRepoInfo=self.updateRepositoryInformation
 if updateRepoInfo then
 repoPackageList=self.getPackageList(repositoryIP)
 if repoPackageList!=null and repoPackageList.indexOf("metaxploit.so")!=null and repoPackageList.indexOf("crypto.so")!=null then isValidShop=true
@@ -81,8 +81,8 @@ end if
 end for
 end if
 end if
-if self.checkRepo(repositoryIP) then
-deleteRepo=self.deleteRepo(repositoryIP)
+if self.checkRepository(repositoryIP) then
+deleteRepo=self.deleteRepository(repositoryIP)
 if deleteRepo and isValidShop then return repositoryIP
 end if
 return null

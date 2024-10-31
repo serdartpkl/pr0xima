@@ -93,7 +93,7 @@ if shopIPs.len>0 then
 for shopIP in shopIPs
 isValidShop=Proxima.apt.isValidShop(shopIP)
 if typeof(isValidShop)=="string" then
-addRepo=Proxima.apt.addRepo(shopIP)
+addRepo=Proxima.apt.addRepository(shopIP)
 if addRepo then hasShopRepo=true
 end if
 end for
@@ -106,7 +106,7 @@ print(Proxima.io.addOutputEntry(Proxima.io.output.warning("Couldn't find any rep
 print(Proxima.io.addOutputEntry(Proxima.io.output.progress("Searching for a repository IP...")))
 getShopIP=Proxima.apt.findShop
 if typeof(getShopIP)=="string" then
-addRepo=Proxima.apt.addRepo(getShopIP)
+addRepo=Proxima.apt.addRepository(getShopIP)
 if addRepo then
 hasShopRepo=true
 print(Proxima.io.addOutputEntry(Proxima.io.output.success("Found one! Successfully added to repository sources.")))
@@ -119,7 +119,7 @@ end if
 end if
 if hasShopRepo then
 print(Proxima.io.addOutputEntry(Proxima.io.output.progress("Updating repository information...")))
-updateRepositoryInfo=Proxima.apt.updateRepoInfo
+updateRepositoryInfo=Proxima.apt.updateRepositoryInformation
 if updateRepositoryInfo then
 hasUpdatedRepositoryInfo=true
 print(Proxima.io.addOutputEntry(Proxima.io.output.success("Updated repository information successfully!")))
@@ -128,6 +128,7 @@ print(Proxima.io.addOutputEntry(Proxima.io.output.warning("Couldn't update repos
 end if
 end if
 end if
+print(Proxima.io.addOutputEntry(Proxima.io.output.line))
 if cryptoLib!=null then
 Proxima.globals.crypto=cryptoLib
 print(Proxima.io.addOutputEntry(Proxima.io.output.success("Found crypto.so library. <b>[LOADED]</b>")))
