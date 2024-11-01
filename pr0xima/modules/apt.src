@@ -74,31 +74,31 @@ end function
 
 Proxima.apt.isValidShop = function (repositoryIP)
     isValidShop = false
+
+    repoPorts = []
     if is_valid_ip(repositoryIP) then
-        repoRouter = get_router(repositoryIP)
-        repoPorts = repoRouter.used_ports
-        if repoPorts.len > 0 then
-            for repoPort in repoPorts
-                serviceName = repoRouter.port_info(repoPort).split(" ")[0]
-                if serviceName == "repository" and is_closed(repoPort) != true then
-                    if self.checkRepository(repositoryIP) == null then 
-                        addFoundedRepo = self.addRepository(repositoryIP)
-                        if addFoundedRepo then
-                            updateRepoInfo = self.updateRepositoryInformation()
-                            if updateRepoInfo then
-                                repoPackageList = self.getPackageList(repositoryIP)
-                                if repoPackageList != null and repoPackageList.indexOf("metaxploit.so") != null and repoPackageList.indexOf("crypto.so") != null then isValidShop = true
-                            end if
-                        end if
-                    end if
-                end if
-            end for
+        getRepoPorts = get_router(repositoryIP).used_ports
+        if getRepoPorts.len > 0 then repoPorts = getRepoPorts
+    end if
+
+    repoServices = []
+    if repoPorts.len > 0 then
+        for repoPort in repoPorts 
+            serviceName = repoRouter.port_info(repoPort).split(" ")[0]
+            if is_closed(repoPort) != true then repoServices.push(serviceName)
+        end for
+    end if
+
+    if repoServices.indexOf("repository") != null then
+        if self.addRepository(repositoryIP) != null then 
+            if self.updateRepositoryInformation() then
+                repoPackageList = self.getPackageList(repositoryIP)
+                if repoPackageList != null and repoPackageList.indexOf("metaxploit.so") != null and repoPackageList.indexOf("crypto.so") != null then isValidShop = true
+            end if
         end if
     end if
-    if self.checkRepository(repositoryIP) then
-        deleteRepo = self.deleteRepository(repositoryIP)
-        if deleteRepo and isValidShop then return repositoryIP
-    end if
+
+    if self.deleteRepository(repositoryIP) and isValidShop then return repositoryIP
     return null
 end function
 
