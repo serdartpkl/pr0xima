@@ -1,7 +1,5 @@
 Proxima.apt = {}
 
-Proxima.apt.hackShopIP = null
-
 // ------------------------------------------------------------------------------------------------------------
 
 Proxima.apt.checkSourcesFile = function ()
