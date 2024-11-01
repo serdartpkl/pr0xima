@@ -103,7 +103,7 @@ Proxima.net.crackKey = function ()
 end function
 
 Proxima.net.connectNetwork = function ()
-    if self.selectedInterface != null and self.targetNetwork != null then
+    if self.selectedInterface != null and self.targetNetwork != null and self.networkKey != null then
         connectionStatus = Proxima.globals.myPC.connect_wifi(self.selectedInterface, self.targetNetwork.bssid, self.targetNetwork.essid, self.networkKey)
         if connectionStatus == 1 then return true
     end if
@@ -113,5 +113,27 @@ end function
 // ------------------------------------------------------------------------------------------------------------
 
 Proxima.net.autoHack = function (targetESSID = null)
+    selectInterface = self.selectInterface()
+    startMonitoring = null
+    if selectInterface != null then startMonitoring = self.startMonitoring()
 
+    getNetworkList = null
+    if startMonitoring then getNetworkList = self.getNetworkList()
+
+    setTargetNetwork = null
+    if getNetworkList then
+        setTargetNetwork = self.setTargetNetwork()
+        if targetESSID != null then setTargetNetwork = self.setTargetNetwork(targetESSID)
+    end if
+
+    startSniffing = null
+    if setTargetNetwork then startSniffing = self.startSniffing()
+
+    getNetworkKey = null
+    if startSniffing then getNetworkKey = self.crackKey()
+
+    connectionResult = null
+    if getNetworkKey then connectionResult = self.connectNetwork()
+    
+    return connectionResult
 end function
