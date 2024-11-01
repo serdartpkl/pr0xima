@@ -82,13 +82,13 @@ Proxima.apt.isValidShop = function (repositoryIP)
     repoServices = []
     if repoPorts.len > 0 then
         for repoPort in repoPorts 
-            serviceName = repoRouter.port_info(repoPort).split(" ")[0]
+            serviceName = get_router(repositoryIP).port_info(repoPort).split(" ")[0]
             if is_closed(repoPort) != true then repoServices.push(serviceName)
         end for
     end if
 
     if repoServices.indexOf("repository") != null then
-        if self.addRepository(repositoryIP) != null then 
+        if self.addRepository(repositoryIP) then 
             if self.updateRepositoryInformation() then
                 repoPackageList = self.getPackageList(repositoryIP)
                 if repoPackageList != null and repoPackageList.indexOf("metaxploit.so") != null and repoPackageList.indexOf("crypto.so") != null then isValidShop = true
