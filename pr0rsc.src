@@ -1,3 +1,13 @@
 import_code("pr0xima/init.src")
 
 prx = new Proxima
+
+targetIP = null
+if params.hasIndex(0) then targetIP = params[0]
+
+if targetIP != null and is_valid_ip(targetIP) then
+    launchRshell = prx.rshell.launchRshell(targetIP)
+    if launchRshell == null then exit(prx.io.output.error("Couldn't launch reverse shell due to unexpected error."))
+else
+    exit(prx.io.output.error("Given IP address does not exist or is not valid."))
+end if 

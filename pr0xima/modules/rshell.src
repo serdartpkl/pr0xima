@@ -5,40 +5,27 @@ Proxima.rshell = {}
 Proxima.rshell.checkRshells = function ()
     recievedShells = Proxima.globals.metaxploit.rshell_server()
     if recievedShells != null and typeof(recievedShell) != "string" then
-        if recievedShells.len > 0 then
-            return recievedShells
-        else
-            return false
-        end if
-    else
-        return null
+        if recievedShells.len > 0 then return recievedShells
     end if
+    return null
 end function
 
-Proxima.rshell.checkRshell = function (targetIP)
+Proxima.rshell.getRshell = function (targetIP)
     activeRshells = self.checkRshells()
-    if typeof(activeRshells) == "list" then
+    if activeRshells != null then
         for activeRshell in activeRshells
             publicIP = activeRshell.host_computer.public_ip
-            if targetIP == publicIP then
-                return activeRshell
-            end if
+            if targetIP == publicIP then return activeRshell
         end for
-    else
-        return activeRshells
     end if
+    return activeRshells
 end function
 
 Proxima.rshell.launchRshell = function (targetIP)
-    acquiredShell = self.checkRshell(targetIP)
+    acquiredShell = self.getRshell(targetIP)
     if typeof(acquiredShell) == "shell" then
         clear_screen
         acquiredShell.start_terminal
-    else
-        if acquiredShell == false then
-            exit(Proxima.io.message.error("No open reverse shell connection found with specified IP. <b>[IP:" + targetIP + "]</b>"))
-        else if acquiredShell == null then
-            exit(Proxima.io.message.error("Couldn't launch reverse shell server!"))
-        end if
     end if
+    return null
 end function
