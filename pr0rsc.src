@@ -10,4 +10,4 @@ if targetIP != null and is_valid_ip(targetIP) then
     if launchRshell == null then exit(prx.io.output.error("Couldn't launch reverse shell due to unexpected error."))
 else
     exit(prx.io.output.error("Given IP address does not exist or is not valid."))
-end if 
+end if
