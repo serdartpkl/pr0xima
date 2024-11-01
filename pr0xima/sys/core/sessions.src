@@ -39,7 +39,7 @@ Proxima.sessions.setSession = function (sessionID)
     end if
 end function
 
-Proxima.sessions.addSession = function (sessionMap)
+Proxima.sessions.loadSavedSession = function (sessionMap)
 
 end function
 
@@ -81,7 +81,7 @@ Proxima.sessions.createSession = function (sessionType, targetIP, targetRouter)
     return null
 end function
 
-Proxima.sessions.deleteSession = function (sessionID)
+Proxima.sessions.deleteSession = function (sessionID, deleteSaved = false)
 
 end function
 
