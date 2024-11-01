@@ -137,7 +137,7 @@ Proxima.sessions.colorizeSessionType = function (sessionType)
 end function
 
 Proxima.sessions.displaySessionInfo = function (displaySaved = false)
-    header_list = ["ID", "TARGET_IP", "DATE", "TYPE"]
+    header_list = ["ID", "TARGET_IP", "DATE_CREATED", "SESSION_TYPE"]
     content_list = []
     
     sessionList = self.targetSessions
