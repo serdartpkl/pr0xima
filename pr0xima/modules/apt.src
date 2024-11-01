@@ -81,11 +81,15 @@ Proxima.apt.isValidShop = function (repositoryIP)
             for repoPort in repoPorts
                 serviceName = repoRouter.port_info(repoPort).split(" ")[0]
                 if serviceName == "repository" and is_closed(repoPort) != true then
-                    if self.checkRepository(repositoryIP) == null then self.addRepository(repositoryIP)
-                    updateRepoInfo = self.updateRepositoryInformation()
-                    if updateRepoInfo then
-                        repoPackageList = self.getPackageList(repositoryIP)
-                        if repoPackageList != null and repoPackageList.indexOf("metaxploit.so") != null and repoPackageList.indexOf("crypto.so") != null then isValidShop = true
+                    if self.checkRepository(repositoryIP) == null then 
+                        addFoundedRepo = self.addRepository(repositoryIP)
+                        if addFoundedRepo then
+                            updateRepoInfo = self.updateRepositoryInformation()
+                            if updateRepoInfo then
+                                repoPackageList = self.getPackageList(repositoryIP)
+                                if repoPackageList != null and repoPackageList.indexOf("metaxploit.so") != null and repoPackageList.indexOf("crypto.so") != null then isValidShop = true
+                            end if
+                        end if
                     end if
                 end if
             end for
@@ -120,9 +124,7 @@ Proxima.apt.findShop = function ()
         end for
         generatedIP = generatedIP.join(".")
 
-        if is_valid_ip(generatedIP) and get_router(generatedIP) and get_shell.ping(generatedIP) then
-            return generatedIP
-        end if
+        if is_valid_ip(generatedIP) and get_router(generatedIP) and get_shell.ping(generatedIP) then return generatedIP
         return generateRandomIP
     end function
 
