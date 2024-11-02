@@ -74,8 +74,8 @@ end function
 Proxima.io.clearScreen = function ()
     clear_screen
     if self.ioEntries.len > 0 then
-        for cliEntry in self.ioEntries
-            print(cliEntry)
+        for ioEntry in self.ioEntries
+            print(ioEntry)
         end for
     end if
 end function
