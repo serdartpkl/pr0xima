@@ -326,7 +326,6 @@ Proxima.engine.startEngine = function ()
     Proxima.io.clearScreen()
     Proxima.io.printHeader()
     Proxima.io.printInformation("pr0xima", "A simple easy-to-use multi purpose hacking tool.")
-    
     print(Proxima.io.addOutputEntry(Proxima.io.output.line))
 
     if Proxima.net.checkConnection != true then 
