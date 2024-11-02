@@ -34,9 +34,8 @@ Proxima.sessions.setSession = function (sessionID)
     if acquiredSession != null then
         self.activeSession = acquiredSession.id
         return true
-    else
-        return null
     end if
+    return null
 end function
 
 Proxima.sessions.loadSavedSession = function (sessionMap)
