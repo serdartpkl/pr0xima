@@ -3,6 +3,7 @@ Proxima.net = {}
 Proxima.net.networkKey = null
 
 Proxima.net.selectedInterface = null
+
 Proxima.net.targetNetwork = null
 Proxima.net.targetNetworks = []
 
