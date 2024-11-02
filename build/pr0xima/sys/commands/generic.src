@@ -175,7 +175,7 @@ end function
 Proxima.commands.sessions={"name":"sessions","description":"List available sessions.","usage":"sessions","type":2}
 Proxima.commands.sessions.exec=function(params)
 if params.len==0 then
-if Proxima.sessions.targetSessions.len>0 then
+if Proxima.sessions.activeSessions.len>0 then
 Proxima.sessions.displaySessionInfo
 else
 Proxima.io.throwInputError("No sessions available, please perform a scan first.")
@@ -196,7 +196,7 @@ Proxima.io.throwInputError("No saved sessions found.")
 else
 if savedSessions.hasIndex(sessionID-1) then targetSession=savedSessions[sessionID-1]
 if targetSession!=null then
-searchSession=Proxima.utils.mapHasValue(Proxima.sessions.targetSessions,"targetIP",targetSession.targetIP)
+searchSession=Proxima.utils.mapHasValue(Proxima.sessions.activeSessions,"targetIP",targetSession.targetIP)
 if searchSession!=null and searchSession.len==1 then
 print(Proxima.io.addOutputEntry(Proxima.io.output.progress("This session is already saved, updating session information...")))
 //...
@@ -253,12 +253,12 @@ Proxima.io.throwInputError("No saved session found with provided ID.")
 end if
 end if
 else
-targetSessions=Proxima.sessions.targetSessions
+activeSessions=Proxima.sessions.activeSessions
 targetSession=null
-if targetSessions.len==0 then
+if activeSessions.len==0 then
 Proxima.io.throwInputError("No sessions found.")
 else
-if targetSessions.hasIndex(sessionID-1) then targetSession=targetSessions[sessionID-1]
+if activeSessions.hasIndex(sessionID-1) then targetSession=activeSessions[sessionID-1]
 if targetSession!=null then
 //...
 else
