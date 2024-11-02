@@ -1,20 +1,20 @@
 Proxima.sessions={}
 Proxima.sessions.activeSession=null
-Proxima.sessions.targetSessions=[]
+Proxima.sessions.activeSessions=[]
 Proxima.sessions.savedSessions=[]
 // ------------------------------------------------------------------------------------------------------------
-Proxima.sessions.reorderSessions=function(targetSessions)
+Proxima.sessions.reorderSessions=function(activeSessions)
 idCounter=1
-for acquiredSession in targetSessions
+for acquiredSession in activeSessions
 if acquiredSession.id!=idCounter then acquiredSession.id=idCounter
 idCounter=idCounter+1
 end for
-return targetSessions
+return activeSessions
 end function
 Proxima.sessions.getSession=function(sessionID)
 acquiredSession=null
-if self.targetSessions.len>0 then
-for targetSession in self.targetSessions
+if self.activeSessions.len>0 then
+for targetSession in self.activeSessions
 if targetSession.id==sessionID then
 acquiredSession=targetSession
 break
@@ -28,16 +28,15 @@ acquiredSession=self.getSession(sessionID)
 if acquiredSession!=null then
 self.activeSession=acquiredSession.id
 return true
-else
-return null
 end if
+return null
 end function
-Proxima.sessions.addSession=function(sessionMap)
+Proxima.sessions.loadSavedSession=function(sessionMap)
 end function
 Proxima.sessions.createSession=function(sessionType,targetIP,targetRouter)
-if Proxima.utils.mapHasValue(self.targetSessions,"targetIP",targetIP)==[] then
+if Proxima.utils.mapHasValue(self.activeSessions,"targetIP",targetIP)==[] then
 sessionMap={}
-sessionMap.id=self.targetSessions.len+1
+sessionMap.id=self.activeSessions.len+1
 sessionMap.targetIP=targetIP
 sessionMap.targetRouter=targetRouter
 sessionMap.targetLAN=null
@@ -58,12 +57,12 @@ sessionMap.targetMails=[]
 sessionMap.targetBanks=[]
 sessionMap.payloadInjection=true
 sessionMap.creationDate=current_date
-self.targetSessions.push(sessionMap)
+self.activeSessions.push(sessionMap)
 return sessionMap.id
 end if
 return null
 end function
-Proxima.sessions.deleteSession=function(sessionID)
+Proxima.sessions.deleteSession=function(sessionID,deleteSaved=false)
 end function
 // ------------------------------------------------------------------------------------------------------------
 Proxima.sessions.getSessionValue=function(sessionKey)
@@ -74,7 +73,7 @@ end function
 Proxima.sessions.setSessionValue=function(sessionKey,sessionValue)
 acquiredSession=self.getSession(self.activeSession)
 if acquiredSession!=null then
-self.targetSessions[acquiredSession.id-1][sessionKey]=sessionValue
+self.activeSessions[acquiredSession.id-1][sessionKey]=sessionValue
 return true
 end if
 return null
@@ -97,7 +96,7 @@ end function
 Proxima.sessions.pushMap=function(targetList,givenMap)
 acquiredSession=self.getSession(self.activeSession)
 if acquiredSession!=null then
-self.targetSessions[acquiredSession.id-1][targetList].push(givenMap)
+self.activeSessions[acquiredSession.id-1][targetList].push(givenMap)
 return true
 end if
 return null
@@ -108,9 +107,9 @@ if sessionType==0 then return "LOCAL#FC8403"
 if sessionType==1 then return "REMOTE#FFC466"
 end function
 Proxima.sessions.displaySessionInfo=function(displaySaved=false)
-header_list=["ID","TARGET_IP","DATE","TYPE"]
+header_list=["ID","TARGET_IP","DATE_CREATED","SESSION_TYPE"]
 content_list=[]
-sessionList=self.targetSessions
+sessionList=self.activeSessions
 if displaySaved then sessionList=self.savedSessions
 for targetSession in sessionList
 addColor=null

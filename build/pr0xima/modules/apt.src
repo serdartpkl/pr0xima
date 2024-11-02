@@ -129,11 +129,8 @@ libraryName=acquiredFile.split("/")[-1]
 pendingForUpdate.push(libraryName)
 end if
 end for
-if pendingForUpdate.len>0 then
-return pendingForUpdate
-else
-return false
-end if
+if pendingForUpdate.len>0 then return pendingForUpdate
+return null
 end function
 Proxima.apt.updateLibraries=function(pendingList)
 statusMap={"succeed":[],"failed":[]}
