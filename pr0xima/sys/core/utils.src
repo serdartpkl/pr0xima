@@ -96,6 +96,8 @@ Proxima.utils.collectFiles = function (parentDir)
     return allFiles
 end function
 
+// ------------------------------------------------------------------------------------------------------------
+
 Proxima.utils.isInList = function(givenItem, givenList)
     for item in givenList
         if item == givenItem then
