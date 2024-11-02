@@ -116,9 +116,10 @@ end function
 
 Proxima.net.autoHack = function (targetESSID = null)
     print(Proxima.io.addOutputEntry(Proxima.io.output.progress("Starting monitoring...")))
+
     selectInterface = self.selectInterface()
     startMonitoring = null
-    if selectInterface != null then 
+    if selectInterface == null then 
         exit(Proxima.io.addOutputEntry(Proxima.io.output.error("Couldn't start monitoring due to insufficient equipment.")))
         startMonitoring = self.startMonitoring()
     end if
