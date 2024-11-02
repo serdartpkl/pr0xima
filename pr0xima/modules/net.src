@@ -115,12 +115,23 @@ end function
 // ------------------------------------------------------------------------------------------------------------
 
 Proxima.net.autoHack = function (targetESSID = null)
+    print(self.addOutputEntry(self.output.progress("Starting monitoring...")))
     selectInterface = self.selectInterface()
     startMonitoring = null
-    if selectInterface != null then startMonitoring = self.startMonitoring()
+    if selectInterface != null then 
+        exit(self.addOutputEntry(self.output.error("Couldn't start monitoring due to insufficient equipment.")))
+        startMonitoring = self.startMonitoring()
+    end if
+
+    print(self.addOutputEntry(self.output.success("Started monitoring successfully! <b>[INTERFACE:" + selectInterface + "]</b>")))
 
     getNetworkList = null
-    if startMonitoring then getNetworkList = self.getNetworkList()
+    if startMonitoring then
+        exit(self.addOutputEntry(self.output.error("Couldn't get WiFi list, failed to start monitoring.")))
+        getNetworkList = self.getNetworkList()
+    end if
+
+    print(self.addOutputEntry(self.output.success("Got network list.")))
 
     setTargetNetwork = null
     if getNetworkList then
