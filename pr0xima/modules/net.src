@@ -1,7 +1,8 @@
 Proxima.net = {}
 
-Proxima.net.selectedInterface = null
 Proxima.net.networkKey = null
+
+Proxima.net.selectedInterface = null
 Proxima.net.targetNetwork = null
 Proxima.net.targetNetworks = []
 
