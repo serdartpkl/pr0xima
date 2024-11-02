@@ -140,7 +140,7 @@ Proxima.utils.serializeMap = function(sessionData, excludeKeys = [])
     return serialized
 end function
 
-Proxima.utils.deserialize = function(serialized, excludeKeys = [])
+Proxima.utils.deserializeFirst = function(serialized, excludeKeys = [])
     serialized = serialized.trim
     if serialized.hasIndex(0) and serialized[0] == "{" and serialized.hasIndex(serialized.len - 1) and serialized[-1] == "}" then
         return self.deserializeMap(serialized, excludeKeys)
@@ -189,7 +189,7 @@ Proxima.utils.deserializeList = function(serialized, excludeKeys = [])
     items = self.splitSerializedItems(serialized, ",")
     for item in items
         valueStr = item.trim
-        value = self.deserialize(valueStr, excludeKeys)
+        value = self.deserializeFirst(valueStr, excludeKeys)
         list.push(value)
     end for
     return list
@@ -215,7 +215,7 @@ Proxima.utils.deserializeMap = function(serialized, excludeKeys = [])
             continue
         end if
         valueStr = keyValue[1].trim
-        value = self.deserialize(valueStr, excludeKeys)
+        value = self.deserializeFirst(valueStr, excludeKeys)
         map[key] = value
     end for
     return map
