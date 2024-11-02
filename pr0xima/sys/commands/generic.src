@@ -290,7 +290,7 @@ Proxima.commands.exit = {
     "type": 2
 }
 Proxima.commands.exit.exec = function (params)
-    exit(Proxima.io.message.success("Goodbye! Have a nice day."))
+    exit(Proxima.io.output.success("Goodbye! Have a nice day."))
 end function
 
 // ------------------------------------------------------------------------------------------------------------
@@ -421,10 +421,10 @@ Proxima.commands.whois = {
 Proxima.commands.whois.exec = function (params)
     adminInfo = whois(Proxima.exploit.targetIP)
     adminInfo = adminInfo.split(char(10))
-    print(Proxima.io.addOutputEntry(Proxima.io.message.colorize("<b>Domain Name:</b> ", "#0091FF") + adminInfo[0].split(":")[1].trim))
-    print(Proxima.io.addOutputEntry(Proxima.io.message.colorize("<b>Administrative Contact:</b> ", "#0091FF") + adminInfo[1].split(":")[1].trim))
-    print(Proxima.io.addOutputEntry(Proxima.io.message.colorize("<b>Email Address:</b> ", "#0091FF") + adminInfo[2].split(":")[1].trim))
-    print(Proxima.io.addOutputEntry(Proxima.io.message.colorize("<b>Phone Number:</b> ", "#0091FF") + adminInfo[3].split(":")[1].trim))
+    print(Proxima.io.addOutputEntry(Proxima.io.output.colorize("<b>Domain Name:</b> ", "#0091FF") + adminInfo[0].split(":")[1].trim))
+    print(Proxima.io.addOutputEntry(Proxima.io.output.colorize("<b>Administrative Contact:</b> ", "#0091FF") + adminInfo[1].split(":")[1].trim))
+    print(Proxima.io.addOutputEntry(Proxima.io.output.colorize("<b>Email Address:</b> ", "#0091FF") + adminInfo[2].split(":")[1].trim))
+    print(Proxima.io.addOutputEntry(Proxima.io.output.colorize("<b>Phone Number:</b> ", "#0091FF") + adminInfo[3].split(":")[1].trim))
 end function
 
 // ------------------------------------------------------------------------------------------------------------
