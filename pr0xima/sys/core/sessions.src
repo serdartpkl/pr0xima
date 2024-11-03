@@ -26,6 +26,18 @@ Proxima.sessions.getSession = function (sessionID, getSaved = false)
     return acquiredSession
 end function
 
+Proxima.sessions.getSavedSessions = function ()
+    savedSessions = []
+    getSessionRecords = Proxima.db.getRecords("sessions")
+    if getSessionRecords.len > 0 then
+        for sessionRecord in getSessionRecords
+            savedSessions.push(sessionRecord)
+        end for
+        return savedSessions
+    end if
+    return null
+end function
+
 Proxima.sessions.doesSessionExist = function (sessionIP, checkSaved = false)
     sessionsList = self.activeSessions
     if checkSaved then 
@@ -95,6 +107,9 @@ end function
 
 // ------------------------------------------------------------------------------------------------------------
 
+Proxima.sessions.sortSessions = function (sessionsList, sortBy)
+end function
+
 Proxima.sessions.reorderSessions = function (sessionsList)
     idCounter = 1
     for acquiredSession in sessionsList
@@ -104,10 +119,30 @@ Proxima.sessions.reorderSessions = function (sessionsList)
     return sessionsList
 end function
 
-Proxima.sessions.sortSessions = function (sessionsList, sortBy)
+Proxima.sessions.saveSession = function (sessionID, saveSingle = true)
+    acquiredSession = self.getSession(sessionID)
+    if acquiredSession != null then
+        savedSessions = self.getSavedSessions()
+        if savedSessions != null then
+            doesSessionExist = self.doesSessionExist(acquiredSession.targetIP, true)
+            if doesSessionExist then
+                
+            else
+
+            end if
+        end if
+    end if
 end function
 
-Proxima.sessions.saveSession = function (sessionID)
+Proxima.sessions.saveSessions = function ()
+    if self.activeSessions.len > 0 then
+        savedSessions = Proxima.db.getRecords("sessions")
+        for activeSession in self.activeSessions
+            updatedSavedSessions = self.saveSession(activeSession.id, false)
+        end for
+        return true
+    end if
+    return null
 end function
 
 Proxima.sessions.resetSession = function (sessionID, resetSaved = false)
@@ -121,7 +156,7 @@ Proxima.sessions.resetSession = function (sessionID, resetSaved = false)
     return null
 end function
 
-Proxima.sessions.searchSession = function (sessionKey, sessionValue, searchSaved = false)
+Proxima.sessions.searchSessions = function (sessionKey, sessionValue)
 end function
 
 Proxima.sessions.deleteSession = function (sessionID, deleteSaved = false)
@@ -155,16 +190,18 @@ end function
 
 // ------------------------------------------------------------------------------------------------------------
 
-Proxima.sessions.getSavedSessions = function ()
-    self.savedSessions = []
-    getSessionRecords = Proxima.db.getRecords("sessions")
-    if getSessionRecords.len > 0 then
-        for sessionRecord in getSessionRecords
-            self.savedSessions.push(sessionRecord)
-        end for
-        return true
-    else
-        return false
+
+
+Proxima.sessions.loadSavedSession = function (sessionID) 
+    acquiredSession = self.getSession(sessionID, true)
+    if acquiredSession != null then
+        self.activeSessions.push(acquiredSession)
+        sortedSessions = self.sortSessions(self.activeSessions)
+        reorderedSessions = self.reorderSessions(sortedSessions)
+        if reorderedSessions != null then
+            self.activeSessions = reorderedSessions
+            return true
+        end if
     end if
     return null
 end function

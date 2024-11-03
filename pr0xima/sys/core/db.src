@@ -76,7 +76,7 @@ Proxima.db.addRecord = function (databaseName, recordMap)
     return null
 end function
 
-Proxima.db.searchRecord = function (databaseName, recordKey, recordValue)
+Proxima.db.searchRecords = function (databaseName, recordKey, recordValue)
     databaseFile = self.getDatabase(databaseName)
     if databaseFile != null then
         deserializedDatabase = Proxima.utils.deserializeMap(databaseFile.get_content())
