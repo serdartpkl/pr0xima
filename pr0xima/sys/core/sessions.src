@@ -67,6 +67,9 @@ Proxima.sessions.setSession = function (sessionID)
     return null
 end function
 
+Proxima.sessions.resetSession = function (sessionID, resetSaved = false)
+end function
+
 // ------------------------------------------------------------------------------------------------------------
 
 Proxima.sessions.loadSavedSession = function (sessionMap)
