@@ -16,9 +16,9 @@ end function
 // ------------------------------------------------------------------------------------------------------------
 
 Proxima.commands.scannet = {
-    "name": "dump",
-    "description": "Dumps target IPs ports or local libraries to perform a scan.",
-    "usage": "dump <ip|local>",
+    "name": "scannet",
+    "description": "Scans target IP for performing a port scan.",
+    "usage": "scannet <ip>",
     "type": 2
 }
 Proxima.commands.scannet.exec = function (params)
@@ -428,8 +428,8 @@ Proxima.commands.help.exec = function (params)
         print(Proxima.io.addOutputEntry(cmd_description))
         print(Proxima.io.addOutputEntry("<b>Usage:</b> " + cmd_usage))
 
-        if i != Proxima.io.commands.len - 1 then
-            print(Proxima.io.addOutputEntry("+------------------------------------+"))
+        if i != Proxima.commands.len - 1 then
+            print(Proxima.io.addOutputEntry(Proxima.io.output.line))
         end if
 
         i = i + 1
