@@ -35,6 +35,22 @@ end function
 
 // ------------------------------------------------------------------------------------------------------------
 
+Proxima.commands.get = {
+    "name": "get",
+    "description": "Gets file from remote computer to local computer.",
+    "usage": "get <path>",
+    "type": 1
+}
+Proxima.commands.get.exec = function (params)
+    if params.len == 0 then
+        Proxima.io.throwInputError("No remote file path provided.", self.usage)
+    else
+        Proxima.exploit.getFile(params[0])
+    end if
+end function
+
+// ------------------------------------------------------------------------------------------------------------
+
 Proxima.commands.put = {
     "name": "put",
     "description": "Uploads file from local computer to remote computer.",
@@ -55,34 +71,6 @@ end function
 
 // ------------------------------------------------------------------------------------------------------------
 
-Proxima.commands.tunnel = {
-    "name": "tunnel",
-    "description": "",
-    "usage": "tunnel",
-    "type": 1
-}
-Proxima.commands.tunnel.exec = function (params)
-    Proxima.exploit.tunnelConnection()
-end function
-
-// ------------------------------------------------------------------------------------------------------------
-
-Proxima.commands.get = {
-    "name": "get",
-    "description": "Gets file from remote computer to local computer.",
-    "usage": "get <path>",
-    "type": 1
-}
-Proxima.commands.get.exec = function (params)
-    if params.len == 0 then
-        Proxima.io.throwInputError("No remote file path provided.", self.usage)
-    else
-        Proxima.exploit.getFile(params[0])
-    end if
-end function
-
-// ------------------------------------------------------------------------------------------------------------
-
 Proxima.commands.jump = {
     "name": "jump",
     "description": "List available sessions.",
@@ -91,4 +79,16 @@ Proxima.commands.jump = {
 }
 Proxima.commands.jump.exec = function (params)
     Proxima.exploit.jumpShell()
+end function
+
+// ------------------------------------------------------------------------------------------------------------
+
+Proxima.commands.tunnel = {
+    "name": "tunnel",
+    "description": "",
+    "usage": "tunnel",
+    "type": 1
+}
+Proxima.commands.tunnel.exec = function (params)
+    Proxima.exploit.tunnelConnection()
 end function
