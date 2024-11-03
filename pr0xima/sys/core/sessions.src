@@ -17,7 +17,7 @@ Proxima.sessions.getSavedSessions = function ()
     return null
 end function
 
-Proxima.sessions.getSession = function (sessionID, getSaved = false)
+Proxima.sessions.getSession = function (sessionKey, getSaved = false)
     sessionsList = self.activeSessions
     if getSaved then 
         getSavedSessions = self.getSavedSessions()
@@ -28,30 +28,21 @@ Proxima.sessions.getSession = function (sessionID, getSaved = false)
     
     if sessionsList.len > 0 then
         for targetSession in sessionsList
-            if targetSession.id == sessionID then
-                acquiredSession = targetSession
-                break
+            if typeof(sessionKey) == "number" then
+                if targetSession.id == sessionKey then
+                    acquiredSession = targetSession
+                    break
+                end if
+            else if typeof(sessionKey) == "string" then
+                if targetSession.targetIP == sessionKey then
+                    acquiredSession = targetSession
+                    break
+                end if
             end if
         end for
     end if
 
     return acquiredSession
-end function
-
-Proxima.sessions.getSessionByIP = function (sessionIP, getSaved = false)
-    sessionsList = self.activeSessions
-    if getSaved then 
-        getSavedSessions = self.getSavedSessions()
-        if getSavedSessions != null then sessionsList = getSavedSessions
-    end if
-
-    if sessionsList.len > 0 then
-        for targetSession in sessionsList
-            if targetSession.targetIP == sessionIP then return true
-        end for
-    end if
-
-    return null
 end function
 
 Proxima.sessions.setActiveSession = function (sessionID)
@@ -64,8 +55,8 @@ Proxima.sessions.setActiveSession = function (sessionID)
 end function
 
 Proxima.sessions.createSession = function (sessionType, targetIP, targetRouter)
-    checkActiveSessions = self.getSessionByIP(targetIP)
-    checkSavedSessions = self.getSessionByIP(targetIP, true)
+    checkActiveSessions = self.getSession(targetIP)
+    checkSavedSessions = self.getSession(targetIP, true)
 
     if checkActiveSessions == null and checkSavedSessions == null then
         sessionMap = {}
