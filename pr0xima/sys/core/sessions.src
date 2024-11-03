@@ -166,6 +166,20 @@ end function
 
 // ------------------------------------------------------------------------------------------------------------
 
+Proxima.sessions.isLocalSession = function ()
+    sessionType = Proxima.sessions.getSessionValue("sessionType")    
+    if sessionType == 0 then
+        return true
+    else if sessionType == 1 then
+        return false
+    end if
+end function
+
+Proxima.sessions.isRemoteSession = function ()
+end function
+
+// ------------------------------------------------------------------------------------------------------------
+
 Proxima.sessions.colorizeSessionType = function (sessionType)
     if sessionType == 0 then return "LOCAL#FC8403"
     if sessionType == 1 then return "REMOTE#FFC466"
