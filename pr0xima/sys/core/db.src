@@ -142,3 +142,8 @@ Proxima.db.setRecordValue = function (databaseName, recordID, recordKey, recordV
     end if
     return null
 end function
+
+// ------------------------------------------------------------------------------------------------------------
+
+Proxima.db.displayDatabaseInfo = function ()
+end function
