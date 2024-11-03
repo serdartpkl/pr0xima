@@ -295,7 +295,7 @@ end function
 
 Proxima.commands.rshell = {
     "name": "rshell",
-    "description": "Inject reverse shell for specified open shell",
+    "description": "Injects reverse shell for specified target shell",
     "usage": "rshell <id>",
     "type": 2
 }
