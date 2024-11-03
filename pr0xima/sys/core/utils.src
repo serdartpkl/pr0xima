@@ -74,16 +74,16 @@ Proxima.utils.collectFiles = function (parentDir)
     scanDir = function (dir)
         getFile = Proxima.globals.myPC.File(dir)
         if getFile.is_folder then
-            files = getFile.get_files()
-            if files.len > 0 then
-                for file in files
-                    allFiles.push(file.path)
+            acquireFiles = getFile.get_files()
+            if acquireFiles.len > 0 then
+                for acquiredFile in acquireFiles
+                    allFiles.push(acquiredFile.path)
                 end for
             end if
-            folders = getFile.get_folders()
-            if folders.len > 0 then
-                for folder in folders 
-                    scanDir(folder.path)
+            acquireFolders = getFile.get_folders()
+            if acquireFolders.len > 0 then
+                for acquiredFolder in acquireFolders 
+                    scanDir(acquiredFolder.path)
                 end for
             end if
         else
