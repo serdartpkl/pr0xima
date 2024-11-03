@@ -31,7 +31,7 @@ Proxima.db.reorderRecords = function (databaseRecords)
     return databaseRecords
 end function
 
-Proxima.db.sortRecords = function (databaseRecords)
+Proxima.db.sortRecords = function (databaseRecords, sortBy)
 end function
 
 Proxima.db.getRecords = function (databaseName)
