@@ -8,9 +8,13 @@ Proxima.sessions.savedSessions = []
 // ------------------------------------------------------------------------------------------------------------
 
 Proxima.sessions.getSession = function (sessionID, getSaved = false)
+    sessionsList = self.activeSessions
+    if getSaved then sessionsList = self.savedSessions    
+    
     acquiredSession = null
-    if self.activeSessions.len > 0 then
-        for targetSession in self.activeSessions
+    
+    if sessionsList.len > 0 then
+        for targetSession in sessionsList
             if targetSession.id == sessionID then
                 acquiredSession = targetSession
                 break
@@ -67,9 +71,6 @@ Proxima.sessions.createSession = function (sessionType, targetIP, targetRouter)
     return null
 end function
 
-Proxima.sessions.resetSession = function (sessionID, resetSaved = false)
-end function
-
 // ------------------------------------------------------------------------------------------------------------
 
 Proxima.sessions.reorderSessions = function (sessionsList)
@@ -84,7 +85,30 @@ end function
 Proxima.sessions.sortSessions = function (sessionsList, sortBy)
 end function
 
-Proxima.sessions.saveSession = function (sessionID)
+Proxima.sessions.saveSessions = function (sessionID)
+end function
+
+Proxima.sessions.resetSession = function (sessionID, resetSaved = false)
+    sessionsList = self.activeSessions
+    if resetSaved then sessionsList = self.savedSessions
+
+    acquiredSession = null
+
+    if sessionsList.len > 0 then
+        for targetSession in sessionsList
+            if targetSession.id == sessionID then
+                acquiredSession = targetSession
+                break
+            end if
+        end for
+    end if
+
+    if acquiredSession != null then
+        //... 
+        return true
+    end if
+
+    return null
 end function
 
 Proxima.sessions.searchSession = function (sessionID, searchSaved = false)

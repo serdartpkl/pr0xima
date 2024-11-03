@@ -20,15 +20,6 @@ Proxima.db.createDatabase = function (databaseName)
     return null
 end function
 
-Proxima.db.resetDatabase = function (databaseName)
-    databaseFile = self.getDatabase(databaseName)
-    if databaseFile != null then
-        resetFile = databaseFile.set_content("{" + char(34) + "records" + char(34) + ":[]}")
-        if resetFile == 1 then return true
-    end if
-    return null
-end function
-
 // ------------------------------------------------------------------------------------------------------------
 
 Proxima.db.reorderRecords = function (databaseRecords)
@@ -52,7 +43,7 @@ Proxima.db.getRecords = function (databaseName)
     return null
 end function
 
-Proxima.db.setRecords = function (databaseName, mutatedRecords)
+Proxima.db.saveRecords = function (databaseName, mutatedRecords)
     databaseFile = self.getDatabase(databaseName)
     if databaseFile != null then
         deserializedDatabase = Proxima.utils.deserializeMap(databaseFile.get_content())
@@ -60,6 +51,15 @@ Proxima.db.setRecords = function (databaseName, mutatedRecords)
         serializeRecords = Proxima.utils.serializeMap(deserializedDatabase)
         setRecords = databaseFile.set_content(serializeRecords)
         if setRecords == 1 then return true
+    end if
+    return null
+end function
+
+Proxima.db.resetRecords = function (databaseName)
+    databaseFile = self.getDatabase(databaseName)
+    if databaseFile != null then
+        resetFile = databaseFile.set_content("{" + char(34) + "records" + char(34) + ":[]}")
+        if resetFile == 1 then return true
     end if
     return null
 end function
