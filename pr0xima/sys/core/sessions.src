@@ -145,7 +145,7 @@ Proxima.sessions.setSessionValue = function (sessionKey, sessionValue)
     return null
 end function
 
-Proxima.sessions.addToSession = function (targetList, givenMap)
+Proxima.sessions.pushMap = function (targetList, givenMap)
     acquiredSession = self.getSession(self.activeSession)
     if acquiredSession != null then
         self.activeSessions[acquiredSession.id - 1][targetList].push(givenMap)
