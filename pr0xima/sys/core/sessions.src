@@ -74,7 +74,7 @@ Proxima.sessions.createSession = function (sessionType, targetIP, targetRouter)
         self.activeSessions.push(sessionMap)
         return sessionMap.id
     end if
-    
+
     return null
 end function
 
@@ -141,7 +141,7 @@ Proxima.sessions.setSessionValue = function (sessionKey, sessionValue, setSaved 
     return null
 end function
 
-Proxima.sessions.addToSession = function (targetList, givenMap)
+Proxima.sessions.addToSession = function (targetList, givenMap, addToSaved = false)
     acquiredSession = self.getSession(self.activeSession)
     if acquiredSession != null then
         self.activeSessions[acquiredSession.id - 1][targetList].push(givenMap)
