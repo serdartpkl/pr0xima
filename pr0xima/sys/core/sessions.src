@@ -107,7 +107,7 @@ end function
 Proxima.sessions.sortSessions = function (sessionsList, sortBy)
 end function
 
-Proxima.sessions.saveSessions = function (sessionID)
+Proxima.sessions.saveSession = function (sessionID)
 end function
 
 Proxima.sessions.resetSession = function (sessionID, resetSaved = false)
@@ -129,19 +129,13 @@ end function
 
 // ------------------------------------------------------------------------------------------------------------
 
-Proxima.sessions.getSessionValue = function (sessionKey, getSaved = false)
-    acquiredSession = self.getSession(sessionID, resetSaved)
-
-    if acquiredSession != null then
-        //... 
-        return true
-    end if
+Proxima.sessions.getSessionValue = function (sessionKey)
     acquiredSession = self.getSession(self.activeSession)
     if acquiredSession != null then return acquiredSession[sessionKey]
     return null
 end function
 
-Proxima.sessions.setSessionValue = function (sessionKey, sessionValue, setSaved = false)
+Proxima.sessions.setSessionValue = function (sessionKey, sessionValue)
     acquiredSession = self.getSession(self.activeSession)
     if acquiredSession != null then
         self.activeSessions[acquiredSession.id - 1][sessionKey] = sessionValue
@@ -150,7 +144,7 @@ Proxima.sessions.setSessionValue = function (sessionKey, sessionValue, setSaved 
     return null
 end function
 
-Proxima.sessions.addToSession = function (targetList, givenMap, addToSaved = false)
+Proxima.sessions.addToSession = function (targetList, givenMap)
     acquiredSession = self.getSession(self.activeSession)
     if acquiredSession != null then
         self.activeSessions[acquiredSession.id - 1][targetList].push(givenMap)
