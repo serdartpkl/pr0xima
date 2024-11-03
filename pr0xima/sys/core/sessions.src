@@ -17,6 +17,20 @@ Proxima.sessions.getSavedSessions = function ()
     return null
 end function
 
+Proxima.sessions.loadSavedSession = function (sessionID) 
+    acquiredSession = self.getSession(sessionID, true)
+    if acquiredSession != null then
+        self.activeSessions.push(acquiredSession)
+        sortedSessions = self.sortSessions(self.activeSessions)
+        reorderedSessions = self.reorderSessions(sortedSessions)
+        if reorderedSessions != null then
+            self.activeSessions = reorderedSessions
+            return true
+        end if
+    end if
+    return null
+end function
+
 Proxima.sessions.getSession = function (sessionKey, getSaved = false)
     sessionsList = self.activeSessions
     if getSaved then 
@@ -150,20 +164,6 @@ Proxima.sessions.pushMap = function (targetList, givenMap)
     if acquiredSession != null then
         self.activeSessions[acquiredSession.id - 1][targetList].push(givenMap)
         return true
-    end if
-    return null
-end function
-
-Proxima.sessions.loadSavedSession = function (sessionID) 
-    acquiredSession = self.getSession(sessionID, true)
-    if acquiredSession != null then
-        self.activeSessions.push(acquiredSession)
-        sortedSessions = self.sortSessions(self.activeSessions)
-        reorderedSessions = self.reorderSessions(sortedSessions)
-        if reorderedSessions != null then
-            self.activeSessions = reorderedSessions
-            return true
-        end if
     end if
     return null
 end function
