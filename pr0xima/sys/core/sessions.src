@@ -1,8 +1,8 @@
 Proxima.sessions = {}
 
 Proxima.sessions.activeSession = null
-
 Proxima.sessions.activeSessions = []
+
 Proxima.sessions.savedSessions = []
 
 // ------------------------------------------------------------------------------------------------------------
@@ -34,7 +34,7 @@ Proxima.sessions.createSession = function (sessionType, targetIP, targetRouter)
 
         if sessionType == 0 then
             sessionMap.targetLAN = targetIP
-            sessionMap.targetLANs.push(targetIP)
+            sessionMap.targetLANs = [targetIP]
             sessionMap.targetLibraries = []
             sessionMap.sessionType = sessionType
         else if sessionType == 1 then
@@ -72,28 +72,33 @@ end function
 
 // ------------------------------------------------------------------------------------------------------------
 
-Proxima.sessions.loadSavedSession = function (sessionMap)
+Proxima.sessions.reorderSessions = function (sessionsList)
+    idCounter = 1
+    for acquiredSession in sessionsList
+        if acquiredSession.id != idCounter then acquiredSession.id = idCounter
+        idCounter = idCounter + 1
+    end for
+    return sessionsList
+end function
+
+Proxima.sessions.saveSession = function (sessionID)
+end function
+
+Proxima.sessions.searchSession = function (sessionID, searchSaved = false)
 end function
 
 Proxima.sessions.deleteSession = function (sessionID, deleteSaved = false)
 end function
 
-Proxima.sessions.reorderSessions = function (activeSessions)
-    idCounter = 1
-    for acquiredSession in activeSessions
-        if acquiredSession.id != idCounter then acquiredSession.id = idCounter
-        idCounter = idCounter + 1
-    end for
-    return activeSessions
-end function
+// ------------------------------------------------------------------------------------------------------------
 
-Proxima.sessions.getSessionValue = function (sessionKey)
+Proxima.sessions.getSessionValue = function (sessionKey, getSaved = false)
     acquiredSession = self.getSession(self.activeSession)
     if acquiredSession != null then return acquiredSession[sessionKey]
     return null
 end function
 
-Proxima.sessions.setSessionValue = function (sessionKey, sessionValue)
+Proxima.sessions.setSessionValue = function (sessionKey, sessionValue, setSaved = false)
     acquiredSession = self.getSession(self.activeSession)
     if acquiredSession != null then
         self.activeSessions[acquiredSession.id - 1][sessionKey] = sessionValue
@@ -120,7 +125,7 @@ end function
 
 // ------------------------------------------------------------------------------------------------------------
 
-Proxima.sessions.pushMap = function (targetList, givenMap)
+Proxima.sessions.addToSession = function (targetList, givenMap)
     acquiredSession = self.getSession(self.activeSession)
     if acquiredSession != null then
         self.activeSessions[acquiredSession.id - 1][targetList].push(givenMap)
