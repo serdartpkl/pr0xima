@@ -147,10 +147,12 @@ Proxima.db.displayDatabases = function ()
     header_list = ["ID", "DATABASE_NAME"]
     content_list = []
 
-    for acquiredDatabase in acquiredDatabases
-        s_id = str(acquiredDatabase.id)
-        s_name = acquiredDatabase.name
-        content_list.push([ s_id, s_name ])
+    for acquiredDatabases in Proxima.globals.myPC.File(home_dir + "/pr0xima/databases").get_files()
+        for acquiredDatabase in acquiredDatabases
+            s_id = str(acquiredDatabase.id)
+            s_name = acquiredDatabase.name
+            content_list.push([ s_id, s_name ])
+        end for
     end for
 
     Proxima.utils.formatList(header_list, content_list)
@@ -167,7 +169,7 @@ Proxima.db.displayRecords = function (databaseName)
         r_name = acquiredRecords.indexes[acquiredRecord.id - 1]
         r_db_name = databaseName
         r_date = acquiredRecord.dateCreated
-        content_list.push([ s_id, s_target_ip, s_date, s_type ])
+        content_list.push([ r_id, r_name, r_db_name, r_date ])
     end for
 
     Proxima.utils.formatList(header_list, content_list)
