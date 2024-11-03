@@ -8,22 +8,9 @@ Proxima.engine.fileSystem = [
         "has_found": false
     },
     {
-        "name": "downloads",
-        "folder": true,
-        "parent_dir": home_dir + "/pr0xima",
-        "has_found": false
-    },
-    {
         "name": "databases",
         "folder": true,
         "parent_dir": home_dir + "/pr0xima",
-        "has_found": false
-    },
-    {
-        "name": "settings.conf",
-        "folder": false,
-        "parent_dir": home_dir + "/pr0xima",
-        "default_content": "{" + char(34) + "rshell_ip" + char(34) + ":" + char(34) + Proxima.globals.myPC.public_ip + char(34) + "," + char(34) + "rshell_port" + char(34) + ":1222," + char(34) + "rshell_proc_name" + char(34) + ":" + char(34) + "prx" + char(34) + "," + char(34) + "injection_password" + char(34) + ":" + char(34) + "123456" + char(34) + "}",
         "has_found": false
     },
     {
@@ -41,24 +28,10 @@ Proxima.engine.fileSystem = [
         "has_found": false
     },
     {
-        "name": "users.db",
+        "name": "settings.conf",
         "folder": false,
-        "parent_dir": home_dir + "/pr0xima/databases",
-        "default_content": "{" + char(34) + "records" + char(34) + ":[]" + "}",
-        "has_found": false
-    },
-    {
-        "name": "mail_accounts.db",
-        "folder": false,
-        "parent_dir": home_dir + "/pr0xima/databases",
-        "default_content": "{" + char(34) + "records" + char(34) + ":[]" + "}",
-        "has_found": false
-    },
-    {
-        "name": "bank_accounts.db",
-        "folder": false,
-        "parent_dir": home_dir + "/pr0xima/databases",
-        "default_content": "{" + char(34) + "records" + char(34) + ":[]" + "}",
+        "parent_dir": home_dir + "/pr0xima",
+        "default_content": "{" + char(34) + "rshell_ip" + char(34) + ":" + char(34) + Proxima.globals.myPC.public_ip + char(34) + "," + char(34) + "rshell_port" + char(34) + ":1222," + char(34) + "rshell_proc_name" + char(34) + ":" + char(34) + "prx" + char(34) + "," + char(34) + "injection_password" + char(34) + ":" + char(34) + "123456" + char(34) + "}",
         "has_found": false
     }
 ]
