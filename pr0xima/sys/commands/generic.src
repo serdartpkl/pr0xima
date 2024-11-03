@@ -43,7 +43,7 @@ end function
 Proxima.commands.sessions = {
     "name": "sessions",
     "description": "List available sessions.",
-    "usage": "sessions",
+    "usage": "sessions <saved|load <id>|save <id>|switch <id>|remove <id> [-s]>",
     "type": 2
 }
 Proxima.commands.sessions.exec = function (params)

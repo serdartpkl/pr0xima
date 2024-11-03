@@ -74,7 +74,7 @@ end function
 Proxima.commands.put = {
     "name": "put",
     "description": "Uploads file from local computer to remote computer.",
-    "usage": "put <path>",
+    "usage": "put <path|tools [-s]>",
     "type": 1
 }
 Proxima.commands.put.exec = function (params)
