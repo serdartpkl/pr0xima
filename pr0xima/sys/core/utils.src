@@ -54,7 +54,7 @@ Proxima.utils.formatList = function (headerList, contentList)
     end for
 end function
 
-Proxima.utils.mapHasValue = function (givenList, searchKey, searchValue)
+Proxima.utils.indexesOf = function (givenList, searchKey, searchValue)
     foundedIndexes = []
     if givenList.len > 0 then
         for mapItem in givenList
