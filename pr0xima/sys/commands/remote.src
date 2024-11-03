@@ -18,6 +18,26 @@ end function
 
 // ------------------------------------------------------------------------------------------------------------
 
+Proxima.commands.target = {
+    "name": "target",
+    "description": "Scans the specified port/ports for acquiring available remote exploits.",
+    "usage": "target <id>",
+    "type": 1
+}
+Proxima.commands.target.exec = function (params)
+    if params.len == 0 then
+        Proxima.io.throwInputError("No port ID provided.", self.usage)
+    else
+        if params[0] == "all" then
+            Proxima.exploit.scanPorts()
+        else
+            Proxima.exploit.scanPort(params[0].to_int)
+        end if
+    end if
+end function
+
+// ------------------------------------------------------------------------------------------------------------
+
 Proxima.commands.ports = {
     "name": "ports",
     "description": "Lists all available target ports..",
