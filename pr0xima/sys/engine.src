@@ -270,6 +270,8 @@ Proxima.engine.initLibraries = function ()
     end if
 end function
 
+// ------------------------------------------------------------------------------------------------------------
+
 Proxima.engine.handleCommand = function (userCommand)
     if userCommand != null and userCommand != "" then
         parsedCommand = null
