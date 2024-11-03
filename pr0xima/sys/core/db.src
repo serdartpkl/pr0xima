@@ -147,40 +147,26 @@ Proxima.db.displayDatabases = function ()
     header_list = ["ID", "DATABASE_NAME"]
     content_list = []
 
-    sessionList = self.activeSessions
-    if displaySaved then sessionList = self.savedSessions
-
-    for targetSession in sessionList
-        addColor = null
-        if displaySaved == false then
-            if self.activeSession == targetSession.id then addColor = "#08FF57"
-        end if
-        s_id = str(targetSession.id) + addColor
-        s_target_ip = targetSession.targetIP + addColor
-        s_date = targetSession.creationDate + addColor
-        s_type = self.colorizeSessionType(targetSession.sessionType)
-        content_list.push([ s_id, s_target_ip, s_date, s_type ])
+    for acquiredDatabase in acquiredDatabases
+        s_id = str(acquiredDatabase.id)
+        s_name = acquiredDatabase.name
+        content_list.push([ s_id, s_name ])
     end for
 
     Proxima.utils.formatList(header_list, content_list)
 end function
 
-Proxima.db.displayRecords = function ()
+Proxima.db.displayRecords = function (databaseName)
     header_list = ["ID", "RECORD_NAME", "DATABASE_NAME", "DATE_CREATED"]
     content_list = []
 
-    sessionList = self.activeSessions
-    if displaySaved then sessionList = self.savedSessions
+    acquiredRecords = self.getRecords(databaseName)
 
-    for targetSession in sessionList
-        addColor = null
-        if displaySaved == false then
-            if self.activeSession == targetSession.id then addColor = "#08FF57"
-        end if
-        s_id = str(targetSession.id) + addColor
-        s_target_ip = targetSession.targetIP + addColor
-        s_date = targetSession.creationDate + addColor
-        s_type = self.colorizeSessionType(targetSession.sessionType)
+    for acquiredRecord in acquiredRecords
+        r_id = str(acquiredRecord.id) 
+        r_name = acquiredRecords.indexes[acquiredRecord.id - 1]
+        r_db_name = databaseName
+        r_date = acquiredRecord.dateCreated
         content_list.push([ s_id, s_target_ip, s_date, s_type ])
     end for
 
