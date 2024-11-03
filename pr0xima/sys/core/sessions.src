@@ -7,15 +7,6 @@ Proxima.sessions.savedSessions = []
 
 // ------------------------------------------------------------------------------------------------------------
 
-Proxima.sessions.reorderSessions = function (activeSessions)
-    idCounter = 1
-    for acquiredSession in activeSessions
-        if acquiredSession.id != idCounter then acquiredSession.id = idCounter
-        idCounter = idCounter + 1
-    end for
-    return activeSessions
-end function
-
 Proxima.sessions.getSession = function (sessionID)
     acquiredSession = null
     if self.activeSessions.len > 0 then
@@ -27,18 +18,6 @@ Proxima.sessions.getSession = function (sessionID)
         end for
     end if
     return acquiredSession
-end function
-
-Proxima.sessions.setSession = function (sessionID)
-    acquiredSession = self.getSession(sessionID)
-    if acquiredSession != null then
-        self.activeSession = acquiredSession.id
-        return true
-    end if
-    return null
-end function
-
-Proxima.sessions.loadSavedSession = function (sessionMap)
 end function
 
 Proxima.sessions.createSession = function (sessionType, targetIP, targetRouter)
@@ -79,10 +58,31 @@ Proxima.sessions.createSession = function (sessionType, targetIP, targetRouter)
     return null
 end function
 
-Proxima.sessions.deleteSession = function (sessionID, deleteSaved = false)
+Proxima.sessions.setSession = function (sessionID)
+    acquiredSession = self.getSession(sessionID)
+    if acquiredSession != null then
+        self.activeSession = acquiredSession.id
+        return true
+    end if
+    return null
 end function
 
 // ------------------------------------------------------------------------------------------------------------
+
+Proxima.sessions.loadSavedSession = function (sessionMap)
+end function
+
+Proxima.sessions.deleteSession = function (sessionID, deleteSaved = false)
+end function
+
+Proxima.sessions.reorderSessions = function (activeSessions)
+    idCounter = 1
+    for acquiredSession in activeSessions
+        if acquiredSession.id != idCounter then acquiredSession.id = idCounter
+        idCounter = idCounter + 1
+    end for
+    return activeSessions
+end function
 
 Proxima.sessions.getSessionValue = function (sessionKey)
     acquiredSession = self.getSession(self.activeSession)
