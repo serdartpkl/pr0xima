@@ -7,30 +7,6 @@ Proxima.sessions.savedSessions = []
 
 // ------------------------------------------------------------------------------------------------------------
 
-/*
-
-getSession(sessionID, getSaved = false)
-setActiveSession(sessionID)
-createSession(sessionType, targetIP, targetRouter)
-resetSession(sessionID, resetSaved = false)
-
-reorderSessions(sessionsList)
-sortSessions(sortSaved = false)
-saveSession(sessionID)
-searchSession(sessionID, searchSaved = false)
-deleteSession(sessionID, deleteSaved = false)
-
-getSavedSessions()
-
-getSessionValue
-setSessionValue
-addToSession(targetList, givenMap)
-
-colorizeSessionType(sessionType)
-displaySessionInfo(displaySaved = false)
-
-*/
-
 Proxima.sessions.getSession = function (sessionID, getSaved = false)
     acquiredSession = null
     if self.activeSessions.len > 0 then
