@@ -12,7 +12,7 @@ end function
 
 Proxima.rshell.getRshell = function (targetIP)
     activeRshells = self.checkRshells()
-    if activeRshells != null then
+    if activeRshells != null and is_valid_ip(targetIP) then
         for activeRshell in activeRshells
             publicIP = activeRshell.host_computer.public_ip
             if targetIP == publicIP then return activeRshell
