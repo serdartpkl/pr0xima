@@ -1,3 +1,5 @@
+Proxima.library = {}
+
 Proxima.exploit.checkLibraries = function ()
     Proxima.sessions.setSessionValue("targetLibraries", [])
     librariesFolder = Proxima.globals.myPC.File("/lib")

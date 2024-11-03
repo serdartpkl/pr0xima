@@ -1,3 +1,5 @@
+Proxima.actions = {}
+
 Proxima.exploit.launchShell = function (shellID)
     targetShells = Proxima.sessions.getSessionValue("targetShells")
     if targetShells.len > 0 then

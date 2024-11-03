@@ -1,3 +1,5 @@
+Proxima.port = {}
+
 Proxima.exploit.isRouter = function (targetIP)
     if get_router(targetIP) != null then
         return true
