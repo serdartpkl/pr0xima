@@ -33,15 +33,13 @@ Proxima.sessions.doesSessionExist = function (sessionIP, checkSaved = false)
         if getSavedSessions != null then sessionsList = getSavedSessions
     end if
 
-    acquiredSession = null
-
     if sessionsList.len > 0 then
         for targetSession in sessionsList
             if targetSession.targetIP == sessionIP then return true
         end for
     end if
 
-    return acquiredSession
+    return null
 end function
 
 Proxima.sessions.setActiveSession = function (sessionID)
@@ -123,7 +121,7 @@ Proxima.sessions.resetSession = function (sessionID, resetSaved = false)
     return null
 end function
 
-Proxima.sessions.searchSession = function (sessionID, sessionKey, sessionValue, searchSaved = false)
+Proxima.sessions.searchSession = function (sessionKey, sessionValue, searchSaved = false)
 end function
 
 Proxima.sessions.deleteSession = function (sessionID, deleteSaved = false)
@@ -132,6 +130,12 @@ end function
 // ------------------------------------------------------------------------------------------------------------
 
 Proxima.sessions.getSessionValue = function (sessionKey, getSaved = false)
+    acquiredSession = self.getSession(sessionID, resetSaved)
+
+    if acquiredSession != null then
+        //... 
+        return true
+    end if
     acquiredSession = self.getSession(self.activeSession)
     if acquiredSession != null then return acquiredSession[sessionKey]
     return null
