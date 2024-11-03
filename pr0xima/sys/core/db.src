@@ -150,3 +150,6 @@ end function
 
 Proxima.db.displayDatabaseInfo = function ()
 end function
+
+Proxima.db.displayRecordInfo = function ()
+end function
