@@ -171,13 +171,13 @@ end function
 // ------------------------------------------------------------------------------------------------------------
 
 Proxima.sessions.isLocalSession = function ()
-    sessionType = Proxima.sessions.getSessionValue("sessionType")    
+    sessionType = self.getSessionValue("sessionType")    
     if sessionType == 0 then return true
     if sessionType == 1 then return false
 end function
 
 Proxima.sessions.isRemoteSession = function ()
-    sessionType = Proxima.sessions.getSessionValue("sessionType")    
+    sessionType = self.getSessionValue("sessionType")    
     if sessionType == 1 then return true
     if sessionType == 0 then return false
 end function
