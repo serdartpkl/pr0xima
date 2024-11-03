@@ -28,6 +28,12 @@ Proxima.engine.fileSystem = [
         "has_found": false
     },
     {
+        "name": "downloads",
+        "folder": true,
+        "parent_dir": home_dir + "/pr0xima",
+        "has_found": false
+    },
+    {
         "name": "settings.conf",
         "folder": false,
         "parent_dir": home_dir + "/pr0xima",
