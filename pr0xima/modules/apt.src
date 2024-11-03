@@ -3,8 +3,7 @@ Proxima.apt = {}
 // ------------------------------------------------------------------------------------------------------------
 
 Proxima.apt.checkSourcesFile = function ()
-    getSourcesFile = Proxima.globals.myPC.File("/etc/apt/sources.txt")
-    return getSourcesFile
+    return Proxima.globals.myPC.File("/etc/apt/sources.txt")
 end function
 
 Proxima.apt.getRepositories = function (sourcesFile)
