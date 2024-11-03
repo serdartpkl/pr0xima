@@ -130,7 +130,7 @@ Proxima.db.setRecordValue = function (databaseName, recordID, recordKey, recordV
             if acquiredRecord.id == recordID then
                 for key in acquiredRecord.indexes
                     if key == recordKey then
-                        acquiredRecord[recordKey] = recordValue
+                        deserializedDatabase.records[acquiredRecord.id - 1][recordKey] = recordValue
                         setDatabase = self.setRecords(databaseName, deserializedDatabase.records)
                         if setDatabase then return true
                     end if
