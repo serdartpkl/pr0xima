@@ -40,6 +40,9 @@ Proxima.db.reorderRecords = function (databaseRecords)
     return databaseRecords
 end function
 
+Proxima.db.sortRecords = function (databaseRecords)
+end function
+
 Proxima.db.getRecords = function (databaseName)
     databaseFile = self.getDatabase(databaseName)
     if databaseFile != null then
