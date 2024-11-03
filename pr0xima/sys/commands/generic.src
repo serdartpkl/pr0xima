@@ -341,13 +341,13 @@ end function
 
 // ------------------------------------------------------------------------------------------------------------
 
-Proxima.commands.exec = {
+Proxima.commands.run = {
     "name": "run",
     "description": "Executes ",
     "usage": "run <path>",
     "type": 2
 }
-Proxima.commands.exec.exec = function (params)
+Proxima.commands.run.exec = function (params)
     if params.len == 0 then
         Proxima.io.throwInputError("No binary file path provided.", self.usage)
     else
