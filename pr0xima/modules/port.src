@@ -1,6 +1,6 @@
 Proxima.port = {}
 
-Proxima.exploit.isRouter = function (targetIP)
+Proxima.port.isRouter = function (targetIP)
     if get_router(targetIP) != null then
         return true
     else
@@ -8,11 +8,11 @@ Proxima.exploit.isRouter = function (targetIP)
     end if
 end function
 
-Proxima.exploit.isPingable = function (targetIP)
+Proxima.port.isPingable = function (targetIP)
     if Proxima.globals.myShell.ping(targetIP) then return true
 end function
 
-Proxima.exploit.checkTargetIP = function (targetIP = null)
+Proxima.port.checkTargetIP = function (targetIP = null)
     if targetIP != null and is_valid_ip(targetIP) then
         if self.isPingable(targetIP) then
             return true
@@ -24,13 +24,13 @@ Proxima.exploit.checkTargetIP = function (targetIP = null)
     end if
 end function
 
-Proxima.exploit.dumpRouter = function ()
+Proxima.port.dumpRouter = function ()
 end function
 
-Proxima.exploit.scanRouter = function ()
+Proxima.port.scanRouter = function ()
 end function
 
-Proxima.exploit.checkPorts = function (targetIP = null)
+Proxima.port.checkPorts = function (targetIP = null)
     if Proxima.utils.indexesOf(Proxima.sessions.activeSessions, "targetIP", targetIP) then
         for targetSession in Proxima.sessions.activeSessions
             if targetSession.id == Proxima.sessions.activeSession then
@@ -79,7 +79,7 @@ Proxima.exploit.checkPorts = function (targetIP = null)
     end if
 end function
 
-Proxima.exploit.dumpPort = function (targetPort)
+Proxima.port.dumpPort = function (targetPort)
     totalExploits = 0
     if targetPort.state == "OPEN" then
         targetIP = Proxima.sessions.getSessionValue("targetIP")
@@ -105,7 +105,7 @@ Proxima.exploit.dumpPort = function (targetPort)
     return totalExploits
 end function
 
-Proxima.exploit.scanPort = function (portID)
+Proxima.port.scanPort = function (portID)
     targetIP = Proxima.sessions.getSessionValue("targetIP")
     targetPorts = Proxima.sessions.getSessionValue("targetPorts")
     if targetPorts.len > 0 then
@@ -136,7 +136,7 @@ Proxima.exploit.scanPort = function (portID)
     end if
 end function
 
-Proxima.exploit.scanPorts = function ()
+Proxima.port.scanPorts = function ()
     targetIP = Proxima.sessions.getSessionValue("targetIP")
     targetPorts = Proxima.sessions.getSessionValue("targetPorts")
     if targetPorts.len > 0 then
@@ -168,7 +168,7 @@ Proxima.exploit.scanPorts = function ()
     end if
 end function
 
-Proxima.exploit.displayPortInfo = function ()
+Proxima.port.displayPortInfo = function ()
     header_list = ["ID", "PORT", "STATE", "SERVICE", "VERSION", "LAN_IP"]
     content_list = []
     targetPorts = Proxima.sessions.getSessionValue("targetPorts")
