@@ -1,26 +1,18 @@
 Proxima.db={}
 // ------------------------------------------------------------------------------------------------------------
+Proxima.db.getDatabase=function(databaseName)
+databaseFile=Proxima.globals.myPC.File(home_dir+"/pr0xima/databases/"+databaseName+".db")
+if databaseFile!=null and databaseFile.get_content!="" then return databaseFile
+return null
+end function
 Proxima.db.createDatabase=function(databaseName)
-if Proxima.globals.myPC.File(home_dir+"/pr0xima/databases/"+databaseName+".db")==null then
+if self.getDatabase==null then
 createDatabaseFile=Proxima.globals.myPC.touch(home_dir+"/pr0xima/databases",databaseName+".db")
 if typeof(createDatabaseFile)!="string" then
 databaseFile=Proxima.globals.myPC.File(home_dir+"/pr0xima/databases/"+databaseName+".db")
 setFileContent=databaseFile.set_content("{"+char(34)+"records"+char(34)+":[]}")
 if setFileContent==1 then return true
 end if
-end if
-return null
-end function
-Proxima.db.getDatabase=function(databaseName)
-databaseFile=Proxima.globals.myPC.File(home_dir+"/pr0xima/databases/"+databaseName+".db")
-if databaseFile!=null and databaseFile.get_content!="" then return databaseFile
-return null
-end function
-Proxima.db.resetDatabase=function(databaseName)
-databaseFile=self.getDatabase(databaseName)
-if databaseFile!=null then
-resetFile=databaseFile.set_content("{"+char(34)+"records"+char(34)+":[]}")
-if resetFile==1 then return true
 end if
 return null
 end function
@@ -33,6 +25,9 @@ idCounter=idCounter+1
 end for
 return databaseRecords
 end function
+Proxima.db.sortRecords=function(databaseRecords,sortBy)
+mutatedRecords=databaseRecords.sort(sortBy)
+end function
 Proxima.db.getRecords=function(databaseName)
 databaseFile=self.getDatabase(databaseName)
 if databaseFile!=null then
@@ -41,14 +36,20 @@ return deserializedDatabase.records
 end if
 return null
 end function
-Proxima.db.setRecords=function(databaseName,mutatedRecords)
+Proxima.db.setRecords=function(databaseName,givenRecords)
 databaseFile=self.getDatabase(databaseName)
 if databaseFile!=null then
-deserializedDatabase=Proxima.utils.deserializeMap(databaseFile.get_content)
-deserializedDatabase.records=mutatedRecords
-serializeRecords=Proxima.utils.serializeMap(deserializedDatabase)
-setRecords=databaseFile.set_content(serializeRecords)
+serializedRecords=Proxima.utils.serializeMap({"records":givenRecords})
+setRecords=databaseFile.set_content(serializedRecords)
 if setRecords==1 then return true
+end if
+return null
+end function
+Proxima.db.resetRecords=function(databaseName)
+databaseFile=self.getDatabase(databaseName)
+if databaseFile!=null then
+resetFile=self.setRecords(databaseName,[])
+if resetFile then return true
 end if
 return null
 end function
@@ -58,16 +59,16 @@ if databaseFile!=null then
 deserializedDatabase=Proxima.utils.deserializeMap(databaseFile.get_content)
 deserializedDatabase.records.push({"id":deserializedDatabase.records.len+1}+recordMap)
 reorderedRecords=self.reorderRecords(deserializedDatabase.records)
-setDatabase=self.setRecords(databaseName,reorderedRecords)
-if setDatabase!=null then return true
+setRecords=self.setRecords(databaseName,reorderedRecords)
+if setRecords then return true
 end if
 return null
 end function
-Proxima.db.searchRecord=function(databaseName,recordKey,recordValue)
+Proxima.db.searchRecords=function(databaseName,recordKey,recordValue)
 databaseFile=self.getDatabase(databaseName)
 if databaseFile!=null then
 deserializedDatabase=Proxima.utils.deserializeMap(databaseFile.get_content)
-foundedRecords=Proxima.utils.mapHasValue(deserializedDatabase.records,recordKey,recordValue)
+foundedRecords=Proxima.utils.indexesOf(deserializedDatabase.records,recordKey,recordValue)
 if foundedRecords.len>0 then
 recordCounter=0
 for recordIndex in foundedRecords
@@ -127,4 +128,9 @@ end if
 end for
 end if
 return null
+end function
+// ------------------------------------------------------------------------------------------------------------
+Proxima.db.displayDatabaseInfo=function
+end function
+Proxima.db.displayRecordInfo=function
 end function

@@ -22,16 +22,14 @@ end function
 
 // ------------------------------------------------------------------------------------------------------------
 
-Proxima.db.reorderRecords = function (databaseRecords)
+Proxima.db.reorderRecords = function (databaseRecords, sortBy = null)
+    if sortBy != null then databaseRecords = databaseRecords.sort(sortBy)
     idCounter = 1
     for acquiredRecord in databaseRecords
         if acquiredRecord.id != idCounter then acquiredRecord.id = idCounter
         idCounter = idCounter + 1
     end for
     return databaseRecords
-end function
-
-Proxima.db.sortRecords = function (databaseRecords, sortBy)
 end function
 
 Proxima.db.getRecords = function (databaseName)
@@ -46,10 +44,8 @@ end function
 Proxima.db.setRecords = function (databaseName, givenRecords)
     databaseFile = self.getDatabase(databaseName)
     if databaseFile != null then
-        deserializedDatabase = Proxima.utils.deserializeMap(databaseFile.get_content())
-        deserializedDatabase.records = givenRecords
-        serializeRecords = Proxima.utils.serializeMap(deserializedDatabase)
-        setRecords = databaseFile.set_content(serializeRecords)
+        serializedRecords = Proxima.utils.serializeMap({"records": givenRecords})
+        setRecords = databaseFile.set_content(serializedRecords)
         if setRecords == 1 then return true
     end if
     return null
@@ -58,8 +54,8 @@ end function
 Proxima.db.resetRecords = function (databaseName)
     databaseFile = self.getDatabase(databaseName)
     if databaseFile != null then
-        resetFile = databaseFile.set_content("{" + char(34) + "records" + char(34) + ":[]}")
-        if resetFile == 1 then return true
+        resetFile = self.setRecords(databaseName, [])
+        if resetFile then return true
     end if
     return null
 end function
@@ -70,8 +66,8 @@ Proxima.db.addRecord = function (databaseName, recordMap)
         deserializedDatabase = Proxima.utils.deserializeMap(databaseFile.get_content())
         deserializedDatabase.records.push({"id": deserializedDatabase.records.len + 1} + recordMap)
         reorderedRecords = self.reorderRecords(deserializedDatabase.records)
-        setDatabase = self.setRecords(databaseName, reorderedRecords)
-        if setDatabase != null then return true
+        setRecords = self.setRecords(databaseName, reorderedRecords)
+        if setRecords then return true
     end if
     return null
 end function
