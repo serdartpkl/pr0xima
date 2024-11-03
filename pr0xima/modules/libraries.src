@@ -1,6 +1,6 @@
-Proxima.library = {}
+Proxima.libraries = {}
 
-Proxima.library.checkLibraries = function ()
+Proxima.libraries.checkLibraries = function ()
     Proxima.sessions.setSessionValue("targetLibraries", [])
     librariesFolder = Proxima.globals.myPC.File("/lib")
     localLibraries = librariesFolder.get_files
@@ -11,7 +11,7 @@ Proxima.library.checkLibraries = function ()
     end for
 end function
 
-Proxima.library.dumpLibrary = function (targetLibrary)
+Proxima.libraries.dumpLibrary = function (targetLibrary)
     totalExploits = 0
     libraryDump = Proxima.globals.metaxploit.load(targetLibrary.path)
     print(Proxima.io.addOutputEntry(Proxima.io.output.progress("Attempting to scan vulnerabilities at <b>" + libraryDump.lib_name + "</b>!")))
@@ -22,7 +22,7 @@ Proxima.library.dumpLibrary = function (targetLibrary)
     return totalExploits
 end function
 
-Proxima.library.scanLibrary = function (libraryID)
+Proxima.libraries.scanLibrary = function (libraryID)
     targetLibraries = Proxima.sessions.getSessionValue("targetLibraries")
     if targetLibraries.len > 0 then
         if libraryID != null and targetLibraries.hasIndex(libraryID - 1) then
@@ -48,7 +48,7 @@ Proxima.library.scanLibrary = function (libraryID)
     end if
 end function
 
-Proxima.library.scanLibraries = function ()
+Proxima.libraries.scanLibraries = function ()
     targetLibraries = Proxima.sessions.getSessionValue("targetLibraries")
     if targetLibraries.len > 0 then
         totalExploits = 0
@@ -75,7 +75,7 @@ Proxima.library.scanLibraries = function ()
     end if
 end function
 
-Proxima.library.displayLibraryInfo = function ()
+Proxima.libraries.displayLibraryInfo = function ()
     header_list = ["ID", "LIBRARY_NAME", "VERSION", "PATH"]
     content_list = []
     targetLibraries = Proxima.sessions.getSessionValue("targetLibraries")
