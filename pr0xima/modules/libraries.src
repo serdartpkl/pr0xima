@@ -75,7 +75,7 @@ Proxima.libraries.scanLibraries = function ()
     end if
 end function
 
-Proxima.libraries.displayLibraryInfo = function ()
+Proxima.libraries.displayLibraries = function ()
     header_list = ["ID", "LIBRARY_NAME", "VERSION", "PATH"]
     content_list = []
     targetLibraries = Proxima.sessions.getSessionValue("targetLibraries")

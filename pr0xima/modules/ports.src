@@ -168,7 +168,7 @@ Proxima.ports.scanPorts = function ()
     end if
 end function
 
-Proxima.ports.displayPortInfo = function ()
+Proxima.ports.displayPorts = function ()
     header_list = ["ID", "PORT", "STATE", "SERVICE", "VERSION", "LAN_IP"]
     content_list = []
     targetPorts = Proxima.sessions.getSessionValue("targetPorts")

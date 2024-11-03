@@ -189,7 +189,7 @@ Proxima.sessions.colorizeSessionType = function (sessionType)
     if sessionType == 1 then return "REMOTE#FFC466"
 end function
 
-Proxima.sessions.displaySessionInfo = function (displaySaved = false)
+Proxima.sessions.displaySessions = function (displaySaved = false)
     header_list = ["ID", "TARGET_IP", "DATE_CREATED", "SESSION_TYPE"]
     content_list = []
     
