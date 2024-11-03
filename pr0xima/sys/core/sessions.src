@@ -28,16 +28,12 @@ Proxima.sessions.getSession = function (sessionKey, getSaved = false)
     
     if sessionsList.len > 0 then
         for targetSession in sessionsList
-            if typeof(sessionKey) == "number" then
-                if targetSession.id == sessionKey then
-                    acquiredSession = targetSession
-                    break
-                end if
-            else if typeof(sessionKey) == "string" then
-                if targetSession.targetIP == sessionKey then
-                    acquiredSession = targetSession
-                    break
-                end if
+            checkKey = "id"
+            if typeof(sessionKey) == "string" then checkKey = "targetIP"
+
+            if targetSession[checkKey] == sessionKey then
+                acquiredSession = targetSession
+                break
             end if
         end for
     end if
