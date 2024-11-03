@@ -102,6 +102,7 @@ end function
 // ------------------------------------------------------------------------------------------------------------
 
 Proxima.sessions.reorderSessions = function (sessionsList, sortBy = null)
+    if sortBy != null then sessionsList = sessionsList.sort(sortBy)
     idCounter = 1
     for acquiredSession in sessionsList
         if acquiredSession.id != idCounter then acquiredSession.id = idCounter
