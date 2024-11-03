@@ -43,7 +43,7 @@ Proxima.db.getRecords = function (databaseName)
     return null
 end function
 
-Proxima.db.saveRecords = function (databaseName, mutatedRecords)
+Proxima.db.setRecords = function (databaseName, mutatedRecords)
     databaseFile = self.getDatabase(databaseName)
     if databaseFile != null then
         deserializedDatabase = Proxima.utils.deserializeMap(databaseFile.get_content())

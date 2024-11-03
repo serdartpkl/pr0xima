@@ -103,20 +103,18 @@ Proxima.sessions.reorderSessions = function (sessionsList)
     return sessionsList
 end function
 
-Proxima.sessions.saveSession = function (sessionID, saveSingle = true)
+Proxima.sessions.updateSavedSessions = function (sessionID, saveSingle = true)
     acquiredSession = self.getSession(sessionID)
     if acquiredSession != null then
-        getSavedSession = self.getSessionByIP(acquiredSession.targetIP, true)
+        getSavedSession = self.getSession(acquiredSession.targetIP, true)
         if getSavedSession != null then
-
         else
-
         end if
     end if
 end function
 
-Proxima.sessions.resetSession = function (sessionID, resetSaved = false)
-    acquiredSession = self.getSession(sessionID, resetSaved)
+Proxima.sessions.resetSession = function (sessionID)
+    acquiredSession = self.getSession(sessionID)
 
     if acquiredSession != null then
         //... 
@@ -126,7 +124,7 @@ Proxima.sessions.resetSession = function (sessionID, resetSaved = false)
     return null
 end function
 
-Proxima.sessions.searchSessions = function (sessionKey, sessionValue)
+Proxima.sessions.searchSessions = function (sessionKey, sessionValue, searchSaved = false)
 end function
 
 Proxima.sessions.deleteSession = function (sessionID, deleteSaved = false)
@@ -159,8 +157,6 @@ Proxima.sessions.addToSession = function (targetList, givenMap)
 end function
 
 // ------------------------------------------------------------------------------------------------------------
-
-
 
 Proxima.sessions.loadSavedSession = function (sessionID) 
     acquiredSession = self.getSession(sessionID, true)
