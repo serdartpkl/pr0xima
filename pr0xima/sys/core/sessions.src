@@ -3,8 +3,6 @@ Proxima.sessions = {}
 Proxima.sessions.activeSession = null
 Proxima.sessions.activeSessions = []
 
-Proxima.sessions.savedSessions = []
-
 // ------------------------------------------------------------------------------------------------------------
 
 Proxima.sessions.getSession = function (sessionID, getSaved = false)
