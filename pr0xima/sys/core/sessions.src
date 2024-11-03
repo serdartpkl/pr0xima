@@ -34,7 +34,13 @@ Proxima.sessions.setActiveSession = function (sessionID)
 end function
 
 Proxima.sessions.createSession = function (sessionType, targetIP, targetRouter)
-    if Proxima.utils.indexesOf(self.activeSessions, "targetIP", targetIP) == [] then
+    checkActiveSessions = null
+    if Proxima.utils.indexesOf(self.activeSessions, "targetIP", targetIP) != [] then checkActiveSessions = true
+
+    checkSavedSessions = null
+    if Proxima.utils.indexesOf(self.savedSessions, "targetIP", targetIP) != [] then checkSavedSessions = true
+
+    if checkActiveSessions == null and checkSavedSessions == null then
         sessionMap = {}
 
         sessionMap.id = self.activeSessions.len + 1
@@ -68,6 +74,7 @@ Proxima.sessions.createSession = function (sessionType, targetIP, targetRouter)
         self.activeSessions.push(sessionMap)
         return sessionMap.id
     end if
+    
     return null
 end function
 
