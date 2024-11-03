@@ -71,7 +71,7 @@ end function
 Proxima.net.setTargetNetwork = function (targetESSID = null)
     if self.targetNetworks.len > 0 then
         if targetESSID != null then
-            getNetwork = Proxima.utils.mapHasValue(self.targetNetworks, "essid", targetESSID)
+            getNetwork = Proxima.utils.indexesOf(self.targetNetworks, "essid", targetESSID)
             if getNetwork.len > 0 then self.targetNetwork = getNetwork[0]
         else
             self.targetNetwork = self.targetNetworks.sort("strength")[self.targetNetworks.len - 1]

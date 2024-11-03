@@ -77,7 +77,7 @@ Proxima.db.searchRecord = function (databaseName, recordKey, recordValue)
     databaseFile = self.getDatabase(databaseName)
     if databaseFile != null then
         deserializedDatabase = Proxima.utils.deserializeMap(databaseFile.get_content())
-        foundedRecords = Proxima.utils.mapHasValue(deserializedDatabase.records, recordKey, recordValue)
+        foundedRecords = Proxima.utils.indexesOf(deserializedDatabase.records, recordKey, recordValue)
         if foundedRecords.len > 0 then
             recordCounter = 0
             for recordIndex in foundedRecords

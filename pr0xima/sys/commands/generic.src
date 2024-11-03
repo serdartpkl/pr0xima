@@ -69,7 +69,7 @@ Proxima.commands.sessions.exec = function (params)
             else
                 if savedSessions.hasIndex(sessionID - 1) then targetSession = savedSessions[sessionID - 1] 
                 if targetSession != null then
-                    searchSession = Proxima.utils.mapHasValue(Proxima.sessions.activeSessions, "targetIP", targetSession.targetIP)
+                    searchSession = Proxima.utils.indexesOf(Proxima.sessions.activeSessions, "targetIP", targetSession.targetIP)
                     if searchSession != null and searchSession.len == 1 then
                         print(Proxima.io.addOutputEntry(Proxima.io.output.progress("This session is already saved, updating session information...")))
                         //...
