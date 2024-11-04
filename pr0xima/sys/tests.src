@@ -1,0 +1,25 @@
+Proxima.tests = {}
+Proxima.tests.test = {}
+
+Proxima.tests.test.db = function ()
+    createDatabase = Proxima.db.createDatabase("test")
+    if createDatabase then print(Proxima.io.addOutputEntry("Created database."))
+
+    getDatabases = Proxima.db.getDatabases()
+    if getDatabases != null then
+        print(Proxima.io.addOutputEntry("Loaded databases."))
+        print(Proxima.io.addOutputEntry(getDatabases))
+    end if
+
+    getRecords = Proxima.db.getRecords("test")
+    if getRecords != null then
+        print(Proxima.io.addOutputEntry("Loaded records."))
+        print(Proxima.io.addOutputEntry(getRecords))
+    end if
+
+
+
+end function
+
+Proxima.tests.startTest = function (testName)
+end function
