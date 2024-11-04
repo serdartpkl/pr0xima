@@ -94,10 +94,7 @@ end function
 
 Proxima.db.searchRecords = function (databaseName, recordKey, recordValue)
     acquiredRecords = self.getRecords(databaseName)
-    if acquiredRecords != null then
-        foundedRecords = Proxima.utils.indexesOf(acquiredRecords, recordKey, recordValue)
-        if foundedRecords.len > 0 then return foundedRecords
-    end if
+    if acquiredRecords != null then return Proxima.utils.indexesOf(acquiredRecords, recordKey, recordValue)
     return null
 end function
 
@@ -106,7 +103,7 @@ Proxima.db.deleteRecord = function (databaseName, recordID, sortBy = null)
     if acquiredRecords != null then
         foundRecordID = self.searchRecords(databaseName, "id", recordID)
         if foundRecordID != null then
-            acquiredRecords.remove(foundedRecordIndex)
+            acquiredRecords.remove(foundRecordID)
             reorderRecords = self.reorderRecords(databaseName, acquiredRecords, sortBy)
             if reorderRecords then return true
         end if
@@ -121,8 +118,7 @@ Proxima.db.getRecordValue = function (databaseName, recordID, recordKey)
     if acquiredRecords != null then
         foundedRecordID = self.searchRecords(databaseName, "id", recordID)
         if foundedRecordID != null then
-            foundedRecordIndex = foundedRecordID[0] - 1
-            if acquiredRecords[foundedRecordIndex].hasIndex(recordKey) then return acquiredRecords[foundedRecordIndex][recordKey]
+            if acquiredRecords[foundedRecordID].hasIndex(recordKey) then return acquiredRecords[foundedRecordID][recordKey]
         end if
     end if
     return null
@@ -133,9 +129,8 @@ Proxima.db.setRecordValue = function (databaseName, recordID, recordKey, recordV
     if acquiredRecords != null then
         foundedRecordID = self.searchRecords(databaseName, "id", recordID)
         if foundedRecordID != null then
-            foundedRecordIndex = foundedRecordID[0] - 1
-            if acquiredRecords[foundedRecordIndex].hasIndex(recordKey) then
-                acquiredRecords[foundedRecordIndex][recordKey] = recordValue
+            if acquiredRecords[foundedRecordID].hasIndex(recordKey) then
+                acquiredRecords[foundedRecordID][recordKey] = recordValue
                 setRecords = self.setRecords(databaseName, acquiredRecords)
                 if setRecords then return true
             end if
