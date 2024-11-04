@@ -54,8 +54,8 @@ end function
 Proxima.db.resetRecords = function (databaseName)
     databaseFile = self.getDatabase(databaseName)
     if databaseFile != null then
-        resetFile = self.setRecords(databaseName, [])
-        if resetFile then return true
+        setRecords = self.setRecords(databaseName, [])
+        if setRecords then return true
     end if
     return null
 end function
