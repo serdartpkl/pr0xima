@@ -17,8 +17,29 @@ Proxima.tests.test.db = function ()
         print(Proxima.io.addOutputEntry(getRecords))
     end if
 
+    addRecord = Proxima.db.addRecord("test", {"name": "test_one", "version": 1})
+    if addRecord then print(Proxima.io.addOutputEntry("Added record 1."))
 
+    addRecord = Proxima.db.addRecord("test", {"name": "test_two", "version": 2})
+    if addRecord then print(Proxima.io.addOutputEntry("Added record 2."))
 
+    addRecord = Proxima.db.addRecord("test", {"name": "test_three", "version": 3})
+    if addRecord then print(Proxima.io.addOutputEntry("Added record 3."))
+
+    getRecords = Proxima.db.getRecords("test")
+    if getRecords != null then
+        print(Proxima.io.addOutputEntry("Loaded records."))
+        print(Proxima.io.addOutputEntry(getRecords))
+    end if
+
+    deleteRecord = Proxima.db.deleteRecord("test", 2)
+    if deleteRecord then print(Proxima.io.addOutputEntry("Deleted record with ID 2."))
+
+    getRecords = Proxima.db.getRecords("test")
+    if getRecords != null then
+        print(Proxima.io.addOutputEntry("Loaded records."))
+        print(Proxima.io.addOutputEntry(getRecords))
+    end if
 end function
 
 Proxima.tests.startTest = function (testName)

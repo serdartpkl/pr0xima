@@ -82,6 +82,12 @@ Proxima.db.reorderRecords = function (databaseName, databaseRecords, sortBy = nu
     return null
 end function
 
+Proxima.db.searchRecords = function (databaseName, recordKey, recordValue)
+    acquiredRecords = self.getRecords(databaseName)
+    if acquiredRecords != null then return Proxima.utils.indexesOf(acquiredRecords, recordKey, recordValue)
+    return null
+end function
+
 Proxima.db.addRecord = function (databaseName, recordMap, sortBy = null)
     acquiredRecords = self.getRecords(databaseName)
     if acquiredRecords != null then
@@ -94,12 +100,6 @@ Proxima.db.addRecord = function (databaseName, recordMap, sortBy = null)
         end if
         if performAddition then return true
     end if
-    return null
-end function
-
-Proxima.db.searchRecords = function (databaseName, recordKey, recordValue)
-    acquiredRecords = self.getRecords(databaseName)
-    if acquiredRecords != null then return Proxima.utils.indexesOf(acquiredRecords, recordKey, recordValue)
     return null
 end function
 
