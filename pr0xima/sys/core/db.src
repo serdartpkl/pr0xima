@@ -156,13 +156,11 @@ Proxima.db.displayDatabases = function ()
     Proxima.utils.formatList(headerList, contentList)
 end function
 
-Proxima.db.displayRecords = function (databaseName)
+Proxima.db.displayRecords = function (databaseRecords)
     headerList = ["ID", "RECORD_NAME", "DATABASE_NAME", "DATE_CREATED"]
     contentList = []
-
-    acquiredRecords = self.getRecords(databaseName)
-
-    for acquiredRecord in acquiredRecords
+    
+    for acquiredRecord in databaseRecords
         r_id = str(acquiredRecord.id) 
         r_name = acquiredRecords.indexes[acquiredRecord.id - 1]
         r_db_name = databaseName
