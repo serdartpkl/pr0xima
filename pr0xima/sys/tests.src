@@ -3,13 +3,13 @@ Proxima.tests.test = {}
 
 Proxima.tests.test.db = function ()
     createDatabase = Proxima.db.createDatabase("test")
-    if createDatabase then print(Proxima.io.addOutputEntry("Created database."))
+    if createDatabase then print(Proxima.io.addOutputEntry(Proxima.io.output.success("Created database.")))
 
     Proxima.db.displayDatabases()
 
     getDatabases = Proxima.db.getDatabases()
     if getDatabases != null then
-        print(Proxima.io.addOutputEntry("Loaded databases."))
+        print(Proxima.io.addOutputEntry(Proxima.io.output.success("Loaded databases.")))
         print(Proxima.io.addOutputEntry(getDatabases))
     end if
 
