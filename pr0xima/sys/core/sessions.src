@@ -109,11 +109,12 @@ Proxima.sessions.setSessionValue = function (sessionID, sessionKey, sessionValue
     acquiredSession = self.getSession(sessionID, setSaved)
     if acquiredSession != null then
         if setSaved then
-            //...
+            setRecordValue = Proxima.db.setRecordValue("sessions", sessionID, sessionKey, sessionValue)
+            if setRecordValue then return true
         else
             self.activeSessions[sessionID - 1][sessionKey] = sessionValue
+            return true
         end if
-        return true
     end if
     return null
 end function
