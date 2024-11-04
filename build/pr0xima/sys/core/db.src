@@ -89,6 +89,17 @@ if performAddition then return true
 end if
 return null
 end function
+Proxima.db.updateRecord=function(databaseName,recordID,recordMap)
+acquiredRecords=self.getRecords(databaseName)
+if acquiredRecords!=null then
+recordIndex=self.searchRecords(databaseName,"id",recordID)
+if recordIndex!=null and acquiredRecords.hasIndex(recordIndex) then
+acquiredRecords[recordIndex]=recordMap
+setRecords=self.setRecords(databaseName,acquiredRecords)
+if setRecords then return true
+end if
+end if
+end function
 Proxima.db.deleteRecord=function(databaseName,recordID,sortBy=null)
 acquiredRecords=self.getRecords(databaseName)
 if acquiredRecords!=null then
@@ -105,9 +116,9 @@ end function
 Proxima.db.getRecordValue=function(databaseName,recordID,recordKey)
 acquiredRecords=self.getRecords(databaseName)
 if acquiredRecords!=null then
-foundedRecordID=self.searchRecords(databaseName,"id",recordID)
-if foundedRecordID!=null then
-if acquiredRecords[foundedRecordID].hasIndex(recordKey) then return acquiredRecords[foundedRecordID][recordKey]
+recordIndex=self.searchRecords(databaseName,"id",recordID)
+if recordIndex!=null then
+if acquiredRecords[recordIndex].hasIndex(recordKey) then return acquiredRecords[recordIndex][recordKey]
 end if
 end if
 return null
@@ -115,10 +126,10 @@ end function
 Proxima.db.setRecordValue=function(databaseName,recordID,recordKey,recordValue)
 acquiredRecords=self.getRecords(databaseName)
 if acquiredRecords!=null then
-foundedRecordID=self.searchRecords(databaseName,"id",recordID)
-if foundedRecordID!=null then
-if acquiredRecords[foundedRecordID].hasIndex(recordKey) then
-acquiredRecords[foundedRecordID][recordKey]=recordValue
+recordIndex=self.searchRecords(databaseName,"id",recordID)
+if recordIndex!=null then
+if acquiredRecords[recordIndex].hasIndex(recordKey) then
+acquiredRecords[recordIndex][recordKey]=recordValue
 setRecords=self.setRecords(databaseName,acquiredRecords)
 if setRecords then return true
 end if

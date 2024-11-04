@@ -95,7 +95,15 @@ end function
 Proxima.sessions.saveSession=function(sessionID)
 acquiredSession=self.getSession(sessionID)
 if acquiredSession!=null then
-//...
+getSavedSession=self.getSession(acquiredSession.targetIP,true)
+if getSavedSession!=null then
+acquiredSession.id=getSavedSession.id
+updateRecord=Proxima.db.updateRecord("sessions",getSavedSession.id,acquiredSession)
+if updateRecord then return true
+else
+addRecord=Proxima.db.addRecord("sessions",acquiredSession,"dateCreated")
+if addRecord then return true
+end if
 end if
 return null
 end function
@@ -136,8 +144,7 @@ end function
 Proxima.sessions.displaySessions=function(displaySaved=false)
 header_list=["ID","TARGET_IP","DATE_CREATED","SESSION_TYPE"]
 content_list=[]
-sessionList=self.activeSessions
-if displaySaved then sessionList=self.savedSessions
+sessionList=self.getSessions(displaySaved)
 for targetSession in sessionList
 addColor=null
 if displaySaved==false then

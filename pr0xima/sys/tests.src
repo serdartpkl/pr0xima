@@ -118,4 +118,9 @@ Proxima.tests.test.sessions = function ()
     end if
 
     Proxima.sessions.displaySessions()
+
+    saveSession = Proxima.sessions.saveSession(2)
+    if saveSession then print("Session with ID 2 saved.")
+
+    Proxima.sessions.displaySessions(true)
 end function
