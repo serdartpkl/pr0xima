@@ -1,0 +1,79 @@
+Proxima.tests={}
+Proxima.tests.test={}
+Proxima.tests.test.db=function
+createDatabase=Proxima.db.createDatabase("test")
+if createDatabase then print(Proxima.io.addOutputEntry(Proxima.io.output.success("Created database.")))
+Proxima.db.displayDatabases
+getDatabases=Proxima.db.getDatabases
+if getDatabases!=null then
+print(Proxima.io.addOutputEntry(Proxima.io.output.success("Loaded databases.")))
+print(Proxima.io.addOutputEntry(getDatabases))
+end if
+getRecords=Proxima.db.getRecords("test")
+if getRecords!=null then
+print(Proxima.io.addOutputEntry("Loaded records."))
+print(Proxima.io.addOutputEntry(getRecords))
+end if
+recordMap={"name":"test_one","version":1}
+addRecord=Proxima.db.addRecord("test",recordMap)
+if addRecord then print(Proxima.io.addOutputEntry("Added record 1."))
+recordMap={"name":"test_two","version":2}
+addRecord=Proxima.db.addRecord("test",recordMap)
+if addRecord then print(Proxima.io.addOutputEntry("Added record 2."))
+recordMap={"name":"test_three","version":3}
+addRecord=Proxima.db.addRecord("test",recordMap)
+if addRecord then print(Proxima.io.addOutputEntry("Added record 3."))
+getRecords=Proxima.db.getRecords("test")
+if getRecords!=null then
+print(Proxima.io.addOutputEntry("Loaded records."))
+print(Proxima.io.addOutputEntry(getRecords))
+end if
+getRecordValue=Proxima.db.getRecordValue("test",2,"name")
+if getRecordValue!=null then print(getRecordValue)
+setRecordValue=Proxima.db.setRecordValue("test",2,"name","test_changed")
+if setRecordValue then print("Changed value.")
+getRecordValue=Proxima.db.getRecordValue("test",2,"name")
+if getRecordValue!=null then print(getRecordValue)
+Proxima.db.displayRecords("test","name")
+deleteRecord=Proxima.db.deleteRecord("test",1)
+if deleteRecord then print("Deleted record with ID 1.")
+getRecords=Proxima.db.getRecords("test")
+if getRecords!=null then
+print(Proxima.io.addOutputEntry("Loaded records."))
+print(Proxima.io.addOutputEntry(getRecords))
+end if
+resetRecords=Proxima.db.resetRecords("test")
+if resetRecords then print(Proxima.io.addOutputEntry("Did reset database."))
+getRecords=Proxima.db.getRecords("test")
+if getRecords!=null then
+print(Proxima.io.addOutputEntry("Loaded records."))
+print(Proxima.io.addOutputEntry(getRecords))
+end if
+end function
+Proxima.tests.test.sessions=function
+getActiveSessions=Proxima.sessions.getSessions
+getSavedSessions=Proxima.sessions.getSessions(true)
+if getActiveSessions!=null then
+print("Found active sessions.")
+print(getActiveSessions)
+else
+print("No active sessions found.")
+end if
+if getSavedSessions!=null then
+if getSavedSessions.len>0 then
+print("Found saved sessions.")
+print(getSavedSessions)
+else
+print("No saved sessions found.")
+end if
+end if
+createSession=Proxima.sessions.createSession(0,"192.168.0.3",get_router("192.168.0.3"))
+if typeof(createSession)=="number" then print("Created session number 1.")
+createSession=Proxima.sessions.createSession(1,"2.2.2.2",get_router("2.2.2.2"))
+if typeof(createSession)=="number" then print("Created session number 2.")
+createSession=Proxima.sessions.createSession(1,"4.4.4.4",get_router("3.3.3.3"))
+if typeof(createSession)=="number" then print("Created session number 3.")
+setSession=Proxima.sessions.setSession(1)
+if setSession then print("Set session ID 1.")
+Proxima.sessions.displaySessions
+end function

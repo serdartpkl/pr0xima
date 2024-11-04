@@ -335,7 +335,7 @@ Proxima.engine.startEngine = function ()
 
     print(Proxima.io.addOutputEntry(Proxima.io.output.line))
 
-    getSavedSessions = Proxima.sessions.getSavedSessions()
+    getSavedSessions = Proxima.sessions.getSessions(true)
     if getSavedSessions != null then
         if getSavedSessions.len > 0 then
             print(Proxima.io.addOutputEntry(Proxima.io.output.success("Saved sessions loaded successfully! <b>[TOTAL:" + getSavedSessions.len + "]</b>")))
@@ -346,17 +346,19 @@ Proxima.engine.startEngine = function ()
         exit(Proxima.io.addOutputEntry(Proxima.io.output.error("Couldn't load saved sessions due to unexpected error.")))
     end if
 
-    localIP = Proxima.globals.myPC.local_ip
-    localRouter = get_router(localIP)
-    createLocalSession = Proxima.sessions.createSession(0, localIP, localRouter)
-    if createLocalSession != null and typeof(createLocalSession) == "number" then
-        setActiveSession = Proxima.sessions.setActiveSession(createLocalSession)
-        if setActiveSession then
-            self.startCLI()
-        else
-            exit(Proxima.io.output.error("Couldn't switch to created session due to unexpected error. Terminating program..."))
-        end if
-    else
-        exit(Proxima.io.output.error("Couldn't create local session due to unexpected error. Terminating program..."))
-    end if
+    Proxima.tests.test.sessions()
+
+    // localIP = Proxima.globals.myPC.local_ip
+    // localRouter = get_router(localIP)
+    // createLocalSession = Proxima.sessions.createSession(0, localIP, localRouter)
+    // if createLocalSession != null and typeof(createLocalSession) == "number" then
+    //     setActiveSession = Proxima.sessions.setActiveSession(createLocalSession)
+    //     if setActiveSession then
+    //         self.startCLI()
+    //     else
+    //         exit(Proxima.io.output.error("Couldn't switch to created session due to unexpected error. Terminating program..."))
+    //     end if
+    // else
+    //     exit(Proxima.io.output.error("Couldn't create local session due to unexpected error. Terminating program..."))
+    // end if
 end function

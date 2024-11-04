@@ -66,3 +66,36 @@ Proxima.tests.test.db = function ()
         print(Proxima.io.addOutputEntry(getRecords))
     end if
 end function
+
+Proxima.tests.test.sessions = function ()
+    getActiveSessions = Proxima.sessions.getSessions()
+    getSavedSessions = Proxima.sessions.getSessions(true)
+    if getActiveSessions != null then
+        print("Found active sessions.")
+        print(getActiveSessions)
+    else
+        print("No active sessions found.")
+    end if
+    if getSavedSessions != null then
+        if getSavedSessions.len > 0 then
+            print("Found saved sessions.")
+            print(getSavedSessions)
+        else
+            print("No saved sessions found.")
+        end if
+    end if
+
+    createSession = Proxima.sessions.createSession(0, "192.168.0.3", get_router("192.168.0.3"))
+    if typeof(createSession) == "number" then print("Created session number 1.")
+
+    createSession = Proxima.sessions.createSession(1, "2.2.2.2", get_router("2.2.2.2"))
+    if typeof(createSession) == "number" then print("Created session number 2.")
+
+    createSession = Proxima.sessions.createSession(1, "4.4.4.4", get_router("3.3.3.3"))
+    if typeof(createSession) == "number" then print("Created session number 3.")
+
+    setSession = Proxima.sessions.setSession(1)
+    if setSession then print("Set session ID 1.")
+
+    Proxima.sessions.displaySessions()
+end function
