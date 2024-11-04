@@ -95,7 +95,7 @@ saveSession=Proxima.sessions.saveSession(Proxima.sessions.activeSession)
 if saveSession then print("Session with ID "+Proxima.sessions.activeSession+" saved.")
 Proxima.sessions.displaySessions(true)
 setSessionValue=Proxima.sessions.setSessionValue(Proxima.sessions.activeSession,"payloadInjection",0)
-if setSessionValue then print("Changed IP again.")
+if setSessionValue then print("Changed payload injection value.")
 getSessionValue=Proxima.sessions.getSessionValue(Proxima.sessions.activeSession,"payloadInjection")
 if getSessionValue!=null then
 print("Got value.")
@@ -111,4 +111,13 @@ else if loadSession==null then
 print("This session is already in active sessions.")
 end if
 Proxima.sessions.displaySessions
+setSessionValue=Proxima.sessions.setSessionValue(1,"payloadInjection",1)
+if setSessionValue then print("Changed payload injection value.")
+saveSession=Proxima.sessions.saveSession(1)
+if saveSession then print("Session with ID 1 saved.")
+getSessionValue=Proxima.sessions.getSessionValue(2,"payloadInjection",true)
+if getSessionValue!=null then
+print("Got saved session value.")
+print(getSessionValue)
+end if
 end function
