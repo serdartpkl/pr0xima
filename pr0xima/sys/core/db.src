@@ -48,26 +48,11 @@ Proxima.db.getRecords = function (databaseName)
     return null
 end function
 
-Proxima.db.setRecords = function (databaseName, givenRecords)
+Proxima.db.setRecords = function (databaseName, databaseRecords)
     databaseFile = self.getDatabase(databaseName)
     if databaseFile != null then
-        serializedRecords = Proxima.utils.serializeMap({"records": givenRecords})
+        serializedRecords = Proxima.utils.serializeMap({"records": databaseRecords})
         setRecords = databaseFile.set_content(serializedRecords)
-        if setRecords == 1 then return true
-    end if
-    return null
-end function
-
-Proxima.db.reorderRecords = function (databaseName, sortBy = null)
-    acquiredRecords = self.getRecords(databaseName)
-    if acquiredRecords != null then
-        if sortBy != null then acquiredRecords = acquiredRecords.sort(sortBy)
-        idCounter = 1
-        for acquiredRecord in acquiredRecords
-            if acquiredRecord.id != idCounter then acquiredRecords[acquiredRecord.id - 1].id = idCounter
-            idCounter = idCounter + 1
-        end for
-        setRecords = self.setRecords(databaseName, acquiredRecords)
         if setRecords == 1 then return true
     end if
     return null
@@ -82,11 +67,26 @@ Proxima.db.resetRecords = function (databaseName)
     return null
 end function
 
+Proxima.db.reorderRecords = function (databaseName, databaseRecords, sortBy = null)
+    databaseFile = self.getDatabase(databaseName)
+    if databaseFile != null then
+        if sortBy != null then databaseRecords.sort(sortBy)
+        idCounter = 1
+        for acquiredRecord in databaseRecords
+            if acquiredRecord.id != idCounter then databaseRecords[acquiredRecord.id - 1].id = idCounter
+            idCounter = idCounter + 1
+        end for
+        setRecords = self.setRecords(databaseName, databaseRecords)
+        if setRecords == 1 then return true
+    end if
+    return null
+end function
+
 Proxima.db.addRecord = function (databaseName, recordMap, sortBy = null)
     acquiredRecords = self.getRecords(databaseName)
     if acquiredRecords != null then
         acquiredRecords.push({"id": acquiredRecords.len + 1} + recordMap)
-        reorderRecords = self.reorderRecords(acquiredRecords, sortBy)
+        reorderRecords = self.reorderRecords(databaseName, acquiredRecords, sortBy)
         if reorderRecords then return true
     end if
     return null
@@ -108,13 +108,13 @@ Proxima.db.searchRecords = function (databaseName, recordKey, recordValue)
     return null
 end function
 
-Proxima.db.deleteRecord = function (databaseName, recordID)
+Proxima.db.deleteRecord = function (databaseName, recordID, sortBy = null)
     acquiredRecords = self.getRecords(databaseName)
     if acquiredRecords != null then
         for acquiredRecord in acquiredRecords
             if acquiredRecord.id == recordID then
                 acquiredRecords.remove(recordID - 1)
-                reorderRecords = self.reorderRecords(acquiredRecords, null)
+                reorderRecords = self.reorderRecords(databaseName, acquiredRecords, sortBy)
                 if reorderRecords then return true
             end if
         end for
