@@ -66,6 +66,3 @@ Proxima.tests.test.db = function ()
         print(Proxima.io.addOutputEntry(getRecords))
     end if
 end function
-
-Proxima.tests.startTest = function (testName)
-end function
