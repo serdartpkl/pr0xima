@@ -26,7 +26,7 @@ Proxima.db.getDatabase = function (databaseName)
 end function
 
 Proxima.db.createDatabase = function (databaseName) 
-    if self.getDatabase == null then
+    if self.getDatabase(databaseName) == null then
         createDatabaseFile = Proxima.globals.myPC.touch(home_dir + "/pr0xima/databases", databaseName + ".db")
         if typeof(createDatabaseFile) != "string" then
             databaseFile = Proxima.globals.myPC.File(home_dir + "/pr0xima/databases/" + databaseName + ".db")
