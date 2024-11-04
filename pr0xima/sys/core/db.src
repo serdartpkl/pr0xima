@@ -162,12 +162,10 @@ Proxima.db.displayDatabases = function ()
     headerList = ["ID", "DATABASE_NAME"]
     contentList = []
 
-    for acquiredDatabases in self.getDatabases()
-        for acquiredDatabase in acquiredDatabases
-            s_id = str(acquiredDatabase.id)
-            s_name = acquiredDatabase.name
-            content_list.push([ s_id, s_name ])
-        end for
+    for acquiredDatabase in self.getDatabases()
+        s_id = str(acquiredDatabase.id)
+        s_name = acquiredDatabase.name
+        content_list.push([ s_id, s_name ])
     end for
 
     Proxima.utils.formatList(headerList, contentList)
