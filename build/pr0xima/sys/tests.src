@@ -104,4 +104,11 @@ end if
 saveSession=Proxima.sessions.saveSession(Proxima.sessions.activeSession)
 if saveSession then print("Session with ID "+Proxima.sessions.activeSession+" saved.")
 Proxima.sessions.displaySessions(true)
+loadSession=Proxima.sessions.loadSession(2)
+if loadSession then
+print("Session loaded successfully!")
+else if loadSession==null then
+print("This session is already in active sessions.")
+end if
+Proxima.sessions.displaySessions
 end function

@@ -148,9 +148,12 @@ end function
 Proxima.sessions.loadSession = function (sessionID) 
     acquiredSession = self.getSession(sessionID, true)
     if acquiredSession != null then
-        self.activeSessions.push(acquiredSession)
-        reorderSessions = self.reorderSessions(self.activeSessions, "dateCreated")
-        if reorderSessions then return true
+        checkActiveSessions = self.getSession(acquiredSession.targetIP)
+        if checkActiveSessions == null then
+            self.activeSessions.push(acquiredSession)
+            reorderSessions = self.reorderSessions(self.activeSessions, "dateCreated")
+            if reorderSessions then return true
+        end if
     end if
     return null
 end function
