@@ -14,15 +14,15 @@ if getRecords!=null then
 print(Proxima.io.addOutputEntry("Loaded records."))
 print(Proxima.io.addOutputEntry(getRecords))
 end if
-recordMap={"name":"test_one","version":1,"dateCreated":current_date,"xyz":"123"}
+recordMap={"name":"test_one","version":1}
 addRecord=Proxima.db.addRecord("test",recordMap)
 if addRecord then print(Proxima.io.addOutputEntry("Added record 1."))
-recordMap={"name":"test_one","version":1,"dateCreated":current_date,"xyz":"123"}
+recordMap={"name":"test_two","version":2}
 addRecord=Proxima.db.addRecord("test",recordMap)
-if addRecord then print(Proxima.io.addOutputEntry("Added record 1."))
-recordMap={"name":"test_one","version":1,"dateCreated":current_date,"xyz":"123"}
+if addRecord then print(Proxima.io.addOutputEntry("Added record 2."))
+recordMap={"name":"test_three","version":3}
 addRecord=Proxima.db.addRecord("test",recordMap)
-if addRecord then print(Proxima.io.addOutputEntry("Added record 1."))
+if addRecord then print(Proxima.io.addOutputEntry("Added record 3."))
 getRecords=Proxima.db.getRecords("test")
 if getRecords!=null then
 print(Proxima.io.addOutputEntry("Loaded records."))

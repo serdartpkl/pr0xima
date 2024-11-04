@@ -112,7 +112,7 @@ Proxima.sessions.createSession = function (sessionType, targetIP, targetRouter)
 
         sessionMap.payloadInjection = true
 
-        sessionMap.dateCreated = current_date
+        sessionMap.dateCreated = Proxima.utils.getParsedDate()
         
         self.activeSessions.push(sessionMap)
         return sessionMap.id

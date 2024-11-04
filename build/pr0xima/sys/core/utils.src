@@ -88,6 +88,21 @@ end function
 scanDir(parentDir)
 return allFiles
 end function
+Proxima.utils.getParsedDate=function
+currentDate=current_date
+dateSegments=currentDate.split(" - ")
+d_date=dateSegments[0].split("/")
+d_time=dateSegments[1].split(":")
+d_day=d_date[0]
+if d_day.len==1 then d_day="0"+str(d_day)
+monthMap={"Jan":"01","Feb":"02","Mar":"03","Apr":"04","May":"05","Jun":"06","Jul":"07","Aug":"08","Sep":"09","Oct":"10","Nov":"11","Dec":"12"}
+d_month=monthMap[d_date[1]]
+d_year=d_date[2]
+d_hours=d_time[0]
+d_minutes=d_time[1]
+parsedDate=d_year+d_month+d_day+d_hours+d_minutes
+return parsedDate
+end function
 // ------------------------------------------------------------------------------------------------------------
 Proxima.utils.isInList=function(givenItem,givenList)
 for item in givenList

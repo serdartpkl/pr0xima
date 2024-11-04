@@ -88,6 +88,7 @@ end function
 Proxima.db.addRecord = function (databaseName, recordMap, sortBy = null)
     acquiredRecords = self.getRecords(databaseName)
     if acquiredRecords != null then
+        if recordMap.hasIndex("dateCreated") == 0 then recordMap.dateCreated = Proxima.utils.getParsedDate()
         acquiredRecords.push({"id": acquiredRecords.len + 1} + recordMap)
         performAddition = null
         if acquiredRecords.len > 1 then
@@ -167,7 +168,7 @@ Proxima.db.displayRecords = function (databaseName, nameKey)
         r_id = str(acquiredRecord.id) 
         r_name = acquiredRecord[nameKey]
         r_db_name = databaseName
-        r_date = acquiredRecord
+        r_date = acquiredRecord["dateCreated"]
         contentList.push([ r_id, r_name, r_db_name, r_date ])
     end for
 
