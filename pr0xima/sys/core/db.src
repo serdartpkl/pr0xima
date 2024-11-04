@@ -2,6 +2,23 @@ Proxima.db = {}
 
 // ------------------------------------------------------------------------------------------------------------
 
+Proxima.db.getDatabases = function ()
+    databaseFiles = databaseFile = Proxima.globals.myPC.File(home_dir + "/pr0xima/databases").get_files()
+    if databaseFiles.len > 0 then
+        databaseList = []
+        idCounter = 1
+        for databaseFile in databaseFiles
+            databaseMap = {}
+            databaseMap.id = idCounter
+            databaseMap.name = databaseFile.name.replace(".db", "")
+            databaseList.push(databaseMap)
+            idCounter = idCounter + 1
+        end for
+        return databaseList
+    end if
+    return null
+end function
+
 Proxima.db.getDatabase = function (databaseName)
     databaseFile = Proxima.globals.myPC.File(home_dir + "/pr0xima/databases/" + databaseName + ".db")
     if databaseFile != null and databaseFile.get_content() != "" then return databaseFile
@@ -145,7 +162,7 @@ Proxima.db.displayDatabases = function ()
     headerList = ["ID", "DATABASE_NAME"]
     contentList = []
 
-    for acquiredDatabases in Proxima.globals.myPC.File(home_dir + "/pr0xima/databases").get_files()
+    for acquiredDatabases in self.getDatabases()
         for acquiredDatabase in acquiredDatabases
             s_id = str(acquiredDatabase.id)
             s_name = acquiredDatabase.name
@@ -156,11 +173,13 @@ Proxima.db.displayDatabases = function ()
     Proxima.utils.formatList(headerList, contentList)
 end function
 
-Proxima.db.displayRecords = function (databaseRecords)
+Proxima.db.displayRecords = function (databaseName)
     headerList = ["ID", "RECORD_NAME", "DATABASE_NAME", "DATE_CREATED"]
     contentList = []
-    
-    for acquiredRecord in databaseRecords
+
+    acquiredRecords = self.getRecords(databaseName)
+
+    for acquiredRecord in acquiredRecords
         r_id = str(acquiredRecord.id) 
         r_name = acquiredRecords.indexes[acquiredRecord.id - 1]
         r_db_name = databaseName
