@@ -8,7 +8,7 @@ Proxima.sessions.activeSessions = []
 Proxima.sessions.getSavedSessions = function ()
     savedSessions = []
     getSessionRecords = Proxima.db.getRecords("sessions")
-    if getSessionRecords.len > 0 then
+    if getSessionRecords != null then
         for sessionRecord in getSessionRecords
             savedSessions.push(sessionRecord)
         end for
@@ -17,7 +17,7 @@ Proxima.sessions.getSavedSessions = function ()
     return null
 end function
 
-Proxima.sessions.reorderSessions = function (sessionsList, sortBy = null)
+Proxima.sessions.reorderActiveSessions = function (sessionsList, sortBy = null)
     if sortBy != null then sessionsList = sessionsList.sort(sortBy)
     idCounter = 1
     for acquiredSession in sessionsList
@@ -124,7 +124,7 @@ end function
 
 // ------------------------------------------------------------------------------------------------------------
 
-Proxima.sessions.resetSession = function (sessionID)
+Proxima.sessions.resetActiveSession = function (sessionID)
     acquiredSession = self.getSession(sessionID)
 
     if acquiredSession != null then
@@ -143,13 +143,13 @@ end function
 
 // ------------------------------------------------------------------------------------------------------------
 
-Proxima.sessions.getSessionValue = function (sessionKey)
+Proxima.sessions.getActiveSessionValue = function (sessionKey)
     acquiredSession = self.getSession(self.activeSession)
     if acquiredSession != null then return acquiredSession[sessionKey]
     return null
 end function
 
-Proxima.sessions.setSessionValue = function (sessionKey, sessionValue)
+Proxima.sessions.setActiveSessionValue = function (sessionKey, sessionValue)
     acquiredSession = self.getSession(self.activeSession)
     if acquiredSession != null then
         self.activeSessions[acquiredSession.id - 1][sessionKey] = sessionValue
@@ -169,13 +169,13 @@ end function
 
 // ------------------------------------------------------------------------------------------------------------
 
-Proxima.sessions.isLocalSession = function ()
+Proxima.sessions.isActiveSessionLocal = function ()
     sessionType = self.getSessionValue("sessionType")    
     if sessionType == 0 then return true
     if sessionType == 1 then return false
 end function
 
-Proxima.sessions.isRemoteSession = function ()
+Proxima.sessions.isActiveSessionRemote = function ()
     sessionType = self.getSessionValue("sessionType")    
     if sessionType == 1 then return true
     if sessionType == 0 then return false
@@ -183,7 +183,7 @@ end function
 
 // ------------------------------------------------------------------------------------------------------------
 
-Proxima.sessions.colorizeSessionType = function (sessionType)
+Proxima.sessions.colorizeActiveSessionType = function (sessionType)
     if sessionType == 0 then return "LOCAL#FC8403"
     if sessionType == 1 then return "REMOTE#FFC466"
 end function
