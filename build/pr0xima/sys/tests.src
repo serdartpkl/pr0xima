@@ -74,7 +74,7 @@ if typeof(createSession)=="number" then print("Created session number 2.")
 createSession=Proxima.sessions.createSession(1,"4.4.4.4",get_router("3.3.3.3"))
 if typeof(createSession)=="number" then print("Created session number 3.")
 setSession=Proxima.sessions.setSession(2)
-if setSession then print("Set session ID 3.")
+if setSession then print("Set session ID 2.")
 Proxima.sessions.displaySessions
 getSessionValue=Proxima.sessions.getSessionValue(Proxima.sessions.activeSession,"targetIP")
 if getSessionValue!=null then
@@ -91,7 +91,17 @@ print("Got value.")
 print(getSessionValue)
 end if
 Proxima.sessions.displaySessions
-saveSession=Proxima.sessions.saveSession(2)
-if saveSession then print("Session with ID 2 saved.")
+saveSession=Proxima.sessions.saveSession(Proxima.sessions.activeSession)
+if saveSession then print("Session with ID "+Proxima.sessions.activeSession+" saved.")
+Proxima.sessions.displaySessions(true)
+setSessionValue=Proxima.sessions.setSessionValue(Proxima.sessions.activeSession,"payloadInjection",0)
+if setSessionValue then print("Changed IP again.")
+getSessionValue=Proxima.sessions.getSessionValue(Proxima.sessions.activeSession,"payloadInjection")
+if getSessionValue!=null then
+print("Got value.")
+print(getSessionValue)
+end if
+saveSession=Proxima.sessions.saveSession(Proxima.sessions.activeSession)
+if saveSession then print("Session with ID "+Proxima.sessions.activeSession+" saved.")
 Proxima.sessions.displaySessions(true)
 end function

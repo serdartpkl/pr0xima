@@ -130,9 +130,13 @@ Proxima.sessions.saveSession = function (sessionID)
             updateRecord = Proxima.db.updateRecord("sessions", getSavedSession.id, acquiredSession)
             if updateRecord then return true
         else
+            acquiredSessionID = acquiredSession.id
             acquiredSession.remove("id")
             addRecord = Proxima.db.addRecord("sessions", acquiredSession, "dateCreated")
-            if addRecord then return true
+            if addRecord then
+                acquiredSession.id = acquiredSessionID
+                return true
+            end if
         end if
     end if
     return null
