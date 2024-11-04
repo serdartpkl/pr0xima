@@ -86,6 +86,23 @@ end function
 // ------------------------------------------------------------------------------------------------------------
 
 Proxima.sessions.reorderSessions = function (sessionsList, reorderSaved = false, sortBy = null)
+    acquiredSessions = self.getSessions(reorderSaved)
+    if acquiredSessions != null then
+        if sortBy != null then acquiredSessions.sort(sortBy)
+        if reorderSaved then
+            reorderSavedSessions = Proxima.db.reorderRecords("sessions", acquiredSessions, sortBy)
+            if reorderSavedSessions then return true
+        else
+            idCounter = 1
+            for recordIndex in range(0, acquiredSessions.len - 1)
+                if acquiredSessions[recordIndex].id != idCounter then acquiredSessions[recordIndex].id = idCounter
+                idCounter = idCounter + 1
+            end for
+            self.activeSessions = acquiredSessions
+            return true
+        end if
+    end if
+    return null
 end function
 
 Proxima.sessions.searchSessions = function (sessionKey, sessionValue, searchSaved = false)
