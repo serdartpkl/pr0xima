@@ -95,7 +95,7 @@ if acquiredRecords!=null then
 recordIndex=self.searchRecords(databaseName,"id",recordID)
 if recordIndex!=null and acquiredRecords.hasIndex(recordIndex) then
 acquiredRecords[recordIndex]=recordMap
-reorderRecords=self.reorderRecords(databaseName,acquiredRecords,sortBy)
+reorderRecords=self.setRecords(databaseName,acquiredRecords)
 if reorderRecords then return true
 end if
 end if
