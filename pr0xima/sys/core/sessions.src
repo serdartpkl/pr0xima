@@ -17,29 +17,6 @@ Proxima.sessions.getSavedSessions = function ()
     return null
 end function
 
-Proxima.sessions.reorderActiveSessions = function (sessionsList, sortBy = null)
-    if sortBy != null then sessionsList = sessionsList.sort(sortBy)
-    idCounter = 1
-    for acquiredSession in sessionsList
-        if acquiredSession.id != idCounter then acquiredSession.id = idCounter
-        idCounter = idCounter + 1
-    end for
-    return sessionsList
-end function
-
-Proxima.sessions.loadSavedSession = function (sessionID) 
-    acquiredSession = self.getSession(sessionID, true)
-    if acquiredSession != null then
-        self.activeSessions.push(acquiredSession)
-        reorderedSessions = self.reorderSessions(sortedSessions, "dateCreated")
-        if reorderedSessions != null then
-            self.activeSessions = reorderedSessions
-            return true
-        end if
-    end if
-    return null
-end function
-
 Proxima.sessions.getSession = function (sessionKey, getSaved = false)
     sessionsList = self.activeSessions
     if getSaved then 
@@ -62,6 +39,27 @@ Proxima.sessions.getSession = function (sessionKey, getSaved = false)
     end if
 
     return acquiredSession
+end function
+
+Proxima.sessions.reorderSessions = function (sessionsList, sortBy = null)
+    if sortBy != null then sessionsList = sessionsList.sort(sortBy)
+    idCounter = 1
+    for acquiredSession in sessionsList
+        if acquiredSession.id != idCounter then acquiredSession.id = idCounter
+        idCounter = idCounter + 1
+    end for
+    return sessionsList
+end function
+
+Proxima.sessions.loadSavedSession = function (sessionID) 
+    acquiredSession = self.getSession(sessionID, true)
+    if acquiredSession != null then
+        self.activeSessions.push(acquiredSession)
+        reorderedSessions = self.reorderSessions(sortedSessions, "dateCreated")
+        self.activeSessions = reorderedSessions
+        return true
+    end if
+    return null
 end function
 
 Proxima.sessions.setSavedSession = function (sessionID, saveSingle = true)
@@ -124,7 +122,7 @@ end function
 
 // ------------------------------------------------------------------------------------------------------------
 
-Proxima.sessions.resetActiveSession = function (sessionID)
+Proxima.sessions.resetSession = function (sessionID)
     acquiredSession = self.getSession(sessionID)
 
     if acquiredSession != null then
