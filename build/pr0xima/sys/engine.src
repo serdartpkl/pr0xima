@@ -216,7 +216,7 @@ if selectedCommand!=null then
 if selectedCommand.type==2 then
 selectedCommand.exec(params)
 else
-if selectedCommand.type==Proxima.sessions.getSessionValue("sessionType") then
+if selectedCommand.type==Proxima.sessions.getActiveSessionValue("sessionType") then
 selectedCommand.exec(params)
 else
 if selectedCommand.type==0 then
@@ -232,7 +232,7 @@ end if
 end if
 end function
 Proxima.engine.startCLI=function
-targetIP=Proxima.sessions.getSessionValue("targetIP")
+targetIP=Proxima.sessions.getActiveSessionValue("targetIP")
 Proxima.io.inputString=Proxima.io.output.colorize("<b>pr0xima</b>","#FFC466")+Proxima.io.output.colorize("@","#08FF57")+Proxima.io.output.colorize("["+targetIP+"]","#FF1548")+Proxima.io.output.colorize("> ","#008DFF")
 while true
 userCommand=user_input(Proxima.io.inputString,false,false).trim
@@ -275,18 +275,17 @@ end if
 else
 exit(Proxima.io.addOutputEntry(Proxima.io.output.error("Couldn't load saved sessions due to unexpected error.")))
 end if
-Proxima.tests.test.db
-// localIP = Proxima.globals.myPC.local_ip
-// localRouter = get_router(localIP)
-// createLocalSession = Proxima.sessions.createSession(0, localIP, localRouter)
-// if createLocalSession != null and typeof(createLocalSession) == "number" then
-//     setActiveSession = Proxima.sessions.setActiveSession(createLocalSession)
-//     if setActiveSession then
-//         self.startCLI()
-//     else
-//         exit(Proxima.io.output.error("Couldn't switch to created session due to unexpected error. Terminating program..."))
-//     end if
-// else
-//     exit(Proxima.io.output.error("Couldn't create local session due to unexpected error. Terminating program..."))
-// end if
+localIP=Proxima.globals.myPC.local_ip
+localRouter=get_router(localIP)
+createLocalSession=Proxima.sessions.createSession(0,localIP,localRouter)
+if createLocalSession!=null and typeof(createLocalSession)=="number" then
+setActiveSession=Proxima.sessions.setActiveSession(createLocalSession)
+if setActiveSession then
+self.startCLI
+else
+exit(Proxima.io.output.error("Couldn't switch to created session due to unexpected error. Terminating program..."))
+end if
+else
+exit(Proxima.io.output.error("Couldn't create local session due to unexpected error. Terminating program..."))
+end if
 end function

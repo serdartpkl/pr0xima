@@ -277,7 +277,7 @@ Proxima.engine.handleCommand = function (userCommand)
             if selectedCommand.type == 2 then
                 selectedCommand.exec(params)
             else
-                if selectedCommand.type == Proxima.sessions.getSessionValue("sessionType") then
+                if selectedCommand.type == Proxima.sessions.getActiveSessionValue("sessionType") then
                     selectedCommand.exec(params)
                 else
                     if selectedCommand.type == 0 then
@@ -294,7 +294,7 @@ Proxima.engine.handleCommand = function (userCommand)
 end function
 
 Proxima.engine.startCLI = function ()
-    targetIP = Proxima.sessions.getSessionValue("targetIP")
+    targetIP = Proxima.sessions.getActiveSessionValue("targetIP")
     Proxima.io.inputString = Proxima.io.output.colorize("<b>pr0xima</b>", "#FFC466") + Proxima.io.output.colorize("@", "#08FF57") + Proxima.io.output.colorize("[" + targetIP + "]", "#FF1548") + Proxima.io.output.colorize("> ", "#008DFF")
     while true
         userCommand = user_input(Proxima.io.inputString, false, false).trim
