@@ -3,7 +3,7 @@ Proxima.db = {}
 // ------------------------------------------------------------------------------------------------------------
 
 Proxima.db.getDatabases = function ()
-    databaseFiles = databaseFile = Proxima.globals.myPC.File(home_dir + "/pr0xima/databases").get_files()
+    databaseFiles = Proxima.globals.myPC.File(home_dir + "/pr0xima/databases").get_files()
     if databaseFiles.len > 0 then
         databaseList = []
         idCounter = 1
@@ -41,10 +41,7 @@ end function
 
 Proxima.db.getRecords = function (databaseName)
     databaseFile = self.getDatabase(databaseName)
-    if databaseFile != null then 
-        databaseRecords = Proxima.utils.deserializeMap(databaseFile.get_content()).records
-        if databaseRecords.len > 0 then return databaseRecords
-    end if
+    if databaseFile != null then return Proxima.utils.deserializeMap(databaseFile.get_content()).records
     return null
 end function
 
@@ -106,10 +103,9 @@ end function
 Proxima.db.deleteRecord = function (databaseName, recordID, sortBy = null)
     acquiredRecords = self.getRecords(databaseName)
     if acquiredRecords != null then
-        foundRecordID = self.searchRecords(databaseName, "id", recordID)
-        if foundRecordID != null then
-            acquiredRecords.remove(foundRecordID)
-            reorderRecords = self.reorderRecords(databaseName, acquiredRecords, sortBy)
+        recordIndex = self.searchRecords(databaseName, "id", recordID)
+        if recordIndex != null and acquiredRecords.hasIndex(recordIndex) then
+            reorderRecords = self.reorderRecords(databaseName, acquiredRecords.remove(recordIndex), sortBy)
             if reorderRecords then return true
         end if
     end if
@@ -155,7 +151,7 @@ Proxima.db.displayDatabases = function ()
     for acquiredDatabase in acquiredDatabases
         s_id = str(acquiredDatabase.id)
         s_name = acquiredDatabase.name
-        content_list.push([ s_id, s_name ])
+        contentList.push([ s_id, s_name ])
     end for
 
     Proxima.utils.formatList(headerList, contentList)
@@ -169,10 +165,10 @@ Proxima.db.displayRecords = function (databaseName, nameKey)
 
     for acquiredRecord in acquiredRecords
         r_id = str(acquiredRecord.id) 
-        r_name = acquiredRecord.indexes[nameKey]
+        r_name = acquiredRecord[nameKey]
         r_db_name = databaseName
         r_date = acquiredRecord.dateCreated
-        content_list.push([ r_id, r_name, r_db_name, r_date ])
+        contentList.push([ r_id, r_name, r_db_name, r_date ])
     end for
 
     Proxima.utils.formatList(headerList, contentList)
