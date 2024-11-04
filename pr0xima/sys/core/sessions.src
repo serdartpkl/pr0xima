@@ -7,9 +7,9 @@ Proxima.sessions.activeSessions = []
 
 Proxima.sessions.getSavedSessions = function ()
     savedSessions = []
-    getSessionRecords = Proxima.db.getRecords("sessions")
-    if getSessionRecords != null then
-        for sessionRecord in getSessionRecords
+    getSavedRecords = Proxima.db.getRecords("sessions")
+    if getSavedRecords != null then
+        for sessionRecord in getSavedRecords
             savedSessions.push(sessionRecord)
         end for
         return savedSessions
@@ -67,6 +67,7 @@ Proxima.sessions.setSavedSession = function (sessionID, saveSingle = true)
     if acquiredSession != null then
         getSavedSession = self.getSession(acquiredSession.targetIP, true)
         if getSavedSession != null then
+            
         else
         end if
     end if

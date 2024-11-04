@@ -65,7 +65,13 @@ Proxima.utils.indexesOf = function (givenList, searchKey, searchValue)
             end for
         end for
     end if
-    return foundedIndexes
+    
+    if foundedIndexes.len > 0 then
+        if foundedIndexes.len == 1 then return foundedIndexes[0]
+        return foundedIndexes
+    end if
+
+    return null
 end function
 
 Proxima.utils.collectFiles = function (parentDir)
