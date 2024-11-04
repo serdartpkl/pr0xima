@@ -91,7 +91,7 @@ sessionMap.targetUsers=[]
 sessionMap.targetMails=[]
 sessionMap.targetBanks=[]
 sessionMap.payloadInjection=true
-sessionMap.dateCreated=current_date
+sessionMap.dateCreated=Proxima.utils.getParsedDate
 self.activeSessions.push(sessionMap)
 return sessionMap.id
 end if

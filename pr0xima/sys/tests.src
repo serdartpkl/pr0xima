@@ -48,6 +48,15 @@ Proxima.tests.test.db = function ()
 
     Proxima.db.displayRecords("test", "name")
 
+    deleteRecord = Proxima.db.deleteRecord("test", 1)
+    if deleteRecord then print("Deleted record with ID 1.")
+
+    getRecords = Proxima.db.getRecords("test")
+    if getRecords != null then
+        print(Proxima.io.addOutputEntry("Loaded records."))
+        print(Proxima.io.addOutputEntry(getRecords))
+    end if
+    
     resetRecords = Proxima.db.resetRecords("test")
     if resetRecords then print(Proxima.io.addOutputEntry("Did reset database."))
 

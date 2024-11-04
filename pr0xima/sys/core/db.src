@@ -69,8 +69,8 @@ Proxima.db.reorderRecords = function (databaseName, databaseRecords, sortBy = nu
     if databaseFile != null then
         if sortBy != null then databaseRecords.sort(sortBy)
         idCounter = 1
-        for acquiredRecord in databaseRecords
-            if acquiredRecord.id != idCounter then databaseRecords[acquiredRecord.id - 1].id = idCounter
+        for recordIndex in range(0, databaseRecords.len - 1)
+            if databaseRecords[recordIndex].id != idCounter then databaseRecords[recordIndex].id = idCounter
             idCounter = idCounter + 1
         end for
         setRecords = self.setRecords(databaseName, databaseRecords)
@@ -106,7 +106,8 @@ Proxima.db.deleteRecord = function (databaseName, recordID, sortBy = null)
     if acquiredRecords != null then
         recordIndex = self.searchRecords(databaseName, "id", recordID)
         if recordIndex != null and acquiredRecords.hasIndex(recordIndex) then
-            reorderRecords = self.reorderRecords(databaseName, acquiredRecords.remove(recordIndex), sortBy)
+            acquiredRecords.remove(recordIndex)
+            reorderRecords = self.reorderRecords(databaseName, acquiredRecords, sortBy)
             if reorderRecords then return true
         end if
     end if
