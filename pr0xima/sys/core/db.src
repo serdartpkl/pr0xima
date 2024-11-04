@@ -167,7 +167,7 @@ Proxima.db.displayRecords = function (databaseName, nameKey)
         r_id = str(acquiredRecord.id) 
         r_name = acquiredRecord[nameKey]
         r_db_name = databaseName
-        r_date = acquiredRecord.dateCreated
+        r_date = acquiredRecord
         contentList.push([ r_id, r_name, r_db_name, r_date ])
     end for
 
