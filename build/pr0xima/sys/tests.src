@@ -76,4 +76,17 @@ if typeof(createSession)=="number" then print("Created session number 3.")
 setSession=Proxima.sessions.setSession(1)
 if setSession then print("Set session ID 1.")
 Proxima.sessions.displaySessions
+getSessionValue=Proxima.sessions.getSessionValue(Proxima.sessions.activeSession,"targetIP")
+if getSessionValue!=null then
+print("Got value.")
+print(getSessionValue)
+end if
+setSessionValue=Proxima.sessions.setSessionValue(Proxima.sessions.activeSession,"targetIP","5.5.5.5")
+if setSessionValue then print("Changed value.")
+getSessionValue=Proxima.sessions.getSessionValue(Proxima.sessions.activeSession,"targetIP")
+if getSessionValue!=null then
+print("Got value.")
+print(getSessionValue)
+end if
+Proxima.sessions.displaySessions
 end function

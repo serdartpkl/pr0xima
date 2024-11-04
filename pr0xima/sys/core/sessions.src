@@ -124,7 +124,12 @@ end function
 Proxima.sessions.saveSession = function (sessionID) 
     acquiredSession = self.getSession(sessionID)
     if acquiredSession != null then
-        //...
+        getSavedSession = self.getSession(acquiredSession.targetIP, true)
+        if getSavedSession != null then
+            
+        else
+
+        end if
     end if
     return null
 end function

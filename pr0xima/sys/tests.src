@@ -94,8 +94,28 @@ Proxima.tests.test.sessions = function ()
     createSession = Proxima.sessions.createSession(1, "4.4.4.4", get_router("3.3.3.3"))
     if typeof(createSession) == "number" then print("Created session number 3.")
 
-    setSession = Proxima.sessions.setSession(1)
-    if setSession then print("Set session ID 1.")
+    setSession = Proxima.sessions.setSession(2)
+    if setSession then print("Set session ID 3.")
+
+    Proxima.sessions.displaySessions()
+
+    getSessionValue = Proxima.sessions.getSessionValue(Proxima.sessions.activeSession, "targetIP")
+    if getSessionValue != null then
+        print("Got value.")
+        print(getSessionValue)
+    end if
+
+    setSessionValue = Proxima.sessions.setSessionValue(Proxima.sessions.activeSession, "targetIP", "5.5.5.5")
+    if setSessionValue then print("Changed IP.")
+
+    setSessionValue = Proxima.sessions.setSessionValue(Proxima.sessions.activeSession, "targetRouter", get_router("5.5.5.5"))
+    if setSessionValue then print("Changed router.")
+
+    getSessionValue = Proxima.sessions.getSessionValue(Proxima.sessions.activeSession, "targetIP")
+    if getSessionValue != null then
+        print("Got value.")
+        print(getSessionValue)
+    end if
 
     Proxima.sessions.displaySessions()
 end function
