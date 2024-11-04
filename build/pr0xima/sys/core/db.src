@@ -89,14 +89,14 @@ if performAddition then return true
 end if
 return null
 end function
-Proxima.db.updateRecord=function(databaseName,recordID,recordMap)
+Proxima.db.updateRecord=function(databaseName,recordID,recordMap,sortBy=null)
 acquiredRecords=self.getRecords(databaseName)
 if acquiredRecords!=null then
 recordIndex=self.searchRecords(databaseName,"id",recordID)
 if recordIndex!=null and acquiredRecords.hasIndex(recordIndex) then
 acquiredRecords[recordIndex]=recordMap
-setRecords=self.setRecords(databaseName,acquiredRecords)
-if setRecords then return true
+reorderRecords=self.reorderRecords(databaseName,acquiredRecords,sortBy)
+if reorderRecords then return true
 end if
 end if
 end function

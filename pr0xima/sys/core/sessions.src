@@ -85,7 +85,7 @@ end function
 
 // ------------------------------------------------------------------------------------------------------------
 
-Proxima.sessions.reorderSessions = function (sessionsList, reorderSaved = false, sortBy = null)
+Proxima.sessions.reorderSessions = function (reorderSaved = false, sortBy = null)
     acquiredSessions = self.getSessions(reorderSaved)
     if acquiredSessions != null then
         if sortBy != null then acquiredSessions.sort(sortBy)
@@ -168,7 +168,7 @@ Proxima.sessions.loadSession = function (sessionID)
         checkActiveSessions = self.getSession(acquiredSession.targetIP)
         if checkActiveSessions == null then
             self.activeSessions.push(acquiredSession)
-            reorderSessions = self.reorderSessions(self.activeSessions, "dateCreated")
+            reorderSessions = self.reorderSessions(false, "dateCreated")
             if reorderSessions then return true
         end if
     end if
@@ -178,7 +178,7 @@ end function
 // ------------------------------------------------------------------------------------------------------------
 
 Proxima.sessions.pushMap = function (sessionID, targetList, givenMap, pushToSaved = false)
-    acquiredSession = self.getSession(self.activeSession)
+    acquiredSession = self.getSession(sessionID, pushToSaved)
     if acquiredSession != null then
         self.activeSessions[acquiredSession.id - 1][targetList].push(givenMap)
         return true
@@ -189,13 +189,13 @@ end function
 // ------------------------------------------------------------------------------------------------------------
 
 Proxima.sessions.isSessionLocal = function (sessionID, checkSaved = false)
-    sessionType = self.getSessionValue("sessionType")    
+    sessionType = self.getSessionValue(sessionID, "sessionType", checkSaved)    
     if sessionType == 0 then return true
     if sessionType == 1 then return false
 end function
 
 Proxima.sessions.isSessionRemote = function (sessionID, checkSaved = false)
-    sessionType = self.getSessionValue("sessionType")    
+    sessionType = self.getSessionValue(sessionID, "sessionType", checkSaved)    
     if sessionType == 1 then return true
     if sessionType == 0 then return false
 end function
