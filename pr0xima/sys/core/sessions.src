@@ -101,8 +101,8 @@ Proxima.sessions.reorderSessions = function (reorderSaved = false, sortBy = null
                 idCounter = idCounter + 1
             end for
             self.activeSessions = acquiredSessions
-            self.activeSession = newActiveSessionID
-            return true
+            self.setSession(newActiveSessionID)
+            if setSession then return true
         end if
     end if
     return null
