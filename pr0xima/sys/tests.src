@@ -2,69 +2,126 @@ Proxima.tests = {}
 Proxima.tests.test = {}
 
 Proxima.tests.test.db = function ()
-    createDatabase = Proxima.db.createDatabase("test")
-    if createDatabase then print(Proxima.io.addOutputEntry(Proxima.io.output.success("Created database.")))
+    print(Proxima.io.addOutputEntry(Proxima.io.output.info("Starting to test database functions...")))
 
-    Proxima.db.displayDatabases()
+    dbName = "test"
 
+    createDatabase = Proxima.db.createDatabase(dbName)
+    if createDatabase then print(Proxima.io.addOutputEntry(Proxima.io.output.success("Created database successfully.")))
+   
     getDatabases = Proxima.db.getDatabases()
     if getDatabases != null then
-        print(Proxima.io.addOutputEntry(Proxima.io.output.success("Loaded databases.")))
+        print(Proxima.io.addOutputEntry(Proxima.io.output.success("Loaded databases successfully.")))
+        print(Proxima.io.addOutputEntry(Proxima.io.output.line))
         print(Proxima.io.addOutputEntry(getDatabases))
     end if
 
-    getRecords = Proxima.db.getRecords("test")
+    print(Proxima.io.addOutputEntry(Proxima.io.output.line))
+    Proxima.db.displayDatabases()
+    print(Proxima.io.addOutputEntry(Proxima.io.output.line))
+
+    getRecords = Proxima.db.getRecords(dbName)
     if getRecords != null then
-        print(Proxima.io.addOutputEntry("Loaded records."))
+        print(Proxima.io.addOutputEntry(Proxima.io.output.success("Loaded records successfully.")))
+        print(Proxima.io.addOutputEntry(Proxima.io.output.line))
         print(Proxima.io.addOutputEntry(getRecords))
+        print(Proxima.io.addOutputEntry(Proxima.io.output.line))
     end if
 
-    recordMap = {"name": "test_one", "version": 1}
-    addRecord = Proxima.db.addRecord("test", recordMap)
-    if addRecord then print(Proxima.io.addOutputEntry("Added record 1."))
+    recordMap = {"name": "test_one", "value_list": [1, 2, 3]}
+    addRecord = Proxima.db.addRecord(dbName, recordMap)
+    if addRecord then print(Proxima.io.addOutputEntry(Proxima.io.output.success("Added record 1.")))
 
-    recordMap = {"name": "test_two", "version": 2}
-    addRecord = Proxima.db.addRecord("test", recordMap)
-    if addRecord then print(Proxima.io.addOutputEntry("Added record 2."))
+    recordMap = {"name": "test_two", "value_list": [1, 2, 3]}
+    addRecord = Proxima.db.addRecord(dbName, recordMap)
+    if addRecord then print(Proxima.io.addOutputEntry(Proxima.io.output.success("Added record 2.")))
 
-    recordMap = {"name": "test_three", "version": 3}
-    addRecord = Proxima.db.addRecord("test", recordMap)
-    if addRecord then print(Proxima.io.addOutputEntry("Added record 3."))
+    recordMap = {"name": "test_thr", "value_list": [1, 2, 3]}
+    addRecord = Proxima.db.addRecord(dbName, recordMap)
+    if addRecord then print(Proxima.io.addOutputEntry(Proxima.io.output.success("Added record 3.")))
 
-    getRecords = Proxima.db.getRecords("test")
+    getRecords = Proxima.db.getRecords(dbName)
     if getRecords != null then
-        print(Proxima.io.addOutputEntry("Loaded records."))
+        print(Proxima.io.addOutputEntry(Proxima.io.output.success("Loaded records successfully.")))
+        print(Proxima.io.addOutputEntry(Proxima.io.output.line))
         print(Proxima.io.addOutputEntry(getRecords))
-    end if
-
-    getRecordValue = Proxima.db.getRecordValue("test", 2, "name")
-    if getRecordValue != null then print(getRecordValue)
-
-    setRecordValue = Proxima.db.setRecordValue("test", 2, "name", "test_changed")
-    if setRecordValue then print("Changed value.")
-
-    getRecordValue = Proxima.db.getRecordValue("test", 2, "name")
-    if getRecordValue != null then print(getRecordValue)
-
-    Proxima.db.displayRecords("test", "name")
-
-    deleteRecord = Proxima.db.deleteRecord("test", 1)
-    if deleteRecord then print("Deleted record with ID 1.")
-
-    getRecords = Proxima.db.getRecords("test")
-    if getRecords != null then
-        print(Proxima.io.addOutputEntry("Loaded records."))
-        print(Proxima.io.addOutputEntry(getRecords))
+        print(Proxima.io.addOutputEntry(Proxima.io.output.line))
     end if
     
-    resetRecords = Proxima.db.resetRecords("test")
-    if resetRecords then print(Proxima.io.addOutputEntry("Did reset database."))
+    getRecordValue = Proxima.db.getRecordValue(dbName, 1, "name")
+    if getRecordValue != null then print(Proxima.io.addOutputEntry(Proxima.io.output.success("Got record value: " + getRecordValue)))
 
-    getRecords = Proxima.db.getRecords("test")
+    setRecordValue = Proxima.db.setRecordValue(dbName, 1, "name", "test_changed_one")
+    if setRecordValue then print(Proxima.io.addOutputEntry(Proxima.io.output.success("Changed value of record ID 1 successfully.")))
+
+    getRecordValue = Proxima.db.getRecordValue(dbName, 1, "name")
+    if getRecordValue != null then print(Proxima.io.addOutputEntry(Proxima.io.output.success("Got record value: " + getRecordValue)))
+
+    print(Proxima.io.addOutputEntry(Proxima.io.output.line))
+    Proxima.db.displayRecords(dbName, "name")
+    print(Proxima.io.addOutputEntry(Proxima.io.output.line))
+
+    deleteRecord = Proxima.db.deleteRecord(dbName, 1)
+    if deleteRecord then print(Proxima.io.addOutputEntry(Proxima.io.output.success("Deleted record with ID 1 successfully.")))
+
+    getRecords = Proxima.db.getRecords(dbName)
     if getRecords != null then
         print(Proxima.io.addOutputEntry("Loaded records."))
+        print(Proxima.io.addOutputEntry(Proxima.io.output.line))
         print(Proxima.io.addOutputEntry(getRecords))
+        print(Proxima.io.addOutputEntry(Proxima.io.output.line))
     end if
+    
+    resetRecords = Proxima.db.resetRecords(dbName)
+    if resetRecords then print(Proxima.io.addOutputEntry(Proxima.io.output.success("Successfully reset test database.")))
+
+    getRecords = Proxima.db.getRecords(dbName)
+    if getRecords != null then
+        print(Proxima.io.addOutputEntry(Proxima.io.output.success("Loaded records successfully.")))
+        print(Proxima.io.addOutputEntry(Proxima.io.output.line))
+        print(Proxima.io.addOutputEntry(getRecords))
+        print(Proxima.io.addOutputEntry(Proxima.io.output.line))
+    end if
+
+    recordMap = {"name": "test_one", "value_list": [1, 2, 3]}
+    addRecord = Proxima.db.addRecord(dbName, recordMap)
+    if addRecord then print(Proxima.io.addOutputEntry(Proxima.io.output.success("Added record 1.")))
+
+    recordMap = {"name": "test_two", "value_list": [1, 2, 3]}
+    addRecord = Proxima.db.addRecord(dbName, recordMap)
+    if addRecord then print(Proxima.io.addOutputEntry(Proxima.io.output.success("Added record 2.")))
+
+    recordMap = {"name": "test_thr", "value_list": [1, 2, 3]}
+    addRecord = Proxima.db.addRecord(dbName, recordMap)
+    if addRecord then print(Proxima.io.addOutputEntry(Proxima.io.output.success("Added record 3.")))
+
+    getRecords = Proxima.db.getRecords(dbName)
+    if getRecords != null then
+        print(Proxima.io.addOutputEntry(Proxima.io.output.success("Loaded records successfully.")))
+        print(Proxima.io.addOutputEntry(Proxima.io.output.line))
+        print(Proxima.io.addOutputEntry(getRecords))
+        print(Proxima.io.addOutputEntry(Proxima.io.output.line))
+    end if
+
+    recordMap = {"name": "test_changed_two", "value_list": [1, 2, 3]}
+    updateRecord = Proxima.db.updateRecord(dbName, 2, recordMap, "dateCreated")
+    if updateRecord then print(Proxima.io.addOutputEntry(Proxima.io.output.success("Updated record with ID 2 successfully.")))
+    
+    getRecords = Proxima.db.getRecords(dbName)
+    if getRecords != null then
+        print(Proxima.io.addOutputEntry(Proxima.io.output.success("Loaded records successfully.")))
+        print(Proxima.io.addOutputEntry(Proxima.io.output.line))
+        print(Proxima.io.addOutputEntry(getRecords))
+        print(Proxima.io.addOutputEntry(Proxima.io.output.line))
+    end if
+
+    foundIndex = Proxima.db.searchRecords(dbName, "name", "test_changed_two")
+    if foundIndex != null then print(Proxima.io.addOutputEntry(Proxima.io.output.success("Found records successfully: INDEX:" + foundIndex + "|ID:" + foundIndex + 1)))
+
+    getRecordValue = Proxima.db.getRecordValue(dbName, foundIndex + 1, "name")
+    if getRecordValue != null then print(Proxima.io.addOutputEntry(Proxima.io.output.success("Got record value: " + getRecordValue)))
+
+    print(Proxima.io.addOutputEntry(Proxima.io.output.info("Test ended.")))
 end function
 
 Proxima.tests.test.sessions = function ()
@@ -123,35 +180,4 @@ Proxima.tests.test.sessions = function ()
     getSessionValue = Proxima.sessions.getSessionValue(Proxima.sessions.activeSession, "payloadInjection")
     print("Got value.")
     print(getSessionValue)
-
-    // setSessionValue = Proxima.sessions.setSessionValue(Proxima.sessions.activeSession, "payloadInjection", false)
-    // if setSessionValue then print("Changed payload injection value.")
-
-    // getSessionValue = Proxima.sessions.getSessionValue(Proxima.sessions.activeSession, "payloadInjection")
-    // print("Got value.")
-    // print(getSessionValue)
-
-    // saveSession = Proxima.sessions.saveSession(Proxima.sessions.activeSession)
-    // if saveSession then print("Session with ID " + Proxima.sessions.activeSession + " saved.")
-
-    // Proxima.sessions.displaySessions(true)
-
-    // loadSession = Proxima.sessions.loadSession(2)
-    // if loadSession then
-    //     print("Session loaded successfully!")
-    // else if loadSession == null then
-    //     print("This session is already in active sessions.")
-    // end if
-
-    // Proxima.sessions.displaySessions()
-
-    // setSessionValue = Proxima.sessions.setSessionValue(1, "payloadInjection", true)
-    // if setSessionValue then print("Changed payload injection value.")
-
-    // saveSession = Proxima.sessions.saveSession(1)
-    // if saveSession then print("Session with ID 1 saved.")
-
-    // getSessionValue = Proxima.sessions.getSessionValue(2, "payloadInjection", true)
-    // print("Got session value.")
-    // print(getSessionValue)
 end function

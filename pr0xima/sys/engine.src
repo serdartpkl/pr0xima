@@ -335,18 +335,16 @@ Proxima.engine.startEngine = function ()
 
     print(Proxima.io.addOutputEntry(Proxima.io.output.line))
 
-    getSavedSessions = Proxima.sessions.getSessions(true)
-    if getSavedSessions != null then
-        if getSavedSessions.len > 0 then
-            print(Proxima.io.addOutputEntry(Proxima.io.output.success("Saved sessions loaded successfully! <b>[TOTAL:" + getSavedSessions.len + "]</b>")))
-        else
-            print(Proxima.io.addOutputEntry(Proxima.io.output.info("No saved sessions found.")))
-        end if
-    else
-        exit(Proxima.io.addOutputEntry(Proxima.io.output.error("Couldn't load saved sessions due to unexpected error.")))
-    end if
-
-    Proxima.tests.test.sessions()
+    // getSavedSessions = Proxima.sessions.getSessions(true)
+    // if getSavedSessions != null then
+    //     if getSavedSessions.len > 0 then
+    //         print(Proxima.io.addOutputEntry(Proxima.io.output.success("Saved sessions loaded successfully! <b>[TOTAL:" + getSavedSessions.len + "]</b>")))
+    //     else
+    //         print(Proxima.io.addOutputEntry(Proxima.io.output.info("No saved sessions found.")))
+    //     end if
+    // else
+    //     exit(Proxima.io.addOutputEntry(Proxima.io.output.error("Couldn't load saved sessions due to unexpected error.")))
+    // end if
 
     // localIP = Proxima.globals.myPC.local_ip
     // localRouter = get_router(localIP)
@@ -361,4 +359,6 @@ Proxima.engine.startEngine = function ()
     // else
     //     exit(Proxima.io.output.error("Couldn't create local session due to unexpected error. Terminating program..."))
     // end if
+
+    Proxima.tests.test.db()
 end function
