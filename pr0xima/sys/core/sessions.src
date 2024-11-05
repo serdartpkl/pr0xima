@@ -73,7 +73,7 @@ Proxima.sessions.createSession = function (sessionType, targetIP, targetRouter)
         sessionMap.targetMails = []
         sessionMap.targetBanks = []
 
-        sessionMap.payloadInjection = true
+        sessionMap.payloadInjection = 1
 
         sessionMap.dateCreated = Proxima.utils.getParsedDate()
         
