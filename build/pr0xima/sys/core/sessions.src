@@ -96,7 +96,9 @@ end function
 // ------------------------------------------------------------------------------------------------------------
 Proxima.sessions.getSessionValue=function(sessionID,sessionKey,getSaved=false)
 acquiredSession=self.getSession(sessionID,getSaved)
-if acquiredSession!=null then return acquiredSession[sessionKey]
+if acquiredSession!=null then
+if acquiredSession.hasIndex(sessionKey) then return acquiredSession[sessionKey]
+end if
 return null
 end function
 Proxima.sessions.setSessionValue=function(sessionID,sessionKey,sessionValue,setSaved=false)

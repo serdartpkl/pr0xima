@@ -108,21 +108,16 @@ end for
 setSession=Proxima.sessions.setSession(1)
 if setSession then print("Set session ID 1.")
 Proxima.sessions.displaySessions
-// getSessionValue = Proxima.sessions.getSessionValue(Proxima.sessions.activeSession, "targetIP")
-// print("Got value.")
-// print(getSessionValue)
-// setSessionValue = Proxima.sessions.setSessionValue(Proxima.sessions.activeSession, "targetIP", "5.5.5.5")
-// if setSessionValue then print("Changed IP.")
-// setSessionValue = Proxima.sessions.setSessionValue(Proxima.sessions.activeSession, "targetRouter", get_router("5.5.5.5"))
-// if setSessionValue then print("Changed router.")
-// getSessionValue = Proxima.sessions.getSessionValue(Proxima.sessions.activeSession, "targetIP")
-// print("Got value.")
-// print(getSessionValue)
-// Proxima.sessions.displaySessions()
-// saveSession = Proxima.sessions.saveSession(Proxima.sessions.activeSession)
-// if saveSession then print("Session with ID " + Proxima.sessions.activeSession + " saved.")
-// Proxima.sessions.displaySessions(true)
-// getSessionValue = Proxima.sessions.getSessionValue(Proxima.sessions.activeSession, "payloadInjection")
-// print("Got value.")
-// print(getSessionValue)
+getSessionValue=Proxima.sessions.getSessionValue(1,"payloadInjection")
+if getSessionValue!=null then
+if getSessionValue==0 then print("Payload injection is off")
+if getSessionValue==1 then print("Payload injection is on")
+end if
+setSessionValue=Proxima.sessions.setSessionValue(1,"payloadInjection",0)
+if setSessionValue then print("Turned payload injection off.")
+getSessionValue=Proxima.sessions.getSessionValue(1,"payloadInjection")
+if getSessionValue!=null then
+if getSessionValue==0 then print("Payload injection is off")
+if getSessionValue==1 then print("Payload injection is on")
+end if
 end function
