@@ -118,24 +118,24 @@ Proxima.tests.test.db = function ()
 end function
 
 Proxima.tests.test.sessions = function ()
-    print(Proxima.io.addOutputEntry(Proxima.io.output.info("Starting to test database functions...")))
+    print(Proxima.io.addOutputEntry(Proxima.io.output.info("Starting to test session functions...")))
     print(Proxima.io.addOutputEntry(Proxima.io.output.line))
 
     getActiveSessions = Proxima.sessions.getSessions()
     getSavedSessions = Proxima.sessions.getSessions(true)
 
     if getActiveSessions != null then
-        print(Proxima.io.addOutputEntry(Proxima.io.output.success("Created database successfully.")))
+        print(Proxima.io.addOutputEntry(Proxima.io.output.success("Found active sessions.")))
         print(getActiveSessions)
     else
-        print(Proxima.io.addOutputEntry(Proxima.io.output.info("Created database successfully.")))
+        print(Proxima.io.addOutputEntry(Proxima.io.output.info("No active sessions found.")))
     end if
     if getSavedSessions != null then
         if getSavedSessions.len > 0 then
-            print(Proxima.io.addOutputEntry(Proxima.io.output.success("Created database successfully.")))
+            print(Proxima.io.addOutputEntry(Proxima.io.output.success("Saved sessions found.")))
             print(getSavedSessions)
         else
-            print(Proxima.io.addOutputEntry(Proxima.io.output.info("Created database successfully.")))
+            print(Proxima.io.addOutputEntry(Proxima.io.output.info("No saved sessions found.")))
         end if
     end if
 
