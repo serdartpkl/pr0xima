@@ -121,6 +121,7 @@ Proxima.tests.test.db = function ()
     getRecordValue = Proxima.db.getRecordValue(dbName, foundIndex + 1, "name")
     if getRecordValue != null then print(Proxima.io.addOutputEntry(Proxima.io.output.success("Got record value: " + getRecordValue)))
 
+    print(Proxima.io.addOutputEntry(Proxima.io.output.line))
     print(Proxima.io.addOutputEntry(Proxima.io.output.info("Test ended.")))
 end function
 
