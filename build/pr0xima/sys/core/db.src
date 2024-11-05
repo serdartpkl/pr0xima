@@ -79,7 +79,10 @@ return null
 end function
 Proxima.db.searchRecords=function(databaseName,recordKey,recordValue)
 acquiredRecords=self.getRecords(databaseName)
-if acquiredRecords!=null then return Proxima.utils.indexesOf(acquiredRecords,recordKey,recordValue)
+if acquiredRecords!=null then
+acquiredIndexes=Proxima.utils.indexesOf(acquiredRecords,recordKey,recordValue)
+if acquiredIndexes!=null then return acquiredIndexes
+end if
 return null
 end function
 Proxima.db.addRecord=function(databaseName,recordMap,sortBy=null)

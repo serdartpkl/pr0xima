@@ -114,6 +114,7 @@ Proxima.sessions.searchSessions = function (sessionKey, sessionValue, searchSave
     if acquiredRecords != null then
         acquiredIndexes = Proxima.utils.indexesOf(acquiredRecords, sessionKey, sessionValue)
         if acquiredIndexes != null then return acquiredIndexes
+    end if
     return null
 end function
 
