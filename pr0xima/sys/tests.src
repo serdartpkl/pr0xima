@@ -116,9 +116,10 @@ Proxima.tests.test.db = function ()
     end if
 
     foundIndex = Proxima.db.searchRecords(dbName, "name", "test_changed_two")
-    if foundIndex != null then print(Proxima.io.addOutputEntry(Proxima.io.output.success("Found records successfully: INDEX:" + foundIndex + "|ID:" + foundIndex + 1)))
+    foundID = foundIndex + 1
+    if foundIndex != null then print(Proxima.io.addOutputEntry(Proxima.io.output.success("Found records successfully: INDEX:" + foundIndex + "|ID:" + foundID)))
 
-    getRecordValue = Proxima.db.getRecordValue(dbName, foundIndex + 1, "name")
+    getRecordValue = Proxima.db.getRecordValue(dbName, foundID, "name")
     if getRecordValue != null then print(Proxima.io.addOutputEntry(Proxima.io.output.success("Got record value: " + getRecordValue)))
 
     print(Proxima.io.addOutputEntry(Proxima.io.output.line))

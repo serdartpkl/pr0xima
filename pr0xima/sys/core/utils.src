@@ -67,7 +67,7 @@ Proxima.utils.indexesOf = function (givenList, searchKey, searchValue)
     end if
     
     if foundedIndexes.len > 0 then
-        if foundedIndexes.len == 1 then return foundedIndexes[0].to_int
+        if foundedIndexes.len == 1 then return foundedIndexes[0]
         return foundedIndexes
     end if
 
