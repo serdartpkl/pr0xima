@@ -110,6 +110,11 @@ Proxima.sessions.reorderSessions = function (reorderSaved = false, sortBy = null
 end function
 
 Proxima.sessions.searchSessions = function (sessionKey, sessionValue, searchSaved = false)
+    acquiredRecords = self.getSessions(searchSaved)
+    if acquiredRecords != null then
+        acquiredIndexes = Proxima.utils.indexesOf(acquiredRecords, sessionKey, sessionValue)
+        if acquiredIndexes != null then return acquiredIndexes
+    return null
 end function
 
 Proxima.sessions.resetSession = function (sessionID, resetSaved = false)

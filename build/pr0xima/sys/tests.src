@@ -120,4 +120,11 @@ if getSessionValue!=null then
 if getSessionValue==0 then print("Payload injection is off")
 if getSessionValue==1 then print("Payload injection is on")
 end if
+isLocal=Proxima.sessions.isSessionLocal(1)
+isRemote=Proxima.sessions.isSessionRemote(1)
+if isLocal and isRemote!=true then
+print("Session with ID 1 is local session.")
+else if isRemote and isLocal!=true then
+print("Session with ID 1 is remote session.")
+end if
 end function
