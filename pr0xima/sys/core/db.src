@@ -88,8 +88,9 @@ end function
 Proxima.db.addRecord = function (databaseName, recordMap, sortBy = null)
     acquiredRecords = self.getRecords(databaseName)
     if acquiredRecords != null then
+        recordMap = {"id": acquiredRecords.len + 1} + recordMap
         if recordMap.hasIndex("dateCreated") == 0 then recordMap.dateCreated = Proxima.utils.getParsedDate()
-        acquiredRecords.push({"id": acquiredRecords.len + 1} + recordMap)
+        acquiredRecords.push(recordMap)
         performAddition = null
         if acquiredRecords.len > 1 then
             performAddition = self.reorderRecords(databaseName, acquiredRecords, sortBy)
