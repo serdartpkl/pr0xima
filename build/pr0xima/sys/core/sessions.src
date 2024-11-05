@@ -6,7 +6,8 @@ Proxima.sessions.getSessions=function(getSaved=false)
 sessionsList=null
 if getSaved then
 sessionsList=Proxima.db.getRecords("sessions")
-else if getSaved!=true then
+if sessionsList!=null then return sessionsList
+else
 if self.activeSessions.len>0 then sessionsList=self.activeSessions
 end if
 return sessionsList
@@ -56,7 +57,7 @@ sessionMap.targetShells=[]
 sessionMap.targetUsers=[]
 sessionMap.targetMails=[]
 sessionMap.targetBanks=[]
-sessionMap.payloadInjection=true
+sessionMap.payloadInjection=1
 sessionMap.dateCreated=Proxima.utils.getParsedDate
 self.activeSessions.push(sessionMap)
 return sessionMap.id
