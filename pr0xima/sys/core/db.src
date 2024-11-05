@@ -37,6 +37,15 @@ Proxima.db.createDatabase = function (databaseName)
     return null
 end function
 
+Proxima.db.deleteDatabase = function (databaseName)
+    getDatabaseFile = self.getDatabase(databaseName)
+    if getDatabaseFile != null then
+        deleteDatabaseFile = getDatabaseFile.delete
+        if deleteDatabaseFile == "" then return true
+    end if
+    return null
+end function
+
 // ------------------------------------------------------------------------------------------------------------
 
 Proxima.db.getRecords = function (databaseName)
@@ -108,7 +117,8 @@ Proxima.db.updateRecord = function (databaseName, recordID, recordMap, sortBy = 
         recordIndex = self.searchRecords(databaseName, "id", recordID)
         if recordIndex != null and acquiredRecords.hasIndex(recordIndex) then
             acquiredRecordID = acquiredRecords[recordIndex].id
-            acquiredRecords[recordIndex] = {"id": acquiredRecordID} + recordMap
+            acquiredRecordDateCreated = acquiredRecords[recordIndex].dateCreated
+            acquiredRecords[recordIndex] = {"id": acquiredRecordID} + recordMap + {"dateCreated": acquiredRecordDateCreated}
             reorderRecords = self.setRecords(databaseName, acquiredRecords)
             if reorderRecords then return true
         end if
