@@ -189,7 +189,7 @@ end function
 Proxima.utils.deserializeFirst = function(serialized, excludeKeys = [])
     serialized = serialized.trim
 
-    nullRepresentation = char(110) + char(117) + char(108) + char(108)
+    nullStr = char(110) + char(117) + char(108) + char(108)
 
     if serialized.hasIndex(0) and serialized[0] == "{" and serialized.hasIndex(serialized.len - 1) and serialized[-1] == "}" then
         return self.deserializeMap(serialized, excludeKeys)
@@ -197,7 +197,7 @@ Proxima.utils.deserializeFirst = function(serialized, excludeKeys = [])
         return self.deserializeList(serialized, excludeKeys)
     else if serialized.hasIndex(0) and serialized[0] == char(34) and serialized.hasIndex(serialized.len - 1) and serialized[-1] == char(34) then
         return serialized[1:-1]
-    else if serialized == nullRepresentation then
+    else if serialized == nullStr then
         return null
     else
         value = serialized.to_int

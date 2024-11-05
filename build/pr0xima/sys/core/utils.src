@@ -144,8 +144,7 @@ serialized=char(34)+sessionData+char(34)
 else if dataType=="number" then
 serialized=sessionData
 else
-// serialized = char(110) + char(117) + char(108) + char(108)
-serialized=str(null)
+serialized=char(110)+char(117)+char(108)+char(108)
 end if
 return serialized
 end function
