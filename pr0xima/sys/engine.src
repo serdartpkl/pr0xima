@@ -361,4 +361,5 @@ Proxima.engine.startEngine = function ()
     // end if
 
     Proxima.tests.test.db()
+    Proxima.tests.test.sessions()
 end function
