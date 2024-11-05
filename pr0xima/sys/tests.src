@@ -19,9 +19,6 @@ Proxima.tests.test.db = function ()
 
     getRecords = Proxima.db.getRecords(dbName)
     if getRecords != null then print(Proxima.io.addOutputEntry(Proxima.io.output.success("Loaded records successfully.")))
-
-    print(Proxima.io.addOutputEntry(Proxima.io.output.line))
-    Proxima.db.displayRecords(dbName, "name")
     print(Proxima.io.addOutputEntry(Proxima.io.output.line))
 
     recordMap = {"name": "test_one", "value_list": [1, 2, 3]}
