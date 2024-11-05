@@ -289,4 +289,5 @@ print(Proxima.io.addOutputEntry(Proxima.io.output.line))
 //     exit(Proxima.io.output.error("Couldn't create local session due to unexpected error. Terminating program..."))
 // end if
 Proxima.tests.test.db
+Proxima.tests.test.sessions
 end function
