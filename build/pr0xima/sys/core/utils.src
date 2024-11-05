@@ -144,22 +144,14 @@ serialized=char(34)+sessionData+char(34)
 else if dataType=="number" then
 serialized=sessionData
 else
-serialized=str(sessionData)
-end if
-if typeof(sessionData)=="null" and sessionData==null then
-serialized=char(110)+char(117)+char(108)+char(108)
-else if typeof(sessionData)!="number" and sessionData==true then
-serialized=char(116)+char(114)+char(117)+char(101)
-else if typeof(sessionData)!="number" and sessionData==false then
-serialized=char(102)+char(97)+char(108)+char(115)+char(101)
+// serialized = char(110) + char(117) + char(108) + char(108)
+serialized=str(null)
 end if
 return serialized
 end function
 Proxima.utils.deserializeFirst=function(serialized,excludeKeys=[])
 serialized=serialized.trim
 nullRepresentation=char(110)+char(117)+char(108)+char(108)
-trueRepresentation=char(116)+char(114)+char(117)+char(101)
-falseRepresentation=char(102)+char(97)+char(108)+char(115)+char(101)
 if serialized.hasIndex(0) and serialized[0]=="{" and serialized.hasIndex(serialized.len-1) and serialized[-1]=="}" then
 return self.deserializeMap(serialized,excludeKeys)
 else if serialized.hasIndex(0) and serialized[0]=="[" and serialized.hasIndex(serialized.len-1) and serialized[-1]=="]" then
@@ -168,10 +160,6 @@ else if serialized.hasIndex(0) and serialized[0]==char(34) and serialized.hasInd
 return serialized[1:-1]
 else if serialized==nullRepresentation then
 return null
-else if serialized==trueRepresentation then
-return true
-else if serialized==falseRepresentation then
-return false
 else
 value=serialized.to_int
 if typeof(value)=="string" then

@@ -180,10 +180,6 @@ Proxima.utils.serializeMap = function(sessionData, excludeKeys = [])
     else if dataType == "number" then
         serialized = sessionData
     else
-        serialized = str(sessionData)
-    end if
-
-    if typeof(sessionData) == "null" and sessionData == null then
         serialized = char(110) + char(117) + char(108) + char(108)
     end if
 
