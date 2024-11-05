@@ -168,9 +168,9 @@ else if serialized.hasIndex(0) and serialized[0]==char(34) and serialized.hasInd
 return serialized[1:-1]
 else if serialized==nullRepresentation then
 return null
-else if serialized==trueRepresentation then
+else if typeof(serialized)!="number" and serialized==trueRepresentation then
 return true
-else if serialized==falseRepresentation then
+else if typeof(serialized)!="number" and serialized==falseRepresentation then
 return false
 else
 value=serialized.to_int

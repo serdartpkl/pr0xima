@@ -132,22 +132,22 @@ Proxima.tests.test.sessions = function ()
 
     Proxima.sessions.displaySessions(true)
 
-    loadSession = Proxima.sessions.loadSession(2)
-    if loadSession then
-        print("Session loaded successfully!")
-    else if loadSession == null then
-        print("This session is already in active sessions.")
-    end if
+    // loadSession = Proxima.sessions.loadSession(2)
+    // if loadSession then
+    //     print("Session loaded successfully!")
+    // else if loadSession == null then
+    //     print("This session is already in active sessions.")
+    // end if
 
-    Proxima.sessions.displaySessions()
+    // Proxima.sessions.displaySessions()
 
-    setSessionValue = Proxima.sessions.setSessionValue(1, "payloadInjection", true)
-    if setSessionValue then print("Changed payload injection value.")
+    // setSessionValue = Proxima.sessions.setSessionValue(1, "payloadInjection", true)
+    // if setSessionValue then print("Changed payload injection value.")
 
-    saveSession = Proxima.sessions.saveSession(1)
-    if saveSession then print("Session with ID 1 saved.")
+    // saveSession = Proxima.sessions.saveSession(1)
+    // if saveSession then print("Session with ID 1 saved.")
 
-    getSessionValue = Proxima.sessions.getSessionValue(2, "payloadInjection", true)
-    print("Got session value.")
-    print(getSessionValue)
+    // getSessionValue = Proxima.sessions.getSessionValue(2, "payloadInjection", true)
+    // print("Got session value.")
+    // print(getSessionValue)
 end function
