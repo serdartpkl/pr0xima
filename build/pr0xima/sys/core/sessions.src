@@ -73,11 +73,14 @@ reorderSavedSessions=Proxima.db.reorderRecords("sessions",acquiredSessions,sortB
 if reorderSavedSessions then return true
 else
 idCounter=1
+newActiveSessionID=null
 for recordIndex in range(0,acquiredSessions.len-1)
+if self.activeSession==acquiredSessions[recordIndex].id then newActiveSessionID=idCounter
 if acquiredSessions[recordIndex].id!=idCounter then acquiredSessions[recordIndex].id=idCounter
 idCounter=idCounter+1
 end for
 self.activeSessions=acquiredSessions
+self.activeSession=newActiveSessionID
 return true
 end if
 end if
