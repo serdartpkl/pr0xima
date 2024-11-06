@@ -19,5 +19,5 @@ import_code("sys/commands/generic.src")
 import_code("sys/commands/local.src")
 import_code("sys/commands/remote.src")
 
-import_code("sys/tests.src")
+import_code("sys/testing.src")
 import_code("sys/engine.src")

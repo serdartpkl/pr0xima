@@ -1,0 +1,139 @@
+Proxima.net={}
+Proxima.net.networkKey=null
+Proxima.net.selectedInterface=null
+Proxima.net.targetNetwork=null
+Proxima.net.targetNetworks=[]
+// ------------------------------------------------------------------------------------------------------------
+Proxima.net.checkConnection=function
+if Proxima.globals.myPC.is_network_active then return true
+return null
+end function
+Proxima.net.getConnectedNetwork=function
+if self.checkConnection then
+getRouter=Proxima.globals.myPC.get_router
+networkESSID=getRouter.essid_name
+networkBSSID=getRouter.bssid_name
+return [networkESSID,networkBSSID]
+end if
+return null
+end function
+// ------------------------------------------------------------------------------------------------------------
+Proxima.net.selectInterface=function
+targetComputer=Proxima.globals.myPC
+activeNetworkCard=targetComputer.active_net_card
+if activeNetworkCard=="WIFI" then
+networkDevices=network_devices(targetComputer)
+deviceList=networkDevices.split(char(10))
+for networkDevice in deviceList
+deviceInfo=networkDevice.split(char(32))
+interfaceName=deviceInfo[0]
+supportedMonitoring=deviceInfo[2]
+if supportedMonitoring then return interfaceName
+end for
+end if
+return null
+end function
+Proxima.net.startMonitoring=function
+if self.selectedInterface!=null then
+airmonResult=Proxima.globals.crypto.airmon("start",self.selectedInterface)
+if airmonResult==1 then return true
+end if
+return null
+end function
+Proxima.net.getNetworkList=function
+if self.selectedInterface!=null then
+getNetworks=Proxima.globals.myPC.wifi_networks(self.selectedInterface)
+if getNetworks.len>0 then
+for acquiredNetwork in getNetworks
+networkID=self.targetNetworks.len+1
+network=acquiredNetwork.split(" ")
+bssid=acquiredNetwork[0]
+essid=acquiredNetwork[2]
+strength=acquiredNetwork[1][:-1].to_int
+self.targetNetworks.push({"id":networkID,"essid":essid,"bssid":bssid,"strength":strength})
+end for
+return true
+end if
+end if
+return null
+end function
+Proxima.net.setTargetNetwork=function(targetESSID=null)
+if self.targetNetworks.len>0 then
+if targetESSID!=null then
+getNetwork=Proxima.utils.indexesOf(self.targetNetworks,"essid",targetESSID)
+if getNetwork.len>0 then self.targetNetwork=getNetwork[0]
+else
+self.targetNetwork=self.targetNetworks.sort("strength")[self.targetNetworks.len-1]
+end if
+return true
+end if
+return null
+end function
+Proxima.net.startSniffing=function
+if self.targetNetwork!=null then
+requiredACKs=ceil(300000/self.targetNetwork.strength)
+getACKs=Proxima.globals.crypto.aireplay(self.targetNetwork.bssid,self.targetNetwork.essid,requiredACKs)
+if getACKs==null then return true
+end if
+return null
+end function
+// ------------------------------------------------------------------------------------------------------------
+Proxima.net.crackKey=function
+capFile=Proxima.globals.myPC.File(home_dir+"/file.cap")
+if capFile!=null then
+networkKey=Proxima.globals.crypto.aircrack(capFile.path)
+if networkKey!=null then
+self.networkKey=networkKey
+return true
+end if
+end if
+return null
+end function
+Proxima.net.connectNetwork=function
+if self.selectedInterface!=null and self.targetNetwork!=null and self.networkKey!=null then
+connectionStatus=Proxima.globals.myPC.connect_wifi(self.selectedInterface,self.targetNetwork.bssid,self.targetNetwork.essid,self.networkKey)
+if connectionStatus==1 then return true
+end if
+return null
+end function
+// ------------------------------------------------------------------------------------------------------------
+Proxima.net.autoHack=function(targetESSID=null)
+print(Proxima.io.addOutputEntry(Proxima.io.output.progress("Starting monitoring...")))
+selectInterface=self.selectInterface
+if selectedInterface==null then exit(Proxima.io.addOutputEntry(Proxima.io.output.error("Couldn't select interface.")))
+startMonitoring=null
+if selectInterface==null then
+exit(Proxima.io.addOutputEntry(Proxima.io.output.error("Couldn't start monitoring due to insufficient equipment.")))
+startMonitoring=self.startMonitoring
+end if
+print(Proxima.io.addOutputEntry(Proxima.io.output.success("Started monitoring successfully! <b>[INTERFACE:"+selectInterface+"]</b>")))
+getNetworkList=null
+if startMonitoring then
+exit(Proxima.io.addOutputEntry(Proxima.io.output.error("Couldn't get WiFi list, failed to start monitoring.")))
+getNetworkList=self.getNetworkList
+end if
+print(Proxima.io.addOutputEntry(Proxima.io.output.progress("Got network list, trying to find target network...")))
+setTargetNetwork=null
+if getNetworkList then
+setTargetNetwork=self.setTargetNetwork
+if targetESSID!=null then
+setTargetNetwork=self.setTargetNetwork(targetESSID)
+if setTargetNetwork==null then exit(Proxima.io.addOutputEntry(Proxima.io.output.error("Couldn't find any WiFi network to hack by given ESSID. Terminating program... <b>[ESSID:"+targetESSID+"]</b>")))
+end if
+if setTargetNetwork==null then exit(Proxima.io.addOutputEntry(Proxima.io.output.error("Couldn't find any WiFi network to hack. Terminating program...")))
+end if
+print(Proxima.io.addOutputEntry(Proxima.io.output.success("Found target! <b>[TARGET:"+setTargetNetwork+"]</b>")))
+print(Proxima.io.addOutputEntry(Proxima.io.output.line))
+startSniffing=null
+if setTargetNetwork then startSniffing=self.startSniffing
+if startSniffing==null then
+print(Proxima.io.addOutputEntry(Proxima.io.output.line))
+exit(Proxima.io.addOutputEntry(Proxima.io.output.error("Couldn't start sniffing. Terminating program...")))
+end if
+getNetworkKey=null
+if startSniffing then getNetworkKey=self.crackKey
+if startSniffing==null then exit(Proxima.io.addOutputEntry(Proxima.io.output.error("Couldn't start sniffing. Terminating program...")))
+connectionResult=null
+if getNetworkKey then connectionResult=self.connectNetwork
+return connectionResult
+end function
