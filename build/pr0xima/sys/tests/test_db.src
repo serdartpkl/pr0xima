@@ -1,4 +1,4 @@
-Proxima.testing.tests.db=function
+Proxima.testing.tests.test_db=function
 print(Proxima.io.addOutputEntry(Proxima.io.output.info("Starting to test database functions...")))
 print(Proxima.io.addOutputEntry(Proxima.io.output.line))
 dbName="test"

@@ -1,4 +1,4 @@
-Proxima.testing.tests.sessions=function
+Proxima.testing.tests.test_sessions=function
 print(Proxima.io.addOutputEntry(Proxima.io.output.info("Starting to test session functions...")))
 print(Proxima.io.addOutputEntry(Proxima.io.output.line))
 getActiveSessions=Proxima.sessions.getSessions
