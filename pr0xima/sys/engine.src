@@ -334,6 +334,10 @@ Proxima.engine.startEngine = function ()
     self.initLibraries()
 
     print(Proxima.io.addOutputEntry(Proxima.io.output.line))
+    Proxima.testing.tests.test_db()
+    print(Proxima.io.addOutputEntry(Proxima.io.output.line))
+    Proxima.testing.tests.test_sessions()
+    print(Proxima.io.addOutputEntry(Proxima.io.output.line))
 
     getSavedSessions = Proxima.sessions.getSessions(true)
     if getSavedSessions != null then
@@ -359,8 +363,4 @@ Proxima.engine.startEngine = function ()
     else
         exit(Proxima.io.output.error("Couldn't create local session due to unexpected error. Terminating program..."))
     end if
-
-    // Proxima.tests.test.db()
-    // print(Proxima.io.addOutputEntry(Proxima.io.output.line))
-    // Proxima.tests.test.sessions()
 end function
