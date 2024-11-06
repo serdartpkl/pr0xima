@@ -1,2 +1,7 @@
 Proxima.testing = {}
 Proxima.testing.tests = {}
+
+Proxima.testing.runTest = function (testName) 
+    if Proxima.testing.tests.hasIndex(testName) then Proxima.testing.tests[testName]()
+    return null
+end function
