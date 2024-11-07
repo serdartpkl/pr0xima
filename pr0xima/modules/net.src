@@ -156,7 +156,7 @@ Proxima.net.autoHack = function (targetESSID = null)
         print(Proxima.io.addOutputEntry(Proxima.io.output.success("Found desired target! <b>[TARGET:" + self.targetNetwork.essid + "]</b>")))
     else
         print(Proxima.io.addOutputEntry(Proxima.io.output.progress("Searching for network with highest signal strength...")))
-        print(Proxima.io.addOutputEntry(Proxima.io.output.success("Set target successfully.  <b>[TARGET:" + self.targetNetwork.essid + "]</b>")))
+        print(Proxima.io.addOutputEntry(Proxima.io.output.success("Set target successfully. <b>[TARGET:" + self.targetNetwork.essid + "]</b>")))
     end if
     print(Proxima.io.addOutputEntry(Proxima.io.output.progress("Starting sniffing... <b>[REQ_ACKS:" + ceil(300000 / self.targetNetwork.strength) + "]</b>")))
     print(Proxima.io.addOutputEntry(Proxima.io.output.line))
