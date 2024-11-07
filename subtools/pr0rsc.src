@@ -1,6 +1,7 @@
 import_code("../pr0xima/init.src")
 
-if params.hasIndex(0) == 0 then exit()
-
 prx = new Proxima
+
+if params.hasIndex(0) == 0 then exit(prx.io.output.error("No IP address given to connect! Terminating program..."))
+
 prx.rshell.launchRshell(params[0])
