@@ -1,6 +1,21 @@
 Proxima.testing = {}
 Proxima.testing.tests = {}
 
+Proxima.testing.describe = function (testName, testFunction) 
+    matcherFunctions = {}
+    matcherFunctions.expect = function (val)
+    end function
+    matcherFunctions.toBe = function (val)
+    end function
+    matcherFunctions.assert = function (val)
+    end function
+    matcherFunctions.toBeEqual = function (val)
+    end function
+    matcherFunctions.toBeTruthy = function (val)
+    end function
+    return matcherFunctions
+end function
+
 Proxima.testing.runTest = function (testName) 
     if Proxima.testing.tests.hasIndex(testName) then Proxima.testing.tests[testName]()
     return null
