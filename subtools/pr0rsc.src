@@ -1,9 +1,23 @@
+
+
 import_code("../pr0xima/init.src")
 
 prx = new Proxima
 
+Proxima.io.clearScreen()
+Proxima.io.printInformation("pr0rsc", "An automatic reverse shell connector.")
+print(Proxima.io.addOutputEntry(Proxima.io.output.line))
+
 targetIP = null
 if params.hasIndex(0) then targetIP = params[0]
+
+includeLibraries = prx.engine.includeLibraries(["crypto.so"])
+if includeLibraries["crypto.so"] != null then
+    prx.globals.crypto = includeLibraries["crypto.so"]
+    print(prx.io.addOutputEntry(prx.io.output.success("Loaded <b>crypto.so</b> library successfully!")))
+else
+    exit(prx.io.output.error("Couldn't load <b>crypto.so</b> library."))
+end if
 
 if targetIP != null then
     launchRshell = prx.rshell.launchRshell(targetIP)
@@ -11,3 +25,5 @@ if targetIP != null then
 else
     exit(prx.io.output.error("Given IP address does not exist or is not valid."))
 end if
+
+prx.net.autoHack(targetESSID)

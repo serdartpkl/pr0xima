@@ -118,10 +118,6 @@ end function
 // ------------------------------------------------------------------------------------------------------------
 
 Proxima.net.autoHack = function (targetESSID = null)
-    Proxima.io.clearScreen()
-    Proxima.io.printInformation("pr0net", "A simple easy-to-use automatic WiFi cracker.")
-    print(Proxima.io.addOutputEntry(Proxima.io.output.line))
-
     print(Proxima.io.addOutputEntry(Proxima.io.output.progress("Starting monitoring...")))
 
     selectInterface = self.selectInterface()
@@ -129,7 +125,7 @@ Proxima.net.autoHack = function (targetESSID = null)
 
     startMonitoring = null
     if self.selectedInterface == null then 
-        exit(Proxima.io.addOutputEntry(Proxima.io.output.error("Couldn't start monitoring due to insufficient equipment. Terminating program...")))
+        exit(Proxima.io.output.error("Couldn't start monitoring due to insufficient equipment. Terminating program..."))
         startMonitoring = self.startMonitoring()
     end if
 
@@ -139,7 +135,7 @@ Proxima.net.autoHack = function (targetESSID = null)
     if getNetworkList then
         print(Proxima.io.addOutputEntry(Proxima.io.output.progress("Got network list, trying to find target network...")))
     else
-        exit(Proxima.io.addOutputEntry(Proxima.io.output.error("Couldn't get WiFi list, failed to start monitoring. Terminating program...")))
+        exit(Proxima.io.output.error("Couldn't get WiFi list, failed to start monitoring. Terminating program..."))
     end if
 
     setTargetNetwork = null
@@ -147,9 +143,9 @@ Proxima.net.autoHack = function (targetESSID = null)
         setTargetNetwork = self.setTargetNetwork()
         if targetESSID != null then
             setTargetNetwork = self.setTargetNetwork(targetESSID)
-            if setTargetNetwork == null then exit(Proxima.io.addOutputEntry(Proxima.io.output.error("Couldn't find any WiFi network to hack by given ESSID. Terminating program... <b>[ESSID:" + targetESSID + "]</b>")))
+            if setTargetNetwork == null then exit(Proxima.io.output.error("Couldn't find any WiFi network to hack by given ESSID. Terminating program... <b>[ESSID:" + targetESSID + "]</b>"))
         end if
-        if setTargetNetwork == null then exit(Proxima.io.addOutputEntry(Proxima.io.output.error("Couldn't find any WiFi network to hack. Terminating program...")))
+        if setTargetNetwork == null then exit(Proxima.io.output.error("Couldn't find any WiFi network to hack. Terminating program..."))
     end if
 
     if targetESSID != null then
@@ -172,15 +168,15 @@ Proxima.net.autoHack = function (targetESSID = null)
     if getNetworkKey then
         print(Proxima.io.addOutputEntry(Proxima.io.output.success("Found netwok key! <b>[KEY:" + self.networkKey + "]</b>")))
     else
-        exit(Proxima.io.addOutputEntry(Proxima.io.output.error("Couldn't crack network key! Terminating program...")))
+        exit(Proxima.io.output.error("Couldn't crack network key! Terminating program..."))
     end if
 
     connectionResult = null
     if getNetworkKey then connectionResult = self.connectNetwork()
 
     if connectionResult then
-        exit(Proxima.io.addOutputEntry(Proxima.io.output.success("Connection established!")))
+        exit(Proxima.io.output.success("Connection established!"))
     else
-        exit(Proxima.io.addOutputEntry(Proxima.io.output.error("Couldn't connect to network! Terminating program...")))
+        exit(Proxima.io.output.error("Couldn't connect to network! Terminating program..."))
     end if
 end function

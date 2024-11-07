@@ -101,9 +101,6 @@ return null
 end function
 // ------------------------------------------------------------------------------------------------------------
 Proxima.net.autoHack=function(targetESSID=null)
-Proxima.io.clearScreen
-Proxima.io.printInformation("pr0net","A simple easy-to-use automatic WiFi cracker.")
-print(Proxima.io.addOutputEntry(Proxima.io.output.line))
 print(Proxima.io.addOutputEntry(Proxima.io.output.progress("Starting monitoring...")))
 selectInterface=self.selectInterface
 if selectInterface!=true or self.selectedInterface==null then exit(Proxima.io.addOutputEntry(Proxima.io.output.error("Couldn't select interface. Terminating program...")))
