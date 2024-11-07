@@ -1,0 +1,85 @@
+Proxima.libraries={}
+Proxima.libraries.checkLibraries=function
+Proxima.sessions.setSessionValue("targetLibraries",[])
+librariesFolder=Proxima.globals.myPC.File("/lib")
+localLibraries=librariesFolder.get_files
+for localLibrary in localLibraries
+libraryID=Proxima.sessions.getSessionValue("targetLibraries").len+1
+libraryInfo=Proxima.globals.metaxploit.load(localLibrary.path)
+Proxima.sessions.pushMap("targetLibraries",{"id":libraryID,"lib_name":libraryInfo.lib_name,"version":libraryInfo.version,"path":localLibrary.path})
+end for
+end function
+Proxima.libraries.dumpLibrary=function(targetLibrary)
+totalExploits=0
+libraryDump=Proxima.globals.metaxploit.load(targetLibrary.path)
+print(Proxima.io.addOutputEntry(Proxima.io.output.progress("Attempting to scan vulnerabilities at <b>"+libraryDump.lib_name+"</b>!")))
+print(Proxima.io.addOutputEntry(Proxima.io.output.info("Library version found: <b>"+libraryDump.lib_name+" -> "+libraryDump.version+"</b>")))
+scanResult=Proxima.globals.metaxploit.scan(libraryDump)
+Proxima.io.addProgressBar
+totalExploits=self.parseScanEntries(scanResult,libraryDump,targetLibrary)
+return totalExploits
+end function
+Proxima.libraries.scanLibrary=function(libraryID)
+targetLibraries=Proxima.sessions.getSessionValue("targetLibraries")
+if targetLibraries.len>0 then
+if libraryID!=null and targetLibraries.hasIndex(libraryID-1) then
+totalExploits=0
+targetLibrary=targetLibraries[libraryID-1]
+targetExploits=Proxima.sessions.getSessionValue("targetExploits")
+if targetExploits.len>0 and Proxima.utils.indexesOf(targetExploits,"lib_name",targetLibrary.lib_name) then
+print(Proxima.io.addOutputEntry(Proxima.io.output.info("This library is already scanned for exploits. Skipping... <b>[LIB_NAME:"+targetLibrary.lib_name+"]</b>")))
+print(Proxima.io.addOutputEntry(Proxima.io.output.info("You can use 'exploits' command to view found exploits.")))
+else
+totalExploits=self.dumpLibrary(targetLibrary)
+if totalExploits==0 then
+print(Proxima.io.addOutputEntry(Proxima.io.output.error("No useful vulnerabilities found at <b>"+targetLibrary.lib_name+"</b>!")))
+else if totalExploits>0 then
+print(Proxima.io.addOutputEntry(Proxima.io.output.success("<b>"+totalExploits+"</b> exploits found. Use the 'exploits' command to view available exploits.")))
+end if
+end if
+else
+print(Proxima.io.addOutputEntry(Proxima.io.output.error("No library found with specified ID. <b>[ID:"+libraryID+"]</b>")))
+end if
+else
+print(Proxima.io.addOutputEntry(Proxima.io.output.error("No libraries found to scan, please make a scan first.")))
+end if
+end function
+Proxima.libraries.scanLibraries=function
+targetLibraries=Proxima.sessions.getSessionValue("targetLibraries")
+if targetLibraries.len>0 then
+totalExploits=0
+targetExploits=Proxima.sessions.getSessionValue("targetExploits")
+for targetLibrary in targetLibraries
+if targetExploits.len>0 and Proxima.utils.indexesOf(targetExploits,"lib_name",targetLibrary.lib_name) then
+print(Proxima.io.addOutputEntry(Proxima.io.output.info("This library is already scanned for exploits. Skipping... <b>[LIB_NAME:"+targetLibrary.lib_name+"]</b>")))
+for targetExploit in targetExploits
+if targetExploit.lib_name==targetLibrary.lib_name then
+totalExploits=totalExploits+1
+end if
+end for
+else
+totalExploits=totalExploits+self.dumpLibrary(targetLibrary)
+end if
+end for
+if totalExploits==0 then
+print(Proxima.io.addOutputEntry(Proxima.io.output.error("No useful vulnerabilities found at any libraries.")))
+else if totalExploits>0 then
+print(Proxima.io.addOutputEntry(Proxima.io.output.success("<b>"+totalExploits+"</b> exploits found. Use the 'list vulns' command to view and execute them.")))
+end if
+else
+print(Proxima.io.addOutputEntry(Proxima.io.output.error("No libraries found fo scan, please make a scan first.")))
+end if
+end function
+Proxima.libraries.displayLibraries=function
+header_list=["ID","LIBRARY_NAME","VERSION","PATH"]
+content_list=[]
+targetLibraries=Proxima.sessions.getSessionValue("targetLibraries")
+for targetLibrary in targetLibraries
+l_id=str(targetLibrary.id)
+l_name=targetLibrary.lib_name
+l_version=targetLibrary.version
+l_path=targetLibrary.path
+content_list.push([l_id,l_name,l_version,l_path])
+end for
+Proxima.utils.formatList(header_list,content_list)
+end function

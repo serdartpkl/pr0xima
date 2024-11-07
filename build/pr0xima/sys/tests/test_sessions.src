@@ -1,0 +1,47 @@
+Proxima.testing.tests.test_sessions=function
+print(Proxima.io.addOutputEntry(Proxima.io.output.info("Starting to test session functions...")))
+print(Proxima.io.addOutputEntry(Proxima.io.output.line))
+getActiveSessions=Proxima.sessions.getSessions
+getSavedSessions=Proxima.sessions.getSessions(true)
+if getActiveSessions!=null then
+print(Proxima.io.addOutputEntry(Proxima.io.output.success("Found active sessions.")))
+print(getActiveSessions)
+else
+print(Proxima.io.addOutputEntry(Proxima.io.output.info("No active sessions found.")))
+end if
+if getSavedSessions!=null then
+if getSavedSessions.len>0 then
+print(Proxima.io.addOutputEntry(Proxima.io.output.success("Saved sessions found.")))
+print(getSavedSessions)
+else
+print(Proxima.io.addOutputEntry(Proxima.io.output.info("No saved sessions found.")))
+end if
+end if
+ipList=["2.2.2.2","3.3.3.3","4.4.4.4","5.5.5.5","7.7.7.7","8.8.8.8"]
+for ipIndex in range(0,ipList.len-1)
+createSession=Proxima.sessions.createSession(1,ipList[ipIndex],get_router(ipList[ipIndex]))
+if typeof(createSession)=="number" then print(Proxima.io.addOutputEntry(Proxima.io.output.success("Created session number "+(ipIndex+1)+" successfully.")))
+end for
+setSession=Proxima.sessions.setSession(1)
+if setSession then print(Proxima.io.addOutputEntry(Proxima.io.output.success("Set active session to ID 1.")))
+Proxima.sessions.displaySessions
+getSessionValue=Proxima.sessions.getSessionValue(1,"payloadInjection")
+if getSessionValue!=null then
+if getSessionValue==0 then print(Proxima.io.addOutputEntry(Proxima.io.output.warning("Payload injection is off")))
+if getSessionValue==1 then print(Proxima.io.addOutputEntry(Proxima.io.output.success("Payload injection is on")))
+end if
+setSessionValue=Proxima.sessions.setSessionValue(1,"payloadInjection",0)
+if setSessionValue then print(Proxima.io.addOutputEntry(Proxima.io.output.info("Turned payload injection off.")))
+getSessionValue=Proxima.sessions.getSessionValue(1,"payloadInjection")
+if getSessionValue!=null then
+if getSessionValue==0 then print(Proxima.io.addOutputEntry(Proxima.io.output.warning("Payload injection is off")))
+if getSessionValue==1 then print(Proxima.io.addOutputEntry(Proxima.io.output.success("Payload injection is on")))
+end if
+isLocal=Proxima.sessions.isSessionLocal(1)
+isRemote=Proxima.sessions.isSessionRemote(1)
+if isLocal and isRemote!=true then
+print(Proxima.io.addOutputEntry(Proxima.io.output.info("Session with ID 1 is local session.")))
+else if isRemote and isLocal!=true then
+print(Proxima.io.addOutputEntry(Proxima.io.output.info("Session with ID 1 is remote session.")))
+end if
+end function
