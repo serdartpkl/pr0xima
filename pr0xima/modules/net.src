@@ -122,6 +122,18 @@ end function
 // ------------------------------------------------------------------------------------------------------------
 
 Proxima.net.autoHack = function (targetESSID = null)
+    Proxima.io.clearScreen()
+    Proxima.io.printInformation("pr0net", "Automatic WiFi cracker.")
+    print(Proxima.io.addOutputEntry(Proxima.io.output.line))
+
+    includeLibraries = Proxima.engine.includeLibraries(["crypto.so"])
+    if includeLibraries["crypto.so"] != null then
+        Proxima.globals.crypto = includeLibraries["crypto.so"]
+        print(Proxima.io.addOutputEntry(Proxima.io.output.success("Loaded <b>crypto.so</b> library successfully!")))
+    else
+        exit(Proxima.io.addOutputEntry(Proxima.io.output.error("Couldn't load <b>crypto.so</b> library.")))
+    end if
+
     print(Proxima.io.addOutputEntry(Proxima.io.output.progress("Starting monitoring...")))
 
     selectInterface = self.selectInterface()

@@ -105,6 +105,16 @@ return null
 end function
 // ------------------------------------------------------------------------------------------------------------
 Proxima.net.autoHack=function(targetESSID=null)
+Proxima.io.clearScreen
+Proxima.io.printInformation("pr0net","Automatic WiFi cracker.")
+print(Proxima.io.addOutputEntry(Proxima.io.output.line))
+includeLibraries=Proxima.engine.includeLibraries(["crypto.so"])
+if includeLibraries["crypto.so"]!=null then
+Proxima.globals.crypto=includeLibraries["crypto.so"]
+print(Proxima.io.addOutputEntry(Proxima.io.output.success("Loaded <b>crypto.so</b> library successfully!")))
+else
+exit(Proxima.io.addOutputEntry(Proxima.io.output.error("Couldn't load <b>crypto.so</b> library.")))
+end if
 print(Proxima.io.addOutputEntry(Proxima.io.output.progress("Starting monitoring...")))
 selectInterface=self.selectInterface
 if selectInterface!=true or self.selectedInterface==null then exit(Proxima.io.addOutputEntry(Proxima.io.output.error("Couldn't select interface. Terminating program...")))
@@ -128,7 +138,7 @@ print(Proxima.io.addOutputEntry(Proxima.io.output.success("Selected target! <b>[
 print(Proxima.io.addOutputEntry(Proxima.io.output.progress("Starting sniffing... <b>[REQ_ACKS:"+ceil(300000/self.targetNetwork.strength)+"]</b>")))
 print(Proxima.io.addOutputEntry(Proxima.io.output.line))
 else
-exit(Proxima.io.output.error("Couldn't find any network with given ESSID! <b>[ESSID:"+targetESSID+"]</b>"))
+exit(Proxima.io.output.error("Couldn't find any network with given ESSID! Terminating program... <b>[ESSID:"+targetESSID+"]</b>"))
 end if
 end if
 startSniffing=self.startSniffing

@@ -4,7 +4,7 @@ Proxima.rshell = {}
 
 Proxima.rshell.checkRshells = function ()
     recievedShells = Proxima.globals.metaxploit.rshell_server()
-    if recievedShells != null and typeof(recievedShell) != "string" then
+    if recievedShells != null and typeof(recievedShells) != "string" then
         if recievedShells.len > 0 then return recievedShells
     end if
     return null
@@ -22,10 +22,26 @@ Proxima.rshell.getRshell = function (targetIP)
 end function
 
 Proxima.rshell.launchRshell = function (targetIP)
+    if targetIP == null then exit(Proxima.io.output.error("No IP address given to connect! Terminating program..."))
+
+    Proxima.io.clearScreen()
+    Proxima.io.printInformation("pr0rsc", "Automatic reverse shell connector.")
+    print(Proxima.io.addOutputEntry(Proxima.io.output.line))
+
+    includeLibraries = Proxima.engine.includeLibraries(["metaxploit.so"])
+    if includeLibraries["metaxploit.so"] != null then
+        Proxima.globals.metaxploit = includeLibraries["metaxploit.so"]
+        print(Proxima.io.addOutputEntry(Proxima.io.output.success("Loaded <b>metaxploit.so</b> library successfully!")))
+    else
+        exit(Proxima.io.output.error("Couldn't load <b>metaxploit.so</b> library."))
+    end if
+
     acquiredShell = self.getRshell(targetIP)
     if typeof(acquiredShell) == "shell" then
-        clear_screen
+        print(Proxima.io.addOutputEntry(Proxima.io.output.success("Found reverse shell connection!")))
+        print(Proxima.io.addOutputEntry(Proxima.io.output.progress("Connecting to reverse shell... <b>[IP:" + targetIP + "]</b>")))
         acquiredShell.start_terminal
+    else
+        exit(Proxima.io.output.error("No reverse shell connection found with given IP! <b>[IP:" + targetIP + "]</b>"))
     end if
-    return null
 end function

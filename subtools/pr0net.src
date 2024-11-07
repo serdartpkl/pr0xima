@@ -1,20 +1,6 @@
 import_code("../pr0xima/init.src")
 
+if params.hasIndex(0) == 0 then params[0] = null
+
 prx = new Proxima
-
-Proxima.io.clearScreen()
-Proxima.io.printInformation("pr0net", "Automatic WiFi cracker.")
-print(Proxima.io.addOutputEntry(Proxima.io.output.line))
-
-targetESSID = null
-if params.hasIndex(0) then targetESSID = params[0]
-
-includeLibraries = prx.engine.includeLibraries(["crypto.so"])
-if includeLibraries["crypto.so"] != null then
-    prx.globals.crypto = includeLibraries["crypto.so"]
-    print(prx.io.addOutputEntry(prx.io.output.success("Loaded <b>crypto.so</b> library successfully!")))
-else
-    exit(prx.io.addOutputEntry(prx.io.output.error("Couldn't load <b>crypto.so</b> library.")))
-end if
-
-prx.net.autoHack(targetESSID)
+prx.net.autoHack(params[0])
