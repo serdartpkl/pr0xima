@@ -75,7 +75,7 @@ Proxima.net.setTargetNetwork = function (targetESSID = null)
     if self.targetNetworks.len > 0 then
         if targetESSID != null then
             getNetwork = Proxima.utils.indexesOf(self.targetNetworks, "essid", targetESSID)
-            if getNetwork.len > 0 then self.targetNetwork = getNetwork[0]
+            if getNetwork != null then self.targetNetwork = self.targetNetworks[getNetwork]
         else
             self.targetNetwork = self.targetNetworks.sort("strength")[self.targetNetworks.len - 1]
         end if
@@ -118,6 +118,10 @@ end function
 // ------------------------------------------------------------------------------------------------------------
 
 Proxima.net.autoHack = function (targetESSID = null)
+    Proxima.io.clearScreen()
+    Proxima.io.printInformation("pr0net", "A simple easy-to-use automatic WiFi cracker.")
+    print(Proxima.io.addOutputEntry(Proxima.io.output.line))
+
     print(Proxima.io.addOutputEntry(Proxima.io.output.progress("Starting monitoring...")))
 
     selectInterface = self.selectInterface()
@@ -148,20 +152,34 @@ Proxima.net.autoHack = function (targetESSID = null)
         if setTargetNetwork == null then exit(Proxima.io.addOutputEntry(Proxima.io.output.error("Couldn't find any WiFi network to hack. Terminating program...")))
     end if
 
-    print(Proxima.io.addOutputEntry(Proxima.io.output.success("Found target! <b>[TARGET:" + self.targetNetwork.essid + "]</b>")))
-
+    if targetESSID != null then
+        print(Proxima.io.addOutputEntry(Proxima.io.output.success("Found desired target! <b>[TARGET:" + self.targetNetwork.essid + "]</b>")))
+    else
+        print(Proxima.io.addOutputEntry(Proxima.io.output.success("Set target to network with highest strength! <b>[TARGET:" + self.targetNetwork.essid + "]</b>")))
+    end if
+    print(Proxima.io.addOutputEntry(Proxima.io.output.progress("Starting sniffing... <b>[REQ_ACKS:" + ceil(300000 / self.targetNetwork.strength) + "]</b>")))
     print(Proxima.io.addOutputEntry(Proxima.io.output.line))
 
     startSniffing = self.startSniffing()
-    if startSniffing == null then exit(Proxima.io.addOutputEntry(Proxima.io.output.error("Couldn't start sniffing. Terminating program...")))
+    if startSniffing == null then exit(Proxima.io.addOutputEntry(Proxima.io.output.error("Couldn't complete sniffing. Terminating program...")))
+
+    print(Proxima.io.addOutputEntry(Proxima.io.output.line))
 
     getNetworkKey = null
     if startSniffing then getNetworkKey = self.crackKey()
 
-    if startSniffing == null then exit(Proxima.io.addOutputEntry(Proxima.io.output.error("Couldn't start sniffing. Terminating program...")))
+    if getNetworkKey then
+        print(Proxima.io.addOutputEntry(Proxima.io.output.success("Found netwok key! <b>[KEY:" + self.networkKey + "]</b>")))
+    else
+        exit(Proxima.io.addOutputEntry(Proxima.io.output.error("Couldn't crack network key! Terminating program...")))
+    end if
 
     connectionResult = null
     if getNetworkKey then connectionResult = self.connectNetwork()
-    
-    return connectionResult
+
+    if connectionResult then
+        exit(Proxima.io.addOutputEntry(Proxima.io.output.success("Connection established!")))
+    else
+        exit(Proxima.io.addOutputEntry(Proxima.io.output.error("Couldn't connect to network! Terminating program...")))
+    end if
 end function
