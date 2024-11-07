@@ -18,7 +18,7 @@ end if
 return activeRshells
 end function
 Proxima.rshell.launchRshell=function(targetIP)
-if targetIP==null then exit(Proxima.io.output.error("No IP address given to connect! Terminating program..."))
+if is_valid_ip(targetIP)==0 then exit(Proxima.io.output.error("Given IP address is not valid! Terminating program..."))
 Proxima.io.clearScreen
 Proxima.io.printInformation("pr0rsc","Automatic reverse shell connector.")
 print(Proxima.io.addOutputEntry(Proxima.io.output.line))
@@ -35,6 +35,6 @@ print(Proxima.io.addOutputEntry(Proxima.io.output.success("Found reverse shell c
 print(Proxima.io.addOutputEntry(Proxima.io.output.progress("Connecting to reverse shell... <b>[IP:"+targetIP+"]</b>")))
 acquiredShell.start_terminal
 else
-exit(Proxima.io.output.error("No reverse shell connection found with given IP!"))
+exit(Proxima.io.output.error("No reverse shell connection found with given IP! <b>[IP:"+targetIP+"]</b>"))
 end if
 end function

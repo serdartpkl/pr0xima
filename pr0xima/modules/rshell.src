@@ -22,7 +22,7 @@ Proxima.rshell.getRshell = function (targetIP)
 end function
 
 Proxima.rshell.launchRshell = function (targetIP)
-    if targetIP == null then exit(Proxima.io.output.error("No IP address given to connect! Terminating program..."))
+    if is_valid_ip(targetIP) == 0 then exit(Proxima.io.output.error("Given IP address is not valid! Terminating program..."))
 
     Proxima.io.clearScreen()
     Proxima.io.printInformation("pr0rsc", "Automatic reverse shell connector.")
