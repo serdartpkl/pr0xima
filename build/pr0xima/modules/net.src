@@ -50,9 +50,9 @@ if getNetworks.len>0 then
 for acquiredNetwork in getNetworks
 networkID=self.targetNetworks.len+1
 network=acquiredNetwork.split(" ")
-bssid=acquiredNetwork[0]
-essid=acquiredNetwork[2]
-strength=acquiredNetwork[1][:-1].to_int
+bssid=network[0]
+essid=network[2]
+strength=network[1][:-1].to_int
 self.targetNetworks.push({"id":networkID,"essid":essid,"bssid":bssid,"strength":strength})
 end for
 return true
@@ -76,7 +76,7 @@ Proxima.net.startSniffing=function
 if self.targetNetwork!=null then
 requiredACKs=ceil(300000/self.targetNetwork.strength)
 getACKs=Proxima.globals.crypto.aireplay(self.targetNetwork.bssid,self.targetNetwork.essid,requiredACKs)
-if getACKs==null then return true
+if Proxima.globals.myPC.File(home_dir+"/file.cap")!=null then return true
 end if
 return null
 end function
@@ -125,14 +125,10 @@ if setTargetNetwork==null then exit(Proxima.io.addOutputEntry(Proxima.io.output.
 end if
 if setTargetNetwork==null then exit(Proxima.io.addOutputEntry(Proxima.io.output.error("Couldn't find any WiFi network to hack. Terminating program...")))
 end if
-print(Proxima.io.addOutputEntry(Proxima.io.output.success("Found target! <b>[TARGET:"+setTargetNetwork+"]</b>")))
+print(Proxima.io.addOutputEntry(Proxima.io.output.success("Found target! <b>[TARGET:"+self.targetNetwork.essid+"]</b>")))
 print(Proxima.io.addOutputEntry(Proxima.io.output.line))
-startSniffing=null
-if setTargetNetwork then startSniffing=self.startSniffing
-if startSniffing==null then
-print(Proxima.io.addOutputEntry(Proxima.io.output.line))
-exit(Proxima.io.addOutputEntry(Proxima.io.output.error("Couldn't start sniffing. Terminating program...")))
-end if
+startSniffing=self.startSniffing
+if startSniffing==null then exit(Proxima.io.addOutputEntry(Proxima.io.output.error("Couldn't start sniffing. Terminating program...")))
 getNetworkKey=null
 if startSniffing then getNetworkKey=self.crackKey
 if startSniffing==null then exit(Proxima.io.addOutputEntry(Proxima.io.output.error("Couldn't start sniffing. Terminating program...")))
