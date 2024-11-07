@@ -131,13 +131,12 @@ Proxima.net.autoHack = function (targetESSID = null)
 
     print(Proxima.io.addOutputEntry(Proxima.io.output.success("Started monitoring successfully! <b>[INTERFACE:" + self.selectedInterface + "]</b>")))
 
-    getNetworkList = null
-    if startMonitoring then
+    getNetworkList = self.getNetworkList()
+    if getNetworkList then
+        print(Proxima.io.addOutputEntry(Proxima.io.output.progress("Got network list, trying to find target network...")))
+    else
         exit(Proxima.io.addOutputEntry(Proxima.io.output.error("Couldn't get WiFi list, failed to start monitoring.")))
-        getNetworkList = self.getNetworkList()
     end if
-
-    print(Proxima.io.addOutputEntry(Proxima.io.output.progress("Got network list, trying to find target network...")))
 
     setTargetNetwork = null
     if getNetworkList then
@@ -149,7 +148,7 @@ Proxima.net.autoHack = function (targetESSID = null)
         if setTargetNetwork == null then exit(Proxima.io.addOutputEntry(Proxima.io.output.error("Couldn't find any WiFi network to hack. Terminating program...")))
     end if
 
-    print(Proxima.io.addOutputEntry(Proxima.io.output.success("Found target! <b>[TARGET:" + setTargetNetwork + "]</b>")))
+    print(Proxima.io.addOutputEntry(Proxima.io.output.success("Found target! <b>[TARGET:" + self.targetNetwork + "]</b>")))
 
     print(Proxima.io.addOutputEntry(Proxima.io.output.line))
 

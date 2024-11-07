@@ -110,12 +110,12 @@ exit(Proxima.io.addOutputEntry(Proxima.io.output.error("Couldn't start monitorin
 startMonitoring=self.startMonitoring
 end if
 print(Proxima.io.addOutputEntry(Proxima.io.output.success("Started monitoring successfully! <b>[INTERFACE:"+self.selectedInterface+"]</b>")))
-getNetworkList=null
-if startMonitoring then
-exit(Proxima.io.addOutputEntry(Proxima.io.output.error("Couldn't get WiFi list, failed to start monitoring.")))
 getNetworkList=self.getNetworkList
-end if
+if getNetworkList then
 print(Proxima.io.addOutputEntry(Proxima.io.output.progress("Got network list, trying to find target network...")))
+else
+exit(Proxima.io.addOutputEntry(Proxima.io.output.error("Couldn't get WiFi list, failed to start monitoring.")))
+end if
 setTargetNetwork=null
 if getNetworkList then
 setTargetNetwork=self.setTargetNetwork
