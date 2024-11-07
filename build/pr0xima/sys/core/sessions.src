@@ -1,0 +1,200 @@
+Proxima.sessions={}
+Proxima.sessions.activeSession=null
+Proxima.sessions.activeSessions=[]
+// ------------------------------------------------------------------------------------------------------------
+Proxima.sessions.getSessions=function(getSaved=false)
+sessionsList=null
+if getSaved then
+sessionsList=Proxima.db.getRecords("sessions")
+if sessionsList!=null then return sessionsList
+else
+if self.activeSessions.len>0 then sessionsList=self.activeSessions
+end if
+return sessionsList
+end function
+Proxima.sessions.getSession=function(sessionKey,getSaved=false)
+sessionsList=self.getSessions(getSaved)
+acquiredSession=null
+if sessionsList!=null then
+for targetSession in sessionsList
+checkKey="id"
+if typeof(sessionKey)=="string" then checkKey="targetIP"
+if targetSession[checkKey]==sessionKey then
+acquiredSession=targetSession
+break
+end if
+end for
+end if
+return acquiredSession
+end function
+Proxima.sessions.setSession=function(sessionID)
+acquiredSession=self.getSession(sessionID)
+if acquiredSession!=null then
+self.activeSession=acquiredSession.id
+return true
+end if
+return null
+end function
+Proxima.sessions.createSession=function(sessionType,targetIP,targetRouter)
+if self.getSession(targetIP)==null then
+sessionMap={}
+sessionMap.id=self.activeSessions.len+1
+sessionMap.targetIP=targetIP
+sessionMap.targetRouter=targetRouter
+sessionMap.targetLAN=null
+sessionMap.targetLANs=[]
+if sessionType==0 then
+sessionMap.targetLAN=targetIP
+sessionMap.targetLANs=[targetIP]
+sessionMap.targetLibraries=[]
+sessionMap.sessionType=sessionType
+else if sessionType==1 then
+sessionMap.targetPorts=[]
+sessionMap.sessionType=sessionType
+end if
+sessionMap.targetExploits=[]
+sessionMap.targetShells=[]
+sessionMap.targetUsers=[]
+sessionMap.targetMails=[]
+sessionMap.targetBanks=[]
+sessionMap.payloadInjection=1
+sessionMap.dateCreated=Proxima.utils.getParsedDate
+self.activeSessions.push(sessionMap)
+return sessionMap.id
+end if
+return null
+end function
+// ------------------------------------------------------------------------------------------------------------
+Proxima.sessions.reorderSessions=function(reorderSaved=false,sortBy=null)
+acquiredSessions=self.getSessions(reorderSaved)
+if acquiredSessions!=null then
+if sortBy!=null then acquiredSessions.sort(sortBy)
+if reorderSaved then
+reorderSavedSessions=Proxima.db.reorderRecords("sessions",acquiredSessions,sortBy)
+if reorderSavedSessions then return true
+else
+idCounter=1
+newActiveSessionID=null
+for recordIndex in range(0,acquiredSessions.len-1)
+if self.activeSession==acquiredSessions[recordIndex].id then newActiveSessionID=idCounter
+if acquiredSessions[recordIndex].id!=idCounter then acquiredSessions[recordIndex].id=idCounter
+idCounter=idCounter+1
+end for
+self.activeSessions=acquiredSessions
+self.setSession(newActiveSessionID)
+if setSession then return true
+end if
+end if
+return null
+end function
+Proxima.sessions.searchSessions=function(sessionKey,sessionValue,searchSaved=false)
+acquiredRecords=self.getSessions(searchSaved)
+if acquiredRecords!=null then
+acquiredIndexes=Proxima.utils.indexesOf(acquiredRecords,sessionKey,sessionValue)
+if acquiredIndexes!=null then return acquiredIndexes
+end if
+return null
+end function
+Proxima.sessions.resetSession=function(sessionID,resetSaved=false)
+end function
+Proxima.sessions.deleteSession=function(sessionID,deleteSaved=false)
+end function
+// ------------------------------------------------------------------------------------------------------------
+Proxima.sessions.getSessionValue=function(sessionID,sessionKey,getSaved=false)
+acquiredSession=self.getSession(sessionID,getSaved)
+if acquiredSession!=null then
+if acquiredSession.hasIndex(sessionKey) then return acquiredSession[sessionKey]
+end if
+return null
+end function
+Proxima.sessions.setSessionValue=function(sessionID,sessionKey,sessionValue,setSaved=false)
+acquiredSession=self.getSession(sessionID,setSaved)
+if acquiredSession!=null then
+if setSaved then
+setRecordValue=Proxima.db.setRecordValue("sessions",sessionID,sessionKey,sessionValue)
+if setRecordValue then return true
+else
+self.activeSessions[sessionID-1][sessionKey]=sessionValue
+return true
+end if
+end if
+return null
+end function
+// ------------------------------------------------------------------------------------------------------------
+Proxima.sessions.saveSession=function(sessionID)
+acquiredSession=self.getSession(sessionID)
+if acquiredSession!=null then
+getSavedSession=self.getSession(acquiredSession.targetIP,true)
+acquiredSessionID=acquiredSession.id
+if getSavedSession!=null then
+acquiredSession.id=getSavedSession.id
+updateRecord=Proxima.db.updateRecord("sessions",getSavedSession.id,acquiredSession)
+if updateRecord then
+acquiredSession.id=acquiredSessionID
+return true
+end if
+else
+acquiredSession.remove("id")
+addRecord=Proxima.db.addRecord("sessions",acquiredSession,"dateCreated")
+if addRecord then
+acquiredSession.id=acquiredSessionID
+return true
+end if
+end if
+end if
+return null
+end function
+Proxima.sessions.loadSession=function(sessionID)
+acquiredSession=self.getSession(sessionID,true)
+if acquiredSession!=null then
+checkActiveSessions=self.getSession(acquiredSession.targetIP)
+if checkActiveSessions==null then
+self.activeSessions.push(acquiredSession)
+reorderSessions=self.reorderSessions(false,"dateCreated")
+if reorderSessions then return true
+end if
+end if
+return null
+end function
+// ------------------------------------------------------------------------------------------------------------
+Proxima.sessions.pushMap=function(sessionID,targetList,givenMap,pushToSaved=false)
+acquiredSession=self.getSession(sessionID,pushToSaved)
+if acquiredSession!=null then
+self.activeSessions[acquiredSession.id-1][targetList].push(givenMap)
+return true
+end if
+return null
+end function
+// ------------------------------------------------------------------------------------------------------------
+Proxima.sessions.isSessionLocal=function(sessionID,checkSaved=false)
+sessionType=self.getSessionValue(sessionID,"sessionType",checkSaved)
+if sessionType==0 then return true
+if sessionType==1 then return false
+end function
+Proxima.sessions.isSessionRemote=function(sessionID,checkSaved=false)
+sessionType=self.getSessionValue(sessionID,"sessionType",checkSaved)
+if sessionType==1 then return true
+if sessionType==0 then return false
+end function
+// ------------------------------------------------------------------------------------------------------------
+Proxima.sessions.colorizeSessionType=function(sessionType)
+if sessionType==0 then return "LOCAL#FC8403"
+if sessionType==1 then return "REMOTE#FFC466"
+end function
+Proxima.sessions.displaySessions=function(displaySaved=false)
+header_list=["ID","TARGET_IP","DATE_CREATED","SESSION_TYPE"]
+content_list=[]
+sessionList=self.getSessions(displaySaved)
+for targetSession in sessionList
+addColor=null
+if displaySaved==false then
+if self.activeSession==targetSession.id then addColor="#08FF57"
+end if
+s_id=str(targetSession.id)+addColor
+s_target_ip=targetSession.targetIP+addColor
+s_date=targetSession.dateCreated+addColor
+s_type=self.colorizeSessionType(targetSession.sessionType)
+content_list.push([s_id,s_target_ip,s_date,s_type])
+end for
+Proxima.utils.formatList(header_list,content_list)
+end function
