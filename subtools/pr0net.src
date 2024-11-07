@@ -3,7 +3,7 @@ import_code("../pr0xima/init.src")
 prx = new Proxima
 
 Proxima.io.clearScreen()
-Proxima.io.printInformation("pr0net", "A simple easy-to-use automatic WiFi cracker.")
+Proxima.io.printInformation("pr0net", "Automatic WiFi cracker.")
 print(Proxima.io.addOutputEntry(Proxima.io.output.line))
 
 targetESSID = null

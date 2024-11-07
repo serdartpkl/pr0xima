@@ -63,8 +63,13 @@ end function
 Proxima.net.setTargetNetwork=function(targetESSID=null)
 if self.targetNetworks.len>0 then
 if targetESSID!=null then
-getNetwork=Proxima.utils.indexesOf(self.targetNetworks,"essid",targetESSID)
-if getNetwork!=null then self.targetNetwork=self.targetNetworks[getNetwork]
+getNetworkIndex=Proxima.utils.indexesOf(self.targetNetworks,"essid",targetESSID)
+print(Proxima.io.addOutputEntry(getNetworkIndex))
+if getNetworkIndex!=null then
+self.targetNetwork=self.targetNetworks[getNetworkIndex]
+else
+return null
+end if
 else
 self.targetNetwork=self.targetNetworks.sort("strength")[self.targetNetworks.len-1]
 end if
@@ -106,33 +111,27 @@ selectInterface=self.selectInterface
 if selectInterface!=true or self.selectedInterface==null then exit(Proxima.io.addOutputEntry(Proxima.io.output.error("Couldn't select interface. Terminating program...")))
 startMonitoring=null
 if self.selectedInterface==null then
-exit(Proxima.io.addOutputEntry(Proxima.io.output.error("Couldn't start monitoring due to insufficient equipment. Terminating program...")))
+exit(Proxima.io.output.error("Couldn't start monitoring due to insufficient equipment. Terminating program..."))
 startMonitoring=self.startMonitoring
 end if
-print(Proxima.io.addOutputEntry(Proxima.io.output.success("Started monitoring successfully! <b>[INTERFACE:"+self.selectedInterface+"]</b>")))
+print(Proxima.io.addOutputEntry(Proxima.io.output.success("Started monitoring successfully! <b>[INTERFACE:"+self.selectedInterface.upper+"]</b>")))
 getNetworkList=self.getNetworkList
 if getNetworkList then
 print(Proxima.io.addOutputEntry(Proxima.io.output.progress("Got network list, trying to find target network...")))
 else
-exit(Proxima.io.addOutputEntry(Proxima.io.output.error("Couldn't get WiFi list, failed to start monitoring. Terminating program...")))
+exit(Proxima.io.output.error("Couldn't get WiFi list, failed to start monitoring. Terminating program..."))
 end if
 setTargetNetwork=null
 if getNetworkList then
-setTargetNetwork=self.setTargetNetwork
-if targetESSID!=null then
 setTargetNetwork=self.setTargetNetwork(targetESSID)
-if setTargetNetwork==null then exit(Proxima.io.addOutputEntry(Proxima.io.output.error("Couldn't find any WiFi network to hack by given ESSID. Terminating program... <b>[ESSID:"+targetESSID+"]</b>")))
-end if
-if setTargetNetwork==null then exit(Proxima.io.addOutputEntry(Proxima.io.output.error("Couldn't find any WiFi network to hack. Terminating program...")))
-end if
-if targetESSID!=null then
-print(Proxima.io.addOutputEntry(Proxima.io.output.success("Found desired target! <b>[TARGET:"+self.targetNetwork.essid+"]</b>")))
-else
-print(Proxima.io.addOutputEntry(Proxima.io.output.progress("Searching for network with highest signal strength...")))
-print(Proxima.io.addOutputEntry(Proxima.io.output.success("Set target successfully. <b>[TARGET:"+self.targetNetwork.essid+"]</b>")))
-end if
+if setTargetNetwork then
+print(Proxima.io.addOutputEntry(Proxima.io.output.success("Selected target! <b>[TARGET:"+self.targetNetwork.essid+"]</b>")))
 print(Proxima.io.addOutputEntry(Proxima.io.output.progress("Starting sniffing... <b>[REQ_ACKS:"+ceil(300000/self.targetNetwork.strength)+"]</b>")))
 print(Proxima.io.addOutputEntry(Proxima.io.output.line))
+else
+exit(Proxima.io.output.error("Couldn't find any WiFi network to hack. Terminating program..."))
+end if
+end if
 startSniffing=self.startSniffing
 if startSniffing==null then exit(Proxima.io.addOutputEntry(Proxima.io.output.error("Couldn't complete sniffing. Terminating program...")))
 print(Proxima.io.addOutputEntry(Proxima.io.output.line))
@@ -141,13 +140,13 @@ if startSniffing then getNetworkKey=self.crackKey
 if getNetworkKey then
 print(Proxima.io.addOutputEntry(Proxima.io.output.success("Found netwok key! <b>[KEY:"+self.networkKey+"]</b>")))
 else
-exit(Proxima.io.addOutputEntry(Proxima.io.output.error("Couldn't crack network key! Terminating program...")))
+exit(Proxima.io.output.error("Couldn't crack network key! Terminating program..."))
 end if
 connectionResult=null
 if getNetworkKey then connectionResult=self.connectNetwork
 if connectionResult then
-exit(Proxima.io.addOutputEntry(Proxima.io.output.success("Connection established!")))
+exit(Proxima.io.output.success("Connection established!"))
 else
-exit(Proxima.io.addOutputEntry(Proxima.io.output.error("Couldn't connect to network! Terminating program...")))
+exit(Proxima.io.output.error("Couldn't connect to network! Terminating program..."))
 end if
 end function
