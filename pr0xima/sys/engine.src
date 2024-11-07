@@ -104,30 +104,34 @@ Proxima.engine.setSettings = function (settingKey, settingValue)
     return null
 end function
 
-Proxima.engine.searchLibraries = function ()
-    libraryMap = { "aptclient.so": null, "crypto.so": null, "metaxploit.so": null }    
+Proxima.engine.includeLibraries = function (libraryList)
+    libraryMap = {}
+
+    for libraryName in libraryList
+        libraryMap[libraryName] = null
+    end for
+
     for libraryName in libraryMap.indexes
         for libraryLocation in Proxima.globals.libraryLocations
             includeLibrary = include_lib(libraryLocation + "/" + libraryName)
+            Proxima.io.clearScreen()
+            wait(0.35)
             if includeLibrary != null then
-                libraryMap[libraryName] = libraryLocation + "/" + libraryName
+                libraryMap[libraryName] = includeLibrary
                 break
             end if
         end for
     end for
+
     return libraryMap
 end function
 
 Proxima.engine.initLibraries = function ()
-    searchLibraries = self.searchLibraries()
+    includeLibraries = self.includeLibraries(["aptclient.so", "crypto.so", "metaxploit.so"])
 
-    aptClient = searchLibraries["aptclient.so"]
-    cryptoLib = searchLibraries["crypto.so"]
-    metaxploitLib = searchLibraries["metaxploit.so"]
-
-    if aptClient != null then aptClient = include_lib(aptClient)
-    if cryptoLib != null then cryptoLib = include_lib(cryptoLib)
-    if metaxploitLib != null then metaxploitLib = include_lib(metaxploitLib)
+    aptClient = includeLibraries["aptclient.so"]
+    cryptoLib = includeLibraries["crypto.so"]
+    metaxploitLib = includeLibraries["metaxploit.so"]
 
     if aptClient != null then
         Proxima.globals.aptclient = aptClient
