@@ -150,7 +150,7 @@ Proxima.net.autoHack = function (targetESSID = null)
             print(Proxima.io.addOutputEntry(Proxima.io.output.progress("Starting sniffing... <b>[REQ_ACKS:" + ceil(300000 / self.targetNetwork.strength) + "]</b>")))
             print(Proxima.io.addOutputEntry(Proxima.io.output.line))
         else
-            print(Proxima.io.output.success("Couldn't find any network with given ESSID! <b>[ESSID:" + targetESSID + "]</b>"))
+            exit(Proxima.io.output.error("Couldn't find any network with given ESSID! Terminating program... <b>[ESSID:" + targetESSID + "]</b>"))
         end if
     end if
 

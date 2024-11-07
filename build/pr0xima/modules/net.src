@@ -64,7 +64,6 @@ Proxima.net.setTargetNetwork=function(targetESSID=null)
 if self.targetNetworks.len>0 then
 if targetESSID!=null then
 getNetworkIndex=Proxima.utils.indexesOf(self.targetNetworks,"essid",targetESSID)
-print(Proxima.io.addOutputEntry(getNetworkIndex))
 if getNetworkIndex!=null then
 self.targetNetwork=self.targetNetworks[getNetworkIndex]
 else
@@ -129,7 +128,7 @@ print(Proxima.io.addOutputEntry(Proxima.io.output.success("Selected target! <b>[
 print(Proxima.io.addOutputEntry(Proxima.io.output.progress("Starting sniffing... <b>[REQ_ACKS:"+ceil(300000/self.targetNetwork.strength)+"]</b>")))
 print(Proxima.io.addOutputEntry(Proxima.io.output.line))
 else
-exit(Proxima.io.output.error("Couldn't find any WiFi network to hack. Terminating program..."))
+exit(Proxima.io.output.error("Couldn't find any network with given ESSID! <b>[ESSID:"+targetESSID+"]</b>"))
 end if
 end if
 startSniffing=self.startSniffing
