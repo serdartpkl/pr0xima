@@ -125,6 +125,9 @@ Proxima.engine.initLibraries = function ()
     cryptoLib = searchLibraries["crypto.so"]
     metaxploitLib = searchLibraries["metaxploit.so"]
 
+    for requiredLib in searchLibraries
+        if requiredLib != null then
+
     if aptClient != null then aptClient = include_lib(aptClient)
     if cryptoLib != null then cryptoLib = include_lib(cryptoLib)
     if metaxploitLib != null then metaxploitLib = include_lib(metaxploitLib)
