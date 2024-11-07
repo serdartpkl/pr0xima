@@ -36,7 +36,10 @@ Proxima.net.selectInterface = function ()
             deviceInfo = networkDevice.split(char(32))
             interfaceName = deviceInfo[0]
             supportedMonitoring = deviceInfo[2]
-            if supportedMonitoring then return interfaceName
+            if supportedMonitoring then
+                self.selectedInterface = interfaceName
+                return true
+            end if
         end for
     end if
     return null
@@ -118,15 +121,15 @@ Proxima.net.autoHack = function (targetESSID = null)
     print(Proxima.io.addOutputEntry(Proxima.io.output.progress("Starting monitoring...")))
 
     selectInterface = self.selectInterface()
-    if selectedInterface == null then exit(Proxima.io.addOutputEntry(Proxima.io.output.error("Couldn't select interface.")))
+    if selectInterface != true or self.selectedInterface == null then exit(Proxima.io.addOutputEntry(Proxima.io.output.error("Couldn't select interface.")))
 
     startMonitoring = null
-    if selectInterface == null then 
+    if self.selectedInterface == null then 
         exit(Proxima.io.addOutputEntry(Proxima.io.output.error("Couldn't start monitoring due to insufficient equipment.")))
         startMonitoring = self.startMonitoring()
     end if
 
-    print(Proxima.io.addOutputEntry(Proxima.io.output.success("Started monitoring successfully! <b>[INTERFACE:" + selectInterface + "]</b>")))
+    print(Proxima.io.addOutputEntry(Proxima.io.output.success("Started monitoring successfully! <b>[INTERFACE:" + self.selectedInterface + "]</b>")))
 
     getNetworkList = null
     if startMonitoring then
