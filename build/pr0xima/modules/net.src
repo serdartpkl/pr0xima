@@ -106,10 +106,10 @@ Proxima.io.printInformation("pr0net","A simple easy-to-use automatic WiFi cracke
 print(Proxima.io.addOutputEntry(Proxima.io.output.line))
 print(Proxima.io.addOutputEntry(Proxima.io.output.progress("Starting monitoring...")))
 selectInterface=self.selectInterface
-if selectInterface!=true or self.selectedInterface==null then exit(Proxima.io.addOutputEntry(Proxima.io.output.error("Couldn't select interface.")))
+if selectInterface!=true or self.selectedInterface==null then exit(Proxima.io.addOutputEntry(Proxima.io.output.error("Couldn't select interface. Terminating program...")))
 startMonitoring=null
 if self.selectedInterface==null then
-exit(Proxima.io.addOutputEntry(Proxima.io.output.error("Couldn't start monitoring due to insufficient equipment.")))
+exit(Proxima.io.addOutputEntry(Proxima.io.output.error("Couldn't start monitoring due to insufficient equipment. Terminating program...")))
 startMonitoring=self.startMonitoring
 end if
 print(Proxima.io.addOutputEntry(Proxima.io.output.success("Started monitoring successfully! <b>[INTERFACE:"+self.selectedInterface+"]</b>")))
@@ -117,7 +117,7 @@ getNetworkList=self.getNetworkList
 if getNetworkList then
 print(Proxima.io.addOutputEntry(Proxima.io.output.progress("Got network list, trying to find target network...")))
 else
-exit(Proxima.io.addOutputEntry(Proxima.io.output.error("Couldn't get WiFi list, failed to start monitoring.")))
+exit(Proxima.io.addOutputEntry(Proxima.io.output.error("Couldn't get WiFi list, failed to start monitoring. Terminating program...")))
 end if
 setTargetNetwork=null
 if getNetworkList then
@@ -132,7 +132,7 @@ if targetESSID!=null then
 print(Proxima.io.addOutputEntry(Proxima.io.output.success("Found desired target! <b>[TARGET:"+self.targetNetwork.essid+"]</b>")))
 else
 print(Proxima.io.addOutputEntry(Proxima.io.output.progress("Searching for network with highest signal strength...")))
-print(Proxima.io.addOutputEntry(Proxima.io.output.success("Set target successfully.  <b>[TARGET:"+self.targetNetwork.essid+"]</b>")))
+print(Proxima.io.addOutputEntry(Proxima.io.output.success("Set target successfully. <b>[TARGET:"+self.targetNetwork.essid+"]</b>")))
 end if
 print(Proxima.io.addOutputEntry(Proxima.io.output.progress("Starting sniffing... <b>[REQ_ACKS:"+ceil(300000/self.targetNetwork.strength)+"]</b>")))
 print(Proxima.io.addOutputEntry(Proxima.io.output.line))
