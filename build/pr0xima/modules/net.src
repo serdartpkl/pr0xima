@@ -101,6 +101,9 @@ return null
 end function
 // ------------------------------------------------------------------------------------------------------------
 Proxima.net.autoHack=function(targetESSID=null)
+Proxima.io.clearScreen
+Proxima.io.printInformation("pr0net","A simple easy-to-use automatic WiFi cracker.")
+print(Proxima.io.addOutputEntry(Proxima.io.output.line))
 print(Proxima.io.addOutputEntry(Proxima.io.output.progress("Starting monitoring...")))
 selectInterface=self.selectInterface
 if selectInterface!=true or self.selectedInterface==null then exit(Proxima.io.addOutputEntry(Proxima.io.output.error("Couldn't select interface.")))
@@ -125,11 +128,15 @@ if setTargetNetwork==null then exit(Proxima.io.addOutputEntry(Proxima.io.output.
 end if
 if setTargetNetwork==null then exit(Proxima.io.addOutputEntry(Proxima.io.output.error("Couldn't find any WiFi network to hack. Terminating program...")))
 end if
-print(Proxima.io.addOutputEntry(Proxima.io.output.success("Found target! <b>[TARGET:"+self.targetNetwork.essid+"]</b>")))
+if targetESSID!=null then
+print(Proxima.io.addOutputEntry(Proxima.io.output.success("Found desired target! <b>[TARGET:"+self.targetNetwork.essid+"]</b>")))
+else
+print(Proxima.io.addOutputEntry(Proxima.io.output.success("Set target to network with highest strength! <b>[TARGET:"+self.targetNetwork.essid+"]</b>")))
+end if
 print(Proxima.io.addOutputEntry(Proxima.io.output.progress("Starting sniffing... <b>[REQ_ACKS:"+ceil(300000/self.targetNetwork.strength)+"]</b>")))
 print(Proxima.io.addOutputEntry(Proxima.io.output.line))
 startSniffing=self.startSniffing
-if startSniffing==null then exit(Proxima.io.addOutputEntry(Proxima.io.output.error("Couldn't start sniffing. Terminating program...")))
+if startSniffing==null then exit(Proxima.io.addOutputEntry(Proxima.io.output.error("Couldn't complete sniffing. Terminating program...")))
 print(Proxima.io.addOutputEntry(Proxima.io.output.line))
 getNetworkKey=null
 if startSniffing then getNetworkKey=self.crackKey

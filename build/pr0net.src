@@ -25,5 +25,4 @@ prx=new Proxima
 targetESSID=null
 if params.hasIndex(0) then targetESSID=params[0]
 prx.globals.crypto=include_lib("/lib/crypto.so")
-print(prx.io.addOutputEntry(prx.globals.crypto))
 prx.net.autoHack(targetESSID)
