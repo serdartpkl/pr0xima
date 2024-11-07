@@ -11,12 +11,12 @@ print(Proxima.io.addOutputEntry(Proxima.io.output.line))
 targetIP = null
 if params.hasIndex(0) then targetIP = params[0]
 
-includeLibraries = prx.engine.includeLibraries(["crypto.so"])
-if includeLibraries["crypto.so"] != null then
-    prx.globals.crypto = includeLibraries["crypto.so"]
-    print(prx.io.addOutputEntry(prx.io.output.success("Loaded <b>crypto.so</b> library successfully!")))
+includeLibraries = prx.engine.includeLibraries(["metaxploit.so"])
+if includeLibraries["metaxploit.so"] != null then
+    prx.globals.metaxploit = includeLibraries["metaxploit.so"]
+    print(prx.io.addOutputEntry(prx.io.output.success("Loaded <b>metaxploit.so</b> library successfully!")))
 else
-    exit(prx.io.output.error("Couldn't load <b>crypto.so</b> library."))
+    exit(prx.io.output.error("Couldn't load <b>metaxploit.so</b> library."))
 end if
 
 if targetIP != null then
