@@ -119,9 +119,27 @@ Proxima.sessions.searchSessions = function (sessionKey, sessionValue, searchSave
 end function
 
 Proxima.sessions.resetSession = function (sessionID, resetSaved = false)
+    acquiredRecord = self.getSession(sessionID, resetSaved)
+    if acquiredRecord != null then
+        if resetSaved then
+            //...
+        else
+            //...
+        end if
+    end if
+    return null
 end function
 
 Proxima.sessions.deleteSession = function (sessionID, deleteSaved = false)
+    acquiredRecord = self.getSession(sessionID, deleteSaved)
+    if acquiredRecord != null then
+        if deleteSaved then
+            //...
+        else
+            //...
+        end if
+    end if
+    return null
 end function
 
 // ------------------------------------------------------------------------------------------------------------
