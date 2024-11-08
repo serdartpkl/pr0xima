@@ -47,7 +47,9 @@ end function
 
 Proxima.net.startMonitoring = function ()
     if self.selectedInterface != null then
+        print(Proxima.io.addOutputEntry(self.selectedInterface))
         airmonResult = Proxima.globals.crypto.airmon("start", self.selectedInterface)
+        print(Proxima.io.addOutputEntry(airmonResult))
         if airmonResult == 1 then return true
     end if
     return null
