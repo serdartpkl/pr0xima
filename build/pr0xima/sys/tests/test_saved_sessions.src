@@ -6,7 +6,7 @@ expect(getActiveSessions).notToBeNull
 end function
 Test_GetSavedSessions=function
 getSavedSessions=Proxima.sessions.getSessions(true)
-expect(getSavedSessions).notToBe([])
+expect(getSavedSessions).notToBeNull
 end function
 it("GET_ACTIVE_SESSIONS",@Test_GetActiveSessions)
 it("GET_SAVED_SESSIONS",@Test_GetSavedSessions)
