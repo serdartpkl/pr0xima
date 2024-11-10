@@ -1,5 +1,5 @@
-Proxima.testing.tests.test_active_sessions = function ()
-    TestSuite_ActiveSessions = function ()
+Proxima.testing.tests.test_saved_sessions = function ()
+    TestSuite_SavedSessions = function ()
         Test_GetActiveSessions = function ()
             getActiveSessions = Proxima.sessions.getSessions()
             expect(getActiveSessions).notToBeNull()
@@ -60,5 +60,5 @@ Proxima.testing.tests.test_active_sessions = function ()
         it("IS_ACTIVE_SESSION_REMOTE", @Test_isActiveSessionRemote)
     end function
 
-    describe("SESSIONS_TEST_SUITE", @TestSuite_ActiveSessions)
+    describe("SESSIONS_TEST_SUITE", @TestSuite_SavedSessions)
 end function
