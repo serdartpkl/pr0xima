@@ -37,20 +37,25 @@ Proxima.testing.tests.test_active_sessions = function ()
             expect(setSessionValue).toBeTruthy()
         end function
 
-        Test_isActiveSessionLocal = function ()
+        Test_IsActiveSessionLocal = function ()
             isSessionLocal = Proxima.sessions.isSessionLocal(Proxima.sessions.activeSession)
             expect(isSessionLocal).toBeTruthy()
         end function
 
-        Test_isActiveSessionRemote = function ()
+        Test_IsActiveSessionRemote = function ()
             isSessionRemote = Proxima.sessions.isSessionRemote(Proxima.sessions.activeSession)
             expect(isSessionRemote).toBeFalsy()
         end function
 
-        Test_addDataToActiveSession = function ()
+        Test_AddDataToActiveSession = function ()
             userMap = {"id": 1, "username": "root", "password": "UNKNOWN"}
             addDataToSession = Proxima.sessions.addDataToSession(Proxima.sessions.activeSession, "targetUsers", userMap)
             expect(addDataToSession).toBeTruthy()
+        end function
+
+        Test_GetTargetUsersList = function ()
+            getSessionValue = Proxima.sessions.getSessionValue(Proxima.sessions.activeSession, "targetUsers")
+            expect(getSessionValue).notToBeNull()
         end function
     
         it("GET_ACTIVE_SESSIONS", @Test_GetActiveSessions)
@@ -61,9 +66,10 @@ Proxima.testing.tests.test_active_sessions = function ()
         it("SET_ACTIVE_SESSION", @Test_SetActiveSession)
         it("GET_PAYLOAD_INJECTION_VALUE", @Test_GetPayloadInjectionValue)
         it("SET_PAYLOAD_INJECTION_FALSE", @Test_SetPayloadInjectionFalse)
-        it("IS_ACTIVE_SESSION_LOCAL", @Test_isActiveSessionLocal)
-        it("IS_ACTIVE_SESSION_REMOTE", @Test_isActiveSessionRemote)
-        it("ADD_USER_TO_TARGET_USERS", @Test_addDataToActiveSession)
+        it("IS_ACTIVE_SESSION_LOCAL", @Test_IsActiveSessionLocal)
+        it("IS_ACTIVE_SESSION_REMOTE", @Test_IsActiveSessionRemote)
+        it("ADD_USER_TO_TARGET_USERS", @Test_AddDataToActiveSession)
+        it("GET_TARGET_USERS_LIST", @Test_GetTargetUsersList)
     end function
 
     describe("ACTIVE_SESSIONS_TEST_SUITE", @TestSuite_ActiveSessions)
