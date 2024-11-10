@@ -103,6 +103,9 @@ d_minutes=d_time[1]
 parsedDate=d_year+d_month+d_day+d_hours+d_minutes
 return parsedDate
 end function
+Proxima.utils.isValueProtectedNull=function(givenValue)
+if typeof(givenValue)=="list" and givenValue.hasIndex(0) and givenValue[0]==null then return true
+end function
 // ------------------------------------------------------------------------------------------------------------
 Proxima.utils.isInList=function(givenItem,givenList)
 for item in givenList

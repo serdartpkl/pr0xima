@@ -268,7 +268,6 @@ print(Proxima.io.addOutputEntry(Proxima.io.output.line))
 self.initLibraries
 print(Proxima.io.addOutputEntry(Proxima.io.output.line))
 Proxima.testing.runTest("test_db")
-print(Proxima.io.addOutputEntry(Proxima.io.output.line))
 Proxima.testing.runTest("test_sessions")
 print(Proxima.io.addOutputEntry(Proxima.io.output.line))
 getSavedSessions=Proxima.sessions.getSessions(true)
