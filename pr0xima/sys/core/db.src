@@ -128,9 +128,9 @@ Proxima.db.updateRecord = function (databaseName, recordID, recordMap, sortBy = 
     acquiredRecord = self.getRecord(databaseName, recordID)
     if acquiredRecord != null then
         acquiredRecords = self.getRecords(databaseName)
-        acquiredRecordID = acquiredRecords[acquiredRecord.id - 1].id
-        acquiredRecordDateCreated = acquiredRecords[acquiredRecord.id - 1].dateCreated
-        acquiredRecords[acquiredRecord.id - 1] = {"id": acquiredRecordID} + recordMap + {"dateCreated": acquiredRecordDateCreated}
+        acquiredRecordID = acquiredRecords[recordID - 1].id
+        acquiredRecordDateCreated = acquiredRecords[recordID - 1].dateCreated
+        acquiredRecords[recordID - 1] = {"id": acquiredRecordID} + recordMap + {"dateCreated": acquiredRecordDateCreated}
         reorderRecords = self.reorderRecords(databaseName, acquiredRecords)
         if reorderRecords then return true
     end if
@@ -141,11 +141,11 @@ Proxima.db.deleteRecord = function (databaseName, recordID, sortBy = null)
     acquiredRecord = self.getRecord(databaseName, recordID)
     if acquiredRecord != null then
         acquiredRecords = self.getRecords(databaseName)
-        if acquiredRecords.hasIndex(acquiredRecord.id - 1) and acquiredRecords.len > 1 then
-            acquiredRecords.remove(acquiredRecord.id - 1)
+        if acquiredRecords.hasIndex(recordID - 1) and acquiredRecords.len > 1 then
+            acquiredRecords.remove(recordID - 1)
             reorderRecords = self.reorderRecords(databaseName, acquiredRecords, sortBy)
             if reorderRecords then return true
-        else if acquiredRecords.hasIndex(acquiredRecord.id - 1) and acquiredRecords.len == 1 then
+        else if acquiredRecords.hasIndex(recordID - 1) and acquiredRecords.len == 1 then
             resetRecords = self.resetRecords(databaseName)
             if resetRecords then return true
         end if
