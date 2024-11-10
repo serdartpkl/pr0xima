@@ -14,16 +14,16 @@ getRecords=Proxima.db.getRecords("test")
 expect(getRecords).notToBeNull
 end function
 Test_AddRecordToDatabase=function
-recordMap={"name":"test_one","value_list":[1,2,3]}
+recordMap={"record_name":"test_one","record_values_list":[1,2,3]}
 addRecord=Proxima.db.addRecord("test",recordMap)
 expect(addRecord).toBeTruthy
 end function
 Test_GetRecordName=function(recordID,recordKey)
-getRecordValue=Proxima.db.getRecordValue("test",1,"name")
+getRecordValue=Proxima.db.getRecordValue("test",1,"record_name")
 expect(getRecordValue).notToBeNull
 end function
 Test_SetRecordName=function(recordID,recordKey,recordValue)
-setRecordValue=Proxima.db.setRecordValue("test",1,"name","test_one_changed")
+setRecordValue=Proxima.db.setRecordValue("test",1,"record_name","test_one_changed")
 expect(setRecordValue).toBeTruthy
 end function
 Test_DeleteRecordFromDatabase=function
@@ -39,7 +39,7 @@ recordIndex=Proxima.db.searchRecords("test","id",1)
 expect(recordIndex).toBe(0)
 end function
 Test_UpdateRecordName=function
-recordMap={"name":"test_one_updated","value_list":[2,3,4]}
+recordMap={"record_name":"test_one_updated","record_values_list":[2,3,4]}
 updateRecord=Proxima.db.updateRecord("test",1,recordMap)
 expect(updateRecord).toBeTruthy
 end function
