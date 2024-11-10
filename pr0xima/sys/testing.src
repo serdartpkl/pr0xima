@@ -115,16 +115,16 @@ expect = function (actualValue)
 end function
 
 describe = function (testSuiteName, fn)
-    print(Proxima.io.addOutputEntry("<b>/ START_TEST_SUITE</b>"))
-    print(Proxima.io.addOutputEntry("<b>| TEST_SUITE_NAME: " + testSuiteName + "</b>"))
+    print(Proxima.io.addOutputEntry(Proxima.io.output.colorize("<b>/ START_TEST_SUITE</b>", "#FC8403")))
+    print(Proxima.io.addOutputEntry(Proxima.io.output.colorize("<b>| TEST_SUITE_NAME: " + testSuiteName + "</b>", "#FC8403")))
     fn()
-    print(Proxima.io.addOutputEntry("<b>\ END_TEST_SUITE</b>"))
+    print(Proxima.io.addOutputEntry(Proxima.io.output.colorize("<b>\ END_TEST_SUITE</b>", "#FC8403")))
 end function
 
 it = function (testName, fn)
-    print(Proxima.io.addOutputEntry("<b>|-- TEST_NAME: " + testName + "</b>"))
+    print(Proxima.io.addOutputEntry(Proxima.io.output.colorize("<b>|-- TEST_NAME: " + testName + "</b>", "#FFC466")))
     fn()
-    print(Proxima.io.addOutputEntry("<b>|-- END_TEST</b>"))
+    print(Proxima.io.addOutputEntry(Proxima.io.output.colorize("<b>|-- END_TEST</b>", "#FFC466")))
 end function
 
 Proxima.testing.runTest = function (testName) 
