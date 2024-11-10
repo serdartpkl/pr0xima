@@ -128,8 +128,8 @@ Proxima.db.updateRecord = function (databaseName, recordID, recordMap, sortBy = 
     acquiredRecord = self.getRecord(databaseName, recordID)
     if acquiredRecord != null then
         acquiredRecords = self.getRecords(databaseName)
-        acquiredRecordID = acquiredRecords[recordID - 1].id
-        acquiredRecordDateCreated = acquiredRecords[recordID - 1].dateCreated
+        acquiredRecordID = acquiredRecord.id
+        acquiredRecordDateCreated = acquiredRecord.dateCreated
         acquiredRecords[recordID - 1] = {"id": acquiredRecordID} + recordMap + {"dateCreated": acquiredRecordDateCreated}
         reorderRecords = self.reorderRecords(databaseName, acquiredRecords)
         if reorderRecords then return true
