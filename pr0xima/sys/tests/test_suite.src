@@ -8,12 +8,12 @@ Proxima.testing.tests.test_suite = function ()
 
         testGetDatabases = function ()
             getDatabases = Proxima.db.getDatabases()
-            expect(getDatabases).not.toBe(null)
+            expect(getDatabases).not.notToBeNull()
         end function
     
         it("CREATE_DATABASE", @testCreateDatabase)
         it("GET_DATABASES", @testGetDatabases)
     end function
 
-    describe("TEST_SUITE", @databaseSuite)
+    describe("DATABASE_TEST_SUITE", @databaseSuite)
 end function
