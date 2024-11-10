@@ -82,16 +82,13 @@ Proxima.db.resetRecords = function (databaseName)
 end function
 
 Proxima.db.reorderRecords = function (databaseRecords, sortBy = "dateCreated")
-    if databaseRecords.len > 1 then
-        if sortBy != null then databaseRecords.sort(sortBy)
-        idCounter = 1
-        for recordIndex in range(0, databaseRecords.len - 1)
-            if databaseRecords[recordIndex].id != idCounter then databaseRecords[recordIndex].id = idCounter
-            idCounter = idCounter + 1
-        end for
-        return databaseRecords
-    end if
-    return null
+    if sortBy != null then databaseRecords.sort(sortBy)
+    idCounter = 1
+    for recordIndex in range(0, databaseRecords.len - 1)
+        if databaseRecords[recordIndex].id != idCounter then databaseRecords[recordIndex].id = idCounter
+        idCounter = idCounter + 1
+    end for
+    return databaseRecords
 end function
 
 Proxima.db.searchRecords = function (databaseName, recordKey, recordValue)
@@ -106,8 +103,9 @@ end function
 Proxima.db.addRecord = function (databaseName, recordMap)
     acquiredRecords = self.getRecords(databaseName)
     if acquiredRecords != null then
-        recordMap = {"id": acquiredRecords.len + 1} + recordMap
-        if recordMap.hasIndex("dateCreated") == 0 then recordMap.dateCreated = Proxima.utils.getParsedDate()
+        if recordMap.hasIndex("id") then recordMap.remove("id")
+        if recordMap.hasIndex("dateCreated") then recordMap.remove("dateCreated")
+        recordMap = {"id": acquiredRecords.len + 1} + recordMap + {"dateCreated": Proxima.utils.getParsedDate()}
         acquiredRecords.push(recordMap)
         if acquiredRecords.len > 1 then acquiredRecords = self.reorderRecords(acquiredRecords)
         setRecords = self.setRecords(databaseName, acquiredRecords)
