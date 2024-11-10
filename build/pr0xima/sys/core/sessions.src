@@ -182,8 +182,8 @@ end if
 return null
 end function
 // ------------------------------------------------------------------------------------------------------------
-Proxima.sessions.pushMap=function(sessionID,targetList,givenMap,pushToSaved=false)
-acquiredSession=self.getSession(sessionID,pushToSaved)
+Proxima.sessions.addDataToSession=function(sessionID,targetList,givenMap)
+acquiredSession=self.getSession(sessionID)
 if acquiredSession!=null then
 self.activeSessions[acquiredSession.id-1][targetList].push(givenMap)
 return true
