@@ -6,9 +6,7 @@ if databaseFiles.len>0 then
 databaseList=[]
 idCounter=1
 for databaseFile in databaseFiles
-databaseMap={}
-databaseMap.id=idCounter
-databaseMap.name=databaseFile.name.replace(".db","")
+databaseMap={"id":idCounter,"name":databaseFile.name.replace(".db","")}
 databaseList.push(databaseMap)
 idCounter=idCounter+1
 end for
@@ -43,17 +41,18 @@ end function
 // ------------------------------------------------------------------------------------------------------------
 Proxima.db.getRecords=function(databaseName)
 databaseFile=self.getDatabase(databaseName)
-if databaseFile!=null then return Proxima.utils.deserializeMap(databaseFile.get_content).records
+if databaseFile!=null then
+deserializeRecords=Proxima.utils.deserializeMap(databaseFile.get_content).records
+if deserializeRecords.len>0 then return deserializeRecords
+end if
 return null
 end function
 Proxima.db.getRecord=function(databaseName,recordID)
 acquiredRecords=self.getRecords(databaseName)
 if acquiredRecords!=null then
-if acquiredRecords.len>0 then
 for acquiredRecord in acquiredRecords
 if acquiredRecord.id==recordID then return acquiredRecord
 end for
-end if
 end if
 return null
 end function
@@ -72,16 +71,13 @@ if setRecords then return true
 return null
 end function
 Proxima.db.reorderRecords=function(databaseRecords,sortBy="dateCreated")
-if databaseRecords.len>1 then
-if sortBy!=null then databaseRecords.sort(sortBy)
+databaseRecords.sort(sortBy)
 idCounter=1
 for recordIndex in range(0,databaseRecords.len-1)
 if databaseRecords[recordIndex].id!=idCounter then databaseRecords[recordIndex].id=idCounter
 idCounter=idCounter+1
 end for
 return databaseRecords
-end if
-return null
 end function
 Proxima.db.searchRecords=function(databaseName,recordKey,recordValue)
 acquiredRecords=self.getRecords(databaseName)
@@ -94,8 +90,9 @@ end function
 Proxima.db.addRecord=function(databaseName,recordMap)
 acquiredRecords=self.getRecords(databaseName)
 if acquiredRecords!=null then
-recordMap={"id":acquiredRecords.len+1}+recordMap
-if recordMap.hasIndex("dateCreated")==0 then recordMap.dateCreated=Proxima.utils.getParsedDate
+if recordMap.hasIndex("id") then recordMap.remove("id")
+if recordMap.hasIndex("dateCreated") then recordMap.remove("dateCreated")
+recordMap={"id":acquiredRecords.len+1}+recordMap+{"dateCreated":Proxima.utils.getParsedDate}
 acquiredRecords.push(recordMap)
 if acquiredRecords.len>1 then acquiredRecords=self.reorderRecords(acquiredRecords)
 setRecords=self.setRecords(databaseName,acquiredRecords)

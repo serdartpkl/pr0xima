@@ -13,7 +13,7 @@ Proxima.testing.tests.test_db = function ()
 
         Test_GetDatabaseRecords = function ()
             getRecords = Proxima.db.getRecords("test")
-            expect(getRecords).notToBe([])
+            expect(getRecords).notToBeNull()
         end function
 
         Test_AddRecordToDatabase = function ()

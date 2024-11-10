@@ -11,7 +11,7 @@ expect(getDatabases).notToBeNull
 end function
 Test_GetDatabaseRecords=function
 getRecords=Proxima.db.getRecords("test")
-expect(getRecords).notToBe([])
+expect(getRecords).notToBeNull
 end function
 Test_AddRecordToDatabase=function
 recordMap={"name":"test_one","value_list":[1,2,3]}
