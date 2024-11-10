@@ -2,12 +2,6 @@ Proxima.db = {}
 
 // ------------------------------------------------------------------------------------------------------------
 
-Proxima.db.isValueProtectedNull = function (givenValue)
-    if typeof(givenValue) == "list" and givenValue.hasIndex(0) and givenValue[0] == null then return true
-end if
-
-// ------------------------------------------------------------------------------------------------------------
-
 Proxima.db.getDatabases = function ()
     databaseFiles = Proxima.globals.myPC.File(home_dir + "/pr0xima/databases").get_files()
     if databaseFiles.len > 0 then
