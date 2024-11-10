@@ -1,81 +1,37 @@
-Proxima.testing.tests.test_db=function
-print(Proxima.io.addOutputEntry(Proxima.io.output.info("Starting to test database functions...")))
-print(Proxima.io.addOutputEntry(Proxima.io.output.line))
+Proxima.testing.tests.test_suite=function
+databaseSuite=function
+testCreateDatabase=function
 dbName="test"
 createDatabase=Proxima.db.createDatabase(dbName)
-if createDatabase then print(Proxima.io.addOutputEntry(Proxima.io.output.success("Created database successfully.")))
+expect(createDatabase).toBeTruthy
+end function
+testGetDatabases=function
 getDatabases=Proxima.db.getDatabases
-if getDatabases!=null then print(Proxima.io.addOutputEntry(Proxima.io.output.success("Loaded databases successfully.")))
-print(Proxima.io.addOutputEntry(Proxima.io.output.line))
-Proxima.db.displayDatabases
-print(Proxima.io.addOutputEntry(Proxima.io.output.line))
-getRecords=Proxima.db.getRecords(dbName)
-if getRecords!=null then print(Proxima.io.addOutputEntry(Proxima.io.output.success("Loaded records successfully.")))
-print(Proxima.io.addOutputEntry(Proxima.io.output.line))
+expect(getDatabases).notToBeNull
+end function
+testGetRecords=function
+getRecords=Proxima.db.getRecords("test")
+expect(getRecords).toBe([])
+end function
+testAddRecord=function
 recordMap={"name":"test_one","value_list":[1,2,3]}
-addRecord=Proxima.db.addRecord(dbName,recordMap)
-if addRecord then print(Proxima.io.addOutputEntry(Proxima.io.output.success("Added record 1.")))
-recordMap={"name":"test_two","value_list":[1,2,3]}
-addRecord=Proxima.db.addRecord(dbName,recordMap)
-if addRecord then print(Proxima.io.addOutputEntry(Proxima.io.output.success("Added record 2.")))
-recordMap={"name":"test_thr","value_list":[1,2,3]}
-addRecord=Proxima.db.addRecord(dbName,recordMap)
-if addRecord then print(Proxima.io.addOutputEntry(Proxima.io.output.success("Added record 3.")))
-getRecords=Proxima.db.getRecords(dbName)
-if getRecords!=null then print(Proxima.io.addOutputEntry(Proxima.io.output.success("Loaded records successfully.")))
-print(Proxima.io.addOutputEntry(Proxima.io.output.line))
-Proxima.db.displayRecords(dbName,"name")
-print(Proxima.io.addOutputEntry(Proxima.io.output.line))
-getRecordValue=Proxima.db.getRecordValue(dbName,1,"name")
-if getRecordValue!=null then print(Proxima.io.addOutputEntry(Proxima.io.output.success("Got record value: "+getRecordValue)))
-setRecordValue=Proxima.db.setRecordValue(dbName,1,"name","test_changed_one")
-if setRecordValue then print(Proxima.io.addOutputEntry(Proxima.io.output.success("Changed value of record ID 1 successfully.")))
-getRecordValue=Proxima.db.getRecordValue(dbName,1,"name")
-if getRecordValue!=null then print(Proxima.io.addOutputEntry(Proxima.io.output.success("Got record value: "+getRecordValue)))
-print(Proxima.io.addOutputEntry(Proxima.io.output.line))
-Proxima.db.displayRecords(dbName,"name")
-print(Proxima.io.addOutputEntry(Proxima.io.output.line))
-deleteRecord=Proxima.db.deleteRecord(dbName,1)
-if deleteRecord then print(Proxima.io.addOutputEntry(Proxima.io.output.success("Deleted record with ID 1 successfully.")))
-getRecords=Proxima.db.getRecords(dbName)
-if getRecords!=null then print(Proxima.io.addOutputEntry(Proxima.io.output.success("Loaded records successfully.")))
-print(Proxima.io.addOutputEntry(Proxima.io.output.line))
-Proxima.db.displayRecords(dbName,"name")
-print(Proxima.io.addOutputEntry(Proxima.io.output.line))
-resetRecords=Proxima.db.resetRecords(dbName)
-if resetRecords then print(Proxima.io.addOutputEntry(Proxima.io.output.success("Successfully reset test database.")))
-getRecords=Proxima.db.getRecords(dbName)
-if getRecords!=null then print(Proxima.io.addOutputEntry(Proxima.io.output.success("Loaded records successfully.")))
-recordMap={"name":"test_one","value_list":[1,2,3]}
-addRecord=Proxima.db.addRecord(dbName,recordMap)
-if addRecord then print(Proxima.io.addOutputEntry(Proxima.io.output.success("Added record 1.")))
-recordMap={"name":"test_two","value_list":[1,2,3]}
-addRecord=Proxima.db.addRecord(dbName,recordMap)
-if addRecord then print(Proxima.io.addOutputEntry(Proxima.io.output.success("Added record 2.")))
-recordMap={"name":"test_thr","value_list":[1,2,3]}
-addRecord=Proxima.db.addRecord(dbName,recordMap)
-if addRecord then print(Proxima.io.addOutputEntry(Proxima.io.output.success("Added record 3.")))
-getRecords=Proxima.db.getRecords(dbName)
-if getRecords!=null then print(Proxima.io.addOutputEntry(Proxima.io.output.success("Loaded records successfully.")))
-print(Proxima.io.addOutputEntry(Proxima.io.output.line))
-Proxima.db.displayRecords(dbName,"name")
-print(Proxima.io.addOutputEntry(Proxima.io.output.line))
-recordMap={"name":"test_changed_two","value_list":[1,2,3]}
-updateRecord=Proxima.db.updateRecord(dbName,2,recordMap,"dateCreated")
-if updateRecord then print(Proxima.io.addOutputEntry(Proxima.io.output.success("Updated record with ID 2 successfully.")))
-getRecords=Proxima.db.getRecords(dbName)
-if getRecords!=null then print(Proxima.io.addOutputEntry(Proxima.io.output.success("Loaded records successfully.")))
-print(Proxima.io.addOutputEntry(Proxima.io.output.line))
-Proxima.db.displayRecords(dbName,"name")
-print(Proxima.io.addOutputEntry(Proxima.io.output.line))
-foundIndex=Proxima.db.searchRecords(dbName,"name","test_changed_two")
-foundID=foundIndex+1
-if foundIndex!=null then print(Proxima.io.addOutputEntry(Proxima.io.output.success("Found records successfully: INDEX:"+foundIndex+"|ID:"+foundID)))
-getRecordValue=Proxima.db.getRecordValue(dbName,foundID,"name")
-if getRecordValue!=null then print(Proxima.io.addOutputEntry(Proxima.io.output.success("Got record value: "+getRecordValue)))
-print(Proxima.io.addOutputEntry(Proxima.io.output.line))
-deleteDatabase=Proxima.db.deleteDatabase(dbName)
-if deleteDatabase then print(Proxima.io.addOutputEntry(Proxima.io.output.success("Successfully deleted test database.")))
-print(Proxima.io.addOutputEntry(Proxima.io.output.line))
-print(Proxima.io.addOutputEntry(Proxima.io.output.info("Test ended.")))
+addRecord=Proxima.db.addRecord("test",recordMap)
+expect(addRecord).toBeTruthy
+end function
+testGetRecordValue=function
+getRecordValue=Proxima.db.getRecordValue("test",1,"name")
+expect(getRecordValue).notToBeNull
+end function
+testSetRecordValue=function
+setRecordValue=Proxima.db.setRecordValue("test",1,"name","test_one_changed")
+expect(setRecordValue).toBeTruthy
+end function
+it("CREATE_DATABASE",@testCreateDatabase)
+it("GET_DATABASES",@testGetDatabases)
+it("GET_DATABASE_RECORDS",@testGetRecords)
+it("ADD_RECORD",@testAddRecord)
+it("GET_RECORD_VALUE",@testGetRecordValue)
+it("SET_RECORD_VALUE",@testSetRecordValue)
+end function
+describe("DATABASE_TEST_SUITE",@databaseSuite)
 end function

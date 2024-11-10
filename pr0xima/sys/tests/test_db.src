@@ -1,4 +1,4 @@
-Proxima.testing.tests.test_suite = function ()
+Proxima.testing.tests.test_db = function ()
     databaseSuite = function ()
         testCreateDatabase = function ()
             dbName = "test"

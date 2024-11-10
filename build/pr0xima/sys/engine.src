@@ -266,13 +266,7 @@ exit(Proxima.io.output.error("Couldn't load settings!"))
 end if
 print(Proxima.io.addOutputEntry(Proxima.io.output.line))
 self.initLibraries
-print(Proxima.io.addOutputEntry(Proxima.io.output.line))
 Proxima.testing.runTest("test_db")
-print(Proxima.io.addOutputEntry(Proxima.io.output.line))
-Proxima.testing.runTest("test_sessions")
-print(Proxima.io.addOutputEntry(Proxima.io.output.line))
-Proxima.testing.runTest("test_suite")
-print(Proxima.io.addOutputEntry(Proxima.io.output.line))
 getSavedSessions=Proxima.sessions.getSessions(true)
 if getSavedSessions!=null then
 if getSavedSessions.len>0 then
