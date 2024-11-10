@@ -45,42 +45,46 @@ Proxima.sessions.setActiveSession = function (sessionID)
     return null
 end function
 
+Proxima.session.createSessionMap = function (sessionType, targetIP, targetRouter)
+    sessionMap = {}
+
+    sessionMap.id = self.activeSessions.len + 1
+
+    sessionMap.targetIP = targetIP
+    sessionMap.targetRouter = targetRouter
+
+    sessionMap.targetLAN = null
+    sessionMap.targetLANs = []
+
+    if sessionType == 0 then
+        sessionMap.targetLAN = targetIP
+        sessionMap.targetLANs = [targetIP]
+        sessionMap.targetLibraries = []
+        sessionMap.sessionType = sessionType
+    else if sessionType == 1 then
+        sessionMap.targetPorts = []
+        sessionMap.sessionType = sessionType
+    end if
+
+    sessionMap.targetExploits = []
+    sessionMap.targetShells = []
+    sessionMap.targetUsers = []
+    sessionMap.targetMails = []
+    sessionMap.targetBanks = []
+
+    sessionMap.payloadInjection = 1
+
+    sessionMap.dateCreated = Proxima.utils.getParsedDate()
+
+    return sessionMap
+end function
+
 Proxima.sessions.createSession = function (sessionType, targetIP, targetRouter)
     if self.getSession(targetIP) == null then
-        sessionMap = {}
-
-        sessionMap.id = self.activeSessions.len + 1
-
-        sessionMap.targetIP = targetIP
-        sessionMap.targetRouter = targetRouter
-
-        sessionMap.targetLAN = null
-        sessionMap.targetLANs = []
-
-        if sessionType == 0 then
-            sessionMap.targetLAN = targetIP
-            sessionMap.targetLANs = [targetIP]
-            sessionMap.targetLibraries = []
-            sessionMap.sessionType = sessionType
-        else if sessionType == 1 then
-            sessionMap.targetPorts = []
-            sessionMap.sessionType = sessionType
-        end if
-
-        sessionMap.targetExploits = []
-        sessionMap.targetShells = []
-        sessionMap.targetUsers = []
-        sessionMap.targetMails = []
-        sessionMap.targetBanks = []
-
-        sessionMap.payloadInjection = 1
-
-        sessionMap.dateCreated = Proxima.utils.getParsedDate()
-        
+        sessionMap = self.createSessionMap(sessionType, targetIP, targetRouter)
         self.activeSessions.push(sessionMap)
         return sessionMap.id
     end if
-
     return null
 end function
 
