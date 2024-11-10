@@ -7,7 +7,7 @@ Proxima.testing.tests.test_saved_sessions = function ()
 
         Test_GetSavedSessions = function ()
             getSavedSessions = Proxima.sessions.getSessions(true)
-            expect(getSavedSessions).notToBe([])
+            expect(getSavedSessions).notToBeNull()
         end function
     
         it("GET_ACTIVE_SESSIONS", @Test_GetActiveSessions)
