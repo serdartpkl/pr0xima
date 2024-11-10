@@ -90,15 +90,11 @@ end function
 Proxima.db.addRecord=function(databaseName,recordMap)
 acquiredRecords=self.getRecords(databaseName)
 if acquiredRecords!=null then
-if recordMap.hasIndex("id") then recordMap.id=acquiredRecords.len+1
-if recordMap.hasIndex("dateCreated") then recordMap.dateCreated=Proxima.utils.getParsedDate
+if recordMap.hasIndex("id") then recordMap.remove("id")
+if recordMap.hasIndex("dateCreated") then recordMap.remove("dateCreated")
 recordID=acquiredRecords.len+1
 recordDateCreated=Proxima.utils.getParsedDate
-addID=null
-if recordMap.hasIndex("id")==0 then addID={"id":recordID}
-addDateCreated=null
-if recordMap.hasIndex("dateCreated")==0 then addDateCreated={"dateCreated":recordDateCreated}
-acquiredRecords.push(addID+recordMap+addDateCreated)
+acquiredRecords.push({"id":recordID}+recordMap+{"dateCreated":recordDateCreated})
 if acquiredRecords.len>1 then acquiredRecords=self.reorderRecords(acquiredRecords)
 setRecords=self.setRecords(databaseName,acquiredRecords)
 if setRecords then return true
