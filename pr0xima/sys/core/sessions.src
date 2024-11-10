@@ -187,8 +187,7 @@ Proxima.sessions.saveSession = function (sessionID)
         else
             Proxima.db.addRecord("sessions", acquiredSession)
         end if
-        acquiredSessions = self.getSessions()
-        acquiredSessions[sessionID] = {"id": acquiredSessionID} + acquiredSession + {"dateCreated": acquiredSessionDateCreated}
+        self.activeSessions[sessionID - 1] = {"id": acquiredSessionID} + acquiredSession + {"dateCreated": acquiredSessionDateCreated}
         return true
     end if
     return null
