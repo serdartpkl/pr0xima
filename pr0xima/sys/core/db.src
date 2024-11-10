@@ -54,6 +54,16 @@ Proxima.db.getRecords = function (databaseName)
     return null
 end function
 
+Proxima.db.getRecord = function (databaseName, recordID)
+    acquiredRecords = self.getRecords(databaseName)
+    if acquiredRecords != null then
+        for acquiredRecord in acquiredRecords
+            if acquiredRecord.id == recordID then return acquiredRecord
+        end for
+    end if
+    return null
+end function
+
 Proxima.db.setRecords = function (databaseName, databaseRecords)
     databaseFile = self.getDatabase(databaseName)
     if databaseFile != null then
@@ -115,32 +125,29 @@ Proxima.db.addRecord = function (databaseName, recordMap, sortBy = null)
 end function
 
 Proxima.db.updateRecord = function (databaseName, recordID, recordMap, sortBy = null)
-    acquiredRecords = self.getRecords(databaseName)
-    if acquiredRecords != null then
-        recordIndex = self.searchRecords(databaseName, "id", recordID)
-        if recordIndex != null and acquiredRecords.hasIndex(recordIndex) then
-            acquiredRecordID = acquiredRecords[recordIndex].id
-            acquiredRecordDateCreated = acquiredRecords[recordIndex].dateCreated
-            acquiredRecords[recordIndex] = {"id": acquiredRecordID} + recordMap + {"dateCreated": acquiredRecordDateCreated}
-            reorderRecords = self.setRecords(databaseName, acquiredRecords)
-            if reorderRecords then return true
-        end if
+    acquiredRecord = self.getRecord(databaseName, recordID)
+    if acquiredRecord != null then
+        acquiredRecords = self.getRecords(databaseName)
+        acquiredRecordID = acquiredRecords[acquiredRecord.id - 1].id
+        acquiredRecordDateCreated = acquiredRecords[acquiredRecord.id - 1].dateCreated
+        acquiredRecords[acquiredRecord.id - 1] = {"id": acquiredRecordID} + recordMap + {"dateCreated": acquiredRecordDateCreated}
+        reorderRecords = self.reorderRecords(databaseName, acquiredRecords)
+        if reorderRecords then return true
     end if
+    return null
 end function
 
 Proxima.db.deleteRecord = function (databaseName, recordID, sortBy = null)
-    acquiredRecords = self.getRecords(databaseName)
-    if acquiredRecords != null then
-        recordIndex = self.searchRecords(databaseName, "id", recordID)
-        if recordIndex != null then
-            if acquiredRecords.hasIndex(recordIndex) and acquiredRecords.len > 1 then
-                acquiredRecords.remove(recordIndex)
-                reorderRecords = self.reorderRecords(databaseName, acquiredRecords, sortBy)
-                if reorderRecords then return true
-            else if acquiredRecords.hasIndex(recordIndex) and acquiredRecords.len == 1 then
-                resetRecords = self.resetRecords(databaseName)
-                if resetRecords then return true
-            end if
+    acquiredRecord = self.getRecord(databaseName, recordID)
+    if acquiredRecord != null then
+        acquiredRecords = self.getRecords(databaseName)
+        if acquiredRecords.hasIndex(acquiredRecord.id - 1) and acquiredRecords.len > 1 then
+            acquiredRecords.remove(acquiredRecord.id - 1)
+            reorderRecords = self.reorderRecords(databaseName, acquiredRecords, sortBy)
+            if reorderRecords then return true
+        else if acquiredRecords.hasIndex(acquiredRecord.id - 1) and acquiredRecords.len == 1 then
+            resetRecords = self.resetRecords(databaseName)
+            if resetRecords then return true
         end if
     end if
     return null
