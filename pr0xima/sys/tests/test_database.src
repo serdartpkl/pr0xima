@@ -22,12 +22,12 @@ Proxima.testing.tests.test_db = function ()
             expect(addRecord).toBeTruthy()
         end function 
 
-        Test_GetRecordValue = function (recordID, recordKey)
+        Test_GetRecordName = function (recordID, recordKey)
             getRecordValue = Proxima.db.getRecordValue("test", 1, "name")
             expect(getRecordValue).notToBeNull()
         end function
 
-        Test_SetRecordValue = function (recordID, recordKey, recordValue)
+        Test_SetRecordName = function (recordID, recordKey, recordValue)
             setRecordValue = Proxima.db.setRecordValue("test", 1, "name", "test_one_changed")
             expect(setRecordValue).toBeTruthy()
         end function
@@ -62,8 +62,8 @@ Proxima.testing.tests.test_db = function ()
         it("GET_DATABASES", @Test_GetDatabases)
         it("GET_DATABASE_RECORDS", @Test_GetDatabaseRecords)
         it("ADD_RECORD_TO_DATABASE", @Test_AddRecordToDatabase)
-        it("GET_RECORD_VALUE", @Test_GetRecordValue)
-        it("SET_RECORD_VALUE", @Test_SetRecordValue)
+        it("GET_RECORD_NAME", @Test_GetRecordName)
+        it("SET_RECORD_NAME", @Test_SetRecordName)
         it("GET_DATABASE_RECORDS", @Test_GetDatabaseRecords)
         it("DELETE_RECORD_FROM_DATABASE", @Test_DeleteRecordFromDatabase)
         it("GET_DATABASE_RECORDS", @Test_GetDatabaseRecords)
