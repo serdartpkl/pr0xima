@@ -14,8 +14,6 @@ else
 print(Proxima.io.addOutputEntry(Proxima.io.output.colorize("<b>|---- TEST_RESULT: FAILED</b>","#FF1548")))
 end if
 actualValue=self.actualValue
-if actualValue==1 then actualValue="1 / TRUE"
-if actualValue==0 then actualValue="0 / FALSE"
 if actualValue==null then actualValue="NULL"
 print(Proxima.io.addOutputEntry("<b>|------ ACTUAL_VALUE: "+actualValue+"</b>"))
 print(Proxima.io.addOutputEntry("<b>|------ EXPECTED_VALUE: "+expectedValue+"</b>"))

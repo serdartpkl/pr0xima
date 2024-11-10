@@ -133,11 +133,11 @@ Proxima.db.deleteRecord = function (databaseName, recordID, sortBy = null)
     if acquiredRecords != null then
         recordIndex = self.searchRecords(databaseName, "id", recordID)
         if recordIndex != null then
-            if acquiredRecords.len > 1 then
+            if acquiredRecords.hasIndex(recordIndex) and acquiredRecords.len > 1 then
                 acquiredRecords.remove(recordIndex)
                 reorderRecords = self.reorderRecords(databaseName, acquiredRecords, sortBy)
                 if reorderRecords then return true
-            else if acquiredRecords.len == 1 then
+            else if acquiredRecords.hasIndex(recordIndex) and acquiredRecords.len == 1 then
                 resetRecords = self.resetRecords(databaseName)
                 if resetRecords then return true
             end if
