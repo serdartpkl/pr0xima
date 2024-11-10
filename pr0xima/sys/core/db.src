@@ -156,29 +156,24 @@ end function
 // ------------------------------------------------------------------------------------------------------------
 
 Proxima.db.getRecordValue = function (databaseName, recordID, recordKey)
-    acquiredRecords = self.getRecords(databaseName)
-    if acquiredRecords != null then
-        recordIndex = self.searchRecords(databaseName, "id", recordID)
-        if recordIndex != null then
-            if acquiredRecords[recordIndex].hasIndex(recordKey) then
-                if acquiredRecords[recordIndex][recordKey] == null then return [null]
-                return acquiredRecords[recordIndex][recordKey]
-            end if
+    acquiredRecord = self.getRecord(databaseName, recordID)
+    if acquiredRecord != null then
+        if acquiredRecord.hasIndex(recordKey) then
+            if acquiredRecord[recordKey] == null then return [null]
+            return acquiredRecord[recordKey]
         end if
     end if
     return null
 end function
 
 Proxima.db.setRecordValue = function (databaseName, recordID, recordKey, recordValue)
-    acquiredRecords = self.getRecords(databaseName)
-    if acquiredRecords != null then
-        recordIndex = self.searchRecords(databaseName, "id", recordID)
-        if recordIndex != null then
-            if acquiredRecords[recordIndex].hasIndex(recordKey) then
-                acquiredRecords[recordIndex][recordKey] = recordValue
-                setRecords = self.setRecords(databaseName, acquiredRecords)
-                if setRecords then return true
-            end if
+    acquiredRecord = self.getRecord(databaseName, recordID)
+    if acquiredRecord != null then
+        acquiredRecords = self.self.getRecords(databaseName)
+        if acquiredRecord.hasIndex(recordKey) then
+            acquiredRecords[recordID - 1][recordKey] = recordValue
+            setRecords = self.setRecords(databaseName, acquiredRecords)
+            if setRecords then return true
         end if
     end if
     return null
