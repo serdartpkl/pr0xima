@@ -78,8 +78,9 @@ end function
 Proxima.sessions.createSession = function (sessionType, targetIP, targetRouter)
     if self.getSession(targetIP) == null then
         createSessionMap = self.createSessionMap(sessionType, targetIP, targetRouter)
-        dateCreated = Proxima.utils.getParsedDate()
-        sessionMap = {"id": self.activeSessions.len + 1} + createSessionMap + {"dateCreated": dateCreated}
+        sessionID = self.activeSessions.len + 1
+        sessionDateCreated = Proxima.utils.getParsedDate()
+        sessionMap = {"id": sessionID} + createSessionMap + {"dateCreated": dateCreated}
         self.activeSessions.push(sessionMap)
         return sessionMap.id
     end if
