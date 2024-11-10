@@ -110,29 +110,33 @@ Proxima.sessions.reorderSessions = function (reorderSaved = false, sortBy = null
 end function
 
 Proxima.sessions.searchSessions = function (sessionKey, sessionValue, searchSaved = false)
-    acquiredRecords = self.getSessions(searchSaved)
-    if acquiredRecords != null then
-        acquiredIndexes = Proxima.utils.indexesOf(acquiredRecords, sessionKey, sessionValue)
+    acquiredSessions = self.getSessions(searchSaved)
+    if acquiredSessions != null then
+        acquiredIndexes = Proxima.utils.indexesOf(acquiredSessions, sessionKey, sessionValue)
         if acquiredIndexes != null then return acquiredIndexes
     end if
     return null
 end function
 
 Proxima.sessions.resetSession = function (sessionID, resetSaved = false)
-    acquiredRecord = self.getSession(sessionID, resetSaved)
-    if acquiredRecord != null then
+    acquiredSession = self.getSession(sessionID, resetSaved)
+    if acquiredSession != null then
         if resetSaved then
             //...
         else
-            //...
+            acquiredSessionType = acquiredSession.sessionType
+            acquiredSessionTargetIP = acquiredSession.targetIP
+            acquiredSessionTargetRouter = acquiredSession.targetRouter
+            acquiredSession = self.createSession(acquiredSessionType, acquiredSessionTargetIP, acquiredSessionTargetRouter)
+            if 
         end if
     end if
     return null
 end function
 
 Proxima.sessions.deleteSession = function (sessionID, deleteSaved = false)
-    acquiredRecord = self.getSession(sessionID, deleteSaved)
-    if acquiredRecord != null then
+    acquiredSession = self.getSession(sessionID, deleteSaved)
+    if acquiredSession != null then
         if deleteSaved then
             //...
         else
