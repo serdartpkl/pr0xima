@@ -82,7 +82,7 @@ Proxima.db.resetRecords = function (databaseName)
 end function
 
 Proxima.db.reorderRecords = function (databaseRecords, sortBy = "dateCreated")
-    if sortBy != null then databaseRecords.sort(sortBy)
+    databaseRecords.sort(sortBy)
     idCounter = 1
     for recordIndex in range(0, databaseRecords.len - 1)
         if databaseRecords[recordIndex].id != idCounter then databaseRecords[recordIndex].id = idCounter
