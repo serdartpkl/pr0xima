@@ -91,8 +91,10 @@ end function
 Proxima.db.searchRecords = function (databaseName, recordKey, recordValue)
     acquiredRecords = self.getRecords(databaseName)
     if acquiredRecords != null then
-        acquiredIndexes = Proxima.utils.indexesOf(acquiredRecords, recordKey, recordValue)
-        if acquiredIndexes != null then return acquiredIndexes
+        if acquiredRecords.len > 0 then
+            acquiredIndexes = Proxima.utils.indexesOf(acquiredRecords, recordKey, recordValue)
+            if acquiredIndexes != null then return acquiredIndexes
+        end if
     end if
     return null
 end function

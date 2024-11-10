@@ -41,15 +41,12 @@ end function
 // ------------------------------------------------------------------------------------------------------------
 Proxima.db.getRecords=function(databaseName)
 databaseFile=self.getDatabase(databaseName)
-if databaseFile!=null then
-deserializedRecords=Proxima.utils.deserializeMap(databaseFile.get_content).records
-if deserializedRecords.len>0 then return deserializedRecords
-end if
+if databaseFile!=null then return Proxima.utils.deserializeMap(databaseFile.get_content).records
 return null
 end function
 Proxima.db.getRecord=function(databaseName,recordID)
 acquiredRecords=self.getRecords(databaseName)
-if acquiredRecords!=null then
+if acquiredRecords!=null and acquiredRecords.len>0 then
 for acquiredRecord in acquiredRecords
 if acquiredRecord.id==recordID then return acquiredRecord
 end for
