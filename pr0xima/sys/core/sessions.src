@@ -90,25 +90,22 @@ end function
 
 // ------------------------------------------------------------------------------------------------------------
 
-Proxima.sessions.reorderSessions = function (reorderSaved = false, sortBy = null)
-    acquiredSessions = self.getSessions(reorderSaved)
-    if acquiredSessions != null then
-        if sortBy != null then acquiredSessions.sort(sortBy)
-        if reorderSaved then
-            reorderSavedSessions = Proxima.db.reorderRecords("sessions", acquiredSessions, sortBy)
-            if reorderSavedSessions then return true
-        else
-            idCounter = 1
-            newActiveSessionID = null
-            for recordIndex in range(0, acquiredSessions.len - 1)
-                if self.activeSession == acquiredSessions[recordIndex].id then newActiveSessionID = idCounter
-                if acquiredSessions[recordIndex].id != idCounter then acquiredSessions[recordIndex].id = idCounter
-                idCounter = idCounter + 1
-            end for
-            self.activeSessions = acquiredSessions
-            self.setSession(newActiveSessionID)
-            if setSession then return true
-        end if
+Proxima.sessions.reorderSessions = function (sessionsList, sortBy = null)
+    if sortBy != null then sessionsList.sort(sortBy)
+    if reorderSaved then
+        reorderSavedSessions = Proxima.db.reorderRecords("sessions", sessionsList, sortBy)
+        if reorderSavedSessions then return true
+    else
+        idCounter = 1
+        newActiveSessionID = null
+        for recordIndex in range(0, sessionsList.len - 1)
+            if self.activeSession == sessionsList[recordIndex].id then newActiveSessionID = idCounter
+            if sessionsList[recordIndex].id != idCounter then sessionsList[recordIndex].id = idCounter
+            idCounter = idCounter + 1
+        end for
+        self.activeSessions = sessionsList
+        self.setSession(newActiveSessionID)
+        if setSession then return true
     end if
     return null
 end function
