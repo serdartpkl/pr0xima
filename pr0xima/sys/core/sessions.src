@@ -176,9 +176,9 @@ end function
 
 Proxima.sessions.saveSession = function (sessionID) 
     acquiredSession = self.getSession(sessionID)
+    acquiredSessionID = acquiredSession.id
     if acquiredSession != null then
         getSavedSession = self.getSession(acquiredSession.targetIP, true)
-        acquiredSessionID = acquiredSession.id
         if getSavedSession != null then
             acquiredSession.id = getSavedSession.id
             updateRecord = Proxima.db.updateRecord("sessions", getSavedSession.id, acquiredSession)
@@ -188,9 +188,9 @@ Proxima.sessions.saveSession = function (sessionID)
             end if
         else 
             acquiredSession.remove("id")
-            addRecord = Proxima.db.addRecord("sessions", acquiredSession, "dateCreated")
+            addRecord = Proxima.db.addRecord("sessions", acquiredSession)
             if addRecord then
-                acquiredSession.id = acquiredSessionID
+                acquiredSession = {"id": acquiredSessionID} + acquiredSession
                 return true
             end if
         end if
