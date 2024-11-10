@@ -179,16 +179,16 @@ Proxima.sessions.saveSession = function (sessionID)
     if acquiredSession != null then
         acquiredSessionID = acquiredSession.id
         acquiredSessionDateCreated = acquiredSession.dateCreated
-        acquiredSession.remove("id")
         acquiredSession.remove("dateCreated")
+        acquiredSession.remove("id")
         getSavedSession = self.getSession(acquiredSession.targetIP, true)
         if getSavedSession != null then
             Proxima.db.updateRecord("sessions", getSavedSession.id, acquiredSession)      
         else
             Proxima.db.addRecord("sessions", acquiredSession)
         end if
-        acquiredSession.id = acquiredSessionID
         acquiredSession.dateCreated = acquiredSessionDateCreated
+        acquiredSession.id = acquiredSessionID
         return true
     end if
     return null

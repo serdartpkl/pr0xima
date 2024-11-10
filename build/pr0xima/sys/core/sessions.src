@@ -159,7 +159,8 @@ Proxima.db.updateRecord("sessions",getSavedSession.id,acquiredSession)
 else
 Proxima.db.addRecord("sessions",acquiredSession)
 end if
-acquiredSession={"id":acquiredSessionID}+acquiredSession+{"dateCreated":acquiredSessionDateCreated}
+acquiredSession.id=acquiredSessionID
+acquiredSession.dateCreated=acquiredSessionDateCreated
 return true
 end if
 return null
