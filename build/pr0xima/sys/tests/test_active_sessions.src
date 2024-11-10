@@ -1,4 +1,4 @@
-Proxima.testing.tests.test_sessions=function
+Proxima.testing.tests.test_active_sessions=function
 TestSuite_Sessions=function
 Test_GetActiveSessions=function
 getActiveSessions=Proxima.sessions.getSessions

@@ -267,8 +267,8 @@ end if
 print(Proxima.io.addOutputEntry(Proxima.io.output.line))
 self.initLibraries
 print(Proxima.io.addOutputEntry(Proxima.io.output.line))
-Proxima.testing.runTest("test_db")
-Proxima.testing.runTest("test_sessions")
+Proxima.testing.runTest("test_database")
+Proxima.testing.runTest("test_active_sessions")
 print(Proxima.io.addOutputEntry(Proxima.io.output.line))
 getSavedSessions=Proxima.sessions.getSessions(true)
 if getSavedSessions!=null then
