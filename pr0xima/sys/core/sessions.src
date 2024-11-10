@@ -11,7 +11,7 @@ Proxima.sessions.getSessions = function (getSaved = false)
         getSavedSessions = Proxima.db.getRecords("sessions")
         if getSavedSessions != null then sessionsList = getSavedSessions
     else
-        if self.activeSessions.len > 0 then sessionsList = self.activeSessions
+        sessionsList = self.activeSessions
     end if
     return sessionsList
 end function
@@ -21,7 +21,7 @@ Proxima.sessions.getSession = function (sessionKey, getSaved = false)
     
     acquiredSession = null
     
-    if sessionsList != null then
+    if sessionsList != null and sessionsList.len > 0 then
         for targetSession in sessionsList
             checkKey = "id"
             if typeof(sessionKey) == "string" then checkKey = "targetIP"
@@ -80,7 +80,7 @@ Proxima.sessions.createSession = function (sessionType, targetIP, targetRouter)
         createSessionMap = self.createSessionMap(sessionType, targetIP, targetRouter)
         sessionID = self.activeSessions.len + 1
         sessionDateCreated = Proxima.utils.getParsedDate()
-        sessionMap = {"id": sessionID} + createSessionMap + {"dateCreated": dateCreated}
+        sessionMap = {"id": sessionID} + createSessionMap + {"dateCreated": sessionDateCreated}
         self.activeSessions.push(sessionMap)
         return sessionMap.id
     end if
