@@ -126,7 +126,7 @@ Proxima.sessions.resetSession = function (sessionID, resetSaved = false)
     acquiredSession = self.getSession(sessionID, resetSaved)
     if acquiredSession != null then
         if resetSaved then
-            
+            //...
         else
             acquiredSession = self.createSessionMap(acquiredSession.sessionType, acquiredSession.targetIP, acquiredSession.targetRouter)
         end if
