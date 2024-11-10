@@ -57,9 +57,11 @@ end function
 Proxima.db.getRecord = function (databaseName, recordID)
     acquiredRecords = self.getRecords(databaseName)
     if acquiredRecords != null then
-        for acquiredRecord in acquiredRecords
-            if acquiredRecord.id == recordID then return acquiredRecord
-        end for
+        if acquiredRecords.len > 0 then
+            for acquiredRecord in acquiredRecords
+                if acquiredRecord.id == recordID then return acquiredRecord
+            end for
+        end if
     end if
     return null
 end function
@@ -75,11 +77,8 @@ Proxima.db.setRecords = function (databaseName, databaseRecords)
 end function
 
 Proxima.db.resetRecords = function (databaseName)
-    databaseFile = self.getDatabase(databaseName)
-    if databaseFile != null then
-        setRecords = self.setRecords(databaseName, [])
-        if setRecords then return true
-    end if
+    setRecords = self.setRecords(databaseName, [])
+    if setRecords then return true
     return null
 end function
 
