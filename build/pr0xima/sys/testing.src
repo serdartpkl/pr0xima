@@ -70,7 +70,7 @@ describe=function(testSuiteName,fn)
 print("/ START_TEST_SUITE")
 print("| TEST_SUITE_NAME: "+testSuiteName)
 fn
-print("\ END_TEST_SUTE")
+print("\ END_TEST_SUITE")
 end function
 it=function(testName,fn)
 print("|-- TEST_NAME: "+testName)
