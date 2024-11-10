@@ -148,9 +148,9 @@ end function
 // ------------------------------------------------------------------------------------------------------------
 Proxima.sessions.saveSession=function(sessionID)
 acquiredSession=self.getSession(sessionID)
+acquiredSessionID=acquiredSession.id
 if acquiredSession!=null then
 getSavedSession=self.getSession(acquiredSession.targetIP,true)
-acquiredSessionID=acquiredSession.id
 if getSavedSession!=null then
 acquiredSession.id=getSavedSession.id
 updateRecord=Proxima.db.updateRecord("sessions",getSavedSession.id,acquiredSession)
@@ -160,9 +160,9 @@ return true
 end if
 else
 acquiredSession.remove("id")
-addRecord=Proxima.db.addRecord("sessions",acquiredSession,"dateCreated")
+addRecord=Proxima.db.addRecord("sessions",acquiredSession)
 if addRecord then
-acquiredSession.id=acquiredSessionID
+acquiredSession={"id":acquiredSessionID}+acquiredSession
 return true
 end if
 end if
@@ -182,7 +182,7 @@ end if
 return null
 end function
 // ------------------------------------------------------------------------------------------------------------
-Proxima.sessions.addDataToSession=function(sessionID,targetList,givenMap)
+Proxima.sessions.addMapToSession=function(sessionID,targetList,givenMap)
 acquiredSession=self.getSession(sessionID)
 if acquiredSession!=null then
 self.activeSessions[acquiredSession.id-1][targetList].push(givenMap)

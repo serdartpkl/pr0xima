@@ -91,6 +91,7 @@ acquiredRecords=self.getRecords(databaseName)
 if acquiredRecords!=null then
 recordID=acquiredRecords.len+1
 recordDateCreated=Proxima.utils.getParsedDate
+if recordMap.hasIndex("dateCreated") then recordDateCreated=recordMap.dateCreated
 acquiredRecords.push({"id":recordID}+recordMap+{"dateCreated":recordDateCreated})
 if acquiredRecords.len>1 then acquiredRecords=self.reorderRecords(acquiredRecords)
 setRecords=self.setRecords(databaseName,acquiredRecords)

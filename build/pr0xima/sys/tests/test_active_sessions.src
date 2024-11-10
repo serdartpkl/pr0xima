@@ -40,12 +40,16 @@ expect(isSessionRemote).toBeFalsy
 end function
 Test_AddDataToActiveSession=function
 userMap={"id":1,"username":"root","password":"UNKNOWN"}
-addDataToSession=Proxima.sessions.addDataToSession(Proxima.sessions.activeSession,"targetUsers",userMap)
-expect(addDataToSession).toBeTruthy
+addMapToSession=Proxima.sessions.addMapToSession(Proxima.sessions.activeSession,"targetUsers",userMap)
+expect(addMapToSession).toBeTruthy
 end function
 Test_GetTargetUsersList=function
 getSessionValue=Proxima.sessions.getSessionValue(Proxima.sessions.activeSession,"targetUsers")
 expect(getSessionValue).notToBeNull
+end function
+Test_SaveActiveSession=function
+getSessionValue=Proxima.sessions.saveSession(Proxima.sessions.activeSession)
+expect(getSessionValue).toBeTruthy
 end function
 it("GET_ACTIVE_SESSIONS",@Test_GetActiveSessions)
 it("GET_SAVED_SESSIONS",@Test_GetSavedSessions)
@@ -58,7 +62,9 @@ it("SET_PAYLOAD_INJECTION_FALSE",@Test_SetPayloadInjectionFalse)
 it("IS_ACTIVE_SESSION_LOCAL",@Test_IsActiveSessionLocal)
 it("IS_ACTIVE_SESSION_REMOTE",@Test_IsActiveSessionRemote)
 it("ADD_USER_TO_TARGET_USERS",@Test_AddDataToActiveSession)
-it("GET_TARGET_USERS_LIST",@Test_GetTargetUsersList)
+it("SAVE_ACTIVE_SESSION",@Test_SaveActiveSession)
+it("GET_ACTIVE_SESSIONS",@Test_GetActiveSessions)
+it("GET_SAVED_SESSIONS",@Test_GetSavedSessions)
 end function
 describe("ACTIVE_SESSIONS_TEST_SUITE",@TestSuite_ActiveSessions)
 end function
