@@ -10,102 +10,102 @@ end function
 
 Matchers.toBe = function (expectedValue)
     if expectedValue == self.actualValue and typeof(expectedValue) == typeof(self.actualValue) then
-        print("|---- TEST_STATUS: SUCCEED!")
+        print(Proxima.io.addOutputEntry(Proxima.io.output.success("<b>|---- TEST_STATUS: SUCCEED!</b>")))
     else
-        print("|---- TEST_STATUS: FAILED!")
+        print(Proxima.io.addOutputEntry(Proxima.io.output.error("<b>|---- TEST_STATUS: FAILED!</b>")))
     end if
     actualValue = self.actualValue
     if actualValue == 1 then actualValue = "TRUE"
     if actualValue == 0 then actualValue = "FALSE"
     if actualValue == null then actualValue = "NULL"
-    print("|------ ACTUAL_VALUE: " + actualValue)
-    print("|------ EXPECTED_VALUE: " + expectedValue)
+    print(Proxima.io.addOutputEntry("<b>|------ ACTUAL_VALUE: " + actualValue + "</b>"))
+    print(Proxima.io.addOutputEntry("<b>|------ EXPECTED_VALUE: " + expectedValue + "</b>"))
 end function
 
 Matchers.notToBe = function (expectedValue)
     if expectedValue != self.actualValue or typeof(expectedValue) != typeof(self.actualValue) then
-        print("|---- TEST_STATUS: SUCCEED!")
+        print(Proxima.io.addOutputEntry(Proxima.io.output.success("<b>|---- TEST_STATUS: SUCCEED!</b>")))
     else
-        print("|---- TEST_STATUS: FAILED!")
+        print(Proxima.io.addOutputEntry(Proxima.io.output.error("<b>|---- TEST_STATUS: FAILED!</b>")))
     end if
     actualValue = self.actualValue
     if actualValue == 1 then actualValue = "TRUE"
     if actualValue == 0 then actualValue = "FALSE"
     if actualValue == null then actualValue = "NULL"
-    print("|------ ACTUAL_VALUE: " + actualValue)
-    print("|------ NOT_EXPECTED_VALUE: " + expectedValue)
+    print(Proxima.io.addOutputEntry("<b>|------ ACTUAL_VALUE: " + actualValue + "</b>"))
+    print(Proxima.io.addOutputEntry("<b>|------ NOT_EXPECTED_VALUE: " + expectedValue + "</b>"))
 end function
 
 Matchers.toBeNull = function (expectedValue)
     if self.actualValue == null then
-        print("|---- TEST_STATUS: SUCCEED!")
+        print(Proxima.io.addOutputEntry(Proxima.io.output.success("<b>|---- TEST_STATUS: SUCCEED!</b>")))
     else
-        print("|---- TEST_STATUS: FAILED!")
+        print(Proxima.io.addOutputEntry(Proxima.io.output.error("<b>|---- TEST_STATUS: FAILED!</b>")))
     end if
     actualValue = self.actualValue
     if actualValue == null then actualValue = actualValue.upper()
-    print("|------ ACTUAL_VALUE: " + actualValue)
-    print("|------ EXPECTED_VALUE: NULL")
+    print(Proxima.io.addOutputEntry("<b>|------ ACTUAL_VALUE: " + actualValue + "</b>"))
+    print(Proxima.io.addOutputEntry("<b>|------ EXPECTED_VALUE: NULL</b>"))
 end function
 
 Matchers.notToBeNull = function (expectedValue)
     if self.actualValue != null then
-        print("|---- TEST_STATUS: SUCCEED!")
+        print(Proxima.io.addOutputEntry(Proxima.io.output.success("<b>|---- TEST_STATUS: SUCCEED!</b>")))
     else
-        print("|---- TEST_STATUS: FAILED!")
+        print(Proxima.io.addOutputEntry(Proxima.io.output.error("<b>|---- TEST_STATUS: FAILED!</b>")))
     end if
     actualValue = self.actualValue
     if actualValue == null then actualValue = actualValue.upper()
-    print("|------ ACTUAL_VALUE: " + actualValue)
-    print("|------ EXPECTED_VALUE: NOT_NULL")
+    print(Proxima.io.addOutputEntry("<b>|------ ACTUAL_VALUE: " + actualValue + "</b>"))
+    print(Proxima.io.addOutputEntry("<b>|------ EXPECTED_VALUE: NOT_NULL</b>"))
 end function
 
 Matchers.toBeTruthy = function ()
     if self.actualValue == true then
-        print("|---- TEST_STATUS: SUCCEED!")
+        print(Proxima.io.addOutputEntry(Proxima.io.output.success("<b>|---- TEST_STATUS: SUCCEED!</b>")))
     else
-        print("|---- TEST_STATUS: FAILED!")
+        print(Proxima.io.addOutputEntry(Proxima.io.output.error("<b>|---- TEST_STATUS: FAILED!</b>")))
     end if
     toBoolean = "TRUE"
     if self.actualValue == 0 then toBoolean = "FALSE"
-    print("|------ ACTUAL_VALUE: " + toBoolean)
-    print("|------ EXPECTED_VALUE: TRUE")
+    print(Proxima.io.addOutputEntry("<b>|------ ACTUAL_VALUE: " + toBoolean + "</b>"))
+    print(Proxima.io.addOutputEntry("<b>|------ EXPECTED_VALUE: TRUE</b>"))
 end function
 
 Matchers.notToBeTruthy = function ()
     if self.actualValue != true then
-        print("|---- TEST_STATUS: SUCCEED!")
+        print(Proxima.io.addOutputEntry(Proxima.io.output.success("<b>|---- TEST_STATUS: SUCCEED!</b>")))
     else
-        print("|---- TEST_STATUS: FAILED!")
+        print(Proxima.io.addOutputEntry(Proxima.io.output.error("<b>|---- TEST_STATUS: FAILED!</b>")))
     end if
     toBoolean = "TRUE"
     if self.actualValue == 0 then toBoolean = "FALSE"
-    print("|------ ACTUAL_VALUE: " + toBoolean)
-    print("|------ EXPECTED_VALUE: NOT_TRUE")
+    print(Proxima.io.addOutputEntry("<b>|------ ACTUAL_VALUE: " + toBoolean + "</b>"))
+    print(Proxima.io.addOutputEntry("<b>|------ EXPECTED_VALUE: NOT_TRUE</b>"))
 end function
 
 Matchers.toBeFalsy = function ()
     if self.actualValue == false then
-        print("|---- TEST_STATUS: SUCCEED!")
+        print(Proxima.io.addOutputEntry(Proxima.io.output.success("<b>|---- TEST_STATUS: SUCCEED!</b>")))
     else
-        print("|---- TEST_STATUS: FAILED!")
+        print(Proxima.io.addOutputEntry(Proxima.io.output.error("<b>|---- TEST_STATUS: FAILED!</b>")))
     end if
     toBoolean = "TRUE"
     if self.actualValue == 0 then toBoolean = "FALSE"
-    print("|------ ACTUAL_VALUE: " + toBoolean)
-    print("|------ EXPECTED_VALUE: FALSE")
+    print(Proxima.io.addOutputEntry("<b>|------ ACTUAL_VALUE: " + toBoolean + "</b>"))
+    print(Proxima.io.addOutputEntry("<b>|------ EXPECTED_VALUE: FALSE</b>"))
 end function
 
 Matchers.notToBeFalsy = function ()
     if self.actualValue != false then
-        print("|---- TEST_STATUS: SUCCEED!")
+        print(Proxima.io.addOutputEntry(Proxima.io.output.success("<b>|---- TEST_STATUS: SUCCEED!</b>")))
     else
-        print("|---- TEST_STATUS: FAILED!")
+        print(Proxima.io.addOutputEntry(Proxima.io.output.error("<b>|---- TEST_STATUS: FAILED!</b>")))
     end if
     toBoolean = "TRUE"
     if self.actualValue == 0 then toBoolean = "FALSE"
-    print("|------ ACTUAL_VALUE: " + toBoolean)
-    print("|------ EXPECTED_VALUE: NOT_FALSE")
+    print(Proxima.io.addOutputEntry("<b>|------ ACTUAL_VALUE: " + toBoolean + "</b>"))
+    print(Proxima.io.addOutputEntry("<b>|------ EXPECTED_VALUE: NOT_FALSE</b>"))
 end function
 
 expect = function (actualValue)
@@ -115,16 +115,16 @@ expect = function (actualValue)
 end function
 
 describe = function (testSuiteName, fn)
-    print("/ START_TEST_SUITE")
-    print("| TEST_SUITE_NAME: " + testSuiteName)
+    print(Proxima.io.addOutputEntry("<b>/ START_TEST_SUITE</b>"))
+    print(Proxima.io.addOutputEntry("<b>| TEST_SUITE_NAME: " + testSuiteName + "</b>"))
     fn()
-    print("\ END_TEST_SUITE")
+    print(Proxima.io.addOutputEntry("<b>\ END_TEST_SUITE</b>"))
 end function
 
 it = function (testName, fn)
-    print("|-- TEST_NAME: " + testName)
+    print(Proxima.io.addOutputEntry("<b>|-- TEST_NAME: " + testName + "</b>"))
     fn()
-    print("|-- END_TEST")
+    print(Proxima.io.addOutputEntry("<b>|-- END_TEST</b>"))
 end function
 
 Proxima.testing.runTest = function (testName) 
