@@ -8,9 +8,7 @@ Proxima.db.getDatabases = function ()
         databaseList = []
         idCounter = 1
         for databaseFile in databaseFiles
-            databaseMap = {}
-            databaseMap.id = idCounter
-            databaseMap.name = databaseFile.name.replace(".db", "")
+            databaseMap = {"id": idCounter, "name": databaseFile.name.replace(".db", "")}
             databaseList.push(databaseMap)
             idCounter = idCounter + 1
         end for
