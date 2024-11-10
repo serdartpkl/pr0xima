@@ -23,7 +23,7 @@ Proxima.testing.tests.test_active_sessions = function ()
         end function
 
         Test_SetActiveSession = function ()
-            setSession = Proxima.sessions.setSession(1)
+            setSession = Proxima.sessions.setActiveSession(1)
             expect(setSession).toBeTruthy()
         end function
 
