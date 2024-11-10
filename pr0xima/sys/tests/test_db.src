@@ -13,8 +13,8 @@ Proxima.testing.tests.test_db = function ()
 
         Test_GetDatabaseRecords = function ()
             getRecords = Proxima.db.getRecords("test")
-            expect(getRecords).toBe([])
-        end function 
+            expect(getRecords).notToBe([])
+        end function
 
         Test_AddRecordToDatabase = function ()
             recordMap = {"name": "test_one", "value_list": [1, 2, 3]}
@@ -33,11 +33,13 @@ Proxima.testing.tests.test_db = function ()
         end function
 
         Test_DeleteRecordFromDatabase = function ()
-            expect(true).toBeTruthy()
+            deleteRecord = Proxima.db.deleteRecord("test", 1)
+            expect(deleteRecord).toBeTruthy()
         end function
 
-        Test_ResetDatabase = function ()
-            expect(true).toBeTruthy()
+        Test_ResetDatabaseRecords = function ()
+            resetDatabase = Proxima.db.resetRecords("test")
+            expect(resetDatabase).toBeTruthy()
         end function
 
         Test_SearchDatabaseRecord = function ()
@@ -49,7 +51,8 @@ Proxima.testing.tests.test_db = function ()
         end function
 
         Test_DeleteDatabase = function ()
-            expect(true).toBeTruthy()
+            deleteDatabase = Proxima.db.deleteDatabase("test")
+            expect(deleteDatabase).toBeTruthy()
         end function
     
         it("CREATE_DATABASE", @Test_CreateDatabase)
@@ -58,10 +61,11 @@ Proxima.testing.tests.test_db = function ()
         it("ADD_RECORD_TO_DATABASE", @Test_AddRecordToDatabase)
         it("GET_RECORD_VALUE", @Test_GetRecordValue)
         it("SET_RECORD_VALUE", @Test_SetRecordValue)
+        it("GET_DATABASE_RECORDS", @Test_GetDatabaseRecords)
         it("DELETE_RECORD_FROM_DATABASE", @Test_DeleteRecordFromDatabase)
         it("GET_DATABASE_RECORDS", @Test_GetDatabaseRecords)
         it("ADD_RECORD_TO_DATABASE", @Test_AddRecordToDatabase)
-        it("RESET_DATABASE", @Test_ResetDatabase)
+        it("RESET_DATABASE_RECORDS", @Test_ResetDatabaseRecords)
         it("GET_DATABASE_RECORDS", @Test_GetDatabaseRecords)
         it("ADD_RECORD_TO_DATABASE", @Test_AddRecordToDatabase)
         it("SEARCH_DATABASE_RECORDS", @Test_SearchDatabaseRecord)
