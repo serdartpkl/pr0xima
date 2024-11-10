@@ -18,11 +18,11 @@ recordMap={"name":"test_one","value_list":[1,2,3]}
 addRecord=Proxima.db.addRecord("test",recordMap)
 expect(addRecord).toBeTruthy
 end function
-Test_GetRecordValue=function(recordID,recordKey)
+Test_GetRecordName=function(recordID,recordKey)
 getRecordValue=Proxima.db.getRecordValue("test",1,"name")
 expect(getRecordValue).notToBeNull
 end function
-Test_SetRecordValue=function(recordID,recordKey,recordValue)
+Test_SetRecordName=function(recordID,recordKey,recordValue)
 setRecordValue=Proxima.db.setRecordValue("test",1,"name","test_one_changed")
 expect(setRecordValue).toBeTruthy
 end function
@@ -38,7 +38,7 @@ Test_SearchDatabaseRecord=function
 recordIndex=Proxima.db.searchRecords("test","id",1)
 expect(recordIndex).toBe(0)
 end function
-Test_UpdateDatabaseRecord=function
+Test_UpdateRecordName=function
 recordMap={"name":"test_one_updated","value_list":[2,3,4]}
 updateRecord=Proxima.db.updateRecord("test",1,recordMap)
 expect(updateRecord).toBeTruthy
@@ -51,8 +51,8 @@ it("CREATE_DATABASE",@Test_CreateDatabase)
 it("GET_DATABASES",@Test_GetDatabases)
 it("GET_DATABASE_RECORDS",@Test_GetDatabaseRecords)
 it("ADD_RECORD_TO_DATABASE",@Test_AddRecordToDatabase)
-it("GET_RECORD_VALUE",@Test_GetRecordValue)
-it("SET_RECORD_VALUE",@Test_SetRecordValue)
+it("GET_RECORD_NAME",@Test_GetRecordName)
+it("SET_RECORD_NAME",@Test_SetRecordName)
 it("GET_DATABASE_RECORDS",@Test_GetDatabaseRecords)
 it("DELETE_RECORD_FROM_DATABASE",@Test_DeleteRecordFromDatabase)
 it("GET_DATABASE_RECORDS",@Test_GetDatabaseRecords)
@@ -61,7 +61,7 @@ it("RESET_DATABASE_RECORDS",@Test_ResetDatabaseRecords)
 it("GET_DATABASE_RECORDS",@Test_GetDatabaseRecords)
 it("ADD_RECORD_TO_DATABASE",@Test_AddRecordToDatabase)
 it("SEARCH_DATABASE_RECORDS",@Test_SearchDatabaseRecord)
-it("UPDATE_DATABASE_RECORD",@Test_UpdateDatabaseRecord)
+it("UPDATE_RECORD_NAME",@Test_UpdateRecordName)
 it("GET_DATABASE_RECORDS",@Test_GetDatabaseRecords)
 it("DELETE_DATABASE",@Test_DeleteDatabase)
 end function

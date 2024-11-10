@@ -22,26 +22,30 @@ Test_SetActiveSession=function
 setSession=Proxima.sessions.setActiveSession(1)
 expect(setSession).toBeTruthy
 end function
-Test_GetSessionValue=function
+Test_GetPayloadInjectionValue=function
 getSessionValue=Proxima.sessions.getSessionValue(Proxima.sessions.activeSession,"payloadInjection")
 expect(getSessionValue).notToBeNull
 end function
-Test_SetSessionValue=function
+Test_SetPayloadInjectionFalse=function
 setSessionValue=Proxima.sessions.setSessionValue(Proxima.sessions.activeSession,"payloadInjection",0)
 expect(setSessionValue).toBeTruthy
 end function
-Test_isActiveSessionLocal=function
+Test_IsActiveSessionLocal=function
 isSessionLocal=Proxima.sessions.isSessionLocal(Proxima.sessions.activeSession)
 expect(isSessionLocal).toBeTruthy
 end function
-Test_isActiveSessionRemote=function
+Test_IsActiveSessionRemote=function
 isSessionRemote=Proxima.sessions.isSessionRemote(Proxima.sessions.activeSession)
 expect(isSessionRemote).toBeFalsy
 end function
-Test_addDataToActiveSession=function
+Test_AddDataToActiveSession=function
 userMap={"id":1,"username":"root","password":"UNKNOWN"}
 addDataToSession=Proxima.sessions.addDataToSession(Proxima.sessions.activeSession,"targetUsers",userMap)
 expect(addDataToSession).toBeTruthy
+end function
+Test_GetTargetUsersList=function
+getSessionValue=Proxima.sessions.getSessionValue(Proxima.sessions.activeSession,"targetUsers")
+expect(getSessionValue).notToBeNull
 end function
 it("GET_ACTIVE_SESSIONS",@Test_GetActiveSessions)
 it("GET_SAVED_SESSIONS",@Test_GetSavedSessions)
@@ -49,11 +53,12 @@ it("CREATE_LOCAL_SESSION",@Test_CreateLocalSession)
 it("CREATE_REMOTE_SESSION",@Test_CreateRemoteSession)
 it("GET_ACTIVE_SESSIONS",@Test_GetActiveSessions)
 it("SET_ACTIVE_SESSION",@Test_SetActiveSession)
-it("GET_PAYLOAD_INJECTION",@Test_GetSessionValue)
-it("SET_PAYLOAD_INJECTION_FALSE",@Test_SetSessionValue)
-it("IS_ACTIVE_SESSION_LOCAL",@Test_isActiveSessionLocal)
-it("IS_ACTIVE_SESSION_REMOTE",@Test_isActiveSessionRemote)
-it("ADD_DATA_TO_ACTIVE_SESSION",@Test_addDataToActiveSession)
+it("GET_PAYLOAD_INJECTION_VALUE",@Test_GetPayloadInjectionValue)
+it("SET_PAYLOAD_INJECTION_FALSE",@Test_SetPayloadInjectionFalse)
+it("IS_ACTIVE_SESSION_LOCAL",@Test_IsActiveSessionLocal)
+it("IS_ACTIVE_SESSION_REMOTE",@Test_IsActiveSessionRemote)
+it("ADD_USER_TO_TARGET_USERS",@Test_AddDataToActiveSession)
+it("GET_TARGET_USERS_LIST",@Test_GetTargetUsersList)
 end function
 describe("ACTIVE_SESSIONS_TEST_SUITE",@TestSuite_ActiveSessions)
 end function
