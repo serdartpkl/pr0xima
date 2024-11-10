@@ -1,18 +1,39 @@
 Proxima.testing={}
 Proxima.testing.tests={}
-Proxima.testing.describe=function(testName,testFunction)
-matcherFunctions={}
-matcherFunctions.expect=function(val)
+Matchers={}
+Matchers.actualValue=null
+Matchers.init=function(actualValue)
+self.actualValue=actualValue
 end function
-matcherFunctions.assert=function(val)
+Matchers.toBe=function(expectedValue)
+if expectedValue==self.actualValue and typeof(expectedValue)==typeof(self.actualValue) then
+print("|---- TEST_STATUS: SUCCEED!")
+else
+print("|---- TEST_STATUS: FAILED! [ACTUAL:"+self.actualValue+"|EXPECTED:"+expectedValue+"]")
+end if
 end function
-matcherFunctions.toBe=function(val)
+Matchers.toBeTruthy=function
+if self.actualValue==true then
+print("|---- TEST_STATUS: SUCCEED!")
+else
+print("|---- TEST_STATUS: FAILED! [ACTUAL:"+self.actualValue+"|EXPECTED:TRUE]")
+end if
 end function
-matcherFunctions.toBeEqual=function(val)
+expect=function(actualValue)
+createMatchers=new Matchers
+createMatchers.init(actualValue)
+return createMatchers
 end function
-matcherFunctions.toBeTruthy=function(val)
+describe=function(testSuiteName,fn)
+print("/ START_TEST_SUITE")
+print("| TEST_SUITE_NAME: "+testSuiteName)
+fn
+print("\ END_TEST_SUTE")
 end function
-return matcherFunctions
+it=function(testName,fn)
+print("|-- TEST_NAME: "+testName)
+fn
+print("|-- END_TEST")
 end function
 Proxima.testing.runTest=function(testName)
 if Proxima.testing.tests.hasIndex(testName) then Proxima.testing.tests[testName]
