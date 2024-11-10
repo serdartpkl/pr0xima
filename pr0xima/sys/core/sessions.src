@@ -89,10 +89,9 @@ end function
 
 // ------------------------------------------------------------------------------------------------------------
 
-Proxima.sessions.reorderSessions = function (sessionsList, sortBy = null)
+Proxima.sessions.reorderSessions = function (sessionsList, sortBy = "dateCreated")
     if sortBy != null then sessionsList.sort(sortBy)
     idCounter = 1
-    newActiveSessionID = null
     for recordIndex in range(0, sessionsList.len - 1)
         if self.activeSession == sessionsList[recordIndex].id then newActiveSessionID = idCounter
         if sessionsList[recordIndex].id != idCounter then sessionsList[recordIndex].id = idCounter
