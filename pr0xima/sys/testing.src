@@ -1,5 +1,21 @@
 Proxima.testing = {}
+
 Proxima.testing.tests = {}
+
+// ------------------------------------------------------------------------------------------------------------
+
+describe = function (testSuiteName, fn)
+    print(Proxima.io.addOutputEntry(Proxima.io.output.colorize("<b>/ START_TEST_SUITE</b>", "#FC8403")))
+    print(Proxima.io.addOutputEntry(Proxima.io.output.colorize("<b>| TEST_SUITE_NAME: " + testSuiteName + "</b>", "#FC8403")))
+    fn()
+    print(Proxima.io.addOutputEntry(Proxima.io.output.colorize("<b>\ END_TEST_SUITE</b>", "#FC8403")))
+end function
+
+it = function (testName, fn)
+    print(Proxima.io.addOutputEntry(Proxima.io.output.colorize("<b>|-- TEST_NAME: " + testName + "</b>", "#FFC466")))
+    fn()
+    print(Proxima.io.addOutputEntry(Proxima.io.output.colorize("<b>|-- END_TEST</b>", "#FFC466")))
+end function
 
 Matchers = {}
 Matchers.actualValue = null
@@ -168,20 +184,15 @@ expect = function (actualValue)
     return createMatchers
 end function
 
-describe = function (testSuiteName, fn)
-    print(Proxima.io.addOutputEntry(Proxima.io.output.colorize("<b>/ START_TEST_SUITE</b>", "#FC8403")))
-    print(Proxima.io.addOutputEntry(Proxima.io.output.colorize("<b>| TEST_SUITE_NAME: " + testSuiteName + "</b>", "#FC8403")))
-    fn()
-    print(Proxima.io.addOutputEntry(Proxima.io.output.colorize("<b>\ END_TEST_SUITE</b>", "#FC8403")))
-end function
-
-it = function (testName, fn)
-    print(Proxima.io.addOutputEntry(Proxima.io.output.colorize("<b>|-- TEST_NAME: " + testName + "</b>", "#FFC466")))
-    fn()
-    print(Proxima.io.addOutputEntry(Proxima.io.output.colorize("<b>|-- END_TEST</b>", "#FFC466")))
-end function
+// ------------------------------------------------------------------------------------------------------------
 
 Proxima.testing.runTest = function (testName) 
     if Proxima.testing.tests.hasIndex(testName) then Proxima.testing.tests[testName]()
     return null
+end function
+
+Proxima.testing.runTests = function ()
+    for acquiredTest in self.tests.indexes
+        self.runTest(acquiredTest)
+    end for
 end function
