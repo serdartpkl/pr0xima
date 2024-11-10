@@ -37,8 +37,19 @@ Test_GetSavedSessions=function
 getSavedSessions=Proxima.sessions.getSessions(true)
 expect(getSavedSessions).notToBe([])
 end function
+Test_CreateLocalSession=function
+createSession=Proxima.sessions.createSession(0,get_shell.host_computer.local_ip,get_router(get_shell.host_computer.local_ip))
+expect(createSession).notToBeNull
+end function
+Test_CreateRemoteSession=function
+createSession=Proxima.sessions.createSession(1,"2.2.2.2",get_router("2.2.2.2"))
+expect(createSession).notToBeNull
+end function
 it("GET_ACTIVE_SESSIONS",@Test_GetActiveSessions)
 it("GET_SAVED_SESSIONS",@Test_GetSavedSessions)
+it("CREATE_LOCAL_SESSION",@Test_CreateLocalSession)
+it("CREATE_REMOTE_SESSION",@Test_CreateRemoteSession)
+it("GET_ACTIVE_SESSIONS",@Test_GetActiveSessions)
 end function
 describe("SESSIONS_TEST_SUITE",@TestSuite_Sessions)
 end function
