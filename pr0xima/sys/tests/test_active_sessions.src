@@ -59,11 +59,11 @@ Proxima.testing.tests.test_active_sessions = function ()
         it("CREATE_REMOTE_SESSION", @Test_CreateRemoteSession)
         it("GET_ACTIVE_SESSIONS", @Test_GetActiveSessions)
         it("SET_ACTIVE_SESSION", @Test_SetActiveSession)
-        it("GET_PAYLOAD_INJECTION", @Test_GetSessionValue)
+        it("GET_PAYLOAD_INJECTION_VALUE", @Test_GetSessionValue)
         it("SET_PAYLOAD_INJECTION_FALSE", @Test_SetSessionValue)
         it("IS_ACTIVE_SESSION_LOCAL", @Test_isActiveSessionLocal)
         it("IS_ACTIVE_SESSION_REMOTE", @Test_isActiveSessionRemote)
-        it("ADD_DATA_TO_ACTIVE_SESSION", @Test_addDataToActiveSession)
+        it("ADD_USER_TO_TARGET_USERS", @Test_addDataToActiveSession)
     end function
 
     describe("ACTIVE_SESSIONS_TEST_SUITE", @TestSuite_ActiveSessions)

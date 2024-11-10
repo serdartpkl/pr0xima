@@ -22,12 +22,12 @@ Test_SetActiveSession=function
 setSession=Proxima.sessions.setActiveSession(1)
 expect(setSession).toBeTruthy
 end function
-Test_GetSessionValue=function(sessionKey)
-getSessionValue=Proxima.sessions.getSessionValue(Proxima.sessions.activeSession,sessionKey)
+Test_GetSessionValue=function
+getSessionValue=Proxima.sessions.getSessionValue(Proxima.sessions.activeSession,"payloadInjection")
 expect(getSessionValue).notToBeNull
 end function
-Test_SetSessionValue=function(sessionKey,sessionValue)
-setSessionValue=Proxima.sessions.setSessionValue(Proxima.sessions.activeSession,sessionKey,sessionValue)
+Test_SetSessionValue=function
+setSessionValue=Proxima.sessions.setSessionValue(Proxima.sessions.activeSession,"payloadInjection",0)
 expect(setSessionValue).toBeTruthy
 end function
 Test_isActiveSessionLocal=function
@@ -49,8 +49,8 @@ it("CREATE_LOCAL_SESSION",@Test_CreateLocalSession)
 it("CREATE_REMOTE_SESSION",@Test_CreateRemoteSession)
 it("GET_ACTIVE_SESSIONS",@Test_GetActiveSessions)
 it("SET_ACTIVE_SESSION",@Test_SetActiveSession)
-it("GET_SESSION_VALUE",@Test_GetSessionValue("payloadInjection"))
-it("SET_SESSION_VALUE",@Test_SetSessionValue("payloadInjection",0))
+it("GET_PAYLOAD_INJECTION",@Test_GetSessionValue)
+it("SET_PAYLOAD_INJECTION_FALSE",@Test_SetSessionValue)
 it("IS_ACTIVE_SESSION_LOCAL",@Test_isActiveSessionLocal)
 it("IS_ACTIVE_SESSION_REMOTE",@Test_isActiveSessionRemote)
 it("ADD_DATA_TO_ACTIVE_SESSION",@Test_addDataToActiveSession)
