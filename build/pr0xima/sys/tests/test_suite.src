@@ -1,13 +1,16 @@
 Proxima.testing.tests.test_suite=function
 databaseSuite=function
-testPass=function
-expect(true).toBeTruthy
+testCreateDatabase=function
+dbName="test"
+createDatabase=Proxima.db.createDatabase(dbName)
+expect(createDatabase).toBeTruthy
 end function
-testFail=function
-expect(true).toBe(false)
+testGetDatabases=function
+getDatabases=Proxima.db.getDatabases
+expect(getDatabases).notToBeNull
 end function
-it("TEST_PASS",@testPass)
-it("TEST_FAIL",@testFail)
+it("CREATE_DATABASE",@testCreateDatabase)
+it("GET_DATABASES",@testGetDatabases)
 end function
-describe("TEST_SUITE",@databaseSuite)
+describe("DATABASE_TEST_SUITE",@databaseSuite)
 end function

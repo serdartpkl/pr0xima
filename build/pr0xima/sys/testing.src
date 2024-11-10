@@ -12,11 +12,53 @@ else
 print("|---- TEST_STATUS: FAILED! [ACTUAL:"+self.actualValue+"|EXPECTED:"+expectedValue+"]")
 end if
 end function
+Matchers.notToBe=function(expectedValue)
+if expectedValue!=self.actualValue or typeof(expectedValue)!=typeof(self.actualValue) then
+print("|---- TEST_STATUS: SUCCEED!")
+else
+print("|---- TEST_STATUS: FAILED! [ACTUAL:"+self.actualValue+"|EXPECTED:"+expectedValue+"]")
+end if
+end function
+Matchers.toBeNull=function(expectedValue)
+if self.actualValue==null then
+print("|---- TEST_STATUS: SUCCEED!")
+else
+print("|---- TEST_STATUS: FAILED! [ACTUAL:"+self.actualValue+"|EXPECTED:NULL]")
+end if
+end function
+Matchers.notToBeNull=function(expectedValue)
+if self.actualValue!=null then
+print("|---- TEST_STATUS: SUCCEED!")
+else
+print("|---- TEST_STATUS: FAILED! [ACTUAL:"+self.actualValue+"|EXPECTED:NOT_NULL]")
+end if
+end function
 Matchers.toBeTruthy=function
 if self.actualValue==true then
 print("|---- TEST_STATUS: SUCCEED!")
 else
 print("|---- TEST_STATUS: FAILED! [ACTUAL:"+self.actualValue+"|EXPECTED:TRUE]")
+end if
+end function
+Matchers.notToBeTruthy=function
+if self.actualValue!=true then
+print("|---- TEST_STATUS: SUCCEED!")
+else
+print("|---- TEST_STATUS: FAILED! [ACTUAL:"+self.actualValue+"|EXPECTED:NOT_TRUE]")
+end if
+end function
+Matchers.toBeFalsy=function
+if self.actualValue==false then
+print("|---- TEST_STATUS: SUCCEED!")
+else
+print("|---- TEST_STATUS: FAILED! [ACTUAL:"+self.actualValue+"|EXPECTED:FALSE]")
+end if
+end function
+Matchers.notToBeFalsy=function
+if self.actualValue!=false then
+print("|---- TEST_STATUS: SUCCEED!")
+else
+print("|---- TEST_STATUS: FAILED! [ACTUAL:"+self.actualValue+"|EXPECTED:NOT_FALSE]")
 end if
 end function
 expect=function(actualValue)

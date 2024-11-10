@@ -8,11 +8,26 @@ Proxima.testing.tests.test_suite = function ()
 
         testGetDatabases = function ()
             getDatabases = Proxima.db.getDatabases()
-            expect(getDatabases).not.notToBeNull()
+            expect(getDatabases).notToBeNull()
         end function
+
+        testGetRecords = function ()
+            dbName = "test"
+            getRecords = Proxima.db.getRecords(dbName)
+            expect(getRecords).toBe([])
+        end function 
+
+        testAddRecord = function ()
+            dbName = "test"
+            recordMap = {"name": "test_one", "value_list": [1, 2, 3]}
+            addRecord = Proxima.db.addRecord(dbName, recordMap)
+            expect(addRecord).toBeTruthy()
+        end function 
     
         it("CREATE_DATABASE", @testCreateDatabase)
         it("GET_DATABASES", @testGetDatabases)
+        it("GET_DATABASE_RECORDS", @testGetRecords)
+        it("ADD_RECORD", @testGetRecords)
     end function
 
     describe("DATABASE_TEST_SUITE", @databaseSuite)
