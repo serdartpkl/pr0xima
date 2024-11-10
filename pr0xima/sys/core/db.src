@@ -104,38 +104,38 @@ Proxima.db.searchRecords = function (databaseName, recordKey, recordValue)
     return null
 end function
 
-Proxima.db.addRecord = function (databaseName, recordMap, sortBy = null)
+Proxima.db.addRecord = function (databaseName, recordMap)
     acquiredRecords = self.getRecords(databaseName)
     if acquiredRecords != null then
         recordMap = {"id": acquiredRecords.len + 1} + recordMap
         if recordMap.hasIndex("dateCreated") == 0 then recordMap.dateCreated = Proxima.utils.getParsedDate()
         acquiredRecords.push(recordMap)
-        if acquiredRecords.len > 1 then acquiredRecords = self.reorderRecords(acquiredRecords, sortBy)
+        if acquiredRecords.len > 1 then acquiredRecords = self.reorderRecords(acquiredRecords, "dateCreated")
         setRecords = self.setRecords(databaseName, acquiredRecords)
         if setRecords then return true
     end if
     return null
 end function
 
-Proxima.db.updateRecord = function (databaseName, recordID, recordMap, sortBy = null)
+Proxima.db.updateRecord = function (databaseName, recordID, recordMap)
     acquiredRecord = self.getRecord(databaseName, recordID)
     if acquiredRecord != null then
         acquiredRecords = self.getRecords(databaseName)
         acquiredRecords[recordID - 1] = {"id": acquiredRecord.id} + recordMap + {"dateCreated": acquiredRecord.dateCreated}
-        if acquiredRecords.len > 1 then acquiredRecords = self.reorderRecords(acquiredRecords, sortBy)
+        if acquiredRecords.len > 1 then acquiredRecords = self.reorderRecords(acquiredRecords, "dateCreated")
         setRecords = self.setRecords(databaseName, acquiredRecords) 
         if setRecords then return true
     end if
     return null
 end function
 
-Proxima.db.deleteRecord = function (databaseName, recordID, sortBy = null)
+Proxima.db.deleteRecord = function (databaseName, recordID)
     acquiredRecord = self.getRecord(databaseName, recordID)
     if acquiredRecord != null then
         acquiredRecords = self.getRecords(databaseName)
         if acquiredRecords.hasIndex(recordID - 1) and acquiredRecords.len > 1 then
             acquiredRecords.remove(recordID - 1)
-            if acquiredRecords.len > 1 then acquiredRecords = self.reorderRecords(acquiredRecords, sortBy)
+            if acquiredRecords.len > 1 then acquiredRecords = self.reorderRecords(acquiredRecords, "dateCreated")
             setRecords = self.setRecords(databaseName, acquiredRecords) 
             if setRecords then return true
         else if acquiredRecords.hasIndex(recordID - 1) and acquiredRecords.len == 1 then

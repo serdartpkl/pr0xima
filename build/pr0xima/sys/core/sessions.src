@@ -35,7 +35,7 @@ return true
 end if
 return null
 end function
-Proxima.session.createSessionMap=function(sessionType,targetIP,targetRouter)
+Proxima.sessions.createSessionMap=function(sessionType,targetIP,targetRouter)
 sessionMap={}
 sessionMap.id=self.activeSessions.len+1
 sessionMap.targetIP=targetIP
