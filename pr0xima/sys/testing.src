@@ -43,20 +43,6 @@ it = function (testName, fn)
     print("|-- END_TEST")
 end function
 
-// databaseSuite = function ()
-//     testPass = function ()
-//         expect(true).toBeTruthy()
-//     end function
-//     testFail = function ()
-//         expect(true).toBe(false)
-//     end function
-//  
-//     it("TEST_PASS", @testPass)
-//     it("TEST_FAIL", @testFail)
-// end function
-//
-// describe("TEST_SUITE", @databaseSuite)
-
 Proxima.testing.runTest = function (testName) 
     if Proxima.testing.tests.hasIndex(testName) then Proxima.testing.tests[testName]()
     return null
