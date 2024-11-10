@@ -48,8 +48,6 @@ end function
 Proxima.sessions.createSessionMap = function (sessionType, targetIP, targetRouter)
     sessionMap = {}
 
-    sessionMap.id = self.activeSessions.len + 1
-
     sessionMap.targetIP = targetIP
     sessionMap.targetRouter = targetRouter
 
@@ -74,14 +72,14 @@ Proxima.sessions.createSessionMap = function (sessionType, targetIP, targetRoute
 
     sessionMap.payloadInjection = 1
 
-    sessionMap.dateCreated = Proxima.utils.getParsedDate()
-
     return sessionMap
 end function
 
 Proxima.sessions.createSession = function (sessionType, targetIP, targetRouter)
     if self.getSession(targetIP) == null then
-        sessionMap = self.createSessionMap(sessionType, targetIP, targetRouter)
+        createSessionMap = self.createSessionMap(sessionType, targetIP, targetRouter)
+        dateCreated = Proxima.utils.getParsedDate()
+        sessionMap = {"id": self.activeSessions.len + 1} + createSessionMap + {"dateCreated": dateCreated}
         self.activeSessions.push(sessionMap)
         return sessionMap.id
     end if
@@ -125,7 +123,8 @@ Proxima.sessions.resetSession = function (sessionID, resetSaved = false)
         if resetSaved then
             //...
         else
-            acquiredSession = self.createSessionMap(acquiredSession.sessionType, acquiredSession.targetIP, acquiredSession.targetRouter)
+            createSessionMap = self.createSessionMap(acquiredSession.sessionType, acquiredSession.targetIP, acquiredSession.targetRouter)
+            acquiredSession = {"id": acquiredSession.id} + createSessionMap + {"dateCreated": acquiredSession.dateCreated}
         end if
     end if
     return null
