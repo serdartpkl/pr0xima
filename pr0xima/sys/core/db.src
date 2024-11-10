@@ -169,7 +169,7 @@ end function
 Proxima.db.setRecordValue = function (databaseName, recordID, recordKey, recordValue)
     acquiredRecord = self.getRecord(databaseName, recordID)
     if acquiredRecord != null then
-        acquiredRecords = self.self.getRecords(databaseName)
+        acquiredRecords = self.getRecords(databaseName)
         if acquiredRecord.hasIndex(recordKey) then
             acquiredRecords[recordID - 1][recordKey] = recordValue
             setRecords = self.setRecords(databaseName, acquiredRecords)
