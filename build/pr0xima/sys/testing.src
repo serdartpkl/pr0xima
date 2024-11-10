@@ -52,7 +52,7 @@ else
 print(Proxima.io.addOutputEntry(Proxima.io.output.colorize("<b>|---- TEST_RESULT: FAILED</b>","#FF1548")))
 end if
 actualValue=self.actualValue
-if actualValue==null then actualValue=actualValue.upper
+if actualValue==null then actualValue="NULL"
 print(Proxima.io.addOutputEntry("<b>|------ ACTUAL_VALUE: "+actualValue+"</b>"))
 print(Proxima.io.addOutputEntry("<b>|------ EXPECTED_VALUE: NULL</b>"))
 if testResult then
@@ -70,7 +70,7 @@ else
 print(Proxima.io.addOutputEntry(Proxima.io.output.colorize("<b>|---- TEST_RESULT: FAILED</b>","#FF1548")))
 end if
 actualValue=self.actualValue
-if actualValue==null then actualValue=actualValue.upper
+if actualValue==null then actualValue="NULL"
 print(Proxima.io.addOutputEntry("<b>|------ ACTUAL_VALUE: "+actualValue+"</b>"))
 print(Proxima.io.addOutputEntry("<b>|------ EXPECTED_VALUE: NOT_NULL</b>"))
 if testResult then
