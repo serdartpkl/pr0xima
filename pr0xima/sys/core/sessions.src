@@ -36,7 +36,7 @@ Proxima.sessions.getSession = function (sessionKey, getSaved = false)
     return acquiredSession
 end function
 
-Proxima.sessions.setSession = function (sessionID)
+Proxima.sessions.setActiveSession = function (sessionID)
     acquiredSession = self.getSession(sessionID)
     if acquiredSession != null then
         self.activeSession = acquiredSession.id
