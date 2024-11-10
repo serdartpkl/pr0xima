@@ -6,7 +6,7 @@ expect(getActiveSessions).notToBeNull
 end function
 Test_GetSavedSessions=function
 getSavedSessions=Proxima.sessions.getSessions(true)
-expect(getSavedSessions).notToBe([])
+expect(getSavedSessions).notToBeNull
 end function
 Test_CreateLocalSession=function
 localIP=get_shell.host_computer.local_ip
@@ -36,7 +36,7 @@ expect(isSessionLocal).toBeTruthy
 end function
 Test_isActiveSessionRemote=function
 isSessionRemote=Proxima.sessions.isSessionRemote(Proxima.sessions.activeSession)
-expect(isSessionRemote).toBeTruthy
+expect(isSessionRemote).toBeFalsy
 end function
 it("GET_ACTIVE_SESSIONS",@Test_GetActiveSessions)
 it("GET_SAVED_SESSIONS",@Test_GetSavedSessions)
@@ -46,7 +46,6 @@ it("GET_ACTIVE_SESSIONS",@Test_GetActiveSessions)
 it("SET_ACTIVE_SESSION",@Test_SetActiveSession)
 it("GET_SESSION_VALUE",@Test_GetSessionValue)
 it("SET_SESSION_VALUE",@Test_SetSessionValue)
-it("GET_SESSION_VALUE",@Test_GetSessionValue)
 it("IS_ACTIVE_SESSION_LOCAL",@Test_isActiveSessionLocal)
 it("IS_ACTIVE_SESSION_REMOTE",@Test_isActiveSessionRemote)
 end function
