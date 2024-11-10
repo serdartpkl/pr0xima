@@ -57,6 +57,11 @@ Proxima.testing.tests.test_active_sessions = function ()
             getSessionValue = Proxima.sessions.getSessionValue(Proxima.sessions.activeSession, "targetUsers")
             expect(getSessionValue).notToBeNull()
         end function
+
+        Test_SaveActiveSession = function ()
+            getSessionValue = Proxima.sessions.saveSession(Proxima.sessions.activeSession)
+            expect(getSessionValue).toBeTruthy()
+        end function
     
         it("GET_ACTIVE_SESSIONS", @Test_GetActiveSessions)
         it("GET_SAVED_SESSIONS", @Test_GetSavedSessions)
@@ -69,7 +74,9 @@ Proxima.testing.tests.test_active_sessions = function ()
         it("IS_ACTIVE_SESSION_LOCAL", @Test_IsActiveSessionLocal)
         it("IS_ACTIVE_SESSION_REMOTE", @Test_IsActiveSessionRemote)
         it("ADD_USER_TO_TARGET_USERS", @Test_AddDataToActiveSession)
-        it("GET_TARGET_USERS_LIST", @Test_GetTargetUsersList)
+        it("SAVE_ACTIVE_SESSION", @Test_SaveActiveSession)
+        it("GET_ACTIVE_SESSIONS", @Test_GetActiveSessions)
+        it("GET_SAVED_SESSIONS", @Test_GetSavedSessions)
     end function
 
     describe("ACTIVE_SESSIONS_TEST_SUITE", @TestSuite_ActiveSessions)
