@@ -107,9 +107,7 @@ Proxima.db.updateRecord=function(databaseName,recordID,recordMap,sortBy=null)
 acquiredRecord=self.getRecord(databaseName,recordID)
 if acquiredRecord!=null then
 acquiredRecords=self.getRecords(databaseName)
-acquiredRecordID=acquiredRecord.id
-acquiredRecordDateCreated=acquiredRecord.dateCreated
-acquiredRecords[recordID-1]={"id":acquiredRecordID}+recordMap+{"dateCreated":acquiredRecordDateCreated}
+acquiredRecords[recordID-1]={"id":acquiredRecord.id}+recordMap+{"dateCreated":acquiredRecord.dateCreated}
 if acquiredRecords.len>1 then acquiredRecords=self.reorderRecords(acquiredRecords,sortBy)
 setRecords=self.setRecords(databaseName,acquiredRecords)
 if setRecords then return true
