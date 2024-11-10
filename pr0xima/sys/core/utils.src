@@ -139,7 +139,7 @@ end function
 
 Proxima.utils.isValueProtectedNull = function (givenValue)
     if typeof(givenValue) == "list" and givenValue.hasIndex(0) and givenValue[0] == null then return true
-end if
+end function
 
 // ------------------------------------------------------------------------------------------------------------
 
