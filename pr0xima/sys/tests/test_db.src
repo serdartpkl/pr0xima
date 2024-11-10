@@ -110,3 +110,19 @@ Proxima.testing.tests.test_db = function ()
 
     print(Proxima.io.addOutputEntry(Proxima.io.output.info("Test ended.")))
 end function
+
+Proxima.testing.tests.test_suite = function ()
+    databaseSuite = function ()
+        testPass = function ()
+            expect(true).toBeTruthy()
+        end function
+        testFail = function ()
+            expect(true).toBe(false)
+        end function
+    
+        it("TEST_PASS", @testPass)
+        it("TEST_FAIL", @testFail)
+    end function
+
+    describe("TEST_SUITE", @databaseSuite)
+end function

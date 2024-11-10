@@ -38,9 +38,7 @@ return null
 end function
 Proxima.net.startMonitoring=function
 if self.selectedInterface!=null then
-print(Proxima.io.addOutputEntry(self.selectedInterface))
 airmonResult=Proxima.globals.crypto.airmon("start",self.selectedInterface)
-print(Proxima.io.addOutputEntry(airmonResult))
 if airmonResult==1 then return true
 end if
 return null
@@ -115,17 +113,17 @@ if includeLibraries["crypto.so"]!=null then
 Proxima.globals.crypto=includeLibraries["crypto.so"]
 print(Proxima.io.addOutputEntry(Proxima.io.output.success("Loaded <b>crypto.so</b> library successfully!")))
 else
-exit(Proxima.io.addOutputEntry(Proxima.io.output.error("Couldn't load <b>crypto.so</b> library.")))
+exit(Proxima.io.output.error("Couldn't load <b>crypto.so</b> library."))
 end if
 print(Proxima.io.addOutputEntry(Proxima.io.output.progress("Starting monitoring...")))
 selectInterface=self.selectInterface
 if selectInterface!=true or self.selectedInterface==null then exit(Proxima.io.addOutputEntry(Proxima.io.output.error("Couldn't select interface. Terminating program...")))
-startMonitoring=null
-if self.selectedInterface==null then
-exit(Proxima.io.output.error("Couldn't start monitoring due to insufficient equipment. Terminating program..."))
 startMonitoring=self.startMonitoring
-end if
+if startMonitoring then
 print(Proxima.io.addOutputEntry(Proxima.io.output.success("Started monitoring successfully! <b>[INTERFACE:"+self.selectedInterface.upper+"]</b>")))
+else
+exit(Proxima.io.output.error("Couldn't start monitoring due to insufficient equipment. Terminating program..."))
+end if
 getNetworkList=self.getNetworkList
 if getNetworkList then
 print(Proxima.io.addOutputEntry(Proxima.io.output.progress("Got network list, trying to find target network...")))
@@ -144,7 +142,7 @@ exit(Proxima.io.output.error("Couldn't find any network with given ESSID! Termin
 end if
 end if
 startSniffing=self.startSniffing
-if startSniffing==null then exit(Proxima.io.addOutputEntry(Proxima.io.output.error("Couldn't complete sniffing. Terminating program...")))
+if startSniffing==null then exit(Proxima.io.output.error("Couldn't complete sniffing. Terminating program..."))
 print(Proxima.io.addOutputEntry(Proxima.io.output.line))
 getNetworkKey=null
 if startSniffing then getNetworkKey=self.crackKey

@@ -1,31 +1,61 @@
 Proxima.testing = {}
 Proxima.testing.tests = {}
 
-Proxima.testing.describe = function (testName, testFunction) 
-    matcherFunctions = {}
+Matchers = {}
+Matchers.actualValue = null
 
-    matcherFunctions.expect = function (val)
-
-    end function
-
-    matcherFunctions.assert = function (val)
-
-    end function
-
-    matcherFunctions.toBe = function (val)
-
-    end function
-
-    matcherFunctions.toBeEqual = function (val)
-
-    end function
-
-    matcherFunctions.toBeTruthy = function (val)
-
-    end function
-
-    return matcherFunctions
+Matchers.init = function (actualValue)
+    self.actualValue = actualValue
 end function
+
+Matchers.toBe = function (expectedValue)
+    if expectedValue == self.actualValue and typeof(expectedValue) == typeof(self.actualValue) then
+        print("|---- TEST_STATUS: SUCCEED!")
+    else
+        print("|---- TEST_STATUS: FAILED! [ACTUAL:" + self.actualValue + "|EXPECTED:" + expectedValue + "]")
+    end if
+end function
+
+Matchers.toBeTruthy = function ()
+    if self.actualValue == true then
+        print("|---- TEST_STATUS: SUCCEED!")
+    else
+        print("|---- TEST_STATUS: FAILED! [ACTUAL:" + self.actualValue + "|EXPECTED:TRUE]")
+    end if
+end function
+
+expect = function (actualValue)
+    createMatchers = new Matchers
+    createMatchers.init(actualValue)
+    return createMatchers
+end function
+
+describe = function (testSuiteName, fn)
+    print("/ START_TEST_SUITE")
+    print("| TEST_SUITE_NAME: " + testSuiteName)
+    fn()
+    print("\ END_TEST_SUTE")
+end function
+
+it = function (testName, fn)
+    print("|-- TEST_NAME: " + testName)
+    fn()
+    print("|-- END_TEST")
+end function
+
+// databaseSuite = function ()
+//     testPass = function ()
+//         expect(true).toBeTruthy()
+//     end function
+//     testFail = function ()
+//         expect(true).toBe(false)
+//     end function
+//  
+//     it("TEST_PASS", @testPass)
+//     it("TEST_FAIL", @testFail)
+// end function
+//
+// describe("TEST_SUITE", @databaseSuite)
 
 Proxima.testing.runTest = function (testName) 
     if Proxima.testing.tests.hasIndex(testName) then Proxima.testing.tests[testName]()
