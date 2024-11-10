@@ -10,7 +10,7 @@ expect(getSavedSessions).notToBeNull
 end function
 Test_CreateLocalSession=function
 localIP=get_shell.host_computer.local_ip
-createSession=Proxima.sessions.createSession(0,localIP,get_router(localIP))
+createSession=Proxima.sessions.createSession(0,localIP,get_router)
 expect(createSession).notToBeNull
 end function
 Test_CreateRemoteSession=function
