@@ -10,20 +10,28 @@ getDatabases=Proxima.db.getDatabases
 expect(getDatabases).notToBeNull
 end function
 testGetRecords=function
-dbName="test"
-getRecords=Proxima.db.getRecords(dbName)
+getRecords=Proxima.db.getRecords("test")
 expect(getRecords).toBe([])
 end function
 testAddRecord=function
-dbName="test"
 recordMap={"name":"test_one","value_list":[1,2,3]}
-addRecord=Proxima.db.addRecord(dbName,recordMap)
+addRecord=Proxima.db.addRecord("test",recordMap)
 expect(addRecord).toBeTruthy
+end function
+testGetRecordValue=function
+getRecordValue=Proxima.db.getRecordValue("test",1,"name")
+expect(getRecordValue).notToBeNull
+end function
+testSetRecordValue=function
+setRecordValue=Proxima.db.setRecordValue("test",1,"name","test_one_changed")
+expect(setRecordValue).toBeTruthy
 end function
 it("CREATE_DATABASE",@testCreateDatabase)
 it("GET_DATABASES",@testGetDatabases)
 it("GET_DATABASE_RECORDS",@testGetRecords)
 it("ADD_RECORD",@testAddRecord)
+it("GET_RECORD_VALUE",@testGetRecordValue)
+it("SET_RECORD_VALUE",@testSetRecordValue)
 end function
 describe("DATABASE_TEST_SUITE",@databaseSuite)
 end function

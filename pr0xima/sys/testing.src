@@ -12,64 +12,92 @@ Matchers.toBe = function (expectedValue)
     if expectedValue == self.actualValue and typeof(expectedValue) == typeof(self.actualValue) then
         print("|---- TEST_STATUS: SUCCEED!")
     else
-        print("|---- TEST_STATUS: FAILED! [ACTUAL:" + self.actualValue + "|EXPECTED:" + expectedValue + "]")
+        print("|---- TEST_STATUS: FAILED!")
     end if
+    print("|------ ACTUAL_VALUE: " + self.actualValue)
+    print("|------ EXPECTED_VALUE: " + expectedValue)
 end function
 
 Matchers.notToBe = function (expectedValue)
     if expectedValue != self.actualValue or typeof(expectedValue) != typeof(self.actualValue) then
         print("|---- TEST_STATUS: SUCCEED!")
     else
-        print("|---- TEST_STATUS: FAILED! [ACTUAL:" + self.actualValue + "|EXPECTED:" + expectedValue + "]")
+        print("|---- TEST_STATUS: FAILED!")
     end if
+    print("|------ ACTUAL_VALUE: " + self.actualValue)
+    print("|------ NOT_EXPECTED_VALUE: " + expectedValue)
 end function
 
 Matchers.toBeNull = function (expectedValue)
     if self.actualValue == null then
         print("|---- TEST_STATUS: SUCCEED!")
     else
-        print("|---- TEST_STATUS: FAILED! [ACTUAL:" + self.actualValue + "|EXPECTED:NULL]")
+        print("|---- TEST_STATUS: FAILED!")
     end if
+    actualValue = self.actualValue
+    if actualValue == null then actualValue = actualValue.upper()
+    print("|------ ACTUAL_VALUE: " + actualValue)
+    print("|------ EXPECTED_VALUE: NULL")
 end function
 
 Matchers.notToBeNull = function (expectedValue)
     if self.actualValue != null then
         print("|---- TEST_STATUS: SUCCEED!")
     else
-        print("|---- TEST_STATUS: FAILED! [ACTUAL:" + self.actualValue + "|EXPECTED:NOT_NULL]")
+        print("|---- TEST_STATUS: FAILED!")
     end if
+    actualValue = self.actualValue
+    if actualValue == null then actualValue = actualValue.upper()
+    print("|------ ACTUAL_VALUE: " + actualValue)
+    print("|------ EXPECTED_VALUE: NOT_NULL")
 end function
 
 Matchers.toBeTruthy = function ()
     if self.actualValue == true then
         print("|---- TEST_STATUS: SUCCEED!")
     else
-        print("|---- TEST_STATUS: FAILED! [ACTUAL:" + self.actualValue + "|EXPECTED:TRUE]")
+        print("|---- TEST_STATUS: FAILED!")
     end if
+    toBoolean = "TRUE"
+    if self.actualValue == 0 then toBoolean = "FALSE"
+    print("|------ ACTUAL_VALUE: " + toBoolean)
+    print("|------ EXPECTED_VALUE: TRUE")
 end function
 
 Matchers.notToBeTruthy = function ()
     if self.actualValue != true then
         print("|---- TEST_STATUS: SUCCEED!")
     else
-        print("|---- TEST_STATUS: FAILED! [ACTUAL:" + self.actualValue + "|EXPECTED:NOT_TRUE]")
+        print("|---- TEST_STATUS: FAILED!")
     end if
+    toBoolean = "TRUE"
+    if self.actualValue == 0 then toBoolean = "FALSE"
+    print("|------ ACTUAL_VALUE: " + toBoolean)
+    print("|------ EXPECTED_VALUE: NOT_TRUE")
 end function
 
 Matchers.toBeFalsy = function ()
     if self.actualValue == false then
         print("|---- TEST_STATUS: SUCCEED!")
     else
-        print("|---- TEST_STATUS: FAILED! [ACTUAL:" + self.actualValue + "|EXPECTED:FALSE]")
+        print("|---- TEST_STATUS: FAILED!")
     end if
+    toBoolean = "TRUE"
+    if self.actualValue == 0 then toBoolean = "FALSE"
+    print("|------ ACTUAL_VALUE: " + toBoolean)
+    print("|------ EXPECTED_VALUE: FALSE")
 end function
 
 Matchers.notToBeFalsy = function ()
     if self.actualValue != false then
         print("|---- TEST_STATUS: SUCCEED!")
     else
-        print("|---- TEST_STATUS: FAILED! [ACTUAL:" + self.actualValue + "|EXPECTED:NOT_FALSE]")
+        print("|---- TEST_STATUS: FAILED!")
     end if
+    toBoolean = "TRUE"
+    if self.actualValue == 0 then toBoolean = "FALSE"
+    print("|------ ACTUAL_VALUE: " + toBoolean)
+    print("|------ EXPECTED_VALUE: NOT_FALSE")
 end function
 
 expect = function (actualValue)
