@@ -25,7 +25,7 @@ Proxima.db.createDatabase=function(databaseName)
 if self.getDatabase(databaseName)==null then
 createDatabaseFile=Proxima.globals.myPC.touch(home_dir+"/pr0xima/databases",databaseName+".db")
 if typeof(createDatabaseFile)!="string" then
-databaseFile=Proxima.globals.myPC.File(home_dir+"/pr0xima/databases/"+databaseName+".db")
+databaseFile=self.getDatabase(databaseName)
 setFileContent=databaseFile.set_content("{"+char(34)+"records"+char(34)+":[]}")
 if setFileContent==1 then return true
 end if
@@ -49,9 +49,11 @@ end function
 Proxima.db.getRecord=function(databaseName,recordID)
 acquiredRecords=self.getRecords(databaseName)
 if acquiredRecords!=null then
+if acquiredRecords.len>0 then
 for acquiredRecord in acquiredRecords
 if acquiredRecord.id==recordID then return acquiredRecord
 end for
+end if
 end if
 return null
 end function
@@ -65,24 +67,19 @@ end if
 return null
 end function
 Proxima.db.resetRecords=function(databaseName)
-databaseFile=self.getDatabase(databaseName)
-if databaseFile!=null then
 setRecords=self.setRecords(databaseName,[])
 if setRecords then return true
-end if
 return null
 end function
-Proxima.db.reorderRecords=function(databaseName,databaseRecords,sortBy=null)
-databaseFile=self.getDatabase(databaseName)
-if databaseFile!=null then
+Proxima.db.reorderRecords=function(databaseRecords,sortBy=null)
+if databaseRecords.len>1 then
 if sortBy!=null then databaseRecords.sort(sortBy)
 idCounter=1
 for recordIndex in range(0,databaseRecords.len-1)
 if databaseRecords[recordIndex].id!=idCounter then databaseRecords[recordIndex].id=idCounter
 idCounter=idCounter+1
 end for
-setRecords=self.setRecords(databaseName,databaseRecords)
-if setRecords==1 then return true
+return databaseRecords
 end if
 return null
 end function
@@ -100,13 +97,9 @@ if acquiredRecords!=null then
 recordMap={"id":acquiredRecords.len+1}+recordMap
 if recordMap.hasIndex("dateCreated")==0 then recordMap.dateCreated=Proxima.utils.getParsedDate
 acquiredRecords.push(recordMap)
-performAddition=null
-if acquiredRecords.len>1 then
-performAddition=self.reorderRecords(databaseName,acquiredRecords,sortBy)
-else if acquiredRecords.len==1 then
-performAddition=self.setRecords(databaseName,acquiredRecords)
-end if
-if performAddition then return true
+if acquiredRecords.len>1 then acquiredRecords=self.reorderRecords(acquiredRecords,sortBy)
+setRecords=self.setRecords(databaseName,acquiredRecords)
+if setRecords then return true
 end if
 return null
 end function
@@ -117,8 +110,9 @@ acquiredRecords=self.getRecords(databaseName)
 acquiredRecordID=acquiredRecord.id
 acquiredRecordDateCreated=acquiredRecord.dateCreated
 acquiredRecords[recordID-1]={"id":acquiredRecordID}+recordMap+{"dateCreated":acquiredRecordDateCreated}
-reorderRecords=self.reorderRecords(databaseName,acquiredRecords)
-if reorderRecords then return true
+if acquiredRecords.len>1 then acquiredRecords=self.reorderRecords(acquiredRecords,sortBy)
+setRecords=self.setRecords(databaseName,acquiredRecords)
+if setRecords then return true
 end if
 return null
 end function
@@ -128,8 +122,9 @@ if acquiredRecord!=null then
 acquiredRecords=self.getRecords(databaseName)
 if acquiredRecords.hasIndex(recordID-1) and acquiredRecords.len>1 then
 acquiredRecords.remove(recordID-1)
-reorderRecords=self.reorderRecords(databaseName,acquiredRecords,sortBy)
-if reorderRecords then return true
+if acquiredRecords.len>1 then acquiredRecords=self.reorderRecords(acquiredRecords,sortBy)
+setRecords=self.setRecords(databaseName,acquiredRecords)
+if setRecords then return true
 else if acquiredRecords.hasIndex(recordID-1) and acquiredRecords.len==1 then
 resetRecords=self.resetRecords(databaseName)
 if resetRecords then return true
