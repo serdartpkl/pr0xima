@@ -60,5 +60,5 @@ Proxima.testing.tests.test_active_sessions = function ()
         it("IS_ACTIVE_SESSION_REMOTE", @Test_isActiveSessionRemote)
     end function
 
-    describe("SESSIONS_TEST_SUITE", @TestSuite_ActiveSessions)
+    describe("ACTIVE_SESSIONS_TEST_SUITE", @TestSuite_ActiveSessions)
 end function
