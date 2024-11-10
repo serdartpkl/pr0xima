@@ -29,7 +29,9 @@ print("|---- TEST_STATUS: SUCCEED!")
 else
 print("|---- TEST_STATUS: FAILED!")
 end if
-print("|------ ACTUAL_VALUE: "+self.actualValue)
+actualValue=self.actualValue
+if actualValue==null then actualValue=actualValue.upper
+print("|------ ACTUAL_VALUE: "+actualValue)
 print("|------ EXPECTED_VALUE: NULL")
 end function
 Matchers.notToBeNull=function(expectedValue)
@@ -38,7 +40,9 @@ print("|---- TEST_STATUS: SUCCEED!")
 else
 print("|---- TEST_STATUS: FAILED!")
 end if
-print("|------ ACTUAL_VALUE: "+self.actualValue)
+actualValue=self.actualValue
+if actualValue==null then actualValue=actualValue.upper
+print("|------ ACTUAL_VALUE: "+actualValue)
 print("|------ EXPECTED_VALUE: NOT_NULL")
 end function
 Matchers.toBeTruthy=function
@@ -47,7 +51,9 @@ print("|---- TEST_STATUS: SUCCEED!")
 else
 print("|---- TEST_STATUS: FAILED!")
 end if
-print("|------ ACTUAL_VALUE: "+self.actualValue)
+toBoolean="TRUE"
+if self.actualValue==0 then toBoolean="FALSE"
+print("|------ ACTUAL_VALUE: "+toBoolean)
 print("|------ EXPECTED_VALUE: TRUE")
 end function
 Matchers.notToBeTruthy=function
@@ -56,7 +62,9 @@ print("|---- TEST_STATUS: SUCCEED!")
 else
 print("|---- TEST_STATUS: FAILED!")
 end if
-print("|------ ACTUAL_VALUE: "+self.actualValue)
+toBoolean="TRUE"
+if self.actualValue==0 then toBoolean="FALSE"
+print("|------ ACTUAL_VALUE: "+toBoolean)
 print("|------ EXPECTED_VALUE: NOT_TRUE")
 end function
 Matchers.toBeFalsy=function
@@ -65,7 +73,9 @@ print("|---- TEST_STATUS: SUCCEED!")
 else
 print("|---- TEST_STATUS: FAILED!")
 end if
-print("|------ ACTUAL_VALUE: "+self.actualValue)
+toBoolean="TRUE"
+if self.actualValue==0 then toBoolean="FALSE"
+print("|------ ACTUAL_VALUE: "+toBoolean)
 print("|------ EXPECTED_VALUE: FALSE")
 end function
 Matchers.notToBeFalsy=function
@@ -74,7 +84,9 @@ print("|---- TEST_STATUS: SUCCEED!")
 else
 print("|---- TEST_STATUS: FAILED!")
 end if
-print("|------ ACTUAL_VALUE: "+self.actualValue)
+toBoolean="TRUE"
+if self.actualValue==0 then toBoolean="FALSE"
+print("|------ ACTUAL_VALUE: "+toBoolean)
 print("|------ EXPECTED_VALUE: NOT_FALSE")
 end function
 expect=function(actualValue)

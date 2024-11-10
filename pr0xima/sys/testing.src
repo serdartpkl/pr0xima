@@ -14,7 +14,11 @@ Matchers.toBe = function (expectedValue)
     else
         print("|---- TEST_STATUS: FAILED!")
     end if
-    print("|------ ACTUAL_VALUE: " + self.actualValue)
+    actualValue = self.actualValue
+    if actualValue == 1 then actualValue = "TRUE"
+    if actualValue == 0 then actualValue = "FALSE"
+    if actualValue == null then actualValue = "NULL"
+    print("|------ ACTUAL_VALUE: " + actualValue)
     print("|------ EXPECTED_VALUE: " + expectedValue)
 end function
 
@@ -24,7 +28,11 @@ Matchers.notToBe = function (expectedValue)
     else
         print("|---- TEST_STATUS: FAILED!")
     end if
-    print("|------ ACTUAL_VALUE: " + self.actualValue)
+    actualValue = self.actualValue
+    if actualValue == 1 then actualValue = "TRUE"
+    if actualValue == 0 then actualValue = "FALSE"
+    if actualValue == null then actualValue = "NULL"
+    print("|------ ACTUAL_VALUE: " + actualValue)
     print("|------ NOT_EXPECTED_VALUE: " + expectedValue)
 end function
 
