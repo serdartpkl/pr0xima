@@ -43,11 +43,14 @@ Proxima.testing.tests.test_db = function ()
         end function
 
         Test_SearchDatabaseRecord = function ()
-            expect(true).toBeTruthy()
+            recordIndex = Proxima.db.searchRecords("test", "id", 1)
+            expect(recordIndex).toBe(0)
         end function
 
         Test_UpdateDatabaseRecord = function ()
-            expect(true).toBeTruthy()
+            recordMap = {"name": "test_one_updated", "value_list": [2, 3, 4]}
+            updateRecord = Proxima.db.updateRecord("test", 1, recordMap)
+            expect(updateRecord).toBeTruthy()
         end function
 
         Test_DeleteDatabase = function ()
@@ -70,6 +73,7 @@ Proxima.testing.tests.test_db = function ()
         it("ADD_RECORD_TO_DATABASE", @Test_AddRecordToDatabase)
         it("SEARCH_DATABASE_RECORDS", @Test_SearchDatabaseRecord)
         it("UPDATE_DATABASE_RECORD", @Test_UpdateDatabaseRecord)
+        it("GET_DATABASE_RECORDS", @Test_GetDatabaseRecords)
         it("DELETE_DATABASE", @Test_DeleteDatabase)
     end function
 
