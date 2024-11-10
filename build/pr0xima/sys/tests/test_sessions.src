@@ -1,32 +1,3 @@
-Proxima.testing.tests.test_sessionsx=function
-ipList=["2.2.2.2","3.3.3.3","4.4.4.4","5.5.5.5","7.7.7.7","8.8.8.8"]
-for ipIndex in range(0,ipList.len-1)
-createSession=Proxima.sessions.createSession(1,ipList[ipIndex],get_router(ipList[ipIndex]))
-if typeof(createSession)=="number" then print(Proxima.io.addOutputEntry(Proxima.io.output.success("Created session number "+(ipIndex+1)+" successfully.")))
-end for
-setSession=Proxima.sessions.setSession(1)
-if setSession then print(Proxima.io.addOutputEntry(Proxima.io.output.success("Set active session to ID 1.")))
-Proxima.sessions.displaySessions
-getSessionValue=Proxima.sessions.getSessionValue(1,"payloadInjection")
-if getSessionValue!=null then
-if getSessionValue==0 then print(Proxima.io.addOutputEntry(Proxima.io.output.warning("Payload injection is off")))
-if getSessionValue==1 then print(Proxima.io.addOutputEntry(Proxima.io.output.success("Payload injection is on")))
-end if
-setSessionValue=Proxima.sessions.setSessionValue(1,"payloadInjection",0)
-if setSessionValue then print(Proxima.io.addOutputEntry(Proxima.io.output.info("Turned payload injection off.")))
-getSessionValue=Proxima.sessions.getSessionValue(1,"payloadInjection")
-if getSessionValue!=null then
-if getSessionValue==0 then print(Proxima.io.addOutputEntry(Proxima.io.output.warning("Payload injection is off")))
-if getSessionValue==1 then print(Proxima.io.addOutputEntry(Proxima.io.output.success("Payload injection is on")))
-end if
-isLocal=Proxima.sessions.isSessionLocal(1)
-isRemote=Proxima.sessions.isSessionRemote(1)
-if isLocal and isRemote!=true then
-print(Proxima.io.addOutputEntry(Proxima.io.output.info("Session with ID 1 is local session.")))
-else if isRemote and isLocal!=true then
-print(Proxima.io.addOutputEntry(Proxima.io.output.info("Session with ID 1 is remote session.")))
-end if
-end function
 Proxima.testing.tests.test_sessions=function
 TestSuite_Sessions=function
 Test_GetActiveSessions=function
@@ -45,11 +16,37 @@ Test_CreateRemoteSession=function
 createSession=Proxima.sessions.createSession(1,"2.2.2.2",get_router("2.2.2.2"))
 expect(createSession).notToBeNull
 end function
+Test_SetActiveSession=function
+setSession=Proxima.sessions.setSession(1)
+expect(setSession).toBeTruthy
+end function
+Test_GetSessionValue=function
+getSessionValue=Proxima.sessions.getSessionValue(1,"payloadInjection")
+expect(getSessionValue).toBe(1)
+end function
+Test_SetSessionValue=function
+setSessionValue=Proxima.sessions.setSessionValue(1,"payloadInjection",0)
+expect(setSessionValue).toBeTruthy
+end function
+Test_isActiveSessionLocal=function
+isSessionLocal=Proxima.sessions.isSessionLocal(1)
+expect(isSessionLocal).toBeTruthy
+end function
+Test_isActiveSessionRemote=function
+isSessionRemote=Proxima.sessions.isSessionRemote(1)
+expect(isSessionRemote).toBeTruthy
+end function
 it("GET_ACTIVE_SESSIONS",@Test_GetActiveSessions)
 it("GET_SAVED_SESSIONS",@Test_GetSavedSessions)
 it("CREATE_LOCAL_SESSION",@Test_CreateLocalSession)
 it("CREATE_REMOTE_SESSION",@Test_CreateRemoteSession)
 it("GET_ACTIVE_SESSIONS",@Test_GetActiveSessions)
+it("SET_ACTIVE_SESSION",@Test_SetActiveSession)
+it("GET_SESSION_VALUE",@Test_GetSessionValue)
+it("SET_SESSION_VALUE",@Test_SetSessionValue)
+it("GET_SESSION_VALUE",@Test_GetSessionValue)
+it("IS_ACTIVE_SESSION_LOCAL",@Test_isActiveSessionLocal)
+it("IS_ACTIVE_SESSION_REMOTE",@Test_isActiveSessionRemote)
 end function
 describe("SESSIONS_TEST_SUITE",@TestSuite_Sessions)
 end function
