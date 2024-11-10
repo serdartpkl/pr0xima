@@ -79,8 +79,10 @@ end function
 Proxima.db.searchRecords=function(databaseName,recordKey,recordValue)
 acquiredRecords=self.getRecords(databaseName)
 if acquiredRecords!=null then
+if acquiredRecords.len>0 then
 acquiredIndexes=Proxima.utils.indexesOf(acquiredRecords,recordKey,recordValue)
 if acquiredIndexes!=null then return acquiredIndexes
+end if
 end if
 return null
 end function
@@ -111,12 +113,12 @@ Proxima.db.deleteRecord=function(databaseName,recordID)
 acquiredRecord=self.getRecord(databaseName,recordID)
 if acquiredRecord!=null then
 acquiredRecords=self.getRecords(databaseName)
-if acquiredRecords.hasIndex(recordID-1) and acquiredRecords.len>1 then
+if acquiredRecords.len>1 then
 acquiredRecords.remove(recordID-1)
 if acquiredRecords.len>1 then acquiredRecords=self.reorderRecords(acquiredRecords)
 setRecords=self.setRecords(databaseName,acquiredRecords)
 if setRecords then return true
-else if acquiredRecords.hasIndex(recordID-1) and acquiredRecords.len==1 then
+else if acquiredRecords.len==1 then
 resetRecords=self.resetRecords(databaseName)
 if resetRecords then return true
 end if
