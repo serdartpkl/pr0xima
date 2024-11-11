@@ -70,14 +70,9 @@ end if
 return null
 end function
 // ------------------------------------------------------------------------------------------------------------
-Proxima.sessions.reorderSessions=function(sessionsList,sortBy=null)
+Proxima.sessions.reorderSessions=function(sessionsList,sortBy="dateCreated")
 if sortBy!=null then sessionsList.sort(sortBy)
-if reorderSaved then
-reorderSavedSessions=Proxima.db.reorderRecords("sessions",sessionsList,sortBy)
-if reorderSavedSessions then return true
-else
 idCounter=1
-newActiveSessionID=null
 for recordIndex in range(0,sessionsList.len-1)
 if self.activeSession==sessionsList[recordIndex].id then newActiveSessionID=idCounter
 if sessionsList[recordIndex].id!=idCounter then sessionsList[recordIndex].id=idCounter
@@ -85,9 +80,6 @@ idCounter=idCounter+1
 end for
 self.activeSessions=sessionsList
 self.setSession(newActiveSessionID)
-if setSession then return true
-end if
-return null
 end function
 Proxima.sessions.searchSessions=function(sessionKey,sessionValue,searchSaved=false)
 acquiredSessions=self.getSessions(searchSaved)
@@ -108,7 +100,7 @@ else
 createSessionMap=self.createSessionMap(acquiredSession.sessionType,acquiredSession.targetIP,acquiredSession.targetRouter)
 acquiredSessionID=acquiredSession.id
 acquiredSessionDateCreated=acquiredSession.dateCreated
-acquiredSession={"id":acquiredSessionID}+createSessionMap+{"dateCreated":acquiredSessionDateCreated}
+self.activeSessions[sessionID-1]={"id":acquiredSessionID}+createSessionMap+{"dateCreated":acquiredSessionDateCreated}
 end if
 end if
 return null
@@ -167,11 +159,11 @@ end function
 Proxima.sessions.loadSession=function(sessionID)
 acquiredSession=self.getSession(sessionID,true)
 if acquiredSession!=null then
-checkActiveSessions=self.getSession(acquiredSession.targetIP)
-if checkActiveSessions==null then
+getActiveSession=self.getSession(acquiredSession.targetIP)
+if getActiveSession==null then
 self.activeSessions.push(acquiredSession)
-reorderSessions=self.reorderSessions(false,"dateCreated")
-if reorderSessions then return true
+reorderedSessions=self.reorderSessions(false,"dateCreated")
+self.activeSessions=reorderedSessions
 end if
 end if
 return null

@@ -89,16 +89,20 @@ end function
 
 // ------------------------------------------------------------------------------------------------------------
 
-Proxima.sessions.reorderSessions = function (sessionsList, sortBy = "dateCreated")
-    if sortBy != null then sessionsList.sort(sortBy)
+Proxima.sessions.reorderActiveSessions = function (sortBy = "dateCreated")
+    self.activeSessions.sort(sortBy)
     idCounter = 1
-    for recordIndex in range(0, sessionsList.len - 1)
-        if self.activeSession == sessionsList[recordIndex].id then newActiveSessionID = idCounter
-        if sessionsList[recordIndex].id != idCounter then sessionsList[recordIndex].id = idCounter
+    newActiveSessionID = null
+    for recordIndex in range(0, self.activeSessions.len - 1)
+        if self.activeSession == self.activeSessions[recordIndex].id then newActiveSessionID = self.activeSession
+        if self.activeSessions[recordIndex].id != idCounter then self.activeSessions[recordIndex].id = idCounter
         idCounter = idCounter + 1
     end for
-    self.activeSessions = sessionsList
-    self.setSession(newActiveSessionID)
+    if newActiveSessionID != null then
+        setSession = self.setSession(newActiveSessionID)
+        if setSession then return true
+    end if
+    return null
 end function
 
 Proxima.sessions.searchSessions = function (sessionKey, sessionValue, searchSaved = false)
@@ -169,8 +173,8 @@ end function
 Proxima.sessions.saveSession = function (sessionID) 
     acquiredSession = self.getSession(sessionID)
     if acquiredSession != null then
-        acquiredSessionID = acquiredSession.id
-        acquiredSessionDateCreated = acquiredSession.dateCreated
+        tempID = acquiredSession.id
+        tempDateCreated = acquiredSession.dateCreated
         acquiredSession.remove("dateCreated")
         acquiredSession.remove("id")
         getSavedSession = self.getSession(acquiredSession.targetIP, true)
@@ -179,7 +183,7 @@ Proxima.sessions.saveSession = function (sessionID)
         else
             Proxima.db.addRecord("sessions", acquiredSession)
         end if
-        self.activeSessions[sessionID - 1] = {"id": acquiredSessionID} + acquiredSession + {"dateCreated": acquiredSessionDateCreated}
+        self.activeSessions[sessionID - 1] = {"id": tempID} + acquiredSession + {"dateCreated": tempDateCreated}
         return true
     end if
     return null
@@ -191,8 +195,8 @@ Proxima.sessions.loadSession = function (sessionID)
         getActiveSession = self.getSession(acquiredSession.targetIP)
         if getActiveSession == null then
             self.activeSessions.push(acquiredSession)
-            reorderedSessions = self.reorderSessions(false, "dateCreated")
-            self.activeSessions = reorderedSessions
+            reorderSessions = self.reorderActiveSessions()
+            if reorderSessions then return true
         end if
     end if
     return null
