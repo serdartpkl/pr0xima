@@ -171,34 +171,34 @@ end function
 // ------------------------------------------------------------------------------------------------------------
 
 Proxima.sessions.saveSession = function (sessionID) 
-    acquiredSession = self.getSession(sessionID)
-    if acquiredSession != null then
-        tempID = acquiredSession.id
-        tempDateCreated = acquiredSession.dateCreated
-        acquiredSession.remove("dateCreated")
-        acquiredSession.remove("id")
-        getSavedSession = self.getSession(acquiredSession.targetIP, true)
-        if getSavedSession != null then
-            Proxima.db.updateRecord("sessions", getSavedSession.id, acquiredSession)      
+    activeSession = self.getSession(sessionID)
+    if activeSession != null then
+        tempID = activeSession.id
+        tempDateCreated = activeSession.dateCreated
+        activeSession.remove("dateCreated")
+        activeSession.remove("id")
+        savedSession = self.getSession(activeSession.targetIP, true)
+        if savedSession != null then
+            Proxima.db.updateRecord("sessions", savedSession.id, activeSession)      
         else
-            Proxima.db.addRecord("sessions", acquiredSession)
+            Proxima.db.addRecord("sessions", activeSession)
         end if
-        self.activeSessions[sessionID - 1] = {"id": tempID} + acquiredSession + {"dateCreated": tempDateCreated}
+        self.activeSessions[sessionID - 1] = {"id": tempID} + activeSession + {"dateCreated": tempDateCreated}
         return true
     end if
     return null
 end function
 
 Proxima.sessions.loadSession = function (sessionID) 
-    acquiredSession = self.getSession(sessionID, true)
-    if acquiredSession != null then
-        getActiveSession = self.getSession(acquiredSession.targetIP)
-        if getActiveSession == null then
-            self.activeSessions.push(acquiredSession)
+    savedSession = self.getSession(sessionID, true)
+    if savedSession != null then
+        activeSesson = self.getSession(savedSession.targetIP)
+        if activeSession == null then
+            self.activeSessions.push(savedSession)
             reorderSessions = self.reorderActiveSessions()
             if reorderSessions then
-                newSessionID = self.getSession(acquiredSession.targetIP).id
-                setActiveSession = self.setActiveSession(newSessionID)
+                newActiveSessionID = self.getSession(savedSession.targetIP).id
+                setActiveSession = self.setActiveSession(newActiveSessionID)
                 if setActiveSession then return true
             end if
         end if
