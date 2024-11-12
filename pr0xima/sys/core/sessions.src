@@ -132,9 +132,6 @@ Proxima.sessions.resetSession = function (sessionID, resetSaved = false)
     return null
 end function
 
-Proxima.sessions.resetSessions = function (resetSaved = false)
-end function
-
 Proxima.sessions.deleteSession = function (sessionID, deleteSaved = false)
     acquiredSession = self.getSession(sessionID, deleteSaved)
     if acquiredSession != null then
