@@ -51,6 +51,14 @@ Test_SaveActiveSession=function
 getSessionValue=Proxima.sessions.saveSession(Proxima.sessions.activeSession)
 expect(getSessionValue).toBeTruthy
 end function
+Test_DeleteRemoteSession=function
+deleteRemoteSession=Proxima.sessions.deleteSession(2)
+expect(deleteRemoteSession).toBeTruthy
+end function
+Test_DeleteLocalSession=function
+deleteLocalSession=Proxima.sessions.deleteSession(1)
+expect(deleteLocalSession).toBeNull
+end function
 it("GET_ACTIVE_SESSIONS",@Test_GetActiveSessions)
 it("GET_SAVED_SESSIONS",@Test_GetSavedSessions)
 it("CREATE_LOCAL_SESSION",@Test_CreateLocalSession)
@@ -63,6 +71,10 @@ it("IS_ACTIVE_SESSION_LOCAL",@Test_IsActiveSessionLocal)
 it("IS_ACTIVE_SESSION_REMOTE",@Test_IsActiveSessionRemote)
 it("ADD_USER_TO_TARGET_USERS",@Test_AddDataToActiveSession)
 it("SAVE_ACTIVE_SESSION",@Test_SaveActiveSession)
+it("GET_ACTIVE_SESSIONS",@Test_GetActiveSessions)
+it("GET_SAVED_SESSIONS",@Test_GetSavedSessions)
+it("DELETE_REMOTE_SESSION",@Test_DeleteRemoteSession)
+it("DELETE_LOCAL_SESSION",@Test_DeleteLocalSession)
 it("GET_ACTIVE_SESSIONS",@Test_GetActiveSessions)
 it("GET_SAVED_SESSIONS",@Test_GetSavedSessions)
 end function
