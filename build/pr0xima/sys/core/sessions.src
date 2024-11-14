@@ -80,7 +80,7 @@ if self.activeSessions[recordIndex].id!=idCounter then self.activeSessions[recor
 idCounter=idCounter+1
 end for
 if newActiveSessionID!=null then
-setSession=self.setSession(newActiveSessionID)
+setSession=self.setActiveSession(newActiveSessionID)
 if setSession then return true
 end if
 return null
@@ -119,12 +119,9 @@ deleteRecord=Proxima.db.deleteRecord("sessions",sessionID)
 if deleteRecord then return true
 else
 if self.activeSession!=sessionID and acquiredSession.sessionType!=0 then
-deleteSession=null
-if self.activeSessions.hasIndex(sessionID-1) then deleteSession=self.activeSessions.remove(sessionID-1)
-if deleteSession==1 then
+if self.activeSessions.hasIndex(sessionID-1) then self.activeSessions.remove(sessionID-1)
 reorderSessions=self.reorderActiveSessions
 if reorderSessions then return true
-end if
 end if
 end if
 end if

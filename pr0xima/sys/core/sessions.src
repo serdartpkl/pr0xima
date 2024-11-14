@@ -99,7 +99,7 @@ Proxima.sessions.reorderActiveSessions = function (sortBy = "dateCreated")
         idCounter = idCounter + 1
     end for
     if newActiveSessionID != null then
-        setSession = self.setSession(newActiveSessionID)
+        setSession = self.setActiveSession(newActiveSessionID)
         if setSession then return true
     end if
     return null
