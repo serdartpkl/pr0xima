@@ -117,16 +117,17 @@ end function
 Proxima.sessions.resetSession = function (sessionID, resetSaved = false)
     acquiredSession = self.getSession(sessionID, resetSaved)
     if acquiredSession != null then
+        createSessionMap = self.createSessionMap(acquiredSession.sessionType, acquiredSession.targetIP, acquiredSession.targetRouter)
+        tempID = acquiredSession.id
+        tempDateCreated = acquiredSession.dateCreated
+        acquiredSession.remove("id")
+        acquiredSession.remove("dateCreated")
         if resetSaved then
-            getSavedSessions = self.getSessions(true)
-            if getSavedSessions != null then
-                
-            end if
+            updateRecord = Proxima.db.updateRecord("sessions", sessionID, acquiredSession)
+            if updateRecord then return true
         else
-            createSessionMap = self.createSessionMap(acquiredSession.sessionType, acquiredSession.targetIP, acquiredSession.targetRouter)
-            tempID = acquiredSession.id
-            tempDateCreated = acquiredSession.dateCreated
             self.activeSessions[sessionID - 1] = {"id": tempID} + createSessionMap + {"dateCreated": tempDateCreated}
+            return true
         end if
     end if
     return null
@@ -136,9 +137,17 @@ Proxima.sessions.deleteSession = function (sessionID, deleteSaved = false)
     acquiredSession = self.getSession(sessionID, deleteSaved)
     if acquiredSession != null then
         if deleteSaved then
-            //...
+            deleteRecord = Proxima.db.deleteRecord("sessions", sessionID)
+            if deleteRecord then return true
         else
-            //...
+            if self.activeSession != sessionID and acquiredSession.sessionType != 0 then
+                deleteSession = null
+                if self.activeSessions.hasIndex(sessionID - 1) then deleteSession = self.activeSessions.remove(sessionID - 1)
+                if deleteSession == 1 then
+                    reorderSessions = self.reorderActiveSessions()
+                    if reorderSessions then return true
+                end if
+            end if
         end if
     end if
     return null
