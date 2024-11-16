@@ -14,7 +14,7 @@ createSession=Proxima.sessions.createSession(0,localIP,get_router)
 expect(createSession).notToBeNull
 end function
 Test_CreateRemoteSession=function
-remoteIP="128.34.2.99"
+remoteIP=Proxima.utils.generateRandomIP
 createSession=Proxima.sessions.createSession(1,remoteIP,get_router(remoteIP))
 expect(createSession).notToBeNull
 end function
