@@ -101,6 +101,8 @@ it("DELETE_REMOTE_SESSION",@Test_DeleteRemoteSession)
 it("GET_ACTIVE_SESSIONS",@Test_GetActiveSessions)
 it("GET_SAVED_SESSIONS",@Test_GetSavedSessions)
 it("LOAD_REMOTE_SESSION",@Test_LoadRemoteSession)
+it("GET_ACTIVE_SESSIONS",@Test_GetActiveSessions)
+it("GET_SAVED_SESSIONS",@Test_GetSavedSessions)
 end function
 describe("ACTIVE_SESSIONS_TEST_SUITE",@TestSuite_ActiveSessions)
 end function
