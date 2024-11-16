@@ -154,8 +154,8 @@ activeSession=self.getSession(sessionID)
 if activeSession!=null then
 tempID=activeSession.id
 tempDateCreated=activeSession.dateCreated
-activeSession.remove("dateCreated")
 activeSession.remove("id")
+activeSession.remove("dateCreated")
 savedSession=self.getSession(activeSession.targetIP,true)
 if savedSession!=null then
 Proxima.db.updateRecord("sessions",savedSession.id,activeSession)

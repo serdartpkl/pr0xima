@@ -77,7 +77,17 @@ Proxima.testing.tests.test_active_sessions = function ()
             resetLocalSession = Proxima.sessions.resetSession(1)
             expect(resetLocalSession).toBeTruthy()
         end function
-    
+
+        Test_SaveRemoteSession = function ()
+            getSessionValue = Proxima.sessions.saveSession(2)
+            expect(getSessionValue).toBeTruthy()
+        end function
+
+        Test_LoadRemoteSession = function ()
+            getSessionValue = Proxima.sessions.loadSession(2)
+            expect(getSessionValue).toBeTruthy()
+        end function
+
         it("GET_ACTIVE_SESSIONS", @Test_GetActiveSessions)
         it("GET_SAVED_SESSIONS", @Test_GetSavedSessions)
         it("CREATE_LOCAL_SESSION", @Test_CreateLocalSession)
@@ -100,6 +110,14 @@ Proxima.testing.tests.test_active_sessions = function ()
         it("GET_ACTIVE_SESSIONS", @Test_GetActiveSessions)
         it("SAVE_ACTIVE_SESSION", @Test_SaveActiveSession)
         it("GET_SAVED_SESSIONS", @Test_GetSavedSessions)
+        it("CREATE_REMOTE_SESSION", @Test_CreateRemoteSession)
+        it("SAVE_REMOTE_SESSION", @Test_SaveRemoteSession)
+        it("GET_ACTIVE_SESSIONS", @Test_GetActiveSessions)
+        it("GET_SAVED_SESSIONS", @Test_GetSavedSessions)
+        it("DELETE_REMOTE_SESSION", @Test_DeleteRemoteSession)
+        it("GET_ACTIVE_SESSIONS", @Test_GetActiveSessions)
+        it("GET_SAVED_SESSIONS", @Test_GetSavedSessions)
+        it("LOAD_REMOTE_SESSION", @Test_LoadRemoteSession)
     end function
 
     describe("ACTIVE_SESSIONS_TEST_SUITE", @TestSuite_ActiveSessions)
