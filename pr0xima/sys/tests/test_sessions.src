@@ -48,7 +48,7 @@ Proxima.testing.tests.test_sessions = function ()
         end function
 
         Test_AddDataToActiveSession = function ()
-            userMap = {"id": 1, "username": "root", "password": "UNKNOWN"}
+            userMap = {"id": 1, "username": "root", "password": "123456"}
             addMapToSession = Proxima.sessions.addMapToSession(Proxima.sessions.activeSession, "targetUsers", userMap)
             expect(addMapToSession).toBeTruthy()
         end function

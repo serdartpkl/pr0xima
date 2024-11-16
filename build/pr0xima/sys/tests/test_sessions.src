@@ -1,5 +1,5 @@
-Proxima.testing.tests.test_active_sessions=function
-TestSuite_ActiveSessions=function
+Proxima.testing.tests.test_sessions=function
+TestSuite_Sessions=function
 Test_GetActiveSessions=function
 getActiveSessions=Proxima.sessions.getSessions
 expect(getActiveSessions).notToBeNull
@@ -104,5 +104,5 @@ it("LOAD_REMOTE_SESSION",@Test_LoadRemoteSession)
 it("GET_ACTIVE_SESSIONS",@Test_GetActiveSessions)
 it("GET_SAVED_SESSIONS",@Test_GetSavedSessions)
 end function
-describe("ACTIVE_SESSIONS_TEST_SUITE",@TestSuite_ActiveSessions)
+describe("SESSIONS_TEST_SUITE",@TestSuite_Sessions)
 end function
