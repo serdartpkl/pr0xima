@@ -103,32 +103,9 @@ end function
 
 Proxima.apt.findShop = function ()
     shopIP = null
-    
-    generateRandomIP = function()
-        firstByteRange = range(0, 255)
-        firstByteRange.remove(192)
-        firstByteRange.remove(191)
-        firstByteRange.remove(0)
-        firstByteRange.remove(10)
-        firstByteRange.remove(172)
-        firstByteRange.remove(128)
-        firstByteRange.remove(223)
-
-        restByteRange = range(0,255)
-        
-        generatedIP = []
-        generatedIP.push(floor(rnd() * firstByteRange.len))
-        for i in range(2)
-            generatedIP.push(floor(rnd() * restByteRange.len))
-        end for
-        generatedIP = generatedIP.join(".")
-
-        if is_valid_ip(generatedIP) and get_router(generatedIP) and get_shell.ping(generatedIP) then return generatedIP
-        return generateRandomIP
-    end function
 
     while shopIP == null
-        generatedIP = generateRandomIP()
+        generatedIP = Proxima.utils.generateRandomIP()
         isValidShop = self.isValidShop(generatedIP)
         if typeof(isValidShop) == "string" then shopIP = generatedIP
     end while
