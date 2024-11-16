@@ -170,7 +170,7 @@ end function
 Proxima.sessions.loadSession=function(sessionID)
 savedSession=self.getSession(sessionID,true)
 if savedSession!=null then
-activeSesson=self.getSession(savedSession.targetIP)
+activeSession=self.getSession(savedSession.targetIP)
 if activeSession==null then
 self.activeSessions.push(savedSession)
 reorderSessions=self.reorderActiveSessions
