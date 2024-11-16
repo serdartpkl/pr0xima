@@ -17,7 +17,7 @@ Proxima.testing.tests.test_active_sessions = function ()
         end function
 
         Test_CreateRemoteSession = function ()
-            remoteIP = "128.34.2.99"
+            remoteIP = Proxima.utils.generateRandomIP()
             createSession = Proxima.sessions.createSession(1, remoteIP, get_router(remoteIP))
             expect(createSession).notToBeNull()
         end function
