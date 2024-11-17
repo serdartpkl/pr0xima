@@ -2,7 +2,6 @@ Proxima.db = {}
 
 // ------------------------------------------------------------------------------------------------------------
 
-// OK
 Proxima.db.getDatabases = function ()
     databaseFiles = Proxima.globals.myPC.File(home_dir + "/pr0xima/databases").get_files()
     if databaseFiles.len > 0 then
@@ -18,7 +17,6 @@ Proxima.db.getDatabases = function ()
     return null
 end function
 
-// OK
 Proxima.db.getDatabase = function (databaseName)
     if self.getDatabases() != null then
         databaseFile = Proxima.globals.myPC.File(home_dir + "/pr0xima/databases/" + databaseName + ".db")
@@ -27,7 +25,6 @@ Proxima.db.getDatabase = function (databaseName)
     return null
 end function
 
-// OK
 Proxima.db.createDatabase = function (databaseName) 
     if self.getDatabase(databaseName) == null then
         createDatabaseFile = Proxima.globals.myPC.touch(home_dir + "/pr0xima/databases", databaseName + ".db")
@@ -40,7 +37,6 @@ Proxima.db.createDatabase = function (databaseName)
     return null
 end function
 
-// OK
 Proxima.db.deleteDatabase = function (databaseName)
     getDatabaseFile = self.getDatabase(databaseName)
     if getDatabaseFile != null then
@@ -52,14 +48,12 @@ end function
 
 // ------------------------------------------------------------------------------------------------------------
 
-// OK
 Proxima.db.getRecords = function (databaseName)
     databaseFile = self.getDatabase(databaseName)
     if databaseFile != null then return Proxima.utils.deserializeMap(databaseFile.get_content()).records
     return null
 end function
 
-// OK
 Proxima.db.getRecord = function (databaseName, recordID)
     acquiredRecords = self.getRecords(databaseName)
     if acquiredRecords != null and acquiredRecords.len > 0 then
@@ -70,7 +64,6 @@ Proxima.db.getRecord = function (databaseName, recordID)
     return null
 end function
 
-// OK
 Proxima.db.setRecords = function (databaseName, databaseRecords)
     databaseFile = self.getDatabase(databaseName)
     if databaseFile != null then
@@ -81,14 +74,12 @@ Proxima.db.setRecords = function (databaseName, databaseRecords)
     return null
 end function
 
-// OK
 Proxima.db.resetRecords = function (databaseName)
     setRecords = self.setRecords(databaseName, [])
     if setRecords then return true
     return null
 end function
 
-// OK
 Proxima.db.reorderRecords = function (databaseName, sortBy = "dateCreated")
     acquiredRecords = self.getRecords(databaseName)
     if acquiredRecords != null then
@@ -104,7 +95,6 @@ Proxima.db.reorderRecords = function (databaseName, sortBy = "dateCreated")
     return null
 end function
 
-// OK
 Proxima.db.searchRecords = function (databaseName, recordKey, recordValue)
     acquiredRecords = self.getRecords(databaseName)
     if acquiredRecords != null and acquiredRecords.len > 0 then
@@ -114,7 +104,6 @@ Proxima.db.searchRecords = function (databaseName, recordKey, recordValue)
     return null
 end function
 
-// OK
 Proxima.db.addRecord = function (databaseName, recordMap)
     acquiredRecords = self.getRecords(databaseName)
     if acquiredRecords != null then
@@ -131,7 +120,6 @@ Proxima.db.addRecord = function (databaseName, recordMap)
     return null
 end function
 
-// OK
 Proxima.db.updateRecord = function (databaseName, recordID, recordMap)
     acquiredRecord = self.getRecord(databaseName, recordID)
     if acquiredRecord != null then
@@ -143,7 +131,6 @@ Proxima.db.updateRecord = function (databaseName, recordID, recordMap)
     return null
 end function
 
-// OK
 Proxima.db.deleteRecord = function (databaseName, recordID)
     acquiredRecord = self.getRecord(databaseName, recordID)
     if acquiredRecord != null then
@@ -168,7 +155,6 @@ end function
 
 // ------------------------------------------------------------------------------------------------------------
 
-// OK
 Proxima.db.getRecordValue = function (databaseName, recordID, recordKey)
     acquiredRecord = self.getRecord(databaseName, recordID)
     if acquiredRecord != null then
@@ -180,7 +166,6 @@ Proxima.db.getRecordValue = function (databaseName, recordID, recordKey)
     return null
 end function
 
-// OK
 Proxima.db.setRecordValue = function (databaseName, recordID, recordKey, recordValue)
     acquiredRecord = self.getRecord(databaseName, recordID)
     if acquiredRecord != null then
@@ -196,7 +181,6 @@ end function
 
 // ------------------------------------------------------------------------------------------------------------
 
-// OK
 Proxima.db.displayDatabases = function ()
     headerList = ["ID", "DATABASE_NAME"]
     contentList = []
@@ -212,7 +196,6 @@ Proxima.db.displayDatabases = function ()
     Proxima.utils.formatList(headerList, contentList)
 end function
 
-// OK
 Proxima.db.displayRecords = function (databaseName, nameKey)
     headerList = ["ID", "RECORD_NAME", "DATABASE_NAME", "DATE_CREATED"]
     contentList = []
