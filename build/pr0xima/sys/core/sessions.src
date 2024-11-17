@@ -64,7 +64,7 @@ if self.activeSessions[recordIndex].id!=idCounter then self.activeSessions[recor
 idCounter=idCounter+1
 end for
 if newActiveSessionID!=null then
-setSession=self.setActiveSession(newActiveSessionID)
+setSession=self.setSession(newActiveSessionID)
 if setSession then return true
 end if
 return null
@@ -131,7 +131,7 @@ if deleteRecord then return true
 else
 if self.activeSession!=sessionID and acquiredSession.sessionType!=0 then
 if self.activeSessions.hasIndex(sessionID-1) then self.activeSessions.remove(sessionID-1)
-reorderSessions=self.reorderActiveSessions
+reorderSessions=self.reorderSessions
 if reorderSessions then return true
 end if
 end if
@@ -184,10 +184,10 @@ if savedSession!=null then
 activeSession=self.getSession(savedSession.targetIP)
 if activeSession==null then
 self.activeSessions.push(savedSession)
-reorderSessions=self.reorderActiveSessions
+reorderSessions=self.reorderSessions
 if reorderSessions then
 newActiveSessionID=self.getSession(savedSession.targetIP).id
-setActiveSession=self.setActiveSession(newActiveSessionID)
+setActiveSession=self.setSession(newActiveSessionID)
 if setActiveSession then return true
 end if
 end if
