@@ -56,7 +56,7 @@ Proxima.sessions.resetSession = function (sessionID, resetSaved = false)
         acquiredSession.remove("id")
         acquiredSession.remove("dateCreated")
         if resetSaved then
-            updateRecord = Proxima.db.updateRecord("sessions", sessionID, acquiredSession)
+            updateRecord = Proxima.db.updateRecord("sessions", sessionID, createSessionMap)
             if updateRecord then return true
         else
             self.activeSessions[sessionID - 1] = {"id": tempID} + createSessionMap + {"dateCreated": tempDateCreated}
@@ -139,7 +139,7 @@ Proxima.sessions.updateSession = function (sessionID, sessionMap, updateSaved = 
         if updateSaved then
             
         else
-            
+
         end if
     end if
     return null
