@@ -152,8 +152,11 @@ Proxima.sessions.deleteSession = function (sessionID, deleteSaved = false)
     return null
 end function
 
-// setSession
-// updateSession
+Proxima.sessions.setSession = function (sessionID, sessionMap, setSaved = false)
+end function
+
+Proxima.sessions.updateSession = function (sessionID, sessionMap, updateSaved = false)
+end function
 
 // ------------------------------------------------------------------------------------------------------------
 
