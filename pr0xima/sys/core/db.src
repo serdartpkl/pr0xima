@@ -123,6 +123,7 @@ Proxima.db.addRecord = function (databaseName, recordMap)
                 reorderRecords = self.reorderRecords(databaseName)
                 if reorderRecords then return true
             end if
+            return true
         end if
     end if
     return null
@@ -151,6 +152,7 @@ Proxima.db.deleteRecord = function (databaseName, recordID)
                     reorderRecords = self.reorderRecords(databaseName)
                     if reorderRecords then return true
                 end if
+                return true
             end if
         else if acquiredRecords.len == 1 then
             resetRecords = self.resetRecords(databaseName)
