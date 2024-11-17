@@ -293,22 +293,6 @@ end function
 
 // ------------------------------------------------------------------------------------------------------------
 
-Proxima.commands.rshell = {
-    "name": "rshell",
-    "description": "Injects reverse shell for specified target shell",
-    "usage": "rshell <id>",
-    "type": 2
-}
-Proxima.commands.rshell.exec = function (params)
-    if params.len == 0 then
-        Proxima.io.throwInputError("No shell ID provided.", self.usage)
-    else
-        Proxima.exploit.injectRshell(params[0].to_int)
-    end if
-end function
-
-// ------------------------------------------------------------------------------------------------------------
-
 Proxima.commands.shell = {
     "name": "shell",
     "description": "Starts terminal for specified shell with given ID.",
@@ -320,6 +304,22 @@ Proxima.commands.shell.exec = function (params)
         Proxima.io.throwInputError("No shell ID provided.", self.usage)
     else
         Proxima.exploit.launchShell(params[0].to_int)
+    end if
+end function
+
+// ------------------------------------------------------------------------------------------------------------
+
+Proxima.commands.rshell = {
+    "name": "rshell",
+    "description": "Injects reverse shell for specified target shell",
+    "usage": "rshell <id>",
+    "type": 2
+}
+Proxima.commands.rshell.exec = function (params)
+    if params.len == 0 then
+        Proxima.io.throwInputError("No shell ID provided.", self.usage)
+    else
+        Proxima.exploit.injectRshell(params[0].to_int)
     end if
 end function
 
