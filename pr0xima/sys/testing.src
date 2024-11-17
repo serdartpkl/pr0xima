@@ -6,13 +6,13 @@ Proxima.testing.tests = {}
 
 describe = function (testSuiteName, fn)
     print(Proxima.io.addOutputEntry(Proxima.io.output.colorize("<b>/ START_TEST_SUITE</b>", "#FC8403")))
-    print(Proxima.io.addOutputEntry(Proxima.io.output.colorize("<b>| TEST_SUITE: " + testSuiteName + "</b>", "#FC8403")))
+    print(Proxima.io.addOutputEntry(Proxima.io.output.colorize("<b>| TEST_SUITE  [" + testSuiteName + "]</b>", "#FC8403")))
     fn()
     print(Proxima.io.addOutputEntry(Proxima.io.output.colorize("<b>\ END_TEST_SUITE</b>", "#FC8403")))
 end function
 
 it = function (testName, fn)
-    print(Proxima.io.addOutputEntry(Proxima.io.output.colorize("<b>|-- TEST: " + testName + "</b>", "#FFC466")))
+    print(Proxima.io.addOutputEntry(Proxima.io.output.colorize("<b>|-- TEST: [" + testName + "]</b>", "#FFC466")))
     fn()
     print(Proxima.io.addOutputEntry(Proxima.io.output.colorize("<b>|-- END_TEST</b>", "#FFC466")))
 end function
