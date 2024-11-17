@@ -27,14 +27,6 @@ end for
 end if
 return acquiredSession
 end function
-Proxima.sessions.setActiveSession=function(sessionID)
-acquiredSession=self.getSession(sessionID)
-if acquiredSession!=null then
-self.activeSession=acquiredSession.id
-return true
-end if
-return null
-end function
 Proxima.sessions.createSessionMap=function(sessionType,targetIP,targetRouter)
 sessionMap={}
 sessionMap.targetIP=targetIP
@@ -70,6 +62,14 @@ end if
 return null
 end function
 // ------------------------------------------------------------------------------------------------------------
+Proxima.sessions.setActiveSession=function(sessionID)
+acquiredSession=self.getSession(sessionID)
+if acquiredSession!=null then
+self.activeSession=acquiredSession.id
+return true
+end if
+return null
+end function
 Proxima.sessions.reorderActiveSessions=function(sortBy="dateCreated")
 self.activeSessions.sort(sortBy)
 idCounter=1
@@ -85,6 +85,7 @@ if setSession then return true
 end if
 return null
 end function
+// ------------------------------------------------------------------------------------------------------------
 Proxima.sessions.searchSessions=function(sessionKey,sessionValue,searchSaved=false)
 acquiredSessions=self.getSessions(searchSaved)
 if acquiredSessions!=null then
@@ -126,6 +127,10 @@ end if
 end if
 end if
 return null
+end function
+Proxima.sessions.setSession=function(sessionID,sessionMap,setSaved=false)
+end function
+Proxima.sessions.updateSession=function(sessionID,sessionMap,updateSaved=false)
 end function
 // ------------------------------------------------------------------------------------------------------------
 Proxima.sessions.getSessionValue=function(sessionID,sessionKey,getSaved=false)
