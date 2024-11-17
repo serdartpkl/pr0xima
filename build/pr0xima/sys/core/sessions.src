@@ -27,6 +27,56 @@ end for
 end if
 return acquiredSession
 end function
+Proxima.sessions.setSession=function(sessionID)
+acquiredSession=self.getSession(sessionID)
+if acquiredSession!=null then
+self.activeSession=acquiredSession.id
+return true
+end if
+return null
+end function
+// ------------------------------------------------------------------------------------------------------------
+Proxima.sessions.resetSession=function(sessionID,resetSaved=false)
+acquiredSession=self.getSession(sessionID,resetSaved)
+if acquiredSession!=null then
+createSessionMap=self.createSessionMap(acquiredSession.sessionType,acquiredSession.targetIP,acquiredSession.targetRouter)
+tempID=acquiredSession.id
+tempDateCreated=acquiredSession.dateCreated
+acquiredSession.remove("id")
+acquiredSession.remove("dateCreated")
+if resetSaved then
+updateRecord=Proxima.db.updateRecord("sessions",sessionID,createSessionMap)
+if updateRecord then return true
+else
+self.activeSessions[sessionID-1]={"id":tempID}+createSessionMap+{"dateCreated":tempDateCreated}
+return true
+end if
+end if
+return null
+end function
+Proxima.sessions.reorderSessions=function(sortBy="dateCreated")
+self.activeSessions.sort(sortBy)
+idCounter=1
+newActiveSessionID=null
+for recordIndex in range(0,self.activeSessions.len-1)
+if self.activeSession==self.activeSessions[recordIndex].id then newActiveSessionID=self.activeSession
+if self.activeSessions[recordIndex].id!=idCounter then self.activeSessions[recordIndex].id=idCounter
+idCounter=idCounter+1
+end for
+if newActiveSessionID!=null then
+setSession=self.setActiveSession(newActiveSessionID)
+if setSession then return true
+end if
+return null
+end function
+Proxima.sessions.searchSessions=function(sessionKey,sessionValue,searchSaved=false)
+acquiredSessions=self.getSessions(searchSaved)
+if acquiredSessions!=null then
+acquiredIndexes=Proxima.utils.indexesOf(acquiredSessions,sessionKey,sessionValue)
+if acquiredIndexes!=null then return acquiredIndexes
+end if
+return null
+end function
 Proxima.sessions.createSessionMap=function(sessionType,targetIP,targetRouter)
 sessionMap={}
 sessionMap.targetIP=targetIP
@@ -50,7 +100,7 @@ sessionMap.targetBanks=[]
 sessionMap.payloadInjection=1
 return sessionMap
 end function
-Proxima.sessions.createSession=function(sessionType,targetIP,targetRouter)
+Proxima.sessions.addSession=function(sessionType,targetIP,targetRouter)
 if self.getSession(targetIP)==null then
 createSessionMap=self.createSessionMap(sessionType,targetIP,targetRouter)
 sessionID=self.activeSessions.len+1
@@ -61,53 +111,13 @@ return sessionMap.id
 end if
 return null
 end function
-// ------------------------------------------------------------------------------------------------------------
-Proxima.sessions.setActiveSession=function(sessionID)
-acquiredSession=self.getSession(sessionID)
-if acquiredSession!=null then
-self.activeSession=acquiredSession.id
-return true
-end if
-return null
-end function
-Proxima.sessions.reorderActiveSessions=function(sortBy="dateCreated")
-self.activeSessions.sort(sortBy)
-idCounter=1
-newActiveSessionID=null
-for recordIndex in range(0,self.activeSessions.len-1)
-if self.activeSession==self.activeSessions[recordIndex].id then newActiveSessionID=self.activeSession
-if self.activeSessions[recordIndex].id!=idCounter then self.activeSessions[recordIndex].id=idCounter
-idCounter=idCounter+1
-end for
-if newActiveSessionID!=null then
-setSession=self.setActiveSession(newActiveSessionID)
-if setSession then return true
-end if
-return null
-end function
-// ------------------------------------------------------------------------------------------------------------
-Proxima.sessions.searchSessions=function(sessionKey,sessionValue,searchSaved=false)
-acquiredSessions=self.getSessions(searchSaved)
-if acquiredSessions!=null then
-acquiredIndexes=Proxima.utils.indexesOf(acquiredSessions,sessionKey,sessionValue)
-if acquiredIndexes!=null then return acquiredIndexes
-end if
-return null
-end function
-Proxima.sessions.resetSession=function(sessionID,resetSaved=false)
-acquiredSession=self.getSession(sessionID,resetSaved)
-if acquiredSession!=null then
-createSessionMap=self.createSessionMap(acquiredSession.sessionType,acquiredSession.targetIP,acquiredSession.targetRouter)
-tempID=acquiredSession.id
-tempDateCreated=acquiredSession.dateCreated
-acquiredSession.remove("id")
-acquiredSession.remove("dateCreated")
-if resetSaved then
-updateRecord=Proxima.db.updateRecord("sessions",sessionID,acquiredSession)
-if updateRecord then return true
+Proxima.sessions.updateSession=function(sessionID,sessionMap,updateSaved=false)
+getSession=self.getSession(sessionID,updateSaved)
+if getSession!=null then
+if updateSaved then
+//...
 else
-self.activeSessions[sessionID-1]={"id":tempID}+createSessionMap+{"dateCreated":tempDateCreated}
-return true
+//...
 end if
 end if
 return null
@@ -127,10 +137,6 @@ end if
 end if
 end if
 return null
-end function
-Proxima.sessions.setSession=function(sessionID,sessionMap,setSaved=false)
-end function
-Proxima.sessions.updateSession=function(sessionID,sessionMap,updateSaved=false)
 end function
 // ------------------------------------------------------------------------------------------------------------
 Proxima.sessions.getSessionValue=function(sessionID,sessionKey,getSaved=false)

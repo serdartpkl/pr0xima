@@ -76,7 +76,7 @@ Proxima.sessions.reorderSessions = function (sortBy = "dateCreated")
         idCounter = idCounter + 1
     end for
     if newActiveSessionID != null then
-        setSession = self.setActiveSession(newActiveSessionID)
+        setSession = self.setSession(newActiveSessionID)
         if setSession then return true
     end if
     return null
@@ -154,7 +154,7 @@ Proxima.sessions.deleteSession = function (sessionID, deleteSaved = false)
         else
             if self.activeSession != sessionID and acquiredSession.sessionType != 0 then
                 if self.activeSessions.hasIndex(sessionID - 1) then self.activeSessions.remove(sessionID - 1)
-                reorderSessions = self.reorderActiveSessions()
+                reorderSessions = self.reorderSessions()
                 if reorderSessions then return true
             end if
         end if
@@ -213,10 +213,10 @@ Proxima.sessions.loadSession = function (sessionID)
         activeSession = self.getSession(savedSession.targetIP)
         if activeSession == null then
             self.activeSessions.push(savedSession)
-            reorderSessions = self.reorderActiveSessions()
+            reorderSessions = self.reorderSessions()
             if reorderSessions then
                 newActiveSessionID = self.getSession(savedSession.targetIP).id
-                setActiveSession = self.setActiveSession(newActiveSessionID)
+                setActiveSession = self.setSession(newActiveSessionID)
                 if setActiveSession then return true
             end if
         end if

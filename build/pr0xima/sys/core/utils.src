@@ -103,8 +103,27 @@ d_minutes=d_time[1]
 parsedDate=d_year+d_month+d_day+d_hours+d_minutes
 return parsedDate
 end function
-Proxima.utils.isValueProtectedNull=function(givenValue)
+Proxima.utils.isProtectedNull=function(givenValue)
 if typeof(givenValue)=="list" and givenValue.hasIndex(0) and givenValue[0]==null then return true
+end function
+Proxima.utils.generateRandomIP=function
+firstByteRange=range(0,255)
+firstByteRange.remove(192)
+firstByteRange.remove(191)
+firstByteRange.remove(0)
+firstByteRange.remove(10)
+firstByteRange.remove(172)
+firstByteRange.remove(128)
+firstByteRange.remove(223)
+restByteRange=range(0,255)
+generatedIP=[]
+generatedIP.push(floor(rnd*firstByteRange.len))
+for i in range(2)
+generatedIP.push(floor(rnd*restByteRange.len))
+end for
+generatedIP=generatedIP.join(".")
+if is_valid_ip(generatedIP) and get_router(generatedIP) and get_shell.ping(generatedIP) then return generatedIP
+return self.generateRandomIP
 end function
 // ------------------------------------------------------------------------------------------------------------
 Proxima.utils.isInList=function(givenItem,givenList)
@@ -230,23 +249,4 @@ value=self.deserializeFirst(valueStr,excludeKeys)
 map[key]=value
 end for
 return map
-end function
-Proxima.utils.generateRandomIP=function
-firstByteRange=range(0,255)
-firstByteRange.remove(192)
-firstByteRange.remove(191)
-firstByteRange.remove(0)
-firstByteRange.remove(10)
-firstByteRange.remove(172)
-firstByteRange.remove(128)
-firstByteRange.remove(223)
-restByteRange=range(0,255)
-generatedIP=[]
-generatedIP.push(floor(rnd*firstByteRange.len))
-for i in range(2)
-generatedIP.push(floor(rnd*restByteRange.len))
-end for
-generatedIP=generatedIP.join(".")
-if is_valid_ip(generatedIP) and get_router(generatedIP) and get_shell.ping(generatedIP) then return generatedIP
-return self.generateRandomIP
 end function

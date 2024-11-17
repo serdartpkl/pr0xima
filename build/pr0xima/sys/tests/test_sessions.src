@@ -10,16 +10,16 @@ expect(getSavedSessions).notToBeNull
 end function
 Test_CreateLocalSession=function
 localIP=get_shell.host_computer.local_ip
-createSession=Proxima.sessions.createSession(0,localIP,get_router)
-expect(createSession).notToBeNull
+addSession=Proxima.sessions.addSession(0,localIP,get_router)
+expect(addSession).notToBeNull
 end function
 Test_CreateRemoteSession=function
 remoteIP=Proxima.utils.generateRandomIP
-createSession=Proxima.sessions.createSession(1,remoteIP,get_router(remoteIP))
-expect(createSession).notToBeNull
+addSession=Proxima.sessions.addSession(1,remoteIP,get_router(remoteIP))
+expect(addSession).notToBeNull
 end function
 Test_SetActiveSession=function
-setSession=Proxima.sessions.setActiveSession(1)
+setSession=Proxima.sessions.setSession(1)
 expect(setSession).toBeTruthy
 end function
 Test_GetPayloadInjectionValue=function
