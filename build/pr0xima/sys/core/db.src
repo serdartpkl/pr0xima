@@ -75,14 +75,19 @@ setRecords=self.setRecords(databaseName,[])
 if setRecords then return true
 return null
 end function
-Proxima.db.reorderRecords=function(databaseRecords,sortBy="dateCreated")
-databaseRecords.sort(sortBy)
+Proxima.db.reorderRecords=function(databaseName,sortBy="dateCreated")
+acquiredRecords=self.getRecords(databaseName)
+if acquiredRecords!=null then
+acquiredRecords.sort(sortBy)
 idCounter=1
-for recordIndex in range(0,databaseRecords.len-1)
-if databaseRecords[recordIndex].id!=idCounter then databaseRecords[recordIndex].id=idCounter
+for recordIndex in range(0,acquiredRecords.len-1)
+if acquiredRecords[recordIndex].id!=idCounter then acquiredRecords[recordIndex].id=idCounter
 idCounter=idCounter+1
 end for
-return databaseRecords
+setRecords=self.setRecords(databaseName,acquiredRecords)
+if setRecords then return true
+end if
+return null
 end function
 // OK
 Proxima.db.searchRecords=function(databaseName,recordKey,recordValue)
@@ -99,9 +104,14 @@ Proxima.db.addRecord=function(databaseName,recordMap)
 acquiredRecords=self.getRecords(databaseName)
 if acquiredRecords!=null then
 acquiredRecords.push({"id":acquiredRecords.len+1}+recordMap+{"dateCreated":Proxima.utils.getParsedDate})
-if acquiredRecords.len>1 then acquiredRecords=self.reorderRecords(acquiredRecords)
 setRecords=self.setRecords(databaseName,acquiredRecords)
-if setRecords then return true
+if setRecords then
+if acquiredRecords.len>1 then
+reorderRecords=self.reorderRecords(databaseName)
+if reorderRecords then return true
+end if
+return true
+end if
 end if
 return null
 end function
@@ -110,7 +120,6 @@ acquiredRecord=self.getRecord(databaseName,recordID)
 if acquiredRecord!=null then
 acquiredRecords=self.getRecords(databaseName)
 acquiredRecords[recordID-1]={"id":acquiredRecord.id}+recordMap+{"dateCreated":acquiredRecord.dateCreated}
-if acquiredRecords.len>1 then acquiredRecords=self.reorderRecords(acquiredRecords)
 setRecords=self.setRecords(databaseName,acquiredRecords)
 if setRecords then return true
 end if
@@ -122,9 +131,14 @@ if acquiredRecord!=null then
 acquiredRecords=self.getRecords(databaseName)
 if acquiredRecords.len>1 then
 acquiredRecords.remove(recordID-1)
-if acquiredRecords.len>1 then acquiredRecords=self.reorderRecords(acquiredRecords)
 setRecords=self.setRecords(databaseName,acquiredRecords)
-if setRecords then return true
+if setRecords then
+if acquiredRecords.len>1 then
+reorderRecords=self.reorderRecords(databaseName)
+if reorderRecords then return true
+end if
+return true
+end if
 else if acquiredRecords.len==1 then
 resetRecords=self.resetRecords(databaseName)
 if resetRecords then return true
