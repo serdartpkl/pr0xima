@@ -134,6 +134,15 @@ Proxima.sessions.addSession = function (sessionType, targetIP, targetRouter)
 end function
 
 Proxima.sessions.updateSession = function (sessionID, sessionMap, updateSaved = false)
+    getSession = self.getSession(sessionID, updateSaved)
+    if getSession != null then
+        if updateSaved then
+            
+        else
+            
+        end if
+    end if
+    return null
 end function
 
 Proxima.sessions.deleteSession = function (sessionID, deleteSaved = false)
