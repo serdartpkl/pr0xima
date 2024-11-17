@@ -150,6 +150,9 @@ Proxima.sessions.deleteSession = function (sessionID, deleteSaved = false)
     return null
 end function
 
+// setSession
+// updateSession
+
 // ------------------------------------------------------------------------------------------------------------
 
 Proxima.sessions.getSessionValue = function (sessionID, sessionKey, getSaved = false)
