@@ -137,9 +137,9 @@ Proxima.sessions.updateSession = function (sessionID, sessionMap, updateSaved = 
     getSession = self.getSession(sessionID, updateSaved)
     if getSession != null then
         if updateSaved then
-            
+            //...
         else
-
+            //...
         end if
     end if
     return null
