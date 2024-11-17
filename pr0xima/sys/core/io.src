@@ -82,7 +82,7 @@ end function
 
 // ------------------------------------------------------------------------------------------------------------
 
-Proxima.io.printHeader = function ()                     
+Proxima.io.printHeader = function ()
     print(self.addOutputEntry(self.output.colorize("<b>              _______         .__                </b>", "#FC8403")))
     print(self.addOutputEntry(self.output.colorize("<b>_____________ \   _  \ ___  __|__| _____ _____   </b>", "#FC8403")))
     print(self.addOutputEntry(self.output.colorize("<b>\____ \_  __ \/  /_\  \\  \/  /  |/     \\__  \  </b>", "#FC8403")))
