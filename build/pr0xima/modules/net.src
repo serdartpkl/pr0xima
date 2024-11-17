@@ -154,6 +154,8 @@ end if
 connectionResult=null
 if getNetworkKey then connectionResult=self.connectNetwork
 if connectionResult then
+capFile=Proxima.globals.myPC.File(home_dir+"/file.cap")
+if capFile!=null then capFile.delete
 exit(Proxima.io.output.success("Connection established!"))
 else
 exit(Proxima.io.output.error("Couldn't connect to network! Terminating program..."))
