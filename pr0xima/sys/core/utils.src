@@ -137,7 +137,7 @@ Proxima.utils.getParsedDate = function ()
     return parsedDate
 end function
 
-Proxima.utils.isValueProtectedNull = function (givenValue)
+Proxima.utils.isProtectedNull = function (givenValue)
     if typeof(givenValue) == "list" and givenValue.hasIndex(0) and givenValue[0] == null then return true
 end function
 
