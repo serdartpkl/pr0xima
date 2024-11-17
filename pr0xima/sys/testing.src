@@ -38,6 +38,7 @@ Matchers.toBe = function (expectedValue)
 
     print(Proxima.io.addOutputEntry("|     |-- ACTUAL_VALUE: " + actualValue))
     print(Proxima.io.addOutputEntry("|     |-- EXPECTED_VALUE: " + expectedValue))
+    
     if testResult then
         print(Proxima.io.addOutputEntry(Proxima.io.output.colorize("<b>|---- END_TEST_RESULT</b>", "#08FF57")))
     else
@@ -80,6 +81,7 @@ Matchers.toBeNull = function (expectedValue)
     
     print(Proxima.io.addOutputEntry("|     |-- ACTUAL_VALUE: " + actualValue))
     print(Proxima.io.addOutputEntry("|     |-- EXPECTED_VALUE: NULL"))
+
     if testResult then
         print(Proxima.io.addOutputEntry(Proxima.io.output.colorize("<b>|---- END_TEST_RESULT</b>", "#08FF57")))
     else
@@ -101,6 +103,7 @@ Matchers.notToBeNull = function (expectedValue)
     
     print(Proxima.io.addOutputEntry("|     |-- ACTUAL_VALUE: " + actualValue))
     print(Proxima.io.addOutputEntry("|     |-- EXPECTED_VALUE: NOT_NULL"))
+
     if testResult then
         print(Proxima.io.addOutputEntry(Proxima.io.output.colorize("<b>|---- END_TEST_RESULT</b>", "#08FF57")))
     else
@@ -124,8 +127,10 @@ Matchers.toBeTruthy = function ()
     else if actualValue == null then
         actualValue = "NULL"
     end if
+
     print(Proxima.io.addOutputEntry("|     |-- ACTUAL_VALUE: " + actualValue))
     print(Proxima.io.addOutputEntry("|     |-- EXPECTED_VALUE: TRUE"))
+
     if testResult then
         print(Proxima.io.addOutputEntry(Proxima.io.output.colorize("<b>|---- END_TEST_RESULT</b>", "#08FF57")))
     else
@@ -141,6 +146,7 @@ Matchers.notToBeTruthy = function ()
     else
         print(Proxima.io.addOutputEntry(Proxima.io.output.colorize("<b>|---- TEST_RESULT: FAILED</b>", "#FF1548")))
     end if
+
     actualValue = self.actualValue
     if actualValue == 1 then
         actualValue = "TRUE"
@@ -149,8 +155,10 @@ Matchers.notToBeTruthy = function ()
     else if actualValue == null then
         actualValue = "NULL"
     end if
+
     print(Proxima.io.addOutputEntry("|     |-- ACTUAL_VALUE: " + actualValue))
     print(Proxima.io.addOutputEntry("|     |-- EXPECTED_VALUE: NOT_TRUE"))
+
     if testResult then
         print(Proxima.io.addOutputEntry(Proxima.io.output.colorize("<b>|---- END_TEST_RESULT</b>", "#08FF57")))
     else
@@ -166,6 +174,7 @@ Matchers.toBeFalsy = function ()
     else
         print(Proxima.io.addOutputEntry(Proxima.io.output.colorize("<b>|---- TEST_RESULT: FAILED</b>", "#FF1548")))
     end if
+
     actualValue = self.actualValue
     if actualValue == 1 then
         actualValue = "TRUE"
@@ -174,8 +183,10 @@ Matchers.toBeFalsy = function ()
     else if actualValue == null then
         actualValue = "NULL"
     end if
+
     print(Proxima.io.addOutputEntry("|     |-- ACTUAL_VALUE: " + actualValue))
     print(Proxima.io.addOutputEntry("|     |-- EXPECTED_VALUE: FALSE"))
+
     if testResult then
         print(Proxima.io.addOutputEntry(Proxima.io.output.colorize("<b>|---- END_TEST_RESULT</b>", "#08FF57")))
     else
@@ -191,6 +202,7 @@ Matchers.notToBeFalsy = function ()
     else
         print(Proxima.io.addOutputEntry(Proxima.io.output.colorize("<b>|---- TEST_RESULT: FAILED</b>", "#FF1548")))
     end if
+
     actualValue = self.actualValue
     if actualValue == 1 then
         actualValue = "TRUE"
@@ -199,8 +211,10 @@ Matchers.notToBeFalsy = function ()
     else if actualValue == null then
         actualValue = "NULL"
     end if
+
     print(Proxima.io.addOutputEntry("|     |-- ACTUAL_VALUE: " + actualValue))
     print(Proxima.io.addOutputEntry("|     |-- EXPECTED_VALUE: NOT_FALSE"))
+
     if testResult then
         print(Proxima.io.addOutputEntry(Proxima.io.output.colorize("<b>|---- END_TEST_RESULT</b>", "#08FF57")))
     else
