@@ -15,13 +15,13 @@ end function
 
 // ------------------------------------------------------------------------------------------------------------
 
-Proxima.commands.scannet = {
-    "name": "scannet",
+Proxima.commands.scan = {
+    "name": "scan",
     "description": "Scans target IP for performing a port scan.",
-    "usage": "scannet <ip>",
+    "usage": "scan <ip>",
     "type": 2
 }
-Proxima.commands.scannet.exec = function (params)
+Proxima.commands.scan.exec = function (params)
     targetIP = params[0]
     checkTargetIP = Proxima.exploit.checkTargetIP(targetIP)
     if checkTargetIP then
