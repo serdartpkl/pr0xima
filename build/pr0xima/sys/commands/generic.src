@@ -6,8 +6,8 @@ Proxima.exploit.checkLibraries
 Proxima.exploit.displayLibraryInfo
 end function
 // ------------------------------------------------------------------------------------------------------------
-Proxima.commands.scannet={"name":"scannet","description":"Scans target IP for performing a port scan.","usage":"scannet <ip>","type":2}
-Proxima.commands.scannet.exec=function(params)
+Proxima.commands.scan={"name":"scan","description":"Scans target IP for performing a port scan.","usage":"scan <ip>","type":2}
+Proxima.commands.scan.exec=function(params)
 targetIP=params[0]
 checkTargetIP=Proxima.exploit.checkTargetIP(targetIP)
 if checkTargetIP then
@@ -214,21 +214,21 @@ Proxima.io.throwInputError("No open shells available, please execute an exploit 
 end if
 end function
 // ------------------------------------------------------------------------------------------------------------
-Proxima.commands.rshell={"name":"rshell","description":"Injects reverse shell for specified target shell","usage":"rshell <id>","type":2}
-Proxima.commands.rshell.exec=function(params)
-if params.len==0 then
-Proxima.io.throwInputError("No shell ID provided.",self.usage)
-else
-Proxima.exploit.injectRshell(params[0].to_int)
-end if
-end function
-// ------------------------------------------------------------------------------------------------------------
 Proxima.commands.shell={"name":"shell","description":"Starts terminal for specified shell with given ID.","usage":"shell <id>","type":2}
 Proxima.commands.shell.exec=function(params)
 if params.len==0 then
 Proxima.io.throwInputError("No shell ID provided.",self.usage)
 else
 Proxima.exploit.launchShell(params[0].to_int)
+end if
+end function
+// ------------------------------------------------------------------------------------------------------------
+Proxima.commands.rshell={"name":"rshell","description":"Injects reverse shell for specified target shell","usage":"rshell <id>","type":2}
+Proxima.commands.rshell.exec=function(params)
+if params.len==0 then
+Proxima.io.throwInputError("No shell ID provided.",self.usage)
+else
+Proxima.exploit.injectRshell(params[0].to_int)
 end if
 end function
 // ------------------------------------------------------------------------------------------------------------
