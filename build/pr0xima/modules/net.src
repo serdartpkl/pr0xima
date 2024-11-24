@@ -147,7 +147,7 @@ print(Proxima.io.addOutputEntry(Proxima.io.output.line))
 getNetworkKey=null
 if startSniffing then getNetworkKey=self.crackKey
 if getNetworkKey then
-print(Proxima.io.addOutputEntry(Proxima.io.output.success("Found netwok key! <b>[KEY:"+self.networkKey+"]</b>")))
+print(Proxima.io.addOutputEntry(Proxima.io.output.success("Found network key! <b>[KEY:"+self.networkKey+"]</b>")))
 else
 exit(Proxima.io.output.error("Couldn't crack network key! Terminating program..."))
 end if

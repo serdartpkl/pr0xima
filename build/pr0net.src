@@ -22,5 +22,6 @@ import_code("/home/pr0ximan0va/Scripts/pr0xima/sys/tests/test_sessions.src")
 import_code("/home/pr0ximan0va/Scripts/pr0xima/sys/engine.src")
 import_code("/home/pr0ximan0va/Scripts/pr0xima/init.src")
 prx=new Proxima
-if params.hasIndex(0)==0 then exit(prx.io.output.error("No IP address given to connect! Terminating program..."))
-prx.rshell.launchRshell(params[0])
+targetIP=null
+if params.hasIndex(0) then targetIP=params[0]
+prx.net.autoHack(targetIP)
