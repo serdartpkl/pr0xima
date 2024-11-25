@@ -71,6 +71,12 @@ Test_LoadRemoteSession=function
 getSessionValue=Proxima.sessions.loadSession(2)
 expect(getSessionValue).toBeTruthy
 end function
+Test_UpdateRemoteSession=function
+randomIP=Proxima.utils.generateRandomIP
+createSessionMap=Proxima.sessions.createSessionMap(1,randomIP,get_router(randomIP))
+updateRemoteSession=Proxima.sessions.updateSession(2,createSessionMap)
+expect(updateRemoteSession).toBeTruthy
+end function
 it("GET_ACTIVE_SESSIONS",@Test_GetActiveSessions)
 it("GET_SAVED_SESSIONS",@Test_GetSavedSessions)
 it("CREATE_LOCAL_SESSION",@Test_CreateLocalSession)
@@ -101,6 +107,9 @@ it("DELETE_REMOTE_SESSION",@Test_DeleteRemoteSession)
 it("GET_ACTIVE_SESSIONS",@Test_GetActiveSessions)
 it("GET_SAVED_SESSIONS",@Test_GetSavedSessions)
 it("LOAD_REMOTE_SESSION",@Test_LoadRemoteSession)
+it("GET_ACTIVE_SESSIONS",@Test_GetActiveSessions)
+it("GET_SAVED_SESSIONS",@Test_GetSavedSessions)
+it("UPDATE_REMOTE_SESSION",@Test_UpdateRemoteSession)
 it("GET_ACTIVE_SESSIONS",@Test_GetActiveSessions)
 it("GET_SAVED_SESSIONS",@Test_GetSavedSessions)
 end function

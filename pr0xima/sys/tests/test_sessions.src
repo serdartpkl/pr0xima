@@ -130,6 +130,9 @@ Proxima.testing.tests.test_sessions = function ()
         it("UPDATE_REMOTE_SESSION", @Test_UpdateRemoteSession)
         it("GET_ACTIVE_SESSIONS", @Test_GetActiveSessions)
         it("GET_SAVED_SESSIONS", @Test_GetSavedSessions)
+        it("SAVE_REMOTE_SESSION", @Test_SaveRemoteSession)
+        it("GET_ACTIVE_SESSIONS", @Test_GetActiveSessions)
+        it("GET_SAVED_SESSIONS", @Test_GetSavedSessions)
     end function
 
     describe("SESSIONS_TEST_SUITE", @TestSuite_Sessions)
