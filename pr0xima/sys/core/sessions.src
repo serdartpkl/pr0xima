@@ -71,7 +71,7 @@ Proxima.sessions.reorderSessions = function (sortBy = "dateCreated")
     idCounter = 1
     newActiveSessionID = null
     for recordIndex in range(0, self.activeSessions.len - 1)
-        if self.activeSession == self.activeSessions[recordIndex].id then newActiveSessionID = self.activeSession
+        if self.targetSession == self.activeSessions[recordIndex].id then newActiveSessionID = self.targetSession
         if self.activeSessions[recordIndex].id != idCounter then self.activeSessions[recordIndex].id = idCounter
         idCounter = idCounter + 1
     end for
@@ -152,7 +152,7 @@ Proxima.sessions.deleteSession = function (sessionID, deleteSaved = false)
             deleteRecord = Proxima.db.deleteRecord("sessions", sessionID)
             if deleteRecord then return true
         else
-            if self.activeSession != sessionID and acquiredSession.sessionType != 0 then
+            if self.targetSession != sessionID and acquiredSession.sessionType != 0 then
                 if self.activeSessions.hasIndex(sessionID - 1) then self.activeSessions.remove(sessionID - 1)
                 reorderSessions = self.reorderSessions()
                 if reorderSessions then return true
@@ -265,7 +265,7 @@ Proxima.sessions.displaySessions = function (displaySaved = false)
     for targetSession in sessionList
         addColor = null
         if displaySaved == false then
-            if self.activeSession == targetSession.id then addColor = "#08FF57"
+            if self.targetSession == targetSession.id then addColor = "#08FF57"
         end if
         s_id = str(targetSession.id) + addColor
         s_target_ip = targetSession.targetIP + addColor
