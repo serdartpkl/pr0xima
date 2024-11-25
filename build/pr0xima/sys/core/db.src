@@ -26,8 +26,8 @@ if self.getDatabase(databaseName)==null then
 createDatabaseFile=Proxima.globals.myPC.touch(home_dir+"/pr0xima/databases",databaseName+".db")
 if typeof(createDatabaseFile)!="string" then
 getDatabaseFile=Proxima.globals.myPC.File(home_dir+"/pr0xima/databases/"+databaseName+".db")
-setFileContent=getDatabaseFile.set_content("{"+char(34)+"records"+char(34)+":[]}")
-if setFileContent==1 then return true
+setDatabaseFile=getDatabaseFile.set_content("{"+char(34)+"records"+char(34)+":[]}")
+if setDatabaseFile==1 then return true
 end if
 end if
 return null
@@ -71,7 +71,7 @@ return null
 end function
 Proxima.db.reorderRecords=function(databaseName,sortBy="dateCreated")
 acquiredRecords=self.getRecords(databaseName)
-if acquiredRecords!=null then
+if acquiredRecords!=null and acquiredRecords.len>0 then
 acquiredRecords.sort(sortBy)
 idCounter=1
 for recordIndex in range(0,acquiredRecords.len-1)
@@ -95,14 +95,12 @@ Proxima.db.addRecord=function(databaseName,recordMap)
 acquiredRecords=self.getRecords(databaseName)
 if acquiredRecords!=null then
 acquiredRecords.push({"id":acquiredRecords.len+1}+recordMap+{"dateCreated":Proxima.utils.getParsedDate})
-setRecords=self.setRecords(databaseName,acquiredRecords)
-if setRecords then
 if acquiredRecords.len>1 then
 reorderRecords=self.reorderRecords(databaseName)
 if reorderRecords then return true
 end if
-return true
-end if
+setRecords=self.setRecords(databaseName,acquiredRecords)
+if setRecords then return true
 end if
 return null
 end function
@@ -122,14 +120,8 @@ if acquiredRecord!=null then
 acquiredRecords=self.getRecords(databaseName)
 if acquiredRecords.len>1 then
 acquiredRecords.remove(recordID-1)
-setRecords=self.setRecords(databaseName,acquiredRecords)
-if setRecords then
-if acquiredRecords.len>1 then
 reorderRecords=self.reorderRecords(databaseName)
 if reorderRecords then return true
-end if
-return true
-end if
 else if acquiredRecords.len==1 then
 resetRecords=self.resetRecords(databaseName)
 if resetRecords then return true

@@ -1,5 +1,5 @@
 Proxima.sessions={}
-Proxima.sessions.activeSession=null
+Proxima.sessions.targetSession=null
 Proxima.sessions.activeSessions=[]
 // ------------------------------------------------------------------------------------------------------------
 Proxima.sessions.getSessions=function(getSaved=false)
@@ -30,7 +30,7 @@ end function
 Proxima.sessions.setSession=function(sessionID)
 acquiredSession=self.getSession(sessionID)
 if acquiredSession!=null then
-self.activeSession=acquiredSession.id
+self.targetSession=acquiredSession.id
 return true
 end if
 return null
@@ -40,15 +40,11 @@ Proxima.sessions.resetSession=function(sessionID,resetSaved=false)
 acquiredSession=self.getSession(sessionID,resetSaved)
 if acquiredSession!=null then
 createSessionMap=self.createSessionMap(acquiredSession.sessionType,acquiredSession.targetIP,acquiredSession.targetRouter)
-tempID=acquiredSession.id
-tempDateCreated=acquiredSession.dateCreated
-acquiredSession.remove("id")
-acquiredSession.remove("dateCreated")
 if resetSaved then
 updateRecord=Proxima.db.updateRecord("sessions",sessionID,createSessionMap)
 if updateRecord then return true
 else
-self.activeSessions[sessionID-1]={"id":tempID}+createSessionMap+{"dateCreated":tempDateCreated}
+self.activeSessions[sessionID-1]={"id":acquiredSession.id}+createSessionMap+{"dateCreated":acquiredSession.dateCreated}
 return true
 end if
 end if
@@ -59,7 +55,7 @@ self.activeSessions.sort(sortBy)
 idCounter=1
 newActiveSessionID=null
 for recordIndex in range(0,self.activeSessions.len-1)
-if self.activeSession==self.activeSessions[recordIndex].id then newActiveSessionID=self.activeSession
+if self.targetSession==self.activeSessions[recordIndex].id then newActiveSessionID=self.targetSession
 if self.activeSessions[recordIndex].id!=idCounter then self.activeSessions[recordIndex].id=idCounter
 idCounter=idCounter+1
 end for
@@ -115,9 +111,11 @@ Proxima.sessions.updateSession=function(sessionID,sessionMap,updateSaved=false)
 getSession=self.getSession(sessionID,updateSaved)
 if getSession!=null then
 if updateSaved then
-//...
+updateRecord=Proxima.db.updateRecord("sessions",sessionID,sessionMap)
+if updateRecord then return true
 else
-//...
+self.activeSessions[sessionID-1]={"id":getSession.id}+sessionMap+{"dateCreated":getSession.dateCreated}
+return true
 end if
 end if
 return null
@@ -129,7 +127,7 @@ if deleteSaved then
 deleteRecord=Proxima.db.deleteRecord("sessions",sessionID)
 if deleteRecord then return true
 else
-if self.activeSession!=sessionID and acquiredSession.sessionType!=0 then
+if self.targetSession!=sessionID and acquiredSession.sessionType!=0 then
 if self.activeSessions.hasIndex(sessionID-1) then self.activeSessions.remove(sessionID-1)
 reorderSessions=self.reorderSessions
 if reorderSessions then return true
@@ -226,7 +224,7 @@ sessionList=self.getSessions(displaySaved)
 for targetSession in sessionList
 addColor=null
 if displaySaved==false then
-if self.activeSession==targetSession.id then addColor="#08FF57"
+if self.targetSession==targetSession.id then addColor="#08FF57"
 end if
 s_id=str(targetSession.id)+addColor
 s_target_ip=targetSession.targetIP+addColor

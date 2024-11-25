@@ -28,38 +28,38 @@ Proxima.testing.tests.test_sessions = function ()
         end function
 
         Test_GetPayloadInjectionValue = function ()
-            getSessionValue = Proxima.sessions.getSessionValue(Proxima.sessions.activeSession, "payloadInjection")
+            getSessionValue = Proxima.sessions.getSessionValue(Proxima.sessions.targetSession, "payloadInjection")
             expect(getSessionValue).notToBeNull()
         end function
 
         Test_SetPayloadInjectionFalse = function ()
-            setSessionValue = Proxima.sessions.setSessionValue(Proxima.sessions.activeSession, "payloadInjection", 0)
+            setSessionValue = Proxima.sessions.setSessionValue(Proxima.sessions.targetSession, "payloadInjection", 0)
             expect(setSessionValue).toBeTruthy()
         end function
 
         Test_IsActiveSessionLocal = function ()
-            isSessionLocal = Proxima.sessions.isSessionLocal(Proxima.sessions.activeSession)
+            isSessionLocal = Proxima.sessions.isSessionLocal(Proxima.sessions.targetSession)
             expect(isSessionLocal).toBeTruthy()
         end function
 
         Test_IsActiveSessionRemote = function ()
-            isSessionRemote = Proxima.sessions.isSessionRemote(Proxima.sessions.activeSession)
+            isSessionRemote = Proxima.sessions.isSessionRemote(Proxima.sessions.targetSession)
             expect(isSessionRemote).toBeFalsy()
         end function
 
         Test_AddDataToActiveSession = function ()
             userMap = {"id": 1, "username": "root", "password": "123456"}
-            addMapToSession = Proxima.sessions.addMapToSession(Proxima.sessions.activeSession, "targetUsers", userMap)
+            addMapToSession = Proxima.sessions.addMapToSession(Proxima.sessions.targetSession, "targetUsers", userMap)
             expect(addMapToSession).toBeTruthy()
         end function
 
         Test_GetTargetUsersList = function ()
-            getSessionValue = Proxima.sessions.getSessionValue(Proxima.sessions.activeSession, "targetUsers")
+            getSessionValue = Proxima.sessions.getSessionValue(Proxima.sessions.targetSession, "targetUsers")
             expect(getSessionValue).notToBeNull()
         end function
 
         Test_SaveActiveSession = function ()
-            getSessionValue = Proxima.sessions.saveSession(Proxima.sessions.activeSession)
+            getSessionValue = Proxima.sessions.saveSession(Proxima.sessions.targetSession)
             expect(getSessionValue).toBeTruthy()
         end function
 
