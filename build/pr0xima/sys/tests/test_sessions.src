@@ -77,6 +77,10 @@ createSessionMap=Proxima.sessions.createSessionMap(1,randomIP,get_router(randomI
 updateRemoteSession=Proxima.sessions.updateSession(2,createSessionMap)
 expect(updateRemoteSession).toBeTruthy
 end function
+Test_GetTargetSessionID=function
+targetSession=Proxima.sessions.targetSession
+expect(targetSession).toBe(2)
+end function
 it("GET_ACTIVE_SESSIONS",@Test_GetActiveSessions)
 it("GET_SAVED_SESSIONS",@Test_GetSavedSessions)
 it("CREATE_LOCAL_SESSION",@Test_CreateLocalSession)
@@ -115,6 +119,7 @@ it("GET_SAVED_SESSIONS",@Test_GetSavedSessions)
 it("SAVE_REMOTE_SESSION",@Test_SaveRemoteSession)
 it("GET_ACTIVE_SESSIONS",@Test_GetActiveSessions)
 it("GET_SAVED_SESSIONS",@Test_GetSavedSessions)
+it("GET_TARGET_SESSION_ID",@Test_GetTargetSessionID)
 end function
 describe("SESSIONS_TEST_SUITE",@TestSuite_Sessions)
 end function

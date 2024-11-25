@@ -22,7 +22,7 @@ Proxima.testing.tests.test_sessions = function ()
             expect(addSession).notToBeNull()
         end function
 
-        Test_SetActiveSession = function ()
+        Test_SetTargetSession = function ()
             setSession = Proxima.sessions.setSession(1)
             expect(setSession).toBeTruthy()
         end function
@@ -95,12 +95,17 @@ Proxima.testing.tests.test_sessions = function ()
             expect(updateRemoteSession).toBeTruthy()
         end function
 
+        Test_GetTargetSessionID = function ()
+            targetSession = Proxima.sessions.targetSession
+            expect(targetSession).toBe(2)
+        end function 
+
         it("GET_ACTIVE_SESSIONS", @Test_GetActiveSessions)
         it("GET_SAVED_SESSIONS", @Test_GetSavedSessions)
         it("CREATE_LOCAL_SESSION", @Test_CreateLocalSession)
         it("CREATE_REMOTE_SESSION", @Test_CreateRemoteSession)
         it("GET_ACTIVE_SESSIONS", @Test_GetActiveSessions)
-        it("SET_ACTIVE_SESSION", @Test_SetActiveSession)
+        it("SET_TARGET_SESSION", @Test_SetTargetSession)
         it("GET_PAYLOAD_INJECTION_VALUE", @Test_GetPayloadInjectionValue)
         it("SET_PAYLOAD_INJECTION_FALSE", @Test_SetPayloadInjectionFalse)
         it("IS_ACTIVE_SESSION_LOCAL", @Test_IsActiveSessionLocal)
@@ -133,6 +138,7 @@ Proxima.testing.tests.test_sessions = function ()
         it("SAVE_REMOTE_SESSION", @Test_SaveRemoteSession)
         it("GET_ACTIVE_SESSIONS", @Test_GetActiveSessions)
         it("GET_SAVED_SESSIONS", @Test_GetSavedSessions)
+        it("GET_TARGET_SESSION_ID", @Test_GetTargetSessionID)
     end function
 
     describe("SESSIONS_TEST_SUITE", @TestSuite_Sessions)
