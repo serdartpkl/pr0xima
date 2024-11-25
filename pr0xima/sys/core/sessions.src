@@ -265,9 +265,7 @@ Proxima.sessions.displaySessions = function (displaySaved = false)
 
     for targetSession in sessionList
         addColor = null
-        if displaySaved == false then
-            if self.targetSession == targetSession.id then addColor = "#08FF57"
-        end if
+        if displaySaved == false and self.targetSession == targetSession.id then addColor = "#08FF57"
         s_id = str(targetSession.id) + addColor
         s_target_ip = targetSession.targetIP + addColor
         s_date = targetSession.dateCreated + addColor
