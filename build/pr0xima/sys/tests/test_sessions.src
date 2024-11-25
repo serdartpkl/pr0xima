@@ -30,15 +30,15 @@ Test_SetPayloadInjectionFalse=function
 setSessionValue=Proxima.sessions.setSessionValue(Proxima.sessions.targetSession,"payloadInjection",0)
 expect(setSessionValue).toBeTruthy
 end function
-Test_IsActiveSessionLocal=function
+Test_IsTargetSessionLocal=function
 isSessionLocal=Proxima.sessions.isSessionLocal(Proxima.sessions.targetSession)
 expect(isSessionLocal).toBeTruthy
 end function
-Test_IsActiveSessionRemote=function
+Test_IsTargetSessionRemote=function
 isSessionRemote=Proxima.sessions.isSessionRemote(Proxima.sessions.targetSession)
 expect(isSessionRemote).toBeFalsy
 end function
-Test_AddDataToActiveSession=function
+Test_AddDataToTargetSession=function
 userMap={"id":1,"username":"root","password":"123456"}
 addMapToSession=Proxima.sessions.addMapToSession(Proxima.sessions.targetSession,"targetUsers",userMap)
 expect(addMapToSession).toBeTruthy
@@ -47,7 +47,7 @@ Test_GetTargetUsersList=function
 getSessionValue=Proxima.sessions.getSessionValue(Proxima.sessions.targetSession,"targetUsers")
 expect(getSessionValue).notToBeNull
 end function
-Test_SaveActiveSession=function
+Test_SaveTargetSession=function
 getSessionValue=Proxima.sessions.saveSession(Proxima.sessions.targetSession)
 expect(getSessionValue).toBeTruthy
 end function
@@ -89,10 +89,10 @@ it("GET_ACTIVE_SESSIONS",@Test_GetActiveSessions)
 it("SET_TARGET_SESSION",@Test_SetTargetSession)
 it("GET_PAYLOAD_INJECTION_VALUE",@Test_GetPayloadInjectionValue)
 it("SET_PAYLOAD_INJECTION_FALSE",@Test_SetPayloadInjectionFalse)
-it("IS_ACTIVE_SESSION_LOCAL",@Test_IsActiveSessionLocal)
-it("IS_ACTIVE_SESSION_REMOTE",@Test_IsActiveSessionRemote)
-it("ADD_USER_TO_TARGET_USERS",@Test_AddDataToActiveSession)
-it("SAVE_ACTIVE_SESSION",@Test_SaveActiveSession)
+it("IS_TARGET_SESSION_LOCAL",@Test_IsTargetSessionLocal)
+it("IS_TARGET_SESSION_REMOTE",@Test_IsTargetSessionRemote)
+it("ADD_USER_TO_TARGET_USERS",@Test_AddDataToTargetSession)
+it("SAVE_TARGET_SESSION",@Test_SaveTargetSession)
 it("GET_ACTIVE_SESSIONS",@Test_GetActiveSessions)
 it("GET_SAVED_SESSIONS",@Test_GetSavedSessions)
 it("DELETE_REMOTE_SESSION",@Test_DeleteRemoteSession)
@@ -101,7 +101,7 @@ it("GET_ACTIVE_SESSIONS",@Test_GetActiveSessions)
 it("GET_SAVED_SESSIONS",@Test_GetSavedSessions)
 it("RESET_LOCAL_SESSION",@Test_ResetLocalSession)
 it("GET_ACTIVE_SESSIONS",@Test_GetActiveSessions)
-it("SAVE_ACTIVE_SESSION",@Test_SaveActiveSession)
+it("SAVE_TARGET_SESSION",@Test_SaveTargetSession)
 it("GET_SAVED_SESSIONS",@Test_GetSavedSessions)
 it("CREATE_REMOTE_SESSION",@Test_CreateRemoteSession)
 it("SAVE_REMOTE_SESSION",@Test_SaveRemoteSession)
