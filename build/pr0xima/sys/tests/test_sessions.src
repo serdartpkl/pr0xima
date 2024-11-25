@@ -18,7 +18,7 @@ remoteIP=Proxima.utils.generateRandomIP
 addSession=Proxima.sessions.addSession(1,remoteIP,get_router(remoteIP))
 expect(addSession).notToBeNull
 end function
-Test_SetActiveSession=function
+Test_SetTargetSession=function
 setSession=Proxima.sessions.setSession(1)
 expect(setSession).toBeTruthy
 end function
@@ -86,7 +86,7 @@ it("GET_SAVED_SESSIONS",@Test_GetSavedSessions)
 it("CREATE_LOCAL_SESSION",@Test_CreateLocalSession)
 it("CREATE_REMOTE_SESSION",@Test_CreateRemoteSession)
 it("GET_ACTIVE_SESSIONS",@Test_GetActiveSessions)
-it("SET_ACTIVE_SESSION",@Test_SetActiveSession)
+it("SET_TARGET_SESSION",@Test_SetTargetSession)
 it("GET_PAYLOAD_INJECTION_VALUE",@Test_GetPayloadInjectionValue)
 it("SET_PAYLOAD_INJECTION_FALSE",@Test_SetPayloadInjectionFalse)
 it("IS_ACTIVE_SESSION_LOCAL",@Test_IsActiveSessionLocal)
