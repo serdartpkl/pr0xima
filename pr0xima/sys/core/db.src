@@ -82,7 +82,7 @@ end function
 
 Proxima.db.reorderRecords = function (databaseName, sortBy = "dateCreated")
     acquiredRecords = self.getRecords(databaseName)
-    if acquiredRecords != null then
+    if acquiredRecords != null and acquiredRecords.len > 0 then
         acquiredRecords.sort(sortBy)
         idCounter = 1
         for recordIndex in range(0, acquiredRecords.len - 1)
