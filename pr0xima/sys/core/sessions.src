@@ -1,6 +1,6 @@
 Proxima.sessions = {}
 
-Proxima.sessions.activeSession = null
+Proxima.sessions.targetSession = null
 Proxima.sessions.activeSessions = []
 
 // ------------------------------------------------------------------------------------------------------------
@@ -39,7 +39,7 @@ end function
 Proxima.sessions.setSession = function (sessionID)
     acquiredSession = self.getSession(sessionID)
     if acquiredSession != null then
-        self.activeSession = acquiredSession.id
+        self.targetSession = acquiredSession.id
         return true
     end if
     return null
