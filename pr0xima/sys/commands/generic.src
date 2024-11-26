@@ -70,7 +70,12 @@ Proxima.commands.sessions.exec = function (params)
                 if savedSessions.hasIndex(sessionID - 1) then targetSession = savedSessions[sessionID - 1] 
                 if targetSession != null then
                     print(Proxima.io.addOutputEntry(Proxima.io.output.progress("Loading saved session...")))
-                    //...
+                    loadSession = Proxima.sessions.loadSession(targetSession.id)
+                    if loadSession then
+                        //...
+                    else
+                        //...
+                    end if
                 else
                     Proxima.io.throwInputError("No saved session found with provided ID.")
                 end if
@@ -79,7 +84,13 @@ Proxima.commands.sessions.exec = function (params)
             sessionID = params[1].to_int
             targetSession = Proxima.sessions.getSession(sessionID)
             if targetSession != null then
-                //...
+                print(Proxima.io.addOutputEntry(Proxima.io.output.progress("Saving active session...")))
+                saveSession = Proxima.sessions.saveSession(targetSession.id)
+                if saveSession then
+                    //...
+                else
+                    //...
+                end if
             else
                 Proxima.io.throwInputError("No session found with provided ID.")
             end if
