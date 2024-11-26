@@ -281,7 +281,7 @@ Proxima.engine.handleCommand = function (userCommand)
             if selectedCommand.type == 2 then
                 selectedCommand.exec(params)
             else
-                if selectedCommand.type == Proxima.sessions.getSessionValue(Proxima.sessions.activeSession, "sessionType") then
+                if selectedCommand.type == Proxima.sessions.getSessionValue(Proxima.sessions.targetSession, "sessionType") then
                     selectedCommand.exec(params)
                 else
                     if selectedCommand.type == 0 then
@@ -298,7 +298,7 @@ Proxima.engine.handleCommand = function (userCommand)
 end function
 
 Proxima.engine.startCLI = function ()
-    targetIP = Proxima.sessions.getSessionValue(Proxima.sessions.activeSession, "targetIP")
+    targetIP = Proxima.sessions.getSessionValue(Proxima.sessions.targetSession, "targetIP")
     Proxima.io.inputString = Proxima.io.output.colorize("<b>pr0xima</b>", "#FFC466") + Proxima.io.output.colorize("@", "#08FF57") + Proxima.io.output.colorize("[" + targetIP + "]", "#FF1548") + Proxima.io.output.colorize("> ", "#008DFF")
     while true
         userCommand = user_input(Proxima.io.inputString, false, false).trim
@@ -355,7 +355,7 @@ Proxima.engine.startEngine = function (runTests = false)
     
         localIP = Proxima.globals.myPC.local_ip
         localRouter = get_router(localIP)
-        createLocalSession = Proxima.sessions.createSession(0, localIP, localRouter)
+        createLocalSession = Proxima.sessions.addSession(0, localIP, localRouter)
         if createLocalSession != null and typeof(createLocalSession) == "number" then
             setActiveSession = Proxima.sessions.setSession(createLocalSession)
             if setActiveSession then
