@@ -245,7 +245,7 @@ end function
 Proxima.engine.startEngine=function(runTests=false)
 Proxima.io.clearScreen
 Proxima.io.printHeader
-Proxima.io.printInformation("pr0xima","A simple easy-to-use multi purpose hacking tool.")
+Proxima.io.printInformation("pr0xima","A simple easy to use multi purpose hacking tool.")
 print(Proxima.io.addOutputEntry(Proxima.io.output.line))
 if Proxima.net.checkConnection!=true then
 print(Proxima.io.output.error("You are not connected to the internet! Terminating program..."))
@@ -273,7 +273,8 @@ else
 getSavedSessions=Proxima.sessions.getSessions(true)
 if getSavedSessions!=null then
 if getSavedSessions.len>0 then
-print(Proxima.io.addOutputEntry(Proxima.io.output.success("Saved sessions loaded successfully! <b>[TOTAL:"+getSavedSessions.len+"]</b>")))
+print(Proxima.io.addOutputEntry(Proxima.io.output.info("Found <b>"+getSavedSessions.len+"</b> saved sessions.")))
+print(Proxima.io.addOutputEntry(Proxima.io.output.info("You can view saved sessions by typing: <b>sessions saved</b>.")))
 else
 print(Proxima.io.addOutputEntry(Proxima.io.output.info("No saved sessions found.")))
 end if

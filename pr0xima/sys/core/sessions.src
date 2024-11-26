@@ -258,7 +258,7 @@ Proxima.sessions.colorizeSessionType = function (sessionType)
 end function
 
 Proxima.sessions.displaySessions = function (displaySaved = false)
-    header_list = ["ID", "TARGET_IP", "SESSION_TYPE", "DATE_CREATED"]
+    header_list = ["ID", "TARGET_IP", "DATE_CREATED", "SESSION_TYPE"]
     content_list = []
     
     sessionList = self.getSessions(displaySaved)
@@ -270,7 +270,7 @@ Proxima.sessions.displaySessions = function (displaySaved = false)
         s_target_ip = targetSession.targetIP + addColor
         s_date = targetSession.dateCreated + addColor
         s_type = self.colorizeSessionType(targetSession.sessionType)
-        content_list.push([ s_id, s_target_ip, s_type, s_date ])
+        content_list.push([ s_id, s_target_ip, s_date, s_type ])
     end for
 
     Proxima.utils.formatList(header_list, content_list)

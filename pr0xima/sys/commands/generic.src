@@ -49,14 +49,14 @@ Proxima.commands.sessions = {
 Proxima.commands.sessions.exec = function (params)
     if params.len == 0 then
         if Proxima.sessions.activeSessions.len > 0 then
-            Proxima.sessions.displaySessionInfo()
+            Proxima.sessions.displaySessions()
         else
             Proxima.io.throwInputError("No sessions available, please perform a scan first.")
         end if
     else if params.len >= 1 then
         if params[0] == "saved" then
             if Proxima.db.getRecords("sessions").len > 0 then
-                Proxima.sessions.displaySessionInfo(true)
+                Proxima.sessions.displaySessions(true)
             else
                 Proxima.io.throwInputError("No saved sessions found.")
             end if
