@@ -74,10 +74,10 @@ Proxima.commands.sessions.exec = function (params)
                     if loadSession then
                         //...
                     else
-                        //...
+                        Proxima.io.throwInputError("Couldn't load saved session due to unexpected error!")
                     end if
                 else
-                    Proxima.io.throwInputError("No saved session found with provided ID.")
+                    Proxima.io.throwInputError("No saved session found with provided ID!")
                 end if
             end if
         else if params[0] == "save" then
@@ -87,9 +87,9 @@ Proxima.commands.sessions.exec = function (params)
                 print(Proxima.io.addOutputEntry(Proxima.io.output.progress("Saving active session...")))
                 saveSession = Proxima.sessions.saveSession(targetSession.id)
                 if saveSession then
-                    //...
+                    print(Proxima.io.addOutputEntry(Proxima.io.output.succedd("Saved active session successfully! <b>[ID:" + targetSession.id + "]</b>")))
                 else
-                    //...
+                    Proxima.io.throwInputError("Couldn't save active session due to unexpected error!")
                 end if
             else
                 Proxima.io.throwInputError("No session found with provided ID.")
