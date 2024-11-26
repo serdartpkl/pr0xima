@@ -119,7 +119,12 @@ Proxima.commands.sessions.exec = function (params)
                 else
                     if savedSessions.hasIndex(sessionID - 1) then targetSession = savedSessions[sessionID - 1] 
                     if targetSession != null then
-                        //...
+                        deleteSession = Proxima.sessions.deleteSession(targetSession.id, true)
+                        if deleteSession then
+                            //...
+                        else
+                            //...
+                        end if
                     else
                         Proxima.io.throwInputError("No saved session found with provided ID.")
                     end if
@@ -132,7 +137,12 @@ Proxima.commands.sessions.exec = function (params)
                 else
                     if activeSessions.hasIndex(sessionID - 1) then targetSession = activeSessions[sessionID - 1] 
                     if targetSession != null then
-                        //...
+                        deleteSession = Proxima.sessions.deleteSession(targetSession.id)
+                        if deleteSession then
+                            //...
+                        else
+                            //...
+                        end if
                     else
                         Proxima.io.throwInputError("No session found with provided ID.")
                     end if
