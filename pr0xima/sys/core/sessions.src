@@ -194,7 +194,7 @@ Proxima.sessions.saveSession = function (sessionID)
         tempTargetShells = activeSession.targetShells
         activeSession.remove("id")
         activeSession.remove("dateCreated")
-        activeSession.targetShells = []
+        if activeSession.targetShells.len > 0 then activeSession.targetShells = []
         savedSession = self.getSession(activeSession.targetIP, true)
         recordOperation = null
         if savedSession != null then 
