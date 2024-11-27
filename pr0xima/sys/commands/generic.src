@@ -74,6 +74,7 @@ Proxima.commands.sessions.exec = function (params)
                         loadSession = Proxima.sessions.loadSession(targetSession.id)
                         if loadSession then
                             print(Proxima.io.addOutputEntry(Proxima.io.output.success("Loaded saved session successfully! <b>[ID:" + targetSession.id + "]</b>")))
+                            Proxima.io.inputString = Proxima.io.output.colorize("<b>pr0xima</b>", "#FFC466") + Proxima.io.output.colorize("@", "#08FF57") + Proxima.io.output.colorize("[" + targetSession.targetIP + "]", "#FF1548") + Proxima.io.output.colorize("> ", "#008DFF")
                         else
                             Proxima.io.throwInputError("Couldn't load saved session due to unexpected error!")
                         end if
