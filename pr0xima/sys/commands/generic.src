@@ -74,7 +74,6 @@ Proxima.commands.sessions.exec = function (params)
                         loadSession = Proxima.sessions.loadSession(targetSession.id)
                         if loadSession then
                             print(Proxima.io.addOutputEntry(Proxima.io.output.success("Loaded saved session successfully! <b>[ID:" + targetSession.id + "]</b>")))
-                            //...
                         else
                             Proxima.io.throwInputError("Couldn't load saved session due to unexpected error!")
                         end if

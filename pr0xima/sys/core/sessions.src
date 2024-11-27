@@ -191,8 +191,10 @@ Proxima.sessions.saveSession = function (sessionID)
     if activeSession != null then
         tempID = activeSession.id
         tempDateCreated = activeSession.dateCreated
+        tempTargetShells = activeSession.targetShells
         activeSession.remove("id")
         activeSession.remove("dateCreated")
+        activeSession.targetShells = []
         savedSession = self.getSession(activeSession.targetIP, true)
         recordOperation = null
         if savedSession != null then 
@@ -201,6 +203,7 @@ Proxima.sessions.saveSession = function (sessionID)
             recordOperation = Proxima.db.addRecord("sessions", activeSession)
         end if
         if recordOperation then
+            activeSession.targetShells = tempTargetShells
             self.activeSessions[sessionID - 1] = {"id": tempID} + activeSession + {"dateCreated": tempDateCreated}
             return true
         end if
@@ -213,6 +216,7 @@ Proxima.sessions.loadSession = function (sessionID)
     if savedSession != null then
         activeSession = self.getSession(savedSession.targetIP)
         if activeSession == null then
+            savedSession.targetShells = []
             self.activeSessions.push(savedSession)
             reorderSessions = self.reorderSessions()
             if reorderSessions then
