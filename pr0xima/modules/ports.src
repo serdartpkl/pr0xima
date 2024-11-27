@@ -40,6 +40,7 @@ Proxima.ports.checkPorts = function (targetIP = null)
         print(Proxima.io.addOutputEntry(Proxima.io.output.info("You've already created an active session with given IP. <b>[ID:" + hasScanned + 1 + "]</b>")))
         Proxima.sessions.setSession(hasScanned + 1)
         print(Proxima.io.addOutputEntry(Proxima.io.output.success("Switched to active session successfully! <b>[ID:" + hasScanned + 1 + "]</b>")))
+        Proxima.io.inputString = Proxima.io.output.colorize("<b>pr0xima</b>", "#FFC466") + Proxima.io.output.colorize("@", "#08FF57") + Proxima.io.output.colorize("[" + Proxima.sessions.getSessionValue(hasScanned + 1, "targetIP") + "]", "#FF1548") + Proxima.io.output.colorize("> ", "#008DFF")
         return true
     else
         targetRouter = get_router(targetIP)
