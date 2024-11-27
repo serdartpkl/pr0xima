@@ -1,0 +1,252 @@
+Proxima.utils={}
+// ------------------------------------------------------------------------------------------------------------
+Proxima.utils.formatList=function(headerList,contentList)
+maxLengths=[]
+for i in headerList
+maxLen=i.len
+for row in contentList
+if row[headerList.indexOf(i)].split("#")!=null then
+if row[headerList.indexOf(i)].split("#")[0].len>maxLen then maxLen=row[headerList.indexOf(i)].split("#")[0].len
+else
+if row[headerList.indexOf(i)].len>maxLen then maxLen=row[headerList.indexOf(i)].len
+end if
+end for
+maxLengths.push(maxLen)
+end for
+padRight=function(str,length,rowColor)
+padding=" "*(length-str.len)
+if rowColor!=null then
+return Proxima.io.output.colorize(str+padding,"#"+rowColor)
+else
+return str+padding
+end if
+end function
+separator="+"
+headerRow="|"
+for i in headerList
+idx=headerList.indexOf(i)
+separator=separator+"-"*(maxLengths[idx]+2)+"+"
+headerRow=headerRow+" "+padRight(i,maxLengths[idx],null)+" |"
+end for
+print(Proxima.io.addOutputEntry(separator))
+print(Proxima.io.addOutputEntry(headerRow))
+print(Proxima.io.addOutputEntry(separator))
+for row in contentList
+rowStr="|"
+for i in headerList
+idx=headerList.indexOf(i)
+splitRow=row[idx].split("#")
+rowColor=null
+if splitRow.len>1 then
+row[idx]=splitRow[0]
+rowColor=splitRow[1]
+end if
+rowStr=rowStr+" "+padRight(row[idx],maxLengths[idx],rowColor)+" |"
+end for
+print(Proxima.io.addOutputEntry(rowStr))
+print(Proxima.io.addOutputEntry(separator))
+end for
+end function
+Proxima.utils.indexesOf=function(givenList,searchKey,searchValue)
+foundedIndexes=[]
+if givenList.len>0 then
+for mapItem in givenList
+for key in mapItem.indexes
+if key==searchKey and mapItem[key]==searchValue then
+foundedIndexes.push(givenList.indexOf(mapItem))
+end if
+end for
+end for
+end if
+if foundedIndexes.len>0 then
+if foundedIndexes.len==1 then return foundedIndexes[0]
+return foundedIndexes
+end if
+return null
+end function
+Proxima.utils.collectFiles=function(parentDir)
+allFiles=[]
+scanDir=function(dir)
+getFile=Proxima.globals.myPC.File(dir)
+if getFile.is_folder then
+acquireFiles=getFile.get_files
+if acquireFiles.len>0 then
+for acquiredFile in acquireFiles
+allFiles.push(acquiredFile.path)
+end for
+end if
+acquireFolders=getFile.get_folders
+if acquireFolders.len>0 then
+for acquiredFolder in acquireFolders
+scanDir(acquiredFolder.path)
+end for
+end if
+else
+allFiles.push(getFile.path)
+end if
+end function
+scanDir(parentDir)
+return allFiles
+end function
+Proxima.utils.getParsedDate=function
+currentDate=current_date
+dateSegments=currentDate.split(" - ")
+d_date=dateSegments[0].split("/")
+d_time=dateSegments[1].split(":")
+d_day=d_date[0]
+if d_day.len==1 then d_day="0"+str(d_day)
+monthMap={"Jan":"01","Feb":"02","Mar":"03","Apr":"04","May":"05","Jun":"06","Jul":"07","Aug":"08","Sep":"09","Oct":"10","Nov":"11","Dec":"12"}
+d_month=monthMap[d_date[1]]
+d_year=d_date[2]
+d_hours=d_time[0]
+d_minutes=d_time[1]
+parsedDate=d_year+d_month+d_day+d_hours+d_minutes
+return parsedDate
+end function
+Proxima.utils.isProtectedNull=function(givenValue)
+if typeof(givenValue)=="list" and givenValue.hasIndex(0) and givenValue[0]==null then return true
+end function
+Proxima.utils.generateRandomIP=function
+firstByteRange=range(0,255)
+firstByteRange.remove(192)
+firstByteRange.remove(191)
+firstByteRange.remove(0)
+firstByteRange.remove(10)
+firstByteRange.remove(172)
+firstByteRange.remove(128)
+firstByteRange.remove(223)
+restByteRange=range(0,255)
+generatedIP=[]
+generatedIP.push(floor(rnd*firstByteRange.len))
+for i in range(2)
+generatedIP.push(floor(rnd*restByteRange.len))
+end for
+generatedIP=generatedIP.join(".")
+if is_valid_ip(generatedIP) and get_router(generatedIP) and get_shell.ping(generatedIP) then return generatedIP
+return self.generateRandomIP
+end function
+// ------------------------------------------------------------------------------------------------------------
+Proxima.utils.isInList=function(givenItem,givenList)
+for item in givenList
+if item==givenItem then
+return true
+end if
+end for
+return false
+end function
+Proxima.utils.serializeMap=function(sessionData,excludeKeys=[])
+dataType=typeof(sessionData)
+if dataType=="map" then
+serialized="{"
+for key in sessionData.indexes
+if self.isInList(key,excludeKeys) then
+continue
+end if
+value=sessionData[key]
+serialized=serialized+char(34)+key+char(34)+":"
+serialized=serialized+self.serializeMap(value,excludeKeys)
+serialized=serialized+","
+end for
+if serialized.hasIndex(serialized.len-1) and serialized[-1]=="," then
+serialized=serialized[:serialized.len-1]
+end if
+serialized=serialized+"}"
+else if dataType=="list" then
+serialized="["
+for value in sessionData
+serialized=serialized+self.serializeMap(value,excludeKeys)
+serialized=serialized+","
+end for
+if serialized.hasIndex(serialized.len-1) and serialized[-1]=="," then
+serialized=serialized[:serialized.len-1]
+end if
+serialized=serialized+"]"
+else if dataType=="string" then
+serialized=char(34)+sessionData+char(34)
+else if dataType=="number" then
+serialized=sessionData
+else
+serialized=char(110)+char(117)+char(108)+char(108)
+end if
+return serialized
+end function
+Proxima.utils.deserializeFirst=function(serialized,excludeKeys=[])
+serialized=serialized.trim
+nullStr=char(110)+char(117)+char(108)+char(108)
+if serialized.hasIndex(0) and serialized[0]=="{" and serialized.hasIndex(serialized.len-1) and serialized[-1]=="}" then
+return self.deserializeMap(serialized,excludeKeys)
+else if serialized.hasIndex(0) and serialized[0]=="[" and serialized.hasIndex(serialized.len-1) and serialized[-1]=="]" then
+return self.deserializeList(serialized,excludeKeys)
+else if serialized.hasIndex(0) and serialized[0]==char(34) and serialized.hasIndex(serialized.len-1) and serialized[-1]==char(34) then
+return serialized[1:-1]
+else if serialized==nullStr then
+return null
+else
+value=serialized.to_int
+if typeof(value)=="string" then
+value=serialized*1
+end if
+return value
+end if
+end function
+Proxima.utils.splitSerializedItems=function(serializedData,delimiter)
+items=[]
+currentItem=""
+depth=0
+for char in serializedData
+if char=="{" or char=="[" then
+depth=depth+1
+else if char=="}" or char=="]" then
+depth=depth-1
+end if
+if char==delimiter and depth==0 then
+items.push(currentItem.trim)
+currentItem=""
+else
+currentItem=currentItem+char
+end if
+end for
+if currentItem.trim!="" then
+items.push(currentItem.trim)
+end if
+return items
+end function
+Proxima.utils.deserializeList=function(serialized,excludeKeys=[])
+if not serialized.hasIndex(1) or not serialized.hasIndex(serialized.len-2) then
+return []
+end if
+serialized=serialized[1:-1].trim
+list=[]
+items=self.splitSerializedItems(serialized,",")
+for item in items
+valueStr=item.trim
+value=self.deserializeFirst(valueStr,excludeKeys)
+list.push(value)
+end for
+return list
+end function
+Proxima.utils.deserializeMap=function(serialized,excludeKeys=[])
+if not serialized.hasIndex(1) or not serialized.hasIndex(serialized.len-2) then
+return {}
+end if
+serialized=serialized[1:-1].trim
+map={}
+items=self.splitSerializedItems(serialized,",")
+for item in items
+keyValue=self.splitSerializedItems(item,":")
+if keyValue.len!=2 then
+continue
+end if
+key=keyValue[0].trim
+if key.hasIndex(0) and key[0]==char(34) and key.hasIndex(key.len-1) and key[-1]==char(34) then
+key=key[1:-1]
+end if
+if self.isInList(key,excludeKeys) then
+continue
+end if
+valueStr=keyValue[1].trim
+value=self.deserializeFirst(valueStr,excludeKeys)
+map[key]=value
+end for
+return map
+end function
