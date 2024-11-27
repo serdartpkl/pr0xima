@@ -48,28 +48,27 @@ Proxima.io.throwInputError("No saved sessions found.")
 else
 if savedSessions.hasIndex(sessionID-1) then targetSession=savedSessions[sessionID-1]
 if targetSession!=null then
-searchSession=Proxima.utils.indexesOf(Proxima.sessions.activeSessions,"targetIP",targetSession.targetIP)
-if searchSession!=null and searchSession.len==1 then
-print(Proxima.io.addOutputEntry(Proxima.io.output.progress("This session is already saved, updating session information...")))
+print(Proxima.io.addOutputEntry(Proxima.io.output.progress("Loading saved session...")))
+loadSession=Proxima.sessions.loadSession(targetSession.id)
+if loadSession then
 //...
 else
-print(Proxima.io.addOutputEntry(Proxima.io.output.progress("Saving session...")))
-//...
+Proxima.io.throwInputError("Couldn't load saved session due to unexpected error!")
 end if
-print(Proxima.io.addOutputEntry(Proxima.io.output.success("Saved session successfully!")))
 else
-Proxima.io.throwInputError("No saved session found with provided ID.")
+Proxima.io.throwInputError("No saved session found with provided ID!")
 end if
 end if
 else if params[0]=="save" then
 sessionID=params[1].to_int
 targetSession=Proxima.sessions.getSession(sessionID)
 if targetSession!=null then
-searchSession=Proxima.db.searchRecord("sessions","targetIP",targetSession.targetIP)
-if searchSession!=null and searchSession.len==1 then
-//...
+print(Proxima.io.addOutputEntry(Proxima.io.output.progress("Saving active session...")))
+saveSession=Proxima.sessions.saveSession(sessionID)
+if saveSession then
+print(Proxima.io.addOutputEntry(Proxima.io.output.success("Saved active session successfully! <b>[ID:"+Proxima.sessions.activeSessions[sessionID-1].id+"]</b>")))
 else
-//...
+Proxima.io.throwInputError("Couldn't save active session due to unexpected error!")
 end if
 else
 Proxima.io.throwInputError("No session found with provided ID.")
@@ -99,7 +98,12 @@ Proxima.io.throwInputError("No saved sessions found.")
 else
 if savedSessions.hasIndex(sessionID-1) then targetSession=savedSessions[sessionID-1]
 if targetSession!=null then
+deleteSession=Proxima.sessions.deleteSession(targetSession.id,true)
+if deleteSession then
 //...
+else
+//...
+end if
 else
 Proxima.io.throwInputError("No saved session found with provided ID.")
 end if
@@ -112,7 +116,12 @@ Proxima.io.throwInputError("No sessions found.")
 else
 if activeSessions.hasIndex(sessionID-1) then targetSession=activeSessions[sessionID-1]
 if targetSession!=null then
+deleteSession=Proxima.sessions.deleteSession(targetSession.id)
+if deleteSession then
 //...
+else
+//...
+end if
 else
 Proxima.io.throwInputError("No session found with provided ID.")
 end if

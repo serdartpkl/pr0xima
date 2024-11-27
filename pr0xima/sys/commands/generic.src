@@ -72,6 +72,7 @@ Proxima.commands.sessions.exec = function (params)
                     print(Proxima.io.addOutputEntry(Proxima.io.output.progress("Loading saved session...")))
                     loadSession = Proxima.sessions.loadSession(targetSession.id)
                     if loadSession then
+                        print(Proxima.io.addOutputEntry(Proxima.io.output.progress("Loaded saved session successfully! <b>[ID:" + targetSession.id + "]</b>")))
                         //...
                     else
                         Proxima.io.throwInputError("Couldn't load saved session due to unexpected error!")
@@ -85,9 +86,9 @@ Proxima.commands.sessions.exec = function (params)
             targetSession = Proxima.sessions.getSession(sessionID)
             if targetSession != null then
                 print(Proxima.io.addOutputEntry(Proxima.io.output.progress("Saving active session...")))
-                saveSession = Proxima.sessions.saveSession(targetSession.id)
+                saveSession = Proxima.sessions.saveSession(sessionID)
                 if saveSession then
-                    print(Proxima.io.addOutputEntry(Proxima.io.output.succedd("Saved active session successfully! <b>[ID:" + targetSession.id + "]</b>")))
+                    print(Proxima.io.addOutputEntry(Proxima.io.output.success("Saved active session successfully! <b>[ID:" + sessionID + "]</b>")))
                 else
                     Proxima.io.throwInputError("Couldn't save active session due to unexpected error!")
                 end if
@@ -121,9 +122,10 @@ Proxima.commands.sessions.exec = function (params)
                     if targetSession != null then
                         deleteSession = Proxima.sessions.deleteSession(targetSession.id, true)
                         if deleteSession then
+                            print(Proxima.io.addOutputEntry(Proxima.io.output.progress("Deleted saved session successfully! <b>[ID:" + targetSession.id + "]</b>")))
                             //...
                         else
-                            //...
+                            Proxima.io.throwInputError("Couldn't delete saved session due to unexpected error!")
                         end if
                     else
                         Proxima.io.throwInputError("No saved session found with provided ID.")
@@ -139,9 +141,10 @@ Proxima.commands.sessions.exec = function (params)
                     if targetSession != null then
                         deleteSession = Proxima.sessions.deleteSession(targetSession.id)
                         if deleteSession then
+                            print(Proxima.io.addOutputEntry(Proxima.io.output.progress("Deleted active session successfully! <b>[ID:" + targetSession.id + "]</b>")))
                             //...
                         else
-                            //...
+                            Proxima.io.throwInputError("Couldn't delete active session due to unexpected error!")
                         end if
                     else
                         Proxima.io.throwInputError("No session found with provided ID.")
