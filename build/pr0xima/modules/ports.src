@@ -27,9 +27,11 @@ end function
 Proxima.ports.scanRouter=function
 end function
 Proxima.ports.checkPorts=function(targetIP=null)
-if targetIP==Proxima.sessions.activeSessions[Proxima.sessions.targetSession-1].targetIP then
-print(Proxima.io.addOutputEntry(Proxima.io.output.info("You are already at this session. <b>[ID:"+Proxima.sessions.targetSession+"|TARGET_IP:"+targetIP+"|TYPE:REMOTE]</b>")))
-return null
+hasScanned=Proxima.utils.indexesOf(Proxima.sessions.activeSessions,"targetIP",targetIP)
+print(Proxima.io.addOutputEntry(hasScanned))
+if hasScanned!=null and targetIP==Proxima.sessions.getSessionValue(hasScanned+1,"targetIP") then
+print(Proxima.io.addOutputEntry(Proxima.io.output.info("You've already created an active session with given IP. <b>[ID:"+Proxima.sessions.targetSession+"]</b>")))
+return true
 else
 targetRouter=get_router(targetIP)
 if is_lan_ip(targetIP) and self.isRouter(targetIP)!=true then targetRouter=get_router
