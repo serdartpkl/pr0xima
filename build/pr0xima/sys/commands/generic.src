@@ -9,11 +9,11 @@ end function
 Proxima.commands.scan={"name":"scan","description":"Scans target IP for performing a port scan.","usage":"scan <ip>","type":2}
 Proxima.commands.scan.exec=function(params)
 targetIP=params[0]
-checkTargetIP=Proxima.exploit.checkTargetIP(targetIP)
+checkTargetIP=Proxima.ports.checkTargetIP(targetIP)
 if checkTargetIP then
-checkPorts=Proxima.exploit.checkPorts(targetIP)
+checkPorts=Proxima.ports.checkPorts(targetIP)
 if checkPorts then
-Proxima.exploit.displayPortInfo
+Proxima.ports.displayPorts
 else
 Proxima.io.throwInputError("No open ports found on given IP address!")
 end if
@@ -30,7 +30,7 @@ if params.len==0 then
 if Proxima.sessions.activeSessions.len>0 then
 Proxima.sessions.displaySessions
 else
-Proxima.io.throwInputError("No sessions available, please perform a scan first.")
+Proxima.io.throwInputError("No active sessions found, please perform a scan first.")
 end if
 else if params.len>=1 then
 if params[0]=="saved" then
@@ -53,13 +53,11 @@ if activeSession==null then
 loadSession=Proxima.sessions.loadSession(targetSession.id)
 if loadSession then
 print(Proxima.io.addOutputEntry(Proxima.io.output.success("Loaded saved session successfully! <b>[ID:"+targetSession.id+"]</b>")))
-//...
 else
 Proxima.io.throwInputError("Couldn't load saved session due to unexpected error!")
 end if
 else
-Proxima.io.throwInputError("Couldn't load saved session!")
-Proxima.io.throwInputError("<b>[ERROR: This session already exists.]</b>")
+Proxima.io.throwInputError("Couldn't load saved session! This session already exists.")
 end if
 else
 Proxima.io.throwInputError("No saved session found with provided ID!")
@@ -122,6 +120,7 @@ else
 if activeSessions.hasIndex(sessionID-1) then targetSession=activeSessions[sessionID-1]
 if targetSession!=null then
 if targetSession.sessionType==1 then
+if Proxima.sessions.targetSession!=targetSession.id then
 deleteSession=Proxima.sessions.deleteSession(targetSession.id)
 if deleteSession then
 print(Proxima.io.addOutputEntry(Proxima.io.output.success("Deleted active session successfully! <b>[ID:"+targetSession.id+"]</b>")))
@@ -129,8 +128,10 @@ else
 Proxima.io.throwInputError("Couldn't delete active session due to unexpected error!")
 end if
 else
-Proxima.io.throwInputError("Couldn't delete active session!")
-Proxima.io.throwInputError("<b>[ERROR: You can't delete the active local session.]</b>")
+Proxima.io.throwInputError("Couldn't delete active session! You can't delete the active session.")
+end if
+else
+Proxima.io.throwInputError("Couldn't delete active session! You can't delete the local session.")
 end if
 else
 Proxima.io.throwInputError("No session found with provided ID.")

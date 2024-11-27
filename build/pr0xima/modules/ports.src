@@ -27,7 +27,7 @@ end function
 Proxima.ports.checkPorts=function(targetIP=null)
 if Proxima.utils.indexesOf(Proxima.sessions.activeSessions,"targetIP",targetIP) then
 for targetSession in Proxima.sessions.activeSessions
-if targetSession.id==Proxima.sessions.activeSession then
+if targetSession.id==Proxima.sessions.targetSession then
 print(Proxima.io.addOutputEntry(Proxima.io.output.info("You are already at this session. <b>[ID:"+targetSession.id+"|TYPE:REMOTE]</b>")))
 else if targetSession.targetIP==targetIP then
 Proxima.sessions.setSession(targetSession.id)
@@ -43,7 +43,7 @@ if is_lan_ip(targetIP) and self.isRouter(targetIP)!=true then targetRouter=get_r
 mainIP=targetRouter.local_ip
 if is_lan_ip(targetIP) then mainIP=targetIP
 scannedPorts=targetRouter.device_ports(mainIP)
-createRemoteSession=Proxima.sessions.createSession(1,targetIP,targetRouter)
+createRemoteSession=Proxima.sessions.addSession(1,targetIP,targetRouter)
 if createRemoteSession!=null and typeof(createRemoteSession)=="number" then
 setActiveSession=Proxima.sessions.setSession(createRemoteSession)
 if setActiveSession then
@@ -52,7 +52,7 @@ if scannedPorts.len==0 or scannedPorts==null then
 return false
 else
 for scannedPort in scannedPorts
-portID=Proxima.sessions.getSessionValue("targetPorts").len+1
+portID=Proxima.sessions.getSessionValue(Proxima.sessions.targetSession,"targetPorts").len+1
 portNumber=scannedPort.port_number
 portState="OPEN"
 if is_closed(scannedPort) then portState="CLOSED"
@@ -60,7 +60,7 @@ portInfo=targetRouter.port_info(scannedPort).split(" ")
 portService=portInfo[0]
 portVersion=portInfo[1]
 portLanIP=scannedPort.get_lan_ip
-Proxima.sessions.pushMap("targetPorts",{"id":portID,"port_number":portNumber,"state":portState,"service":portService,"version":portVersion,"lan_ip":portLanIP})
+Proxima.sessions.addMapToSession(Proxima.sessions.targetSession,"targetPorts",{"id":portID,"port_number":portNumber,"state":portState,"service":portService,"version":portVersion,"lan_ip":portLanIP})
 end for
 return true
 end if
@@ -161,7 +161,7 @@ end function
 Proxima.ports.displayPorts=function
 header_list=["ID","PORT","STATE","SERVICE","VERSION","LAN_IP"]
 content_list=[]
-targetPorts=Proxima.sessions.getSessionValue("targetPorts")
+targetPorts=Proxima.sessions.getSessionValue(Proxima.sessions.targetSession,"targetPorts")
 for targetPort in targetPorts
 p_id=str(targetPort.id)
 p_number=str(targetPort.port_number)

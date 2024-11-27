@@ -163,8 +163,10 @@ activeSession=self.getSession(sessionID)
 if activeSession!=null then
 tempID=activeSession.id
 tempDateCreated=activeSession.dateCreated
+tempTargetShells=activeSession.targetShells
 activeSession.remove("id")
 activeSession.remove("dateCreated")
+if activeSession.targetShells.len>0 then activeSession.targetShells=[]
 savedSession=self.getSession(activeSession.targetIP,true)
 recordOperation=null
 if savedSession!=null then
@@ -173,6 +175,7 @@ else
 recordOperation=Proxima.db.addRecord("sessions",activeSession)
 end if
 if recordOperation then
+activeSession.targetShells=tempTargetShells
 self.activeSessions[sessionID-1]={"id":tempID}+activeSession+{"dateCreated":tempDateCreated}
 return true
 end if
