@@ -28,10 +28,12 @@ Proxima.ports.scanRouter=function
 end function
 Proxima.ports.checkPorts=function(targetIP=null)
 hasScanned=Proxima.utils.indexesOf(Proxima.sessions.activeSessions,"targetIP",targetIP)
-if hasScanned!=null and targetIP==Proxima.sessions.getSessionValue(hasScanned+1,"targetIP") then
-print(Proxima.io.addOutputEntry(Proxima.io.output.info("You've already created an active session with given IP. <b>[ID:"+hasScanned+1+"]</b>")))
-Proxima.sessions.setSession(hasScanned+1)
-print(Proxima.io.addOutputEntry(Proxima.io.output.success("Switched to active session successfully! <b>[ID:"+hasScanned+1+"]</b>")))
+sessionID=hasScanned+1
+if hasScanned!=null and targetIP==Proxima.sessions.getSessionValue(sessionID,"targetIP") then
+print(Proxima.io.addOutputEntry(Proxima.io.output.info("You've already created an active session with given IP. <b>[ID:"+(sessionID)+"]</b>")))
+Proxima.sessions.setSession(sessionID)
+print(Proxima.io.addOutputEntry(Proxima.io.output.success("Switched to active session successfully! <b>[ID:"+(sessionID)+"]</b>")))
+Proxima.io.inputString=Proxima.io.output.colorize("<b>pr0xima</b>","#FFC466")+Proxima.io.output.colorize("@","#08FF57")+Proxima.io.output.colorize("["+Proxima.sessions.getSessionValue(sessionID,"targetIP")+"]","#FF1548")+Proxima.io.output.colorize("> ","#008DFF")
 return true
 else
 targetRouter=get_router(targetIP)
