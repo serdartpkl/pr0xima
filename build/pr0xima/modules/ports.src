@@ -6,6 +6,8 @@ else
 return false
 end if
 end function
+Proxima.ports.createRouter=function(targetIP)
+end function
 Proxima.ports.isPingable=function(targetIP)
 if Proxima.globals.myShell.ping(targetIP) then return true
 end function
@@ -25,7 +27,7 @@ end function
 Proxima.ports.scanRouter=function
 end function
 Proxima.ports.checkPorts=function(targetIP=null)
-if Proxima.utils.indexesOf(Proxima.sessions.activeSessions,"targetIP",targetIP) then
+if Proxima.utils.indexesOf(Proxima.sessions.activeSessions,"targetIP",targetIP)==Proxima.sessions.activeSessions[Proxima.sessions.targetSession-1].targetIP then
 for targetSession in Proxima.sessions.activeSessions
 if targetSession.id==Proxima.sessions.targetSession then
 print(Proxima.io.addOutputEntry(Proxima.io.output.info("You are already at this session. <b>[ID:"+targetSession.id+"|TYPE:REMOTE]</b>")))
