@@ -35,18 +35,9 @@ Proxima.ports.scanRouter = function ()
 end function
 
 Proxima.ports.checkPorts = function (targetIP = null)
-    if Proxima.utils.indexesOf(Proxima.sessions.activeSessions, "targetIP", targetIP) == Proxima.sessions.activeSessions[Proxima.sessions.targetSession - 1].targetIP then
-        for targetSession in Proxima.sessions.activeSessions
-            if targetSession.id == Proxima.sessions.targetSession then
-                print(Proxima.io.addOutputEntry(Proxima.io.output.info("You are already at this session. <b>[ID:" + targetSession.id + "|TYPE:REMOTE]</b>")))
-            else if targetSession.targetIP == targetIP then
-                Proxima.sessions.setSession(targetSession.id)
-                print(Proxima.io.addOutputEntry(Proxima.io.output.progress("This session is already in the list, switching session... <b>[ID:" + targetSession.id + "|TYPE:REMOTE]</b>")))
-                print(Proxima.io.addOutputEntry(Proxima.io.output.success("Loaded session successfuly!")))
-                Proxima.io.inputString = Proxima.io.output.colorize("<b>" + targetSession.targetIP + "</b>", "#FFC466") + Proxima.io.output.colorize("@pr0xima", "#FC8403") + Proxima.io.output.colorize("> ", "#008DFF")
-            end if
-            return true
-        end for
+    if targetIP == Proxima.sessions.activeSessions[Proxima.sessions.targetSession - 1].targetIP then
+        print(Proxima.io.addOutputEntry(Proxima.io.output.info("You are already at this session. <b>[ID:" + Proxima.sessions.targetSession + "|TARGET_IP:" + targetIP + "|TYPE:REMOTE]</b>")))
+        return true
     else
         targetRouter = get_router(targetIP)
         if is_lan_ip(targetIP) and self.isRouter(targetIP) != true then targetRouter = get_router()
