@@ -121,7 +121,7 @@ if activeSessions.hasIndex(sessionID-1) then targetSession=activeSessions[sessio
 if targetSession!=null then
 if targetSession.sessionType==1 then
 if Proxima.sessions.targetSession!=targetSession.id then
-deleteSession=Proxima.sessions.deleteSession(targetSession.id)
+deleteSession=Proxima.sessions.deleteSession(sessionID)
 if deleteSession then
 print(Proxima.io.addOutputEntry(Proxima.io.output.success("Deleted active session successfully! <b>[ID:"+targetSession.id+"]</b>")))
 else
