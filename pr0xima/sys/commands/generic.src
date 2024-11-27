@@ -80,7 +80,8 @@ Proxima.commands.sessions.exec = function (params)
                             Proxima.io.throwInputError("Couldn't load saved session due to unexpected error!")
                         end if
                     else
-                        Proxima.io.throwInputError("Couldn't load saved session due to duplicate active session!")
+                        Proxima.io.throwInputError("Couldn't load saved session!")
+                        Proxima.io.throwInputError("<b>[ERROR: This session already exists.]</b>")
                     end if
                 else
                     Proxima.io.throwInputError("No saved session found with provided ID!")
@@ -151,7 +152,8 @@ Proxima.commands.sessions.exec = function (params)
                                 Proxima.io.throwInputError("Couldn't delete active session due to unexpected error!")
                             end if
                         else
-                            Proxima.io.throwInputError("Couldn't delete active session, it is a local session.")
+                            Proxima.io.throwInputError("Couldn't delete active session!")
+                            Proxima.io.throwInputError("<b>[ERROR: You can't delete local sessions.]</b>")
                         end if
                     else
                         Proxima.io.throwInputError("No session found with provided ID.")
