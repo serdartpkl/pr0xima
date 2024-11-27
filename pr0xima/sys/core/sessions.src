@@ -216,7 +216,6 @@ Proxima.sessions.loadSession = function (sessionID)
     if savedSession != null then
         activeSession = self.getSession(savedSession.targetIP)
         if activeSession == null then
-            savedSession.targetShells = []
             self.activeSessions.push(savedSession)
             reorderSessions = self.reorderSessions()
             if reorderSessions then
