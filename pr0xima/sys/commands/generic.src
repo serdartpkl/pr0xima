@@ -43,7 +43,7 @@ end function
 Proxima.commands.sessions = {
     "name": "sessions",
     "description": "List available sessions.",
-    "usage": "sessions <saved|load <id>|save <id>|switch <id>|remove <id> [-s]>",
+    "usage": "sessions <[-s]|load <id>|save <id>|switch <id>|remove <id> [-s]>",
     "type": 2
 }
 Proxima.commands.sessions.exec = function (params)
@@ -54,7 +54,7 @@ Proxima.commands.sessions.exec = function (params)
             Proxima.io.throwInputError("No active sessions found, please perform a scan first.")
         end if
     else if params.len >= 1 then
-        if params[0] == "--saved" then
+        if params[0] == "-s" then
             if Proxima.db.getRecords("sessions").len > 0 then
                 Proxima.sessions.displaySessions(true)
             else
@@ -116,7 +116,7 @@ Proxima.commands.sessions.exec = function (params)
             end if
         else if params[0] == "remove" then
             sessionID = params[1].to_int
-            if params.hasIndex(2) and params[2] == "--saved" then
+            if params.hasIndex(2) and params[2] == "-s" then
                 savedSessions = Proxima.db.getRecords("sessions")
                 targetSession = null
                 if savedSessions.len == 0 then
