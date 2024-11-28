@@ -227,7 +227,7 @@ Proxima.sessions.loadSession = function (sessionID)
             reorderSessions = self.reorderSessions()
             if reorderSessions then
                 newActiveSession = self.getSession(savedSession.targetIP)
-                setActiveSession = self.setSession(1)
+                setActiveSession = self.setSession(newActiveSession.id)
                 if setActiveSession then return true
             end if
         end if
