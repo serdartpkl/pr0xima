@@ -255,6 +255,12 @@ end function
 
 // ------------------------------------------------------------------------------------------------------------
 
+Proxima.engine.createLocalSession = function ()
+
+end function
+
+// ------------------------------------------------------------------------------------------------------------
+
 Proxima.engine.handleCommand = function (userCommand)
     if userCommand != null and userCommand != "" then
         parsedCommand = null
