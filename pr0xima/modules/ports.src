@@ -9,7 +9,9 @@ Proxima.ports.isRouter = function (targetIP)
 end function
 
 Proxima.ports.createRouter = function (targetIP)
-
+    targetRouter = get_router(targetIP)
+    if is_lan_ip(targetIP) and self.isRouter(targetIP) != true then targetRouter = get_router()
+    return targetRouter
 end function
 
 Proxima.ports.isPingable = function (targetIP)
@@ -44,8 +46,7 @@ Proxima.ports.checkPorts = function (targetIP = null)
         Proxima.io.inputString = Proxima.io.output.colorize("<b>pr0xima</b>", "#FFC466") + Proxima.io.output.colorize("@", "#08FF57") + Proxima.io.output.colorize("[" + Proxima.sessions.getSessionValue(sessionID, "targetIP") + "]", "#FF1548") + Proxima.io.output.colorize("> ", "#008DFF")
         return true
     else
-        targetRouter = get_router(targetIP)
-        if is_lan_ip(targetIP) and self.isRouter(targetIP) != true then targetRouter = get_router()
+        targetRouter = self.createRouter(targetIP)
         mainIP = targetRouter.local_ip
         if is_lan_ip(targetIP) then mainIP = targetIP
         scannedPorts = targetRouter.device_ports(mainIP)
