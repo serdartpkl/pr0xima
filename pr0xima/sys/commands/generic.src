@@ -9,8 +9,8 @@ Proxima.commands.dump = {
     "type": 2
 }
 Proxima.commands.dump.exec = function (params)
-    Proxima.exploit.checkLibraries()
-    Proxima.exploit.displayLibraryInfo()
+    Proxima.libraries.checkLibraries()
+    Proxima.libraries.displayLibraries()
 end function
 
 // ------------------------------------------------------------------------------------------------------------
