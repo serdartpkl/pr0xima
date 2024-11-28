@@ -45,9 +45,9 @@ Proxima.commands.ports = {
     "type": 1
 }
 Proxima.commands.ports.exec = function (params)
-    targetPorts = Proxima.sessions.getSessionValue("targetPorts")
+    targetPorts = Proxima.sessions.getSessionValue(Proxima.sessions.targetSession, "targetPorts")
     if targetPorts.len > 0 then
-        Proxima.exploit.displayPortInfo()
+        Proxima.exploit.displayPorts()
     else
         Proxima.io.throwInputError("No ports available, please scan an IP address first.")
     end if

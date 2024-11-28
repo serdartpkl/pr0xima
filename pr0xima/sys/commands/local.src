@@ -25,9 +25,9 @@ Proxima.commands.libraries = {
     "type": 0
 }
 Proxima.commands.libraries.exec = function (params)
-    targetLibraries = Proxima.sessions.getSessionValue("targetLibraries")
+    targetLibraries = Proxima.sessions.getSessionValue(Proxima.sessions.targetSession, "targetLibraries")
     if targetLibraries.len > 0 then
-        Proxima.exploit.displayLibraryInfo()
+        Proxima.exploit.displayLibraries()
     else
         Proxima.io.throwInputError("No libraries available, please dump local libraries first.")
     end if
