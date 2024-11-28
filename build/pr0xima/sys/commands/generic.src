@@ -2,8 +2,8 @@ Proxima.commands={}
 // ------------------------------------------------------------------------------------------------------------
 Proxima.commands.dump={"name":"dump","description":"Dumps target IPs ports or local libraries to perform a scan.","usage":"dump <ip|local>","type":2}
 Proxima.commands.dump.exec=function(params)
-Proxima.exploit.checkLibraries
-Proxima.exploit.displayLibraryInfo
+Proxima.libraries.checkLibraries
+Proxima.libraries.displayLibraries
 end function
 // ------------------------------------------------------------------------------------------------------------
 Proxima.commands.scan={"name":"scan","description":"Scans target IP for performing a port scan.","usage":"scan <ip>","type":2}
