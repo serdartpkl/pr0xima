@@ -259,14 +259,11 @@ Proxima.engine.initializeLocalSession = function ()
     localIP = Proxima.globals.myPC.local_ip
     savedSessionIndex = Proxima.sessions.searchSessions("targetIP", localIP, true)
     if savedSessionIndex != null then
-        savedSessions = Proxima.sessions.getSessions(true)
-        if savedSessions != null then
-            savedSessionID = savedSessionIndex + 1
-            loadSession = Proxima.sessions.loadSession(savedSessionID)
-            if loadSession then
-                setRouter = Proxima.sessions.setSessionValue(Proxima.sessions.targetSession, "targetRouter", get_router(localIP))
-                if setRouter then return true
-            end if
+        savedSessionID = savedSessionIndex + 1
+        loadSession = Proxima.sessions.loadSession(savedSessionID)
+        if loadSession then
+            setRouter = Proxima.sessions.setSessionValue(Proxima.sessions.targetSession, "targetRouter", get_router(localIP))
+            if setRouter then return true
         end if
     else
         localRouter = get_router(localIP)
