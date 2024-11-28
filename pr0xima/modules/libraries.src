@@ -1,13 +1,14 @@
 Proxima.libraries = {}
 
 Proxima.libraries.checkLibraries = function ()
-    Proxima.sessions.setSessionValue("targetLibraries", [])
+    targetSession = Proxima.sessions.targetSession
+    Proxima.sessions.setSessionValue(targetSession, "targetLibraries", [])
     librariesFolder = Proxima.globals.myPC.File("/lib")
-    localLibraries = librariesFolder.get_files
+    localLibraries = librariesFolder.get_files()
     for localLibrary in localLibraries
-        libraryID = Proxima.sessions.getSessionValue("targetLibraries").len + 1
+        libraryID = Proxima.sessions.getSessionValue(targetSession, "targetLibraries").len + 1
         libraryInfo = Proxima.globals.metaxploit.load(localLibrary.path)
-        Proxima.sessions.pushMap("targetLibraries", { "id": libraryID , "lib_name": libraryInfo.lib_name, "version": libraryInfo.version, "path": localLibrary.path })
+        Proxima.sessions.addMapToSession(targetSession, "targetLibraries", { "id": libraryID , "lib_name": libraryInfo.lib_name, "version": libraryInfo.version, "path": localLibrary.path })
     end for
 end function
 
