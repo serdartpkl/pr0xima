@@ -55,7 +55,11 @@ self.activeSessions.sort(sortBy)
 idCounter=1
 targetSessionIP=null
 for recordIndex in range(0,self.activeSessions.len-1)
+if self.targetSession!=null then
 if self.targetSession==self.activeSessions[recordIndex].id then targetSessionIP=self.activeSessions[recordIndex].targetIP
+else
+targetSessionIP=self.activeSessions[recordIndex].id
+end if
 if self.activeSessions[recordIndex].id!=idCounter then self.activeSessions[recordIndex].id=idCounter
 idCounter=idCounter+1
 end for
