@@ -223,7 +223,6 @@ Proxima.sessions.loadSession = function (sessionID)
     if savedSession != null then
         activeSession = self.getSession(savedSession.targetIP)
         if activeSession == null then
-            savedSession.targetRouter = Proxima.ports.createRouter(savedSession.targetIP)
             self.activeSessions.push(savedSession)
             reorderSessions = self.reorderSessions()
             if reorderSessions then
