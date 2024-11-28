@@ -191,10 +191,14 @@ if savedSession!=null then
 activeSession=self.getSession(savedSession.targetIP)
 if activeSession==null then
 self.activeSessions.push(savedSession)
+print(Proxima.io.addOutputEntry(self.activeSessions))
 reorderSessions=self.reorderSessions
+print(Proxima.io.addOutputEntry(self.activeSessions))
+print(Proxima.io.addOutputEntry(reorderSessions))
 if reorderSessions then
-newActiveSessionID=self.getSession(savedSession.targetIP).id
-setActiveSession=self.setSession(newActiveSessionID)
+newActiveSession=self.getSession(savedSession.targetIP)
+print(Proxima.io.addOutputEntry("AA"))
+setActiveSession=self.setSession(1)
 if setActiveSession then return true
 end if
 end if

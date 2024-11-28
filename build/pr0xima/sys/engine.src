@@ -194,6 +194,30 @@ end if
 end if
 end function
 // ------------------------------------------------------------------------------------------------------------
+Proxima.engine.initializeLocalSession=function
+localIP=Proxima.globals.myPC.local_ip
+savedSessionIndex=Proxima.sessions.searchSessions("targetIP",localIP,true)
+if savedSessionIndex!=null then
+savedSessions=Proxima.sessions.getSessions(true)
+if savedSessions!=null then
+savedSessionID=savedSessionIndex+1
+loadSession=Proxima.sessions.loadSession(savedSessionID)
+if loadSession then
+setRouter=Proxima.sessions.setSessionValue(Proxima.sessions.targetSession,"targetRouter",get_router(localIP))
+if setRouter then return true
+end if
+end if
+else
+localRouter=get_router(localIP)
+createLocalSession=Proxima.sessions.addSession(0,localIP,localRouter)
+if createLocalSession!=null and typeof(createLocalSession)=="number" then
+setActiveSession=Proxima.sessions.setSession(createLocalSession)
+if setActiveSession then return true
+end if
+end if
+return null
+end function
+// ------------------------------------------------------------------------------------------------------------
 Proxima.engine.handleCommand=function(userCommand)
 if userCommand!=null and userCommand!="" then
 parsedCommand=null
@@ -279,20 +303,15 @@ else
 print(Proxima.io.addOutputEntry(Proxima.io.output.info("No saved sessions found.")))
 end if
 else
-exit(Proxima.io.addOutputEntry(Proxima.io.output.error("Couldn't load saved sessions due to unexpected error.")))
+exit(Proxima.io.addOutputEntry(Proxima.io.output.error("Couldn't access sessions database due to unexpected error. Terminating program...")))
 end if
-localIP=Proxima.globals.myPC.local_ip
-localRouter=get_router(localIP)
-createLocalSession=Proxima.sessions.addSession(0,localIP,localRouter)
-if createLocalSession!=null and typeof(createLocalSession)=="number" then
-setActiveSession=Proxima.sessions.setSession(createLocalSession)
-if setActiveSession then
+print(Proxima.io.addOutputEntry(Proxima.io.output.line))
+initializeLocalSession=self.initializeLocalSession
+if initializeLocalSession!=null then
+print(Proxima.io.addOutputEntry(Proxima.io.output.success("Initialized local session successfully!")))
 self.startCLI
 else
-exit(Proxima.io.output.error("Couldn't switch to created session due to unexpected error. Terminating program..."))
-end if
-else
-exit(Proxima.io.output.error("Couldn't create local session due to unexpected error. Terminating program..."))
+exit(Proxima.io.output.error("Couldn't initialize local session due to unexpected error. Terminating program..."))
 end if
 end if
 end function
