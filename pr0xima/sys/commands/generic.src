@@ -54,7 +54,7 @@ Proxima.commands.sessions.exec = function (params)
             Proxima.io.throwInputError("No active sessions found, please perform a scan first.")
         end if
     else if params.len >= 1 then
-        if params[0] == "saved" then
+        if params[0] == "--saved" then
             if Proxima.db.getRecords("sessions").len > 0 then
                 Proxima.sessions.displaySessions(true)
             else
