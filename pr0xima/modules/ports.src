@@ -185,5 +185,17 @@ Proxima.ports.displayPorts = function ()
         content_list.push([ p_id, p_number, p_state, p_service, p_version, p_lan_ip ])
     end for
 
+    print(Proxima.io.addOutputEntry("/ START_SCAN [172.44.23.29]"))
+    print(Proxima.io.addOutputEntry("|-- TARGET_ROUTER: 192.168.0.1"))
+    print(Proxima.io.addOutputEntry("|-- KERNEL_VERSION: v1.0.0"))
     Proxima.utils.formatList(header_list, content_list)
+    print(Proxima.io.addOutputEntry("|-- USER_LIST"))
+    print(Proxima.io.addOutputEntry("|   |-- SERVICE_NOT_AVAILABLE"))
+    print(Proxima.io.addOutputEntry("|-- END_USER_LIST"))
+    print(Proxima.io.addOutputEntry("|-- ADMIN_INFORMATION"))
+    print(Proxima.io.addOutputEntry("|   |-- NAME: Daniel Craig"))
+    print(Proxima.io.addOutputEntry("|   |-- EMAIL: danielcraig@test.com"))
+    print(Proxima.io.addOutputEntry("|-- END_ADMIN_INFORMATION"))
+    print(Proxima.io.addOutputEntry("|-- COMPANY_NAME: listruss"))
+    print(Proxima.io.addOutputEntry("\ END_SCAN"))
 end function
