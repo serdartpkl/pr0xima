@@ -138,11 +138,11 @@ Proxima.ports.scanPort = function (portID)
 end function
 
 Proxima.ports.scanPorts = function ()
-    targetIP = Proxima.sessions.getSessionValue("targetIP")
-    targetPorts = Proxima.sessions.getSessionValue("targetPorts")
+    targetIP = Proxima.sessions.getSessionValue(Proxima.sessions.targetSession, "targetIP")
+    targetPorts = Proxima.sessions.getSessionValue(Proxima.sessions.targetSession, "targetPorts")
     if targetPorts.len > 0 then
         totalExploits = 0
-        targetExploits = Proxima.sessions.getSessionValue("targetExploits")
+        targetExploits = Proxima.sessions.getSessionValue(Proxima.sessions.targetSession, "targetExploits")
         for targetPort in targetPorts
             if targetExploits.len > 0 and Proxima.utils.indexesOf(targetExploits, "port_number", targetPort.port_number) then
                 print(Proxima.io.addOutputEntry(Proxima.io.output.info("This port is already scanned for exploits. Skipping... <b>[IP:" + targetIP + "|PORT:" + targetPort.port_number + "]</b>")))
