@@ -128,7 +128,7 @@ end if
 end function
 Proxima.actions.deleteFile=function(filePath,output=true)
 targetComputer=null
-if self.isLocal then
+if Proxima.sessions.isSessionLocal(Proxima.sessions.targetSession) then
 targetComputer=Proxima.globals.myPC
 else
 targetShells=Proxima.sessions.getSessionValue("targetShells")

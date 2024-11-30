@@ -150,9 +150,9 @@ end function
 // ------------------------------------------------------------------------------------------------------------
 Proxima.commands.exploits={"name":"exploits","description":"Lists all available exploits gathered from current remote target or local libraries.","usage":"exploits","type":2}
 Proxima.commands.exploits.exec=function(params)
-targetExploits=Proxima.sessions.getSessionValue("targetExploits")
+targetExploits=Proxima.sessions.getSessionValue(Proxima.sessions.targetSession,"targetExploits")
 if targetExploits.len>0 then
-Proxima.exploit.displayExploitInfo
+Proxima.exploit.displayExploits
 else
 Proxima.io.throwInputError("No exploits available, please scan an IP address first.")
 end if
