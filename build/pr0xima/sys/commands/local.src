@@ -4,9 +4,9 @@ if params.len==0 then
 Proxima.io.throwInputError("No library ID provided.",self.usage)
 else
 if params[0]=="all" then
-Proxima.exploit.scanLibraries
+Proxima.libraries.scanLibraries
 else
-Proxima.exploit.scanLibrary(params[0].to_int)
+Proxima.libraries.scanLibrary(params[0].to_int)
 end if
 end if
 end function

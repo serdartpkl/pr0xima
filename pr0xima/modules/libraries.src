@@ -79,7 +79,7 @@ end function
 Proxima.libraries.displayLibraries = function ()
     header_list = ["ID", "LIBRARY_NAME", "VERSION", "PATH"]
     content_list = []
-    targetLibraries = Proxima.sessions.getSessionValue(Proxima.sessions.targetSession, Proxima.sessions.targetSession, "targetLibraries")
+    targetLibraries = Proxima.sessions.getSessionValue(Proxima.sessions.targetSession, "targetLibraries")
     for targetLibrary in targetLibraries
         l_id = str(targetLibrary.id)
         l_name = targetLibrary.lib_name

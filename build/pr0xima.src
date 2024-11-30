@@ -22,6 +22,4 @@ import_code("/home/pr0ximan0va/Scripts/pr0xima/sys/tests/test_sessions.src")
 import_code("/home/pr0ximan0va/Scripts/pr0xima/sys/engine.src")
 import_code("/home/pr0ximan0va/Scripts/pr0xima/init.src")
 prx=new Proxima
-targetIP=null
-if params.hasIndex(0) then targetIP=params[0]
-prx.net.autoHack(targetIP)
+prx.engine.startEngine
