@@ -83,7 +83,7 @@ end function
 Proxima.ports.dumpPort = function (targetPort)
     totalExploits = 0
     if targetPort.state == "OPEN" then
-        targetIP = Proxima.sessions.getSessionValue("targetIP")
+        targetIP = Proxima.sessions.getSessionValue(Proxima.sessions.targetSession, "targetIP")
         print(Proxima.io.addOutputEntry(Proxima.io.output.progress("Connecting to <b>" + targetIP + ":" + targetPort.port_number + "</b>...")))
         netSession = Proxima.globals.metaxploit.net_use(targetIP, targetPort.port_number)
         Proxima.io.clearScreen()
@@ -96,7 +96,7 @@ Proxima.ports.dumpPort = function (targetPort)
             Proxima.io.addProgressBar()
             Proxima.io.clearScreen()
             wait(0.5)
-            totalExploits = self.parseScanEntries(scanResult, libraryDump, targetPort)
+            totalExploits = Proxima.exploit.parseScanEntries(scanResult, libraryDump, targetPort)
         else
             print(Proxima.io.addOutputEntry(Proxima.io.output.error("Unable to connect to port <b>" + targetPort.port_number + "</b>. It has firewall protection.")))
         end if 
@@ -107,13 +107,13 @@ Proxima.ports.dumpPort = function (targetPort)
 end function
 
 Proxima.ports.scanPort = function (portID)
-    targetIP = Proxima.sessions.getSessionValue("targetIP")
-    targetPorts = Proxima.sessions.getSessionValue("targetPorts")
+    targetIP = Proxima.sessions.getSessionValue(Proxima.sessions.targetSession, "targetIP")
+    targetPorts = Proxima.sessions.getSessionValue(Proxima.sessions.targetSession, "targetPorts")
     if targetPorts.len > 0 then
         if portID != null and targetPorts.hasIndex(portID - 1) then
             totalExploits = 0
             targetPort = targetPorts[portID - 1]
-            targetExploits = Proxima.sessions.getSessionValue("targetExploits")
+            targetExploits = Proxima.sessions.getSessionValue(Proxima.sessions.targetSession, "targetExploits")
             if targetExploits.len > 0 and Proxima.utils.indexesOf(targetExploits, "port_number", targetPort.port_number) then
                 print(Proxima.io.addOutputEntry(Proxima.io.output.warning("This port is already scanned for exploits. Skipping... <b>[IP:" + targetIP + "|PORT:" + targetPort.port_number + "]</b>")))
                 print(Proxima.io.addOutputEntry(Proxima.io.output.info("You can use 'exploits' command to view found exploits.")))
