@@ -160,6 +160,20 @@ print(Proxima.io.addOutputEntry(Proxima.io.output.error("There is no specified t
 end if
 end if
 end function
+Proxima.ports.detectTargetLANs=function
+targetPorts=Proxima.sessions.getSessionValue(Proxima.sessions.targetSession,"targetPorts")
+if targetPorts.len>0 then
+ipAddresses=[]
+for targetPort in targetPorts
+ipAddresses.push(targetPort.lan_ip)
+end for
+removeDuplicates=Proxima.utils.removeDuplicates(ipAddresses)
+setLANs=Proxima.sessions.setSessionValue(Proxima.sessions.targetSession,"targetLANs",removeDuplicates)
+print(Proxima.io.addOutputEntry(Proxima.sessions.getSessionValue(Proxima.sessions.targetSession,"targetLANs")))
+if setLANs then return true
+end if
+return null
+end function
 Proxima.ports.displayPorts=function(isEmpty=false)
 header_list=["ID","PORT","STATE","SERVICE","VERSION","LAN_IP"]
 content_list=[]
@@ -213,4 +227,5 @@ print(Proxima.io.addOutputEntry("|   |-- PHONE: "+adminInfo[3].split(":")[1].tri
 print(Proxima.io.addOutputEntry("|-- COMPANY_NAME: "+((adminInfo[0].split(":")[1].trim).split("\.")[1].upper)[0]+(adminInfo[0].split(":")[1].trim).split("\.")[1][1:]+""))
 print(Proxima.io.addOutputEntry("|-- DOMAIN_NAME: "+(adminInfo[0].split(":")[1].trim)))
 print(Proxima.io.addOutputEntry("\ END_SCAN"))
+self.detectTargetLANs
 end function

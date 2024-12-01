@@ -1,5 +1,14 @@
 Proxima.utils={}
 // ------------------------------------------------------------------------------------------------------------
+Proxima.utils.removeDuplicates=function(inputList)
+uniqueItems=[]
+for item in inputList
+if uniqueItems.indexOf(item)==null then
+uniqueItems.push(item)
+end if
+end for
+return uniqueItems
+end function
 Proxima.utils.formatList=function(headerList,contentList)
 maxLengths=[]
 for i in headerList
