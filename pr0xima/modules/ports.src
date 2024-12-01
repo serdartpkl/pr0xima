@@ -236,6 +236,7 @@ Proxima.ports.displayPorts = function (isEmpty = false)
     else
         print(Proxima.io.addOutputEntry("|   |-- SERVICE_NOT_AVAILABLE"))
     end if
+
     adminInfo = whois(targetIP)
     if is_lan_ip(targetIP) then adminInfo = whois(targetRouter.public_ip)
     adminInfo = adminInfo.split(char(10))
@@ -245,6 +246,27 @@ Proxima.ports.displayPorts = function (isEmpty = false)
     print(Proxima.io.addOutputEntry("|   |-- PHONE: "+adminInfo[3].split(":")[1].trim+""))
     print(Proxima.io.addOutputEntry("|-- COMPANY_NAME: "+((adminInfo[0].split(":")[1].trim).split("\.")[1].upper)[0]+(adminInfo[0].split(":")[1].trim).split("\.")[1][1:]+""))
     print(Proxima.io.addOutputEntry("|-- DOMAIN_NAME: " + (adminInfo[0].split(":")[1].trim)))
-    print(Proxima.io.addOutputEntry("\ END_SCAN"))
+    
     self.detectTargetLANs()
+    targetLANs = Proxima.sessions.getSessionValue(Proxima.sessions.targetSession, "targetLANs")
+    if targetLANs.len > 0 then
+        if targetLANs.len > 1 then
+            print(Proxima.io.addOutputEntry("|-- TARGET_LAN_ADDRESSES"))
+            for targetLAN in targetLANs
+                print(Proxima.io.addOutputEntry("|   |-- " + targetLAN))
+            end for
+            print(Proxima.io.addOutputEntry("|-- TARGET_LAN_ADDRESS: NOT_SET"))
+        else if targetLANs.len == 1 then
+            targetLAN = Proxima.sessions.getSessionValue(Proxima.sessions.targetSession, "targetLAN")
+            if targetLAN != null then
+                print(Proxima.io.addOutputEntry("|-- TARGET_LAN_ADDRESS: " + targetLAN))
+            else
+                print(Proxima.io.addOutputEntry("|-- TARGET_LAN_ADDRESS: NOT_SET"))
+            end if
+        end if
+    else
+        print(Proxima.io.addOutputEntry("|-- NO_LAN_ADDRESS_FOUND"))
+    end if
+    
+    print(Proxima.io.addOutputEntry("\ END_SCAN"))
 end function
