@@ -48,10 +48,11 @@ if createRemoteSession!=null and typeof(createRemoteSession)=="number" then
 setActiveSession=Proxima.sessions.setSession(createRemoteSession)
 if setActiveSession then
 Proxima.io.inputString=Proxima.io.output.colorize("<b>pr0xima</b>","#FFC466")+Proxima.io.output.colorize("@","#08FF57")+Proxima.io.output.colorize("["+targetIP+"]","#FF1548")+Proxima.io.output.colorize("> ","#008DFF")
-if scannedPorts.len==0 or scannedPorts==null then
+if scannedPorts.len==1 or scannedPorts==null then
 return false
 else
 for scannedPort in scannedPorts
+if scannedPort.port_number!=8080 then
 portID=Proxima.sessions.getSessionValue(Proxima.sessions.targetSession,"targetPorts").len+1
 portNumber=scannedPort.port_number
 portState="OPEN"
@@ -61,6 +62,7 @@ portService=portInfo[0]
 portVersion=portInfo[1]
 portLanIP=scannedPort.get_lan_ip
 Proxima.sessions.addMapToSession(Proxima.sessions.targetSession,"targetPorts",{"id":portID,"port_number":portNumber,"state":portState,"service":portService,"version":portVersion,"lan_ip":portLanIP})
+end if
 end for
 return true
 end if
@@ -176,7 +178,6 @@ end for
 print(Proxima.io.addOutputEntry("/ START_SCAN [172.44.23.29]"))
 print(Proxima.io.addOutputEntry("|-- TARGET_ROUTER: 192.168.0.1"))
 print(Proxima.io.addOutputEntry("|-- KERNEL_VERSION: v1.0.0"))
-print(Proxima.io.addOutputEntry("|-- AVAILABLE_PORTS"))
 Proxima.utils.formatList(header_list,content_list)
 print(Proxima.io.addOutputEntry("|-- USER_LIST"))
 print(Proxima.io.addOutputEntry("|   |-- SERVICE_NOT_AVAILABLE"))
