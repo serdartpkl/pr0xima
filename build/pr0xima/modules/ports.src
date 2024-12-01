@@ -180,6 +180,14 @@ end if
 return null
 end function
 Proxima.ports.displayPorts=function(isEmpty=false)
+targetIP=Proxima.sessions.getSessionValue(Proxima.sessions.targetSession,"targetIP")
+targetRouter=Proxima.sessions.getSessionValue(Proxima.sessions.targetSession,"targetRouter")
+print(Proxima.io.addOutputEntry("/ START_SCAN ["+targetIP+"]"))
+print(Proxima.io.addOutputEntry("|-- TARGET_ROUTER: "+targetRouter.local_ip))
+print(Proxima.io.addOutputEntry("|-- KERNEL_VERSION: v"+targetRouter.kernel_version))
+if isEmpty then
+print(Proxima.io.addOutputEntry("|-- NO_OPEN_PORTS_FOUND"))
+else
 header_list=["ID","PORT","STATE","SERVICE","VERSION","LAN_IP"]
 content_list=[]
 targetPorts=Proxima.sessions.getSessionValue(Proxima.sessions.targetSession,"targetPorts")
@@ -194,15 +202,24 @@ p_version=targetPort.version
 p_lan_ip=targetPort.lan_ip
 content_list.push([p_id,p_number,p_state,p_service,p_version,p_lan_ip])
 end for
-targetIP=Proxima.sessions.getSessionValue(Proxima.sessions.targetSession,"targetIP")
-targetRouter=Proxima.sessions.getSessionValue(Proxima.sessions.targetSession,"targetRouter")
-print(Proxima.io.addOutputEntry("/ START_SCAN ["+targetIP+"]"))
-print(Proxima.io.addOutputEntry("|-- TARGET_ROUTER: "+targetRouter.local_ip))
-print(Proxima.io.addOutputEntry("|-- KERNEL_VERSION: v"+targetRouter.kernel_version))
-if isEmpty then
-print(Proxima.io.addOutputEntry("|-- NO_OPEN_PORTS_FOUND"))
-else
 Proxima.utils.formatList(header_list,content_list)
+end if
+self.detectTargetLANs
+targetLANs=Proxima.sessions.getSessionValue(Proxima.sessions.targetSession,"targetLANs")
+if targetLANs.len>0 then
+if targetLANs.len>1 then
+print(Proxima.io.addOutputEntry("|-- TARGET_LAN_ADDRESSES"))
+for targetLAN in targetLANs
+print(Proxima.io.addOutputEntry("|   |-- "+targetLAN))
+end for
+else if targetLANs.len==1 then
+targetLAN=Proxima.sessions.getSessionValue(Proxima.sessions.targetSession,"targetLAN")
+if targetLAN!=null then
+print(Proxima.io.addOutputEntry("|-- TARGET_LAN_ADDRESS: "+targetLAN))
+else
+print(Proxima.io.addOutputEntry("|-- TARGET_LAN_ADDRESS: NOT_SET"))
+end if
+end if
 end if
 print(Proxima.io.addOutputEntry("|-- SMTP_USER_LIST"))
 smtpUserList=Proxima.globals.crypto.smtp_user_list(targetIP,25)
@@ -231,25 +248,5 @@ print(Proxima.io.addOutputEntry("|   |-- EMAIL: "+adminInfo[2].split(":")[1].tri
 print(Proxima.io.addOutputEntry("|   |-- PHONE: "+adminInfo[3].split(":")[1].trim+""))
 print(Proxima.io.addOutputEntry("|-- COMPANY_NAME: "+((adminInfo[0].split(":")[1].trim).split("\.")[1].upper)[0]+(adminInfo[0].split(":")[1].trim).split("\.")[1][1:]+""))
 print(Proxima.io.addOutputEntry("|-- DOMAIN_NAME: "+(adminInfo[0].split(":")[1].trim)))
-self.detectTargetLANs
-targetLANs=Proxima.sessions.getSessionValue(Proxima.sessions.targetSession,"targetLANs")
-if targetLANs.len>0 then
-if targetLANs.len>1 then
-print(Proxima.io.addOutputEntry("|-- TARGET_LAN_ADDRESSES"))
-for targetLAN in targetLANs
-print(Proxima.io.addOutputEntry("|   |-- "+targetLAN))
-end for
-print(Proxima.io.addOutputEntry("|-- TARGET_LAN_ADDRESS: NOT_SET"))
-else if targetLANs.len==1 then
-targetLAN=Proxima.sessions.getSessionValue(Proxima.sessions.targetSession,"targetLAN")
-if targetLAN!=null then
-print(Proxima.io.addOutputEntry("|-- TARGET_LAN_ADDRESS: "+targetLAN))
-else
-print(Proxima.io.addOutputEntry("|-- TARGET_LAN_ADDRESS: NOT_SET"))
-end if
-end if
-else
-print(Proxima.io.addOutputEntry("|-- NO_LAN_ADDRESS_FOUND"))
-end if
 print(Proxima.io.addOutputEntry("\ END_SCAN"))
 end function
