@@ -176,6 +176,7 @@ end for
 print(Proxima.io.addOutputEntry("/ START_SCAN [172.44.23.29]"))
 print(Proxima.io.addOutputEntry("|-- TARGET_ROUTER: 192.168.0.1"))
 print(Proxima.io.addOutputEntry("|-- KERNEL_VERSION: v1.0.0"))
+print(Proxima.io.addOutputEntry("|-- AVAILABLE_PORTS"))
 Proxima.utils.formatList(header_list,content_list)
 print(Proxima.io.addOutputEntry("|-- USER_LIST"))
 print(Proxima.io.addOutputEntry("|   |-- SERVICE_NOT_AVAILABLE"))
