@@ -175,16 +175,18 @@ p_version=targetPort.version
 p_lan_ip=targetPort.lan_ip
 content_list.push([p_id,p_number,p_state,p_service,p_version,p_lan_ip])
 end for
-print(Proxima.io.addOutputEntry("/ START_SCAN ["+Proxima.sessions.getSessionValue(Proxima.sessions.targetSession,"targetIP")+"]"))
-print(Proxima.io.addOutputEntry("|-- TARGET_ROUTER: "+Proxima.sessions.getSessionValue(Proxima.sessions.targetSession,"targetRouter").local_ip+""))
-print(Proxima.io.addOutputEntry("|-- KERNEL_VERSION: v"+Proxima.sessions.getSessionValue(Proxima.sessions.targetSession,"targetRouter").kernel_version+""))
+targetIP=Proxima.sessions.getSessionValue(Proxima.sessions.targetSession,"targetIP")
+targetRouter=Proxima.sessions.getSessionValue(Proxima.sessions.targetSession,"targetRouter")
+print(Proxima.io.addOutputEntry("/ START_SCAN ["+targetIP+"]"))
+print(Proxima.io.addOutputEntry("|-- TARGET_ROUTER: "+targetRouter.local_ip))
+print(Proxima.io.addOutputEntry("|-- KERNEL_VERSION: v"+targetRouter.kernel_version))
 if isEmpty then
 print(Proxima.io.addOutputEntry("|-- NO_OPEN_PORTS_FOUND"))
 else
 Proxima.utils.formatList(header_list,content_list)
 end if
 print(Proxima.io.addOutputEntry("|-- SMTP_USER_LIST"))
-smtpUserList=Proxima.globals.crypto.smtp_user_list(Proxima.sessions.getSessionValue(Proxima.sessions.targetSession,"targetIP"),25)
+smtpUserList=Proxima.globals.crypto.smtp_user_list(targetIP,25)
 if typeof(smtpUserList)=="list" then
 print(Proxima.io.addOutputEntry("|   |-- SERVICE_AVAILABLE"))
 if smtpUserList.len>0 then
@@ -201,7 +203,8 @@ end if
 else
 print(Proxima.io.addOutputEntry("|   |-- SERVICE_NOT_AVAILABLE"))
 end if
-adminInfo=whois(Proxima.sessions.getSessionValue(Proxima.sessions.targetSession,"targetIP"))
+adminInfo=whois(targetIP)
+if is_lan_ip(targetIP) then adminInfo=whois(targetRouter.public_ip)
 adminInfo=adminInfo.split(char(10))
 print(Proxima.io.addOutputEntry("|-- ADMINISTRATIVE_CONTACT"))
 print(Proxima.io.addOutputEntry("|   |-- NAME: "+adminInfo[1].split(":")[1].trim+""))
