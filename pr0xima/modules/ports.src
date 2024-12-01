@@ -171,7 +171,7 @@ Proxima.ports.scanPorts = function ()
     end if
 end function
 
-Proxima.ports.displayPorts = function ()
+Proxima.ports.displayPorts = function (isEmpty = false)
     header_list = ["ID", "PORT", "STATE", "SERVICE", "VERSION", "LAN_IP"]
     content_list = []
     targetPorts = Proxima.sessions.getSessionValue(Proxima.sessions.targetSession, "targetPorts")
@@ -190,7 +190,11 @@ Proxima.ports.displayPorts = function ()
     print(Proxima.io.addOutputEntry("/ START_SCAN [172.44.23.29]"))
     print(Proxima.io.addOutputEntry("|-- TARGET_ROUTER: 192.168.0.1"))
     print(Proxima.io.addOutputEntry("|-- KERNEL_VERSION: v1.0.0"))
-    Proxima.utils.formatList(header_list, content_list)
+    if isEmpty then
+        print(Proxima.io.addOutputEntry("|-- NO_OPEN_PORTS_FOUND"))
+    else
+        Proxima.utils.formatList(header_list, content_list)
+    end if 
     print(Proxima.io.addOutputEntry("|-- USER_LIST"))
     print(Proxima.io.addOutputEntry("|   |-- SERVICE_NOT_AVAILABLE"))
     print(Proxima.io.addOutputEntry("|-- ADMIN_INFORMATION"))

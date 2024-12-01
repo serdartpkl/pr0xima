@@ -15,7 +15,7 @@ checkPorts=Proxima.ports.checkPorts(targetIP)
 if checkPorts then
 Proxima.ports.displayPorts
 else
-Proxima.io.throwInputError("No open ports found on given IP address!")
+Proxima.ports.displayPorts(true)
 end if
 else if checkTargetIP==false then
 Proxima.io.throwInputError("Given IP address is not reachable or do not exist!")
