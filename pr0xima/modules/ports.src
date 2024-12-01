@@ -187,20 +187,40 @@ Proxima.ports.displayPorts = function (isEmpty = false)
         content_list.push([ p_id, p_number, p_state, p_service, p_version, p_lan_ip ])
     end for
 
-    print(Proxima.io.addOutputEntry("/ START_SCAN [172.44.23.29]"))
-    print(Proxima.io.addOutputEntry("|-- TARGET_ROUTER: 192.168.0.1"))
-    print(Proxima.io.addOutputEntry("|-- KERNEL_VERSION: v1.0.0"))
+    print(Proxima.io.addOutputEntry("/ START_SCAN ["+Proxima.sessions.getSessionValue(Proxima.sessions.targetSession, "targetIP")+"]"))
+    print(Proxima.io.addOutputEntry("|-- TARGET_ROUTER: "+ Proxima.sessions.getSessionValue(Proxima.sessions.targetSession, "targetRouter").local_ip +""))
+    print(Proxima.io.addOutputEntry("|-- KERNEL_VERSION: v"+Proxima.sessions.getSessionValue(Proxima.sessions.targetSession, "targetRouter").kernel_version+""))
     if isEmpty then
         print(Proxima.io.addOutputEntry("|-- NO_OPEN_PORTS_FOUND"))
     else
         Proxima.utils.formatList(header_list, content_list)
-    end if 
-    print(Proxima.io.addOutputEntry("|-- USER_LIST"))
-    print(Proxima.io.addOutputEntry("|   |-- SERVICE_NOT_AVAILABLE"))
-    print(Proxima.io.addOutputEntry("|-- ADMIN_INFORMATION"))
-    print(Proxima.io.addOutputEntry("|   |-- NAME: Daniel Craig"))
-    print(Proxima.io.addOutputEntry("|   |-- EMAIL: danielcraig@test.com"))
-    print(Proxima.io.addOutputEntry("|-- COMPANY_NAME: listruss"))
+    end if
+    print(Proxima.io.addOutputEntry("|-- SMTP_USER_LIST"))
+    smtpUserList = Proxima.globals.crypto.smtp_user_list(Proxima.sessions.getSessionValue(Proxima.sessions.targetSession, "targetIP"), 25)
+    if typeof(smtpUserList) == "list" then
+        print(Proxima.io.addOutputEntry("|   |-- SERVICE_AVAILABLE"))
+        if smtpUserList.len > 0 then
+            for userAcc in smtpUserList
+                splitAcc = userAcc.split(" ")
+                userName = splitAcc[0]
+                email = splitAcc[1:]
+                if email.len == 3 then email = "UNKNOWN"
+                print(Proxima.io.addOutputEntry("|   |-- "+userName+":"+email+""))
+            end for
+        else
+            print(Proxima.io.addOutputEntry("|   |-- NO_INFORMATION_FOUND"))
+        end if
+    else
+        print(Proxima.io.addOutputEntry("|   |-- SERVICE_NOT_AVAILABLE"))
+    end if
+    adminInfo = whois(Proxima.sessions.getSessionValue(Proxima.sessions.targetSession, "targetIP"))
+    adminInfo = adminInfo.split(char(10))
+    print(Proxima.io.addOutputEntry("|-- ADMINISTRATIVE_CONTACT"))
+    print(Proxima.io.addOutputEntry("|   |-- NAME: " +adminInfo[1].split(":")[1].trim+""))
+    print(Proxima.io.addOutputEntry("|   |-- EMAIL: "+adminInfo[2].split(":")[1].trim+""))
+    print(Proxima.io.addOutputEntry("|   |-- PHONE: "+adminInfo[3].split(":")[1].trim+""))
+    print(Proxima.io.addOutputEntry("|-- COMPANY_NAME: "+((adminInfo[0].split(":")[1].trim).split("\.")[1].upper)[0]+(adminInfo[0].split(":")[1].trim).split("\.")[1][1:]+""))
+    print(Proxima.io.addOutputEntry("|-- DOMAIN_NAME: " + (adminInfo[0].split(":")[1].trim)))
     print(Proxima.io.addOutputEntry("\ END_SCAN"))
     
 end function
