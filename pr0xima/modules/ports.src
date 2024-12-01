@@ -180,8 +180,13 @@ Proxima.ports.detectTargetLANs = function ()
         end for
         removeDuplicates = Proxima.utils.removeDuplicates(ipAddresses)
         setLANs = Proxima.sessions.setSessionValue(Proxima.sessions.targetSession, "targetLANs", removeDuplicates)
-        print(Proxima.io.addOutputEntry(Proxima.sessions.getSessionValue(Proxima.sessions.targetSession, "targetLANs")))
-        if setLANs then return true
+        if setLANs then
+            if removeDuplicates.len == 1 then
+                setTargetLAN = Proxima.sessions.setSessionValue(Proxima.sessions.targetSession, "targetLAN", removeDuplicates[0])
+                if setTargetLAN then return true
+            end if
+            return true
+        end if
     end if
     return null
 end function
