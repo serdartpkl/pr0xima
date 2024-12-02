@@ -4,8 +4,8 @@ Proxima.commands = {}
 
 Proxima.commands.dump = {
     "name": "dump",
-    "description": "Dumps target IPs ports or local libraries to perform a scan.",
-    "usage": "dump <ip|local>",
+    "description": "Scans for local libraries.",
+    "usage": "dump",
     "type": 2
 }
 Proxima.commands.dump.exec = function (params)
@@ -17,7 +17,7 @@ end function
 
 Proxima.commands.scan = {
     "name": "scan",
-    "description": "Scans target IP for performing a port scan.",
+    "description": "Scans target IP to perform a port scan.",
     "usage": "scan <ip>",
     "type": 2
 }
@@ -42,7 +42,7 @@ end function
 
 Proxima.commands.sessions = {
     "name": "sessions",
-    "description": "List available sessions.",
+    "description": "Lists available sessions.",
     "usage": "sessions <[-s]|load <id>|save <id>|switch <id>|remove <id> [-s]>",
     "type": 2
 }
@@ -173,7 +173,7 @@ end function
 
 Proxima.commands.exploits = {
     "name": "exploits",
-    "description": "Lists all available exploits gathered from current remote target or local libraries.",
+    "description": "Lists all available exploits gathered from port/library scan.",
     "usage": "exploits",
     "type": 2
 }
@@ -274,7 +274,7 @@ end function
 
 Proxima.commands.decipher = {
     "name": "decipher",
-    "description": "Deciphers ",
+    "description": "Deciphers user information bu given ID.",
     "usage": "decipher <list> <id>",
     "type": 2
 }
@@ -333,7 +333,7 @@ end function
 
 Proxima.commands.rshell = {
     "name": "rshell",
-    "description": "Injects reverse shell for specified target shell",
+    "description": "Injects reverse shell for specified target by given ID.",
     "usage": "rshell <id>",
     "type": 2
 }
@@ -365,7 +365,7 @@ end function
 
 Proxima.commands.run = {
     "name": "run",
-    "description": "Executes ",
+    "description": "Executes local or remote binary file.",
     "usage": "run <path>",
     "type": 2
 }
@@ -427,7 +427,7 @@ Proxima.commands.cls = {
     "type": 2
 }
 Proxima.commands.cls.exec = function (params)
-    Proxima.io.cliEntries = []
+    Proxima.io.ioEntries = []
     Proxima.io.clearScreen()
 end function
 
