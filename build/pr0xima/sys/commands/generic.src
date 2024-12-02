@@ -1,12 +1,12 @@
 Proxima.commands={}
 // ------------------------------------------------------------------------------------------------------------
-Proxima.commands.dump={"name":"dump","description":"Dumps target IPs ports or local libraries to perform a scan.","usage":"dump <ip|local>","type":2}
+Proxima.commands.dump={"name":"dump","description":"Scans and displays local libraries.","usage":"dump","type":2}
 Proxima.commands.dump.exec=function(params)
 Proxima.libraries.checkLibraries
 Proxima.libraries.displayLibraries
 end function
 // ------------------------------------------------------------------------------------------------------------
-Proxima.commands.scan={"name":"scan","description":"Scans target IP for performing a port scan.","usage":"scan <ip>","type":2}
+Proxima.commands.scan={"name":"scan","description":"Scans target IP and prints detailed information.","usage":"scan <ip>","type":2}
 Proxima.commands.scan.exec=function(params)
 targetIP=params[0]
 checkTargetIP=Proxima.ports.checkTargetIP(targetIP)
@@ -24,7 +24,7 @@ Proxima.io.throwInputError("Given IP address is not valid!")
 end if
 end function
 // ------------------------------------------------------------------------------------------------------------
-Proxima.commands.sessions={"name":"sessions","description":"List available sessions.","usage":"sessions <[-s]|load <id>|save <id>|switch <id>|remove <id> [-s]>","type":2}
+Proxima.commands.sessions={"name":"sessions","description":"Lists available sessions.","usage":"sessions <[-s]|load <id>|save <id>|switch <id>|remove <id> [-s]>","type":2}
 Proxima.commands.sessions.exec=function(params)
 if params.len==0 then
 if Proxima.sessions.activeSessions.len>0 then
@@ -148,7 +148,7 @@ Proxima.io.throwInputError("Too many arguements.",self.usage)
 end if
 end function
 // ------------------------------------------------------------------------------------------------------------
-Proxima.commands.exploits={"name":"exploits","description":"Lists all available exploits gathered from current remote target or local libraries.","usage":"exploits","type":2}
+Proxima.commands.exploits={"name":"exploits","description":"Lists all available exploits gathered from port/library scan.","usage":"exploits","type":2}
 Proxima.commands.exploits.exec=function(params)
 targetExploits=Proxima.sessions.getSessionValue(Proxima.sessions.targetSession,"targetExploits")
 if targetExploits.len>0 then
@@ -207,7 +207,7 @@ Proxima.io.throwInputError("No bank information available, please execute an exp
 end if
 end function
 // ------------------------------------------------------------------------------------------------------------
-Proxima.commands.decipher={"name":"decipher","description":"Deciphers ","usage":"decipher <list> <id>","type":2}
+Proxima.commands.decipher={"name":"decipher","description":"Deciphers user information bu given ID.","usage":"decipher <list> <id>","type":2}
 Proxima.commands.decipher.exec=function(params)
 if params.len<2 then
 Proxima.io.throwInputError("No target list or ID provided.",self.usage)
@@ -245,7 +245,7 @@ Proxima.exploit.launchShell(params[0].to_int)
 end if
 end function
 // ------------------------------------------------------------------------------------------------------------
-Proxima.commands.rshell={"name":"rshell","description":"Injects reverse shell for specified target shell","usage":"rshell <id>","type":2}
+Proxima.commands.rshell={"name":"rshell","description":"Injects reverse shell for specified target by given ID.","usage":"rshell <id>","type":2}
 Proxima.commands.rshell.exec=function(params)
 if params.len==0 then
 Proxima.io.throwInputError("No shell ID provided.",self.usage)
@@ -263,7 +263,7 @@ Proxima.exploit.deleteFile(params[0])
 end if
 end function
 // ------------------------------------------------------------------------------------------------------------
-Proxima.commands.run={"name":"run","description":"Executes ","usage":"run <path>","type":2}
+Proxima.commands.run={"name":"run","description":"Executes local or remote binary file.","usage":"run <path>","type":2}
 Proxima.commands.run.exec=function(params)
 if params.len==0 then
 Proxima.io.throwInputError("No binary file path provided.",self.usage)
@@ -294,7 +294,7 @@ end function
 // ------------------------------------------------------------------------------------------------------------
 Proxima.commands.cls={"name":"cls","description":"Clears terminal screen.","usage":"cls","type":2}
 Proxima.commands.cls.exec=function(params)
-Proxima.io.cliEntries=[]
+Proxima.io.ioEntries=[]
 Proxima.io.clearScreen
 end function
 // ------------------------------------------------------------------------------------------------------------

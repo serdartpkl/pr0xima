@@ -4,6 +4,7 @@ Proxima.io.inputString = null
 Proxima.io.ioEntries = []
 
 Proxima.io.output = {}
+Proxima.io.output.line = "+----------------------------------------------------+"
 
 // ------------------------------------------------------------------------------------------------------------
 
@@ -71,7 +72,7 @@ Proxima.io.addTransferProcess = function (fileSize)
 end function
 
 Proxima.io.addLine = function ()
-    lineString = "+----------------------------------------------------+"
+    lineString = self.output.line
     self.ioEntries.push(lineString)
     lineString = lineString + char(10)
     return lineString
