@@ -4,7 +4,6 @@ Proxima.io.inputString = null
 Proxima.io.ioEntries = []
 
 Proxima.io.output = {}
-Proxima.io.output.line = "+----------------------------------------------------+"
 
 // ------------------------------------------------------------------------------------------------------------
 
@@ -69,6 +68,13 @@ Proxima.io.addTransferProcess = function (fileSize)
         self.ioEntries.push("100%    " + str(floor(rnd * (900 - 50 + 1) + 50)) + "." + str(floor(rnd * (9 - 1 + 1) + 1)) + " KB/s" + "  0 sec (" + fileSize + " of " + fileSize + " copied)")
     end if
     self.ioEntries.push("Processing...")
+end function
+
+Proxima.io.addLine = function ()
+    lineString = "+----------------------------------------------------+"
+    self.ioEntries.push(lineString)
+    lineString = lineString + char(10)
+    return lineString
 end function
 
 Proxima.io.clearScreen = function ()
