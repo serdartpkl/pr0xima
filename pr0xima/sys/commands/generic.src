@@ -4,7 +4,7 @@ Proxima.commands = {}
 
 Proxima.commands.dump = {
     "name": "dump",
-    "description": "Scans for local libraries.",
+    "description": "Scans and displays local libraries.",
     "usage": "dump",
     "type": 2
 }
@@ -17,7 +17,7 @@ end function
 
 Proxima.commands.scan = {
     "name": "scan",
-    "description": "Scans target IP to perform a port scan.",
+    "description": "Scans target IP and prints detailed information.",
     "usage": "scan <ip>",
     "type": 2
 }
