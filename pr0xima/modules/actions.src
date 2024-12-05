@@ -696,7 +696,7 @@ Proxima.actions.beautifyNetworkScan = function (networkData)
         if not data["is_reachable"] then
             deviceTypePrefix = "|---- DEVICE"
             print("<b>" + deviceTypePrefix + " [" + data["ip"] + "]</b>")
-            print("<color=#FF1548>" + portIndent + "|- IP_NOT_REACHABLE</color>")
+            print("<color=#FF1548>" + portIndent + "|-- IP_NOT_REACHABLE</color>")
             continue
         end if
 
@@ -749,13 +749,13 @@ Proxima.actions.beautifyNetworkScan = function (networkData)
                 end if
 
                 if port["status"].upper() == "OPEN" then
-                    print("<color=#08FF57>" + portIndent + "|- " + portInfo + "</color>")
+                    print("<color=#08FF57>" + portIndent + "|-- " + portInfo + "</color>")
                 else
-                    print("<color=#FF1548>" + portIndent + "|- " + portInfo + "</color>")
+                    print("<color=#FF1548>" + portIndent + "|-- " + portInfo + "</color>")
                 end if
             end for
         else
-            print("<color=#FF1548>" + portIndent + "|- NO_OPEN_PORTS</color>")
+            print("<color=#FF1548>" + portIndent + "|-- NO_OPEN_PORTS</color>")
         end if
 
         if data["devices"].len > 0 then
