@@ -65,10 +65,9 @@ Proxima.sessions.reorderSessions = function (sortBy = "dateCreated")
     idCounter = 1
     targetSessionIP = null
     for recordIndex in range(0, self.activeSessions.len - 1)
+        targetSessionIP = self.activeSessions[recordIndex].id
         if self.targetSession != null then
-            if self.targetSession == self.activeSessions[recordIndex].id then targetSessionIP = self.activeSessions[recordIndex].targetIP
-        else
-            targetSessionIP = self.activeSessions[recordIndex].id
+            if self.activeSessions[recordIndex].id == self.targetSession then targetSessionIP = self.activeSessions[recordIndex].targetIP
         end if
         if self.activeSessions[recordIndex].id != idCounter then self.activeSessions[recordIndex].id = idCounter
         idCounter = idCounter + 1
@@ -98,18 +97,16 @@ Proxima.sessions.createSessionMap = function (sessionType, targetIP, targetRoute
     sessionMap.targetIP = targetIP
     sessionMap.targetRouter = targetRouter
 
-    sessionMap.targetLAN = null
     sessionMap.targetLANs = []
 
     if sessionType == 0 then
-        sessionMap.targetLAN = targetIP
         sessionMap.targetLANs = [targetIP]
         sessionMap.targetLibraries = []
-        sessionMap.sessionType = sessionType
     else if sessionType == 1 then
         sessionMap.targetPorts = []
-        sessionMap.sessionType = sessionType
     end if
+
+    sessionMap.sessionType = sessionType
 
     sessionMap.targetExploits = []
     sessionMap.targetShells = []
@@ -129,7 +126,7 @@ Proxima.sessions.addSession = function (sessionType, targetIP, targetRouter)
         sessionDateCreated = Proxima.utils.getParsedDate()
         sessionMap = {"id": sessionID} + createSessionMap + {"dateCreated": sessionDateCreated}
         self.activeSessions.push(sessionMap)
-        return sessionMap.id
+        return true
     end if
     return null
 end function
