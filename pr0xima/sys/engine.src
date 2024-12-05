@@ -269,7 +269,6 @@ Proxima.engine.initializeLocalSession = function ()
         createLocalSession = Proxima.sessions.addSession(0, localIP, get_router())
         if createLocalSession != null and typeof(createLocalSession) == "number" then
             setActiveSession = Proxima.sessions.setSession(createLocalSession)
-            print(Proxima.io.addOutputEntry(Proxima.sessions.getSessionValue(Proxima.sessions.targetSession, "targetIP")))
             if setActiveSession then return true
         end if
     end if
