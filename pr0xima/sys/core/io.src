@@ -130,7 +130,7 @@ end function
 //                "<voffset=0.2em>]——[" +
 //                "<voffset=0.2em><color=#08FF57>SID:1|LOCAL</color>]" +
 //                "<voffset=-0.2em><pos=0>/<pos=0><voffset=-1.05em>\<pos=4.95>" +
-//                "<pos=8><voffset=-1.45em>——<#c3201f>$<color=#008DFF>></color></color></color>"
+//                "<pos=8><voffset=-1.45em>——<#c3201f>$<color=#008DFF>> </color></color></color>"
 
 // remoteSession_NoAccess = "<pos=20><voffset=0.25em><color=#FFC466><pos=8>———[" +
 //                "<voffset=0.2em><color=#008DFF>UNKNOWN</color>" +
@@ -140,7 +140,7 @@ end function
 //                "<voffset=0.2em>]——[" +
 //                "<voffset=0.2em><color=#08FF57>SID:2|REMOTE</color>]" +
 //                "<voffset=-0.2em><pos=0>/<pos=0><voffset=-1.05em>\<pos=4.95>" +
-//                "<pos=8><voffset=-1.45em>——<#c3201f>$<color=#008DFF>></color></color></color>"
+//                "<pos=8><voffset=-1.45em>——<#c3201f>$<color=#008DFF>> </color></color></color>"
 
 // remoteSession_WithGuestAccess = "<pos=20><voffset=0.25em><color=#FFC466><pos=8>———[" +
 //                "<voffset=0.2em><color=#FFDD00>GUEST</color>" +
@@ -150,7 +150,7 @@ end function
 //                "<voffset=0.2em>]——[" +
 //                "<voffset=0.2em><color=#08FF57>SID:3|REMOTE</color>]" +
 //                "<voffset=-0.2em><pos=0>/<pos=0><voffset=-1.05em>\<pos=4.95>" +
-//                "<pos=8><voffset=-1.45em>——<#c3201f>$<color=#008DFF>></color></color></color>"
+//                "<pos=8><voffset=-1.45em>——<#c3201f>$<color=#008DFF>> </color></color></color>"
 
 // remoteSession_WithUserAccess = "<pos=20><voffset=0.25em><color=#FFC466><pos=8>———[" +
 //                "<voffset=0.2em><color=#08FF57>USER</color>" +
@@ -160,7 +160,7 @@ end function
 //                "<voffset=0.2em>]——[" +
 //                "<voffset=0.2em><color=#08FF57>SID:4|REMOTE</color>]" +
 //                "<voffset=-0.2em><pos=0>/<pos=0><voffset=-1.05em>\<pos=4.95>" +
-//                "<pos=8><voffset=-1.45em>——<#c3201f>$<color=#008DFF>></color></color></color>"
+//                "<pos=8><voffset=-1.45em>——<#c3201f>$<color=#008DFF>> </color></color></color>"
 
 // remoteSession_WithRootAccess = "<pos=20><voffset=0.25em><color=#FFC466><pos=8>———[" +
 //                "<voffset=0.2em><color=#9370DB>ROOT</color>" +
@@ -170,7 +170,7 @@ end function
 //                "<voffset=0.2em>]——[" +
 //                "<voffset=0.2em><color=#08FF57>SID:5|REMOTE</color>]" +
 //                "<voffset=-0.2em><pos=0>/<pos=0><voffset=-1.05em>\<pos=4.95>" +
-//                "<pos=8><voffset=-1.45em>——<#c3201f>$<color=#008DFF>></color></color></color>"
+//                "<pos=8><voffset=-1.45em>——<#c3201f>$<color=#008DFF>> </color></color></color>"
 
 // print(localSession)
 // print(remoteSession_NoAccess)
