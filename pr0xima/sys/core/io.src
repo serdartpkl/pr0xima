@@ -74,8 +74,7 @@ end function
 Proxima.io.addLine = function ()
     lineString = self.output.line
     self.ioEntries.push(lineString)
-    lineString = lineString + char(10)
-    return lineString
+    return lineString + char(10)
 end function
 
 Proxima.io.clearScreen = function ()
@@ -89,8 +88,27 @@ end function
 
 // ------------------------------------------------------------------------------------------------------------
 
-Proxima.io.updateInputString = function (targetIP)
-    self.inputString = self.output.colorize("<b>pr0xima</b>", "#FFC466") + self.output.colorize("@", "#08FF57") + self.output.colorize("[" + targetIP + "]", "#FF1548") + self.output.colorize("> ", "#008DFF")
+Proxima.io.updateInputString = function (userName, publicIP, localIP, sessionID, sessionType)
+    userColor = "#FC8403"
+    if sessionType == 1 and userName == "UNKNOWN" then userColor = "#008DFF"
+    if sessionType == 1 and userName == "GUEST" then userColor = "#FFDD00"
+    if sessionType == 1 and userName == "USER" then userColor = "#08FF57"
+    if sessionType == 1 and userName == "ROOT" then userColor = "#9370DB"
+
+    sessionTypeName = "LOCAL"
+    if sessionType == 1 then sessionTypeName = "REMOTE"
+    
+    inputString = "<pos=20><voffset=0.25em><color=#FFC466><pos=8>——[" +
+                  "<voffset=0.2em><color=" + userColor + ">" + userName + "</color>" +
+                  "<voffset=0.2em>]——[" +
+                  "<voffset=0.2em><color=#FF1548>" + publicIP + "</color>" +
+                  "<voffset=0.2em><color=#999999>->" + localIP + "</color>" +
+                  "<voffset=0.2em>]——[" +
+                  "<voffset=0.2em><color=#08FF57>SID:" + sessionID + "|" + sessionType + "</color>]" +
+                  "<voffset=-0.2em><pos=0>/<pos=0><voffset=-1.05em>\<pos=4.95>" +
+                  "<pos=8><voffset=-1.45em>——<#c3201f>$<color=#008DFF>> </color></color></color>"
+    
+    self.inputString = inputString
 end function
 
 // ------------------------------------------------------------------------------------------------------------
@@ -121,59 +139,3 @@ Proxima.io.throwInputError = function (cmdMessage = null, cmdUsage = null)
         print(self.addOutputEntry(self.output.error("Unknown command! Type <b>help</b> to list available commands.")))
     end if
 end function
-
-// localSession = "<pos=20><voffset=0.25em><color=#FFC466><pos=8>——[" +
-//                "<voffset=0.2em><color=#FC8403>pr0ximan0va</color>" +
-//                "<voffset=0.2em>]——[" +
-//                "<voffset=0.2em><color=#FF1548>128.12.81.234</color>" +
-//                "<voffset=0.2em><color=#999999>->192.168.1.3</color>" +
-//                "<voffset=0.2em>]——[" +
-//                "<voffset=0.2em><color=#08FF57>SID:1|LOCAL</color>]" +
-//                "<voffset=-0.2em><pos=0>/<pos=0><voffset=-1.05em>\<pos=4.95>" +
-//                "<pos=8><voffset=-1.45em>——<#c3201f>$<color=#008DFF>> </color></color></color>"
-
-// remoteSession_NoAccess = "<pos=20><voffset=0.25em><color=#FFC466><pos=8>——[" +
-//                "<voffset=0.2em><color=#008DFF>UNKNOWN</color>" +
-//                "<voffset=0.2em>]——[" +
-//                "<voffset=0.2em><color=#FF1548>233.22.87.124</color>" +
-//                "<voffset=0.2em><color=#999999>->?</color>" +
-//                "<voffset=0.2em>]——[" +
-//                "<voffset=0.2em><color=#08FF57>SID:2|REMOTE</color>]" +
-//                "<voffset=-0.2em><pos=0>/<pos=0><voffset=-1.05em>\<pos=4.95>" +
-//                "<pos=8><voffset=-1.45em>——<#c3201f>$<color=#008DFF>> </color></color></color>"
-
-// remoteSession_WithGuestAccess = "<pos=20><voffset=0.25em><color=#FFC466><pos=8>——[" +
-//                "<voffset=0.2em><color=#FFDD00>GUEST</color>" +
-//                "<voffset=0.2em>]——[" +
-//                "<voffset=0.2em><color=#FF1548>98.78.222.32</color>" +
-//                "<voffset=0.2em><color=#999999>->192.168.1.4</color>" +
-//                "<voffset=0.2em>]——[" +
-//                "<voffset=0.2em><color=#08FF57>SID:3|REMOTE</color>]" +
-//                "<voffset=-0.2em><pos=0>/<pos=0><voffset=-1.05em>\<pos=4.95>" +
-//                "<pos=8><voffset=-1.45em>——<#c3201f>$<color=#008DFF>> </color></color></color>"
-
-// remoteSession_WithUserAccess = "<pos=20><voffset=0.25em><color=#FFC466><pos=8>——[" +
-//                "<voffset=0.2em><color=#08FF57>USER</color>" +
-//                "<voffset=0.2em>]——[" +
-//                "<voffset=0.2em><color=#FF1548>71.89.32.10</color>" +
-//                "<voffset=0.2em><color=#999999>->192.168.7.2</color>" +
-//                "<voffset=0.2em>]——[" +
-//                "<voffset=0.2em><color=#08FF57>SID:4|REMOTE</color>]" +
-//                "<voffset=-0.2em><pos=0>/<pos=0><voffset=-1.05em>\<pos=4.95>" +
-//                "<pos=8><voffset=-1.45em>——<#c3201f>$<color=#008DFF>> </color></color></color>"
-
-// remoteSession_WithRootAccess = "<pos=20><voffset=0.25em><color=#FFC466><pos=8>——[" +
-//                "<voffset=0.2em><color=#9370DB>ROOT</color>" +
-//                "<voffset=0.2em>]——[" +
-//                "<voffset=0.2em><color=#FF1548>99.95.221.12</color>" +
-//                "<voffset=0.2em><color=#999999>->10.8.7.5</color>" +
-//                "<voffset=0.2em>]——[" +
-//                "<voffset=0.2em><color=#08FF57>SID:5|REMOTE</color>]" +
-//                "<voffset=-0.2em><pos=0>/<pos=0><voffset=-1.05em>\<pos=4.95>" +
-//                "<pos=8><voffset=-1.45em>——<#c3201f>$<color=#008DFF>> </color></color></color>"
-
-// print(localSession)
-// print(remoteSession_NoAccess)
-// print(remoteSession_WithGuestAccess)
-// print(remoteSession_WithUserAccess)
-// print(remoteSession_WithRootAccess)
