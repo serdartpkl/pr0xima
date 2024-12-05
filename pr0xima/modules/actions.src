@@ -223,7 +223,7 @@ Proxima.actions.tunnelConnection = function ()
     targetIP = Proxima.sessions.getSessionValue("targetIP")
     targetUsers = Proxima.sessions.getSessionValue("targetUsers")
     targetShell = null
-    if targetUsers.len > 0 and Proxima.utils.indexesOf(targetUsers, "password", "UNKNOWN") == false then
+    if targetUsers.len > 0 and Proxima.helpers.indexesOf(targetUsers, "password", "UNKNOWN") == false then
         targetUser = targetUsers[0]
 
         if targetUser.password.len == 32 then
@@ -253,9 +253,9 @@ Proxima.actions.tunnelConnection = function ()
         else
             print(Proxima.io.addOutputEntry(Proxima.io.output.error("Couldn't tunnel via SSH or FTP, ports are closed.")))
         end if
-    else if targetUsers.len > 0 and Proxima.utils.indexesOf(targetUsers, "password", "UNKNOWN") == true then
+    else if targetUsers.len > 0 and Proxima.helpers.indexesOf(targetUsers, "password", "UNKNOWN") == true then
         targetExploits = Proxima.sessions.getSessionValue("targetExploits")
-        if Proxima.utils.indexesOf(targetExploits, "result", 3) then
+        if Proxima.helpers.indexesOf(targetExploits, "result", 3) then
             for targetUser in targetUsers
                 print(Proxima.io.addOutputEntry(Proxima.io.output.progress("Trying to tunnel shell by SSH or FTP protocol via <b>" + targetUser.username + "</b> privilege. <b>[IP:" + targetIP + "]</b>")))
                 sshShell = self.getShellViaSSH(targetUser.username, targetUser.password)
@@ -315,7 +315,7 @@ Proxima.actions.jumpShell = function ()
     targetShells = Proxima.sessions.getSessionValue("targetShells")
     if targetShells.len > 0 then
         targetUsers = Proxima.sessions.getSessionValue("targetUsers")
-        if Proxima.utils.indexesOf(targetUsers, "password", "UNKNOWN") == false then     
+        if Proxima.helpers.indexesOf(targetUsers, "password", "UNKNOWN") == false then     
             targetShell = targetShells[0].shell_object
             createJumpFile = self.createJumpFile(targetShell, targetUsers[0].password)
             if createJumpFile then
@@ -336,7 +336,7 @@ Proxima.actions.jumpShell = function ()
             else
                 print(Proxima.io.addOutputEntry(Proxima.io.output.error("Couldn't create jump file!")))
             end if
-        else if Proxima.utils.indexesOf(targetUsers, "password", "UNKNOWN") == true then
+        else if Proxima.helpers.indexesOf(targetUsers, "password", "UNKNOWN") == true then
             for targetUser in targetUsers
                 targetShell = targetShells[0].shell_object
                 createJumpFile = self.createJumpFile(targetShell, Proxima.engine.getSettings().injection_password)
@@ -432,7 +432,7 @@ Proxima.actions.putTools = function ()
         toolsFolder = Proxima.globals.myPC.File(Proxima.settings.toolsFolder)
     
         if setUploadTo != null and toolsFolder != null then
-            fileList = Proxima.utils.collectFiles(toolsFolder)
+            fileList = Proxima.helpers.collectFiles(toolsFolder)
             if fileList.len > 0 then
                 for filePath in fileList
                     toolFile = Proxima.globals.myPC.File(filePath)

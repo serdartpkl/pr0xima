@@ -8,7 +8,7 @@ end function
 
 Proxima.apt.getRepositories = function (sourcesFile)
     repositoryIPs = []
-    deserializedSource = Proxima.utils.deserializeMap(sourcesFile.get_content)
+    deserializedSource = Proxima.helpers.deserializeMap(sourcesFile.get_content)
     if deserializedSource.sourceList.len > 0 then
         for repositoryIP in deserializedSource.sourceList.indexes
             repositoryIPs.push(repositoryIP)
@@ -105,7 +105,7 @@ Proxima.apt.findShop = function ()
     shopIP = null
 
     while shopIP == null
-        generatedIP = Proxima.utils.generateRandomIP()
+        generatedIP = Proxima.helpers.generateRandomIP()
         isValidShop = self.isValidShop(generatedIP)
         if typeof(isValidShop) == "string" then shopIP = generatedIP
     end while
@@ -116,7 +116,7 @@ end function
 
 Proxima.apt.checkForUpdates = function ()
     pendingForUpdate = []
-    libraryFiles = Proxima.utils.collectFiles("/lib")
+    libraryFiles = Proxima.helpers.collectFiles("/lib")
     for acquiredFile in libraryFiles
         isUpdateAvailable = Proxima.globals.aptclient.check_upgrade(acquiredFile)
         Proxima.io.clearScreen()

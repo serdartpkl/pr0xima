@@ -85,7 +85,7 @@ end function
 Proxima.sessions.searchSessions = function (sessionKey, sessionValue, searchSaved = false)
     acquiredSessions = self.getSessions(searchSaved)
     if acquiredSessions != null then
-        acquiredIndexes = Proxima.utils.indexesOf(acquiredSessions, sessionKey, sessionValue)
+        acquiredIndexes = Proxima.helpers.indexesOf(acquiredSessions, sessionKey, sessionValue)
         if acquiredIndexes != null then return acquiredIndexes
     end if
     return null
@@ -123,7 +123,7 @@ Proxima.sessions.addSession = function (sessionType, targetIP, targetRouter)
     if self.getSession(targetIP) == null then
         createSessionMap = self.createSessionMap(sessionType, targetIP, targetRouter)
         sessionID = self.activeSessions.len + 1
-        sessionDateCreated = Proxima.utils.getParsedDate()
+        sessionDateCreated = Proxima.helpers.getParsedDate()
         sessionMap = {"id": sessionID} + createSessionMap + {"dateCreated": sessionDateCreated}
         self.activeSessions.push(sessionMap)
         return true
@@ -278,5 +278,5 @@ Proxima.sessions.displaySessions = function (displaySaved = false)
         content_list.push([ s_id, s_target_ip, s_date, s_type ])
     end for
 
-    Proxima.utils.formatList(header_list, content_list)
+    Proxima.helpers.formatList(header_list, content_list)
 end function

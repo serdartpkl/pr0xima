@@ -17,7 +17,7 @@ Proxima.testing.tests.test_sessions = function ()
         end function
 
         Test_CreateRemoteSession = function ()
-            remoteIP = Proxima.utils.generateRandomIP()
+            remoteIP = Proxima.helpers.generateRandomIP()
             addSession = Proxima.sessions.addSession(1, remoteIP, get_router(remoteIP))
             expect(addSession).notToBeNull()
         end function
@@ -89,7 +89,7 @@ Proxima.testing.tests.test_sessions = function ()
         end function
 
         Test_UpdateRemoteSession = function ()
-            randomIP = Proxima.utils.generateRandomIP()
+            randomIP = Proxima.helpers.generateRandomIP()
             createSessionMap = Proxima.sessions.createSessionMap(1, randomIP, get_router(randomIP))
             updateRemoteSession = Proxima.sessions.updateSession(2, createSessionMap)
             expect(updateRemoteSession).toBeTruthy()

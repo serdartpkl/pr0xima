@@ -2,7 +2,7 @@ Proxima.utils = {}
 
 // ------------------------------------------------------------------------------------------------------------
 
-Proxima.utils.removeDuplicates = function(inputList)
+Proxima.helpers.removeDuplicates = function(inputList)
     uniqueItems = []
     for item in inputList
         if uniqueItems.indexOf(item) == null then
@@ -12,7 +12,7 @@ Proxima.utils.removeDuplicates = function(inputList)
     return uniqueItems
 end function
 
-Proxima.utils.formatList = function (headerList, contentList)
+Proxima.helpers.formatList = function (headerList, contentList)
     maxLengths = []
 
     for i in headerList
@@ -64,7 +64,7 @@ Proxima.utils.formatList = function (headerList, contentList)
     end for
 end function
 
-Proxima.utils.indexesOf = function (givenList, searchKey, searchValue)
+Proxima.helpers.indexesOf = function (givenList, searchKey, searchValue)
     foundedIndexes = []
     if givenList.len > 0 then
         for mapItem in givenList
@@ -84,7 +84,7 @@ Proxima.utils.indexesOf = function (givenList, searchKey, searchValue)
     return null
 end function
 
-Proxima.utils.collectFiles = function (parentDir)
+Proxima.helpers.collectFiles = function (parentDir)
     allFiles = []
 
     scanDir = function (dir)
@@ -112,7 +112,7 @@ Proxima.utils.collectFiles = function (parentDir)
     return allFiles
 end function
 
-Proxima.utils.getParsedDate = function ()
+Proxima.helpers.getParsedDate = function ()
     currentDate = current_date
 
     dateSegments = currentDate.split(" - ")
@@ -147,11 +147,11 @@ Proxima.utils.getParsedDate = function ()
     return parsedDate
 end function
 
-Proxima.utils.isProtectedNull = function (givenValue)
+Proxima.helpers.isProtectedNull = function (givenValue)
     if typeof(givenValue) == "list" and givenValue.hasIndex(0) and givenValue[0] == null then return true
 end function
 
-Proxima.utils.generateRandomIP = function()
+Proxima.helpers.generateRandomIP = function()
     firstByteRange = range(0, 255)
     firstByteRange.remove(192)
     firstByteRange.remove(191)
@@ -176,7 +176,7 @@ end function
 
 // ------------------------------------------------------------------------------------------------------------
 
-Proxima.utils.isInList = function(givenItem, givenList)
+Proxima.helpers.isInList = function(givenItem, givenList)
     for item in givenList
         if item == givenItem then
             return true
@@ -185,7 +185,7 @@ Proxima.utils.isInList = function(givenItem, givenList)
     return false
 end function
 
-Proxima.utils.serializeMap = function(sessionData, excludeKeys = [])
+Proxima.helpers.serializeMap = function(sessionData, excludeKeys = [])
     dataType = typeof(sessionData)
     if dataType == "map" then
         serialized = "{"
@@ -223,7 +223,7 @@ Proxima.utils.serializeMap = function(sessionData, excludeKeys = [])
     return serialized
 end function
 
-Proxima.utils.deserializeFirst = function(serialized, excludeKeys = [])
+Proxima.helpers.deserializeFirst = function(serialized, excludeKeys = [])
     serialized = serialized.trim
 
     nullStr = char(110) + char(117) + char(108) + char(108)
@@ -245,7 +245,7 @@ Proxima.utils.deserializeFirst = function(serialized, excludeKeys = [])
     end if
 end function
 
-Proxima.utils.splitSerializedItems = function(serializedData, delimiter)
+Proxima.helpers.splitSerializedItems = function(serializedData, delimiter)
     items = []
     currentItem = ""
     depth = 0
@@ -268,7 +268,7 @@ Proxima.utils.splitSerializedItems = function(serializedData, delimiter)
     return items
 end function
 
-Proxima.utils.deserializeList = function(serialized, excludeKeys = [])
+Proxima.helpers.deserializeList = function(serialized, excludeKeys = [])
     if not serialized.hasIndex(1) or not serialized.hasIndex(serialized.len - 2) then
         return []
     end if
@@ -283,7 +283,7 @@ Proxima.utils.deserializeList = function(serialized, excludeKeys = [])
     return list
 end function
 
-Proxima.utils.deserializeMap = function(serialized, excludeKeys = [])
+Proxima.helpers.deserializeMap = function(serialized, excludeKeys = [])
     if not serialized.hasIndex(1) or not serialized.hasIndex(serialized.len - 2) then
         return {}
     end if

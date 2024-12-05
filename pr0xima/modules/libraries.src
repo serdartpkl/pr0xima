@@ -30,7 +30,7 @@ Proxima.libraries.scanLibrary = function (libraryID)
             totalExploits = 0
             targetLibrary = targetLibraries[libraryID - 1]
             targetExploits = Proxima.sessions.getSessionValue(Proxima.sessions.targetSession, "targetExploits")
-            if targetExploits.len > 0 and Proxima.utils.indexesOf(targetExploits, "lib_name", targetLibrary.lib_name) then
+            if targetExploits.len > 0 and Proxima.helpers.indexesOf(targetExploits, "lib_name", targetLibrary.lib_name) then
                 print(Proxima.io.addOutputEntry(Proxima.io.output.info("This library is already scanned for exploits. Skipping... <b>[LIB_NAME:" + targetLibrary.lib_name + "]</b>")))
                 print(Proxima.io.addOutputEntry(Proxima.io.output.info("You can use 'exploits' command to view found exploits.")))
             else
@@ -55,7 +55,7 @@ Proxima.libraries.scanLibraries = function ()
         totalExploits = 0
         targetExploits = Proxima.sessions.getSessionValue(Proxima.sessions.targetSession, "targetExploits")
         for targetLibrary in targetLibraries
-            if targetExploits.len > 0 and Proxima.utils.indexesOf(targetExploits, "lib_name", targetLibrary.lib_name) then
+            if targetExploits.len > 0 and Proxima.helpers.indexesOf(targetExploits, "lib_name", targetLibrary.lib_name) then
                 print(Proxima.io.addOutputEntry(Proxima.io.output.info("This library is already scanned for exploits. Skipping... <b>[LIB_NAME:" + targetLibrary.lib_name + "]</b>")))
                 for targetExploit in targetExploits
                     if targetExploit.lib_name == targetLibrary.lib_name then
@@ -88,5 +88,5 @@ Proxima.libraries.displayLibraries = function ()
         content_list.push([ l_id, l_name, l_version, l_path ])
     end for
 
-    Proxima.utils.formatList(header_list, content_list)
+    Proxima.helpers.formatList(header_list, content_list)
 end function

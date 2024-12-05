@@ -86,7 +86,7 @@ end function
 Proxima.engine.getSettings = function ()
     settingsFile = Proxima.globals.myPC.File(home_dir + "/pr0xima/settings.conf")
     if settingsFile != null then
-        deserializedSettings = Proxima.utils.deserializeMap(settingsFile.get_content())
+        deserializedSettings = Proxima.helpers.deserializeMap(settingsFile.get_content())
         return deserializedSettings
     end if
     return null
@@ -96,7 +96,7 @@ Proxima.engine.setSettings = function (settingKey, settingValue)
     settingsMap = self.getSettings()
     if settingsMap != null then
         settingsMap[settingKey] = settingValue
-        serializedSettingsMap = Proxima.utils.serializeMap(settingsMap)
+        serializedSettingsMap = Proxima.helpers.serializeMap(settingsMap)
         settingsFile = Proxima.globals.myPC.File(home_dir + "/pr0xima/settings.conf")
         setFileContent = settingsFile.set_content(serializedSettingsMap)
         if setFileContent != 0 and typeof(setFileContent) == "string" then return true
