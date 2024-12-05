@@ -104,10 +104,11 @@ Proxima.db.searchRecords = function (databaseName, recordKey, recordValue)
     return null
 end function
 
-Proxima.db.addRecord = function (databaseName, recordMap)
+Proxima.db.addRecord = function (databaseName, recordMap, dataCreated = null)
     acquiredRecords = self.getRecords(databaseName)
     if acquiredRecords != null then
-        acquiredRecords.push({"id": acquiredRecords.len + 1} + recordMap + {"dateCreated": Proxima.utils.getParsedDate()})
+        if dateCreated == null then dateCreated = Proxima.utils.getParsedDate()
+        acquiredRecords.push({"id": acquiredRecords.len + 1} + recordMap + {"dateCreated": dateCreated})
         setRecords = self.setRecords(databaseName, acquiredRecords)
         if setRecords then
             if acquiredRecords.len > 1 then 
