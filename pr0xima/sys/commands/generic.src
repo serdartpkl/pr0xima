@@ -469,3 +469,13 @@ Proxima.commands.exit = {
 Proxima.commands.exit.exec = function (params)
     exit(Proxima.io.output.success("Goodbye! Have a nice day."))
 end function
+
+Proxima.commands.scanlan = {
+    "name": "scanlan",
+    "description": "Scans the whole network.",
+    "usage": "scanlan [ip]",
+    "type": 2
+}
+Proxima.commands.scanlan.exec = function (params)
+    Proxima.actions.scanLAN()
+end function

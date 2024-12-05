@@ -560,8 +560,10 @@ targetRouter=get_router(targetIP)
 if targetRouter!=null then
 scanData["ip"]=targetRouter.local_ip
 for port in targetRouter.device_ports(targetRouter.local_ip)
+if port.port_number!=8080 then
 portMap=self.createPortMap(port,targetRouter)
 scanData["ports"].push(portMap)
+end if
 end for
 routerFirewalls=targetRouter.firewall_rules
 if typeof(routerFirewalls)=="list" and routerFirewalls.len>0 then scanData["has_firewall"]=true
@@ -574,8 +576,10 @@ end if
 deviceMap={"ip":deviceIP,"is_reachable":true,"ports":[],"devices":[],"main_router":false,"type":"device","kernel_version":null,"has_firewall":false,"is_owner":false}
 for port in targetRouter.device_ports(deviceIP)
 if port.port_number==8080 then deviceMap["type"]="router"
+if port.port_number!=8080 then
 devicePortMap=self.createPortMap(port,targetRouter)
 deviceMap["ports"].push(devicePortMap)
+end if
 end for
 scanData["devices"].push(deviceMap)
 end for
@@ -601,8 +605,10 @@ scannedIPs.push(targetIP)
 targetRouter=get_router(targetIP)
 if targetRouter==null then targetRouter=get_router(scannedIPs[0])
 for port in targetRouter.device_ports(targetIP)
+if port.port_number!=8080 then
 portMap=self.createPortMap(port,targetRouter)
 scanData["ports"].push(portMap)
+end if
 end for
 if targetRouter.local_ip==targetIP then
 routerFirewalls=targetRouter.firewall_rules
@@ -615,7 +621,7 @@ for device in targetDevices
 if scannedIPs.indexOf(device)!=null or device==targetIP then
 continue
 end if
-deviceResults=deepNetworkScan(device,scannedIPs)
+deviceResults=self.deepNetworkScan(device,scannedIPs)
 for result in deviceResults
 scanData["devices"].push(result)
 end for
@@ -631,7 +637,7 @@ portIndent="|     "
 if not data["is_reachable"] then
 deviceTypePrefix="|---- DEVICE"
 print("<b>"+deviceTypePrefix+" ["+data["ip"]+"]</b>")
-print("<color=#FF1548>"+portIndent+"|- IP_NOT_REACHABLE</color>")
+print("<color=#FF1548>"+portIndent+"|-- IP_NOT_REACHABLE</color>")
 continue
 end if
 isCCTV=false
@@ -678,13 +684,13 @@ if data["main_router"] and port["lan_ip"]!=data["ip"] then
 portInfo=portInfo+"|ROUTED_TO:"+port["lan_ip"]
 end if
 if port["status"].upper=="OPEN" then
-print("<color=#08FF57>"+portIndent+"|- "+portInfo+"</color>")
+print("<color=#08FF57>"+portIndent+"|-- "+portInfo+"</color>")
 else
-print("<color=#FF1548>"+portIndent+"|- "+portInfo+"</color>")
+print("<color=#FF1548>"+portIndent+"|-- "+portInfo+"</color>")
 end if
 end for
 else
-print("<color=#FF1548>"+portIndent+"|- NO_OPEN_PORTS</color>")
+print("<color=#FF1548>"+portIndent+"|-- NO_OPEN_PORTS</color>")
 end if
 if data["devices"].len>0 then
 self.beautifyNetworkScan(data["devices"])
@@ -692,12 +698,17 @@ end if
 end for
 end function
 Proxima.actions.scanLAN=function
-print("<b>/ START_SCANLAN >></b>")
-print("<b>| START_PROBE [PUBLIC_IP:"+get_router.public_ip+"]</b>")
-startingIP=get_router.local_ip
+targetSession=Proxima.sessions.getSession(Proxima.sessions.targetSession)
+networkScan=null
 scannedIPs=[]
-networkData=deepNetworkScan(startingIP,scannedIPs)
-beautifyNetworkScan(networkData)
+if is_lan_ip(targetSession.targetIP) then
+networkScan=self.deepNetworkScan(targetSession.targetRouter.local_ip,scannedIPs)
+else
+networkScan=self.softNetworkScan(targetSession.targetIP)
+end if
+print("<b>/ START_SCANLAN >></b>")
+print("<b>| START_PROBE [PUBLIC_IP:"+targetSession.targetRouter.public_ip+"]</b>")
+self.beautifyNetworkScan(networkScan)
 print("<b>| END_PROBE</b>")
 print("<b>\ END_SCANLAN <<</b>")
 end function
