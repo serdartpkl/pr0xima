@@ -1,6 +1,6 @@
-Proxima.utils={}
+Proxima.helpers={}
 // ------------------------------------------------------------------------------------------------------------
-Proxima.utils.removeDuplicates=function(inputList)
+Proxima.helpers.removeDuplicates=function(inputList)
 uniqueItems=[]
 for item in inputList
 if uniqueItems.indexOf(item)==null then
@@ -9,7 +9,7 @@ end if
 end for
 return uniqueItems
 end function
-Proxima.utils.formatList=function(headerList,contentList)
+Proxima.helpers.formatList=function(headerList,contentList)
 maxLengths=[]
 for i in headerList
 maxLen=i.len
@@ -56,7 +56,7 @@ print(Proxima.io.addOutputEntry(rowStr))
 print(Proxima.io.addOutputEntry(separator))
 end for
 end function
-Proxima.utils.indexesOf=function(givenList,searchKey,searchValue)
+Proxima.helpers.indexesOf=function(givenList,searchKey,searchValue)
 foundedIndexes=[]
 if givenList.len>0 then
 for mapItem in givenList
@@ -73,7 +73,7 @@ return foundedIndexes
 end if
 return null
 end function
-Proxima.utils.collectFiles=function(parentDir)
+Proxima.helpers.collectFiles=function(parentDir)
 allFiles=[]
 scanDir=function(dir)
 getFile=Proxima.globals.myPC.File(dir)
@@ -97,7 +97,7 @@ end function
 scanDir(parentDir)
 return allFiles
 end function
-Proxima.utils.getParsedDate=function
+Proxima.helpers.getParsedDate=function
 currentDate=current_date
 dateSegments=currentDate.split(" - ")
 d_date=dateSegments[0].split("/")
@@ -112,10 +112,10 @@ d_minutes=d_time[1]
 parsedDate=d_year+d_month+d_day+d_hours+d_minutes
 return parsedDate
 end function
-Proxima.utils.isProtectedNull=function(givenValue)
+Proxima.helpers.isProtectedNull=function(givenValue)
 if typeof(givenValue)=="list" and givenValue.hasIndex(0) and givenValue[0]==null then return true
 end function
-Proxima.utils.generateRandomIP=function
+Proxima.helpers.generateRandomIP=function
 firstByteRange=range(0,255)
 firstByteRange.remove(192)
 firstByteRange.remove(191)
@@ -135,7 +135,7 @@ if is_valid_ip(generatedIP) and get_router(generatedIP) and get_shell.ping(gener
 return self.generateRandomIP
 end function
 // ------------------------------------------------------------------------------------------------------------
-Proxima.utils.isInList=function(givenItem,givenList)
+Proxima.helpers.isInList=function(givenItem,givenList)
 for item in givenList
 if item==givenItem then
 return true
@@ -143,7 +143,7 @@ end if
 end for
 return false
 end function
-Proxima.utils.serializeMap=function(sessionData,excludeKeys=[])
+Proxima.helpers.serializeMap=function(sessionData,excludeKeys=[])
 dataType=typeof(sessionData)
 if dataType=="map" then
 serialized="{"
@@ -179,7 +179,7 @@ serialized=char(110)+char(117)+char(108)+char(108)
 end if
 return serialized
 end function
-Proxima.utils.deserializeFirst=function(serialized,excludeKeys=[])
+Proxima.helpers.deserializeFirst=function(serialized,excludeKeys=[])
 serialized=serialized.trim
 nullStr=char(110)+char(117)+char(108)+char(108)
 if serialized.hasIndex(0) and serialized[0]=="{" and serialized.hasIndex(serialized.len-1) and serialized[-1]=="}" then
@@ -198,7 +198,7 @@ end if
 return value
 end if
 end function
-Proxima.utils.splitSerializedItems=function(serializedData,delimiter)
+Proxima.helpers.splitSerializedItems=function(serializedData,delimiter)
 items=[]
 currentItem=""
 depth=0
@@ -220,7 +220,7 @@ items.push(currentItem.trim)
 end if
 return items
 end function
-Proxima.utils.deserializeList=function(serialized,excludeKeys=[])
+Proxima.helpers.deserializeList=function(serialized,excludeKeys=[])
 if not serialized.hasIndex(1) or not serialized.hasIndex(serialized.len-2) then
 return []
 end if
@@ -234,7 +234,7 @@ list.push(value)
 end for
 return list
 end function
-Proxima.utils.deserializeMap=function(serialized,excludeKeys=[])
+Proxima.helpers.deserializeMap=function(serialized,excludeKeys=[])
 if not serialized.hasIndex(1) or not serialized.hasIndex(serialized.len-2) then
 return {}
 end if

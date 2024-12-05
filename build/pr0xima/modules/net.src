@@ -63,7 +63,7 @@ end function
 Proxima.net.setTargetNetwork=function(targetESSID=null)
 if self.targetNetworks.len>0 then
 if targetESSID!=null then
-getNetworkIndex=Proxima.utils.indexesOf(self.targetNetworks,"essid",targetESSID)
+getNetworkIndex=Proxima.helpers.indexesOf(self.targetNetworks,"essid",targetESSID)
 if getNetworkIndex!=null then
 self.targetNetwork=self.targetNetworks[getNetworkIndex]
 else

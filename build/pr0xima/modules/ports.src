@@ -30,7 +30,7 @@ end function
 Proxima.ports.scanRouter=function
 end function
 Proxima.ports.checkPorts=function(targetIP=null)
-hasScanned=Proxima.utils.indexesOf(Proxima.sessions.activeSessions,"targetIP",targetIP)
+hasScanned=Proxima.helpers.indexesOf(Proxima.sessions.activeSessions,"targetIP",targetIP)
 sessionID=hasScanned+1
 if hasScanned!=null and targetIP==Proxima.sessions.getSessionValue(sessionID,"targetIP") then
 print(Proxima.io.addOutputEntry(Proxima.io.output.info("You've already created an active session with given IP. <b>[ID:"+(sessionID)+"]</b>")))
@@ -107,7 +107,7 @@ if portID!=null and targetPorts.hasIndex(portID-1) then
 totalExploits=0
 targetPort=targetPorts[portID-1]
 targetExploits=Proxima.sessions.getSessionValue(Proxima.sessions.targetSession,"targetExploits")
-if targetExploits.len>0 and Proxima.utils.indexesOf(targetExploits,"port_number",targetPort.port_number) then
+if targetExploits.len>0 and Proxima.helpers.indexesOf(targetExploits,"port_number",targetPort.port_number) then
 print(Proxima.io.addOutputEntry(Proxima.io.output.warning("This port is already scanned for exploits. Skipping... <b>[IP:"+targetIP+"|PORT:"+targetPort.port_number+"]</b>")))
 print(Proxima.io.addOutputEntry(Proxima.io.output.info("You can use 'exploits' command to view found exploits.")))
 else
@@ -136,7 +136,7 @@ if targetPorts.len>0 then
 totalExploits=0
 targetExploits=Proxima.sessions.getSessionValue(Proxima.sessions.targetSession,"targetExploits")
 for targetPort in targetPorts
-if targetExploits.len>0 and Proxima.utils.indexesOf(targetExploits,"port_number",targetPort.port_number) then
+if targetExploits.len>0 and Proxima.helpers.indexesOf(targetExploits,"port_number",targetPort.port_number) then
 print(Proxima.io.addOutputEntry(Proxima.io.output.info("This port is already scanned for exploits. Skipping... <b>[IP:"+targetIP+"|PORT:"+targetPort.port_number+"]</b>")))
 for targetExploit in targetExploits
 if targetExploit.port_number==targetPort.port_number then
@@ -167,15 +167,9 @@ ipAddresses=[]
 for targetPort in targetPorts
 ipAddresses.push(targetPort.lan_ip)
 end for
-removeDuplicates=Proxima.utils.removeDuplicates(ipAddresses)
+removeDuplicates=Proxima.helpers.removeDuplicates(ipAddresses)
 setLANs=Proxima.sessions.setSessionValue(Proxima.sessions.targetSession,"targetLANs",removeDuplicates)
-if setLANs then
-if removeDuplicates.len==1 then
-setTargetLAN=Proxima.sessions.setSessionValue(Proxima.sessions.targetSession,"targetLAN",removeDuplicates[0])
-if setTargetLAN then return true
-end if
-return true
-end if
+if setLANs then return true
 end if
 return null
 end function
@@ -202,7 +196,7 @@ p_version=targetPort.version
 p_lan_ip=targetPort.lan_ip
 content_list.push([p_id,p_number,p_state,p_service,p_version,p_lan_ip])
 end for
-Proxima.utils.formatList(header_list,content_list)
+Proxima.helpers.formatList(header_list,content_list)
 end if
 self.detectTargetLANs
 targetLANs=Proxima.sessions.getSessionValue(Proxima.sessions.targetSession,"targetLANs")
@@ -213,12 +207,7 @@ for targetLAN in targetLANs
 print(Proxima.io.addOutputEntry("|   |-- "+targetLAN))
 end for
 else if targetLANs.len==1 then
-targetLAN=Proxima.sessions.getSessionValue(Proxima.sessions.targetSession,"targetLAN")
-if targetLAN!=null then
-print(Proxima.io.addOutputEntry("|-- TARGET_LAN_ADDRESS: "+targetLAN))
-else
-print(Proxima.io.addOutputEntry("|-- TARGET_LAN_ADDRESS: NOT_SET"))
-end if
+print(Proxima.io.addOutputEntry("|-- TARGET_LAN_ADDRESS: "+targetLANs[0]))
 end if
 end if
 print(Proxima.io.addOutputEntry("|-- SMTP_USER_LIST"))

@@ -3,12 +3,10 @@ Proxima.sessions.targetSession=null
 Proxima.sessions.activeSessions=[]
 // ------------------------------------------------------------------------------------------------------------
 Proxima.sessions.getSessions=function(getSaved=false)
-sessionsList=null
+sessionsList=self.activeSessions
 if getSaved then
 getSavedSessions=Proxima.db.getRecords("sessions")
 if getSavedSessions!=null then sessionsList=getSavedSessions
-else
-sessionsList=self.activeSessions
 end if
 return sessionsList
 end function
@@ -55,10 +53,9 @@ self.activeSessions.sort(sortBy)
 idCounter=1
 targetSessionIP=null
 for recordIndex in range(0,self.activeSessions.len-1)
-if self.targetSession!=null then
-if self.targetSession==self.activeSessions[recordIndex].id then targetSessionIP=self.activeSessions[recordIndex].targetIP
-else
 targetSessionIP=self.activeSessions[recordIndex].id
+if self.targetSession!=null then
+if self.activeSessions[recordIndex].id==self.targetSession then targetSessionIP=self.activeSessions[recordIndex].targetIP
 end if
 if self.activeSessions[recordIndex].id!=idCounter then self.activeSessions[recordIndex].id=idCounter
 idCounter=idCounter+1
@@ -75,7 +72,7 @@ end function
 Proxima.sessions.searchSessions=function(sessionKey,sessionValue,searchSaved=false)
 acquiredSessions=self.getSessions(searchSaved)
 if acquiredSessions!=null then
-acquiredIndexes=Proxima.utils.indexesOf(acquiredSessions,sessionKey,sessionValue)
+acquiredIndexes=Proxima.helpers.indexesOf(acquiredSessions,sessionKey,sessionValue)
 if acquiredIndexes!=null then return acquiredIndexes
 end if
 return null
@@ -84,17 +81,14 @@ Proxima.sessions.createSessionMap=function(sessionType,targetIP,targetRouter)
 sessionMap={}
 sessionMap.targetIP=targetIP
 sessionMap.targetRouter=targetRouter
-sessionMap.targetLAN=null
 sessionMap.targetLANs=[]
 if sessionType==0 then
-sessionMap.targetLAN=targetIP
 sessionMap.targetLANs=[targetIP]
 sessionMap.targetLibraries=[]
-sessionMap.sessionType=sessionType
 else if sessionType==1 then
 sessionMap.targetPorts=[]
-sessionMap.sessionType=sessionType
 end if
+sessionMap.sessionType=sessionType
 sessionMap.targetExploits=[]
 sessionMap.targetShells=[]
 sessionMap.targetUsers=[]
@@ -107,7 +101,7 @@ Proxima.sessions.addSession=function(sessionType,targetIP,targetRouter)
 if self.getSession(targetIP)==null then
 createSessionMap=self.createSessionMap(sessionType,targetIP,targetRouter)
 sessionID=self.activeSessions.len+1
-sessionDateCreated=Proxima.utils.getParsedDate
+sessionDateCreated=Proxima.helpers.getParsedDate
 sessionMap={"id":sessionID}+createSessionMap+{"dateCreated":sessionDateCreated}
 self.activeSessions.push(sessionMap)
 return sessionMap.id
@@ -179,7 +173,7 @@ recordOperation=null
 if savedSession!=null then
 recordOperation=Proxima.db.updateRecord("sessions",savedSession.id,activeSession)
 else
-recordOperation=Proxima.db.addRecord("sessions",activeSession)
+recordOperation=Proxima.db.addRecord("sessions",activeSession,tempDateCreated)
 end if
 if recordOperation then
 activeSession.targetShells=tempTargetShells
@@ -243,5 +237,5 @@ s_date=targetSession.dateCreated+addColor
 s_type=self.colorizeSessionType(targetSession.sessionType)
 content_list.push([s_id,s_target_ip,s_date,s_type])
 end for
-Proxima.utils.formatList(header_list,content_list)
+Proxima.helpers.formatList(header_list,content_list)
 end function

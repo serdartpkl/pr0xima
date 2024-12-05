@@ -126,7 +126,7 @@ Proxima.sessions.addSession = function (sessionType, targetIP, targetRouter)
         sessionDateCreated = Proxima.helpers.getParsedDate()
         sessionMap = {"id": sessionID} + createSessionMap + {"dateCreated": sessionDateCreated}
         self.activeSessions.push(sessionMap)
-        return true
+        return sessionMap.id
     end if
     return null
 end function

@@ -43,7 +43,7 @@ end function
 // ------------------------------------------------------------------------------------------------------------
 Proxima.db.getRecords=function(databaseName)
 databaseFile=self.getDatabase(databaseName)
-if databaseFile!=null then return Proxima.utils.deserializeMap(databaseFile.get_content).records
+if databaseFile!=null then return Proxima.helpers.deserializeMap(databaseFile.get_content).records
 return null
 end function
 Proxima.db.getRecord=function(databaseName,recordID)
@@ -58,7 +58,7 @@ end function
 Proxima.db.setRecords=function(databaseName,databaseRecords)
 databaseFile=self.getDatabase(databaseName)
 if databaseFile!=null then
-serializedRecords=Proxima.utils.serializeMap({"records":databaseRecords})
+serializedRecords=Proxima.helpers.serializeMap({"records":databaseRecords})
 setRecords=databaseFile.set_content(serializedRecords)
 if setRecords==1 then return true
 end if
@@ -86,15 +86,16 @@ end function
 Proxima.db.searchRecords=function(databaseName,recordKey,recordValue)
 acquiredRecords=self.getRecords(databaseName)
 if acquiredRecords!=null and acquiredRecords.len>0 then
-acquiredIndexes=Proxima.utils.indexesOf(acquiredRecords,recordKey,recordValue)
+acquiredIndexes=Proxima.helpers.indexesOf(acquiredRecords,recordKey,recordValue)
 if acquiredIndexes!=null then return acquiredIndexes
 end if
 return null
 end function
-Proxima.db.addRecord=function(databaseName,recordMap)
+Proxima.db.addRecord=function(databaseName,recordMap,dataCreated=null)
 acquiredRecords=self.getRecords(databaseName)
 if acquiredRecords!=null then
-acquiredRecords.push({"id":acquiredRecords.len+1}+recordMap+{"dateCreated":Proxima.utils.getParsedDate})
+if dateCreated==null then dateCreated=Proxima.helpers.getParsedDate
+acquiredRecords.push({"id":acquiredRecords.len+1}+recordMap+{"dateCreated":dateCreated})
 setRecords=self.setRecords(databaseName,acquiredRecords)
 if setRecords then
 if acquiredRecords.len>1 then
@@ -167,7 +168,7 @@ s_id=str(acquiredDatabase.id)
 s_name=acquiredDatabase.name
 contentList.push([s_id,s_name])
 end for
-Proxima.utils.formatList(headerList,contentList)
+Proxima.helpers.formatList(headerList,contentList)
 end function
 Proxima.db.displayRecords=function(databaseName,nameKey)
 headerList=["ID","RECORD_NAME","DATABASE_NAME","DATE_CREATED"]
@@ -180,5 +181,5 @@ r_db_name=databaseName
 r_date=acquiredRecord["dateCreated"]
 contentList.push([r_id,r_name,r_db_name,r_date])
 end for
-Proxima.utils.formatList(headerList,contentList)
+Proxima.helpers.formatList(headerList,contentList)
 end function
