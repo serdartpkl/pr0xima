@@ -104,7 +104,7 @@ Proxima.db.searchRecords = function (databaseName, recordKey, recordValue)
     return null
 end function
 
-Proxima.db.addRecord = function (databaseName, recordMap, dataCreated = null)
+Proxima.db.addRecord = function (databaseName, recordMap, dateCreated = null)
     acquiredRecords = self.getRecords(databaseName)
     if acquiredRecords != null then
         if dateCreated == null then dateCreated = Proxima.helpers.getParsedDate()
