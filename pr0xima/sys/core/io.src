@@ -122,7 +122,7 @@ Proxima.io.throwInputError = function (cmdMessage = null, cmdUsage = null)
     end if
 end function
 
-// localSession = "<pos=20><voffset=0.25em><color=#FFC466><pos=8>———[" +
+// localSession = "<pos=20><voffset=0.25em><color=#FFC466><pos=8>——[" +
 //                "<voffset=0.2em><color=#FC8403>pr0ximan0va</color>" +
 //                "<voffset=0.2em>]——[" +
 //                "<voffset=0.2em><color=#FF1548>128.12.81.234</color>" +
@@ -132,7 +132,7 @@ end function
 //                "<voffset=-0.2em><pos=0>/<pos=0><voffset=-1.05em>\<pos=4.95>" +
 //                "<pos=8><voffset=-1.45em>——<#c3201f>$<color=#008DFF>> </color></color></color>"
 
-// remoteSession_NoAccess = "<pos=20><voffset=0.25em><color=#FFC466><pos=8>———[" +
+// remoteSession_NoAccess = "<pos=20><voffset=0.25em><color=#FFC466><pos=8>——[" +
 //                "<voffset=0.2em><color=#008DFF>UNKNOWN</color>" +
 //                "<voffset=0.2em>]——[" +
 //                "<voffset=0.2em><color=#FF1548>233.22.87.124</color>" +
@@ -142,7 +142,7 @@ end function
 //                "<voffset=-0.2em><pos=0>/<pos=0><voffset=-1.05em>\<pos=4.95>" +
 //                "<pos=8><voffset=-1.45em>——<#c3201f>$<color=#008DFF>> </color></color></color>"
 
-// remoteSession_WithGuestAccess = "<pos=20><voffset=0.25em><color=#FFC466><pos=8>———[" +
+// remoteSession_WithGuestAccess = "<pos=20><voffset=0.25em><color=#FFC466><pos=8>——[" +
 //                "<voffset=0.2em><color=#FFDD00>GUEST</color>" +
 //                "<voffset=0.2em>]——[" +
 //                "<voffset=0.2em><color=#FF1548>98.78.222.32</color>" +
@@ -152,7 +152,7 @@ end function
 //                "<voffset=-0.2em><pos=0>/<pos=0><voffset=-1.05em>\<pos=4.95>" +
 //                "<pos=8><voffset=-1.45em>——<#c3201f>$<color=#008DFF>> </color></color></color>"
 
-// remoteSession_WithUserAccess = "<pos=20><voffset=0.25em><color=#FFC466><pos=8>———[" +
+// remoteSession_WithUserAccess = "<pos=20><voffset=0.25em><color=#FFC466><pos=8>——[" +
 //                "<voffset=0.2em><color=#08FF57>USER</color>" +
 //                "<voffset=0.2em>]——[" +
 //                "<voffset=0.2em><color=#FF1548>71.89.32.10</color>" +
@@ -162,7 +162,7 @@ end function
 //                "<voffset=-0.2em><pos=0>/<pos=0><voffset=-1.05em>\<pos=4.95>" +
 //                "<pos=8><voffset=-1.45em>——<#c3201f>$<color=#008DFF>> </color></color></color>"
 
-// remoteSession_WithRootAccess = "<pos=20><voffset=0.25em><color=#FFC466><pos=8>———[" +
+// remoteSession_WithRootAccess = "<pos=20><voffset=0.25em><color=#FFC466><pos=8>——[" +
 //                "<voffset=0.2em><color=#9370DB>ROOT</color>" +
 //                "<voffset=0.2em>]——[" +
 //                "<voffset=0.2em><color=#FF1548>99.95.221.12</color>" +
