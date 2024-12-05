@@ -207,7 +207,7 @@ Proxima.sessions.saveSession = function (sessionID)
         if savedSession != null then 
             recordOperation = Proxima.db.updateRecord("sessions", savedSession.id, activeSession)
         else
-            recordOperation = Proxima.db.addRecord("sessions", activeSession)
+            recordOperation = Proxima.db.addRecord("sessions", activeSession, tempDateCreated)
         end if
         if recordOperation then
             activeSession.targetShells = tempTargetShells
