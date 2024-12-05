@@ -6,12 +6,10 @@ Proxima.sessions.activeSessions = []
 // ------------------------------------------------------------------------------------------------------------
 
 Proxima.sessions.getSessions = function (getSaved = false)
-    sessionsList = null
+    sessionsList = self.activeSessions
     if getSaved then
         getSavedSessions = Proxima.db.getRecords("sessions")
         if getSavedSessions != null then sessionsList = getSavedSessions
-    else
-        sessionsList = self.activeSessions
     end if
     return sessionsList
 end function
