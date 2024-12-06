@@ -701,8 +701,8 @@ Proxima.actions.beautifyNetworkScan = function (networkData)
 
         if not data["is_reachable"] then
             deviceTypePrefix = "|---- DEVICE"
-            print("<b>" + deviceTypePrefix + " [" + data["ip"] + "]</b>")
-            print("<color=#FF1548>" + portIndent + "|-- IP_NOT_REACHABLE</color>")
+            print(Proxima.io.addOutputEntry("<b>" + deviceTypePrefix + " [" + data["ip"] + "]</b>"))
+            print(Proxima.io.addOutputEntry("<color=#FF1548>" + portIndent + "|-- IP_NOT_REACHABLE</color>"))
             continue
         end if
 
@@ -732,17 +732,17 @@ Proxima.actions.beautifyNetworkScan = function (networkData)
 
         if data["has_firewall"] then
             if data["kernel_version"] != null then
-                print("<color=#FFC466><b>" + deviceTypePrefix + " [" + data["ip"] + "|KERNEL_V:" + data["kernel_version"] + "]</b></color>")
+                print(Proxima.io.addOutputEntry("<color=#FFC466><b>" + deviceTypePrefix + " [" + data["ip"] + "|KERNEL_V:" + data["kernel_version"] + "]</b></color>"))
             else
-                print("<color=#FFC466><b>" + deviceTypePrefix + " [" + data["ip"] + "]</b></color>")
+                print(Proxima.io.addOutputEntry("<color=#FFC466><b>" + deviceTypePrefix + " [" + data["ip"] + "]</b></color>"))
             end if
         else
             if data["kernel_version"] != null then
-                print("<b>" + deviceTypePrefix + " [" + data["ip"] + "|KERNEL_V:" + data["kernel_version"] + "]</b>")
+                print(Proxima.io.addOutputEntry("<b>" + deviceTypePrefix + " [" + data["ip"] + "|KERNEL_V:" + data["kernel_version"] + "]</b>"))
             else
                 isOwner = null
                 if data["is_owner"] then isOwner = "<b><color=#08FF57>[YOU]</color></b>"
-                print("<b>" + deviceTypePrefix + " [" + data["ip"] + "]</b>" + isOwner)
+                print(Proxima.io.addOutputEntry("<b>" + deviceTypePrefix + " [" + data["ip"] + "]</b>" + isOwner))
             end if
         end if
 
@@ -755,13 +755,13 @@ Proxima.actions.beautifyNetworkScan = function (networkData)
                 end if
 
                 if port["status"].upper() == "OPEN" then
-                    print("<color=#08FF57>" + portIndent + "|-- " + portInfo + "</color>")
+                    print(Proxima.io.addOutputEntry("<color=#08FF57>" + portIndent + "|-- " + portInfo + "</color>"))
                 else
-                    print("<color=#FF1548>" + portIndent + "|-- " + portInfo + "</color>")
+                    print(Proxima.io.addOutputEntry("<color=#FF1548>" + portIndent + "|-- " + portInfo + "</color>"))
                 end if
             end for
         else
-            print("<color=#FF1548>" + portIndent + "|-- NO_OPEN_PORTS</color>")
+            print(Proxima.io.addOutputEntry("<color=#FF1548>" + portIndent + "|-- NO_OPEN_PORTS</color>"))
         end if
 
         if data["devices"].len > 0 then
@@ -779,9 +779,9 @@ Proxima.actions.scanLAN = function ()
     else
         networkScan = self.softNetworkScan(targetSession.targetIP)
     end if
-    print("<b>/ START_SCANLAN >></b>")
-    print("<b>| START_PROBE [PUBLIC_IP:" + targetSession.targetRouter.public_ip + "]</b>")
+    print(Proxima.io.addOutputEntry("<b>/ START_SCANLAN >></b>"))
+    print(Proxima.io.addOutputEntry("<b>| START_PROBE [PUBLIC_IP:" + targetSession.targetRouter.public_ip + "]</b>"))
     self.beautifyNetworkScan(networkScan)
-    print("<b>| END_PROBE</b>")
-    print("<b>\ END_SCANLAN <<</b>")
+    print(Proxima.io.addOutputEntry("<b>| END_PROBE</b>"))
+    print(Proxima.io.addOutputEntry("<b>\ END_SCANLAN <<</b>"))
 end function
