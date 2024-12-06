@@ -178,7 +178,7 @@ targetIP=Proxima.sessions.getSessionValue(Proxima.sessions.targetSession,"target
 targetRouter=Proxima.sessions.getSessionValue(Proxima.sessions.targetSession,"targetRouter")
 print(Proxima.io.addOutputEntry("<b>/ START_SCAN >></b>"))
 print(Proxima.io.addOutputEntry("<b>| START_PROBE ["+targetIP+"]"))
-print(Proxima.io.addOutputEntry("<b>|-- MAIN_ROUTER ["+targetRouter.local_ip+"|KERNEL_V:"+targetRouter.kernel_version+"</b>"))
+print(Proxima.io.addOutputEntry("<b>|-- MAIN_ROUTER ["+targetRouter.local_ip+"|KERNEL_V:"+targetRouter.kernel_version+"]</b>"))
 if isEmpty then
 print(Proxima.io.addOutputEntry(Proxima.io.output.colorize("|-- NO_OPEN_PORTS_FOUND","#FF1548")))
 else
