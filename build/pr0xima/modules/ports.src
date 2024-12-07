@@ -212,7 +212,7 @@ end if
 end if
 smtpUserList=Proxima.globals.crypto.smtp_user_list(targetIP,25)
 if typeof(smtpUserList)=="list" then
-print(Proxima.io.addOutputEntry(Proxima.io.output.colorize("<b>|-- SMTP_USER_LIST—[+]</b>","#08FF57")))
+print(Proxima.io.addOutputEntry(Proxima.io.output.colorize("<b>|-- SMTP_USER_LIST [AVAILABLE]</b>","#08FF57")))
 if smtpUserList.len>0 then
 for userAcc in smtpUserList
 splitAcc=userAcc.split(" ")
@@ -230,7 +230,7 @@ else
 print(Proxima.io.addOutputEntry(Proxima.io.output.colorize("|   |-- NO_INFORMATION_FOUND","#FF1548")))
 end if
 else
-print(Proxima.io.addOutputEntry(Proxima.io.output.colorize("<b>|-- SMTP_USER_LIST—[x]</b>","#FF1548")))
+print(Proxima.io.addOutputEntry(Proxima.io.output.colorize("<b>|-- SMTP_USER_LIST [NOT_AVAILABLE]</b>","#FF1548")))
 end if
 adminInfo=whois(targetIP)
 if is_lan_ip(targetIP) then adminInfo=whois(targetRouter.public_ip)
