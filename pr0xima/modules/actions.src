@@ -594,7 +594,7 @@ end function
 
 Proxima.actions.createPortMap = function (portObject, targetRouter)
     portMap = {}
-    portMap.status. = "open"
+    portMap.status = "open"
     if is_closed(portObject) then portMap.status = "closed"
     lanIP = "unknown"
     if targetRouter.port_info(portObject).indexOf(" ") != null then
