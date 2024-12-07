@@ -714,21 +714,21 @@ Proxima.actions.beautifyNetworkScan = function (networkData)
         deviceTypePrefix = null
         portIndent = "|     "
 
-        if not data["is_reachable"] then
+        if not data.is_reachable then
             if data.type != "device" then
                 deviceTypePrefix = "|-- DEVICE"
                 portIndent = "|   "
             else
                 deviceTypePrefix = "|---- DEVICE"
             end if
-            print(Proxima.io.addOutputEntry("<b>" + deviceTypePrefix + " [" + data["ip"] + "]</b>"))
+            print(Proxima.io.addOutputEntry("<b>" + deviceTypePrefix + " [" + data.ip + "]</b>"))
             print(Proxima.io.addOutputEntry("<color=#FF1548>" + portIndent + "|-- IP_NOT_REACHABLE</color>"))
             continue
         end if
 
         isCCTV = false
-        for port in data["ports"]
-            if port["port_number"] == 37777 then
+        for port in data.ports
+            if port.port_number == 37777 then
                 isCCTV = true
                 break
             end if
@@ -737,17 +737,17 @@ Proxima.actions.beautifyNetworkScan = function (networkData)
         if isCCTV then
             deviceTypePrefix = "|---- CCTV"
             portIndent = "|     "
-        else if data["type"] == "router" then
-            if data["main_router"] then
+        else if data.type == "router" then
+            if data.main_router then
                 deviceTypePrefix = "|-- MAIN ROUTER"
             else
                 deviceTypePrefix = "|-- ROUTER"
             end if
             portIndent = "|   "
-        else if data["type"] == "switch" then
+        else if data.type == "switch" then
             deviceTypePrefix = "|-- SWITCH"
             portIndent = "|   "
-        else if data["type"] == "router_or_switch" then
+        else if data.type == "router_or_switch" then
             deviceTypePrefix = "|-- ROUTER/SWITCH"
             portIndent = "|   "
         else
@@ -755,31 +755,31 @@ Proxima.actions.beautifyNetworkScan = function (networkData)
             portIndent = "|     "
         end if
 
-        if data["has_firewall"] then
-            if data["kernel_version"] != null then
-                print(Proxima.io.addOutputEntry("<color=#FFC466><b>" + deviceTypePrefix + " [" + data["ip"] + "|KERNEL_V:" + data["kernel_version"] + "]</b></color>"))
+        if data.has_firewall then
+            if data.kernel_version != null then
+                print(Proxima.io.addOutputEntry("<color=#FFC466><b>" + deviceTypePrefix + " [" + data.ip + "|KERNEL_V:" + data.kernel_version + "]</b></color>"))
             else
-                print(Proxima.io.addOutputEntry("<color=#FFC466><b>" + deviceTypePrefix + " [" + data["ip"] + "]</b></color>"))
+                print(Proxima.io.addOutputEntry("<color=#FFC466><b>" + deviceTypePrefix + " [" + data.ip + "]</b></color>"))
             end if
         else
-            if data["kernel_version"] != null then
-                print(Proxima.io.addOutputEntry("<b>" + deviceTypePrefix + " [" + data["ip"] + "|KERNEL_V:" + data["kernel_version"] + "]</b>"))
+            if data.kernel_version != null then
+                print(Proxima.io.addOutputEntry("<b>" + deviceTypePrefix + " [" + data.ip + "|KERNEL_V:" + data.kernel_version + "]</b>"))
             else
                 isOwner = null
-                if data["is_owner"] then isOwner = "<b><color=#08FF57>[YOU]</color></b>"
-                print(Proxima.io.addOutputEntry("<b>" + deviceTypePrefix + " [" + data["ip"] + "]</b>" + isOwner))
+                if data.is_owner then isOwner = "<b><color=#08FF57>[YOU]</color></b>"
+                print(Proxima.io.addOutputEntry("<b>" + deviceTypePrefix + " [" + data.ip + "]</b>" + isOwner))
             end if
         end if
 
-        if data["ports"].len > 0 then
-            for port in data["ports"]
-                portInfo = "PORT:" + port["port_number"] + "|" + port["status"].upper() + "|" + port["service_name"].upper() + "/" + port["service_version"].upper
+        if data.ports.len > 0 then
+            for port in data.ports
+                portInfo = "PORT:" + port.port_number + "|" + port.status.upper() + "|" + port.service_name.upper() + "/" + port.service_version.upper
 
-                if data["main_router"] and port["lan_ip"] != data["ip"] then
-                    portInfo = portInfo + "|ROUTED_TO:" + port["lan_ip"]
+                if data.main_router and port.lan_ip != data.ip then
+                    portInfo = portInfo + "|ROUTED_TO:" + port.lan_ip
                 end if
 
-                if port["status"].upper() == "OPEN" then
+                if port.status.upper() == "OPEN" then
                     print(Proxima.io.addOutputEntry("<color=#08FF57>" + portIndent + "|-- " + portInfo + "</color>"))
                 else
                     print(Proxima.io.addOutputEntry("<color=#FF1548>" + portIndent + "|-- " + portInfo + "</color>"))
@@ -789,8 +789,8 @@ Proxima.actions.beautifyNetworkScan = function (networkData)
             print(Proxima.io.addOutputEntry("<color=#FF1548>" + portIndent + "|-- NO_OPEN_PORTS</color>"))
         end if
 
-        if data["devices"].len > 0 then
-            self.beautifyNetworkScan(data["devices"])
+        if data.devices.len > 0 then
+            self.beautifyNetworkScan(data.devices)
         end if
     end for
 end function
