@@ -678,8 +678,17 @@ isCCTV=true
 break
 end if
 end for
+isSmartAppliance=false
+for port in data.ports
+if port.port_number==1883 then
+isSmartAppliance=true
+break
+end if
+end for
 if isCCTV then
 deviceTypePrefix="|---- CCTV"
+else if isSmartAppliance then
+deviceTypePrefix="|---- SMART_APPLIANCE"
 else if data.type=="router" then
 if data.main_router then
 deviceTypePrefix="|-- MAIN ROUTER"

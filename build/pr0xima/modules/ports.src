@@ -182,7 +182,7 @@ print(Proxima.io.addOutputEntry("<b>|-- MAIN_ROUTER ["+targetRouter.local_ip+"|K
 if isEmpty then
 print(Proxima.io.addOutputEntry(Proxima.io.output.colorize("|-- NO_OPEN_PORTS_FOUND","#FF1548")))
 else
-header_list=["ID","PORT","STATE","SERVICE","VERSION","LAN_IP"]
+header_list=["ID","PORT","STATE","SERVICE","VERSION","ROUTED_TO"]
 content_list=[]
 targetPorts=Proxima.sessions.getSessionValue(Proxima.sessions.targetSession,"targetPorts")
 for targetPort in targetPorts
@@ -207,26 +207,30 @@ for targetLAN in targetLANs
 print(Proxima.io.addOutputEntry("|   |-- "+targetLAN))
 end for
 else if targetLANs.len==1 then
-print(Proxima.io.addOutputEntry("<b>|-- TARGET_LAN_ADDRESS: "+targetLANs[0]+"</b>"))
+print(Proxima.io.addOutputEntry("<b>|-- TARGET_LAN_ADDRESS ["+targetLANs[0]+"]</b>"))
 end if
 end if
-print(Proxima.io.addOutputEntry("<b>|-- SMTP_USER_LIST</b>"))
 smtpUserList=Proxima.globals.crypto.smtp_user_list(targetIP,25)
 if typeof(smtpUserList)=="list" then
-print(Proxima.io.addOutputEntry(Proxima.io.output.colorize("|   |-- SERVICE_AVAILABLE","#08FF57")))
+print(Proxima.io.addOutputEntry(Proxima.io.output.colorize("<b>|-- SMTP_USER_LIST—[+]</b>","#08FF57")))
 if smtpUserList.len>0 then
 for userAcc in smtpUserList
 splitAcc=userAcc.split(" ")
 userName=splitAcc[0]
 email=splitAcc[1:]
-if email.len==3 then email="UNKNOWN"
-print(Proxima.io.addOutputEntry("|   |-- "+userName+":"+email+""))
+if email.len==3 then email=null
+print(Proxima.io.addOutputEntry("|---- USER ["+userName+"]"))
+if email==null then
+print(Proxima.io.addOutputEntry(Proxima.io.output.colorize("|     |-- EMAIL_NOT_FOUND","#FF1548")))
+else
+print(Proxima.io.addOutputEntry("|     |-- EMAIL: "+email))
+end if
 end for
 else
 print(Proxima.io.addOutputEntry(Proxima.io.output.colorize("|   |-- NO_INFORMATION_FOUND","#FF1548")))
 end if
 else
-print(Proxima.io.addOutputEntry(Proxima.io.output.colorize("|   |-- SERVICE_NOT_AVAILABLE","#FF1548")))
+print(Proxima.io.addOutputEntry(Proxima.io.output.colorize("<b>|-- SMTP_USER_LIST—[x]</b>","#FF1548")))
 end if
 adminInfo=whois(targetIP)
 if is_lan_ip(targetIP) then adminInfo=whois(targetRouter.public_ip)
@@ -235,8 +239,8 @@ print(Proxima.io.addOutputEntry("<b>|-- ADMINISTRATIVE_CONTACT</b>"))
 print(Proxima.io.addOutputEntry("|   |-- NAME: "+adminInfo[1].split(":")[1].trim+""))
 print(Proxima.io.addOutputEntry("|   |-- EMAIL: "+adminInfo[2].split(":")[1].trim+""))
 print(Proxima.io.addOutputEntry("|   |-- PHONE: "+adminInfo[3].split(":")[1].trim+""))
-print(Proxima.io.addOutputEntry("<b>|-- COMPANY_NAME: "+((adminInfo[0].split(":")[1].trim).split("\.")[1].upper)[0]+(adminInfo[0].split(":")[1].trim).split("\.")[1][1:]+"</b>"))
-print(Proxima.io.addOutputEntry("<b>|-- DOMAIN_NAME: "+(adminInfo[0].split(":")[1].trim+"</b>")))
+print(Proxima.io.addOutputEntry("<b>|-- COMPANY_NAME ["+((adminInfo[0].split(":")[1].trim).split("\.")[1].upper)[0]+(adminInfo[0].split(":")[1].trim).split("\.")[1][1:]+"]</b>"))
+print(Proxima.io.addOutputEntry("<b>|-- DOMAIN_NAME ["+(adminInfo[0].split(":")[1].trim+"]</b>")))
 print(Proxima.io.addOutputEntry("<b>| END_PROBE</b>"))
 print(Proxima.io.addOutputEntry("<b>\ END_SCAN <<</b>"))
 end function
