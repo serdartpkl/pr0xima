@@ -740,11 +740,11 @@ Proxima.actions.beautifyNetworkScan = function (networkData)
             end if
             portIndent = "|   "
         else if data["type"] == "switch" then
-            deviceTypePrefix = "|---- SWITCH"
-            portIndent = "|     "
+            deviceTypePrefix = "|-- SWITCH"
+            portIndent = "|   "
         else if data["type"] == "router_or_switch" then
-            deviceTypePrefix = "|---- ROUTER/SWITCH"
-            portIndent = "|     "
+            deviceTypePrefix = "|-- ROUTER/SWITCH"
+            portIndent = "|   "
         else
             deviceTypePrefix = "|---- COMPUTER"
             portIndent = "|     "
