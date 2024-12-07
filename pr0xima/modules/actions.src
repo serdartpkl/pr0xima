@@ -547,12 +547,7 @@ Proxima.actions.treeDirectory = function(targetComputer, givenDirectory, entryIn
             treeLines.push(entryPrefix + entryItem.name)
 
             if entryItem.is_folder() then
-                newIndent = entryIndent
-                if isLast then
-                    newIndent = newIndent + "    "
-                else
-                    newIndent = newIndent + "|   "
-                end if
+                newIndent = entryIndent + "|   "
                 subtreeLines = treeDirectory(targetComputer, entryItem.path, newIndent)
                 treeLines = treeLines + subtreeLines
             end if

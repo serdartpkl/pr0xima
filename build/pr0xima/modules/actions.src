@@ -505,13 +505,13 @@ entryPrefix=entryPrefix+"`-- "
 else
 entryPrefix=entryPrefix+"|-- "
 end if
-treeLines.push(entryPrefix+entryItem.name)
+treeLines.push("|   "+entryPrefix+entryItem.name)
 if entryItem.is_folder then
 newIndent=entryIndent
 if isLast then
-newIndent=newIndent+"    "
+newIndent=newIndent+"  "
 else
-newIndent=newIndent+"|   "
+newIndent=newIndent+"  "
 end if
 subtreeLines=treeDirectory(targetComputer,entryItem.path,newIndent)
 treeLines=treeLines+subtreeLines
@@ -558,16 +558,16 @@ Proxima.actions.softNetworkScan=function(targetIP)
 scanData={"ip":targetIP,"is_reachable":true,"ports":[],"devices":[],"main_router":true,"type":"router","kernel_version":null,"has_firewall":false,"is_owner":false}
 targetRouter=get_router(targetIP)
 if targetRouter!=null then
-scanData["ip"]=targetRouter.local_ip
-for port in targetRouter.device_ports(scanData["ip"])
+scanData.ip=targetRouter.local_ip
+for port in targetRouter.device_ports(scanData.ip)
 if port.port_number!=8080 then
 portMap=self.createPortMap(port,targetRouter)
-scanData["ports"].push(portMap)
+scanData.ports.push(portMap)
 end if
 end for
 routerFirewalls=targetRouter.firewall_rules
-if typeof(routerFirewalls)=="list" and routerFirewalls.len>0 then scanData["has_firewall"]=true
-scanData["kernel_version"]=targetRouter.kernel_version
+if typeof(routerFirewalls)=="list" and routerFirewalls.len>0 then scanData.has_firewall=true
+scanData.kernel_version=targetRouter.kernel_version
 targetDevices=targetRouter.devices_lan_ip
 for deviceIP in targetDevices
 if deviceIP==targetRouter.local_ip then
@@ -575,16 +575,16 @@ continue
 end if
 deviceMap={"ip":deviceIP,"is_reachable":true,"ports":[],"devices":[],"main_router":false,"type":"device","kernel_version":null,"has_firewall":false,"is_owner":false}
 for port in targetRouter.device_ports(deviceIP)
-if port.port_number==8080 then deviceMap["type"]="router_or_switch"
+if port.port_number==8080 then deviceMap.type="router_or_switch"
 if port.port_number!=8080 then
 devicePortMap=self.createPortMap(port,targetRouter)
-deviceMap["ports"].push(devicePortMap)
+deviceMap.ports.push(devicePortMap)
 end if
 end for
-scanData["devices"].push(deviceMap)
+scanData.devices.push(deviceMap)
 end for
 else
-scanData["is_reachable"]=false
+scanData.is_reachable=false
 end if
 return [scanData]
 end function
@@ -607,18 +607,18 @@ if targetRouter==null then targetRouter=get_router(scannedIPs[0])
 for port in targetRouter.device_ports(targetIP)
 if port.port_number!=8080 then
 portMap=self.createPortMap(port,targetRouter)
-scanData["ports"].push(portMap)
+scanData.ports.push(portMap)
 end if
 end for
 if targetRouter.local_ip==targetIP then
 routerFirewalls=targetRouter.firewall_rules
-if typeof(routerFirewalls)=="list" and routerFirewalls.len>0 then scanData["has_firewall"]=true
+if typeof(routerFirewalls)=="list" and routerFirewalls.len>0 then scanData.has_firewall=true
 publicIP=targetRouter.public_ip
 mainRouterIP=get_router(publicIP).local_ip
-if scanData["ip"]==mainRouterIP then scanData["main_router"]=true
-scanData["kernel_version"]=targetRouter.kernel_version
-scanData["type"]="router"
-if get_switch(targetIP) then scanData["type"]="switch"
+if scanData.ip==mainRouterIP then scanData.main_router=true
+scanData.kernel_version=targetRouter.kernel_version
+scanData.type="router"
+if get_switch(targetIP) then scanData.type="switch"
 targetDevices=targetRouter.devices_lan_ip
 for device in targetDevices
 if scannedIPs.indexOf(device)!=null or device==targetIP then
@@ -626,7 +626,7 @@ continue
 end if
 deviceResults=self.deepNetworkScan(device,scannedIPs)
 for result in deviceResults
-scanData["devices"].push(result)
+scanData.devices.push(result)
 end for
 end for
 end if
@@ -708,13 +708,16 @@ end function
 Proxima.actions.scanLAN=function
 targetSession=Proxima.sessions.getSession(Proxima.sessions.targetSession)
 networkScan=null
+scanMethod=null
 scannedIPs=[]
 if is_lan_ip(targetSession.targetIP) then
 networkScan=self.deepNetworkScan(targetSession.targetRouter.local_ip,scannedIPs)
+scanMethod="DEEP_SCAN"
 else
 networkScan=self.softNetworkScan(targetSession.targetIP)
+scanMethod="SOFT_SCAN"
 end if
-print(Proxima.io.addOutputEntry("<b>/ START_SCANLAN >></b>"))
+print(Proxima.io.addOutputEntry("<b>/ START_SCANLAN ["+scanMethod+"]>></b>"))
 print(Proxima.io.addOutputEntry("<b>| START_PROBE [PUBLIC_IP:"+targetSession.targetRouter.public_ip+"]</b>"))
 self.beautifyNetworkScan(networkScan)
 print(Proxima.io.addOutputEntry("<b>| END_PROBE</b>"))
