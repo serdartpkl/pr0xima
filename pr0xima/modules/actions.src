@@ -736,7 +736,6 @@ Proxima.actions.beautifyNetworkScan = function (networkData)
 
         if isCCTV then
             deviceTypePrefix = "|---- CCTV"
-            portIndent = "|     "
         else if data.type == "router" then
             if data.main_router then
                 deviceTypePrefix = "|-- MAIN ROUTER"
@@ -752,7 +751,6 @@ Proxima.actions.beautifyNetworkScan = function (networkData)
             portIndent = "|   "
         else
             deviceTypePrefix = "|---- COMPUTER"
-            portIndent = "|     "
         end if
 
         if data.has_firewall then
