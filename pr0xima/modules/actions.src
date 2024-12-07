@@ -607,7 +607,7 @@ Proxima.actions.softNetworkScan = function (targetIP)
     if targetRouter != null then
         scanData["ip"] = targetRouter.local_ip
 
-        for port in targetRouter.device_ports(targetRouter.local_ip)
+        for port in targetRouter.device_ports(scanData["ip"])
             if port.port_number != 8080 then
                 portMap = self.createPortMap(port, targetRouter)
                 scanData["ports"].push(portMap)
@@ -625,7 +625,7 @@ Proxima.actions.softNetworkScan = function (targetIP)
             end if
             deviceMap = { "ip": deviceIP, "is_reachable": true, "ports": [], "devices": [], "main_router": false, "type": "device", "kernel_version": null, "has_firewall": false, "is_owner": false } 
             for port in targetRouter.device_ports(deviceIP)
-                if port.port_number == 8080 then deviceMap["type"] = "router"
+                if port.port_number == 8080 then deviceMap["type"] = "router_or_switch"
                 if port.port_number != 8080 then
                     devicePortMap = self.createPortMap(port, targetRouter)
                     deviceMap["ports"].push(devicePortMap)
@@ -732,6 +732,9 @@ Proxima.actions.beautifyNetworkScan = function (networkData)
             portIndent = "|   "
         else if data["type"] == "switch" then
             deviceTypePrefix = "|---- SWITCH"
+            portIndent = "|     "
+        else if data["type"] == "router_or_switch" then
+            deviceTypePrefix = "|---- ROUTER/SWITCH"
             portIndent = "|     "
         else
             deviceTypePrefix = "|---- COMPUTER"
