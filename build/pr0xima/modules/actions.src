@@ -559,7 +559,7 @@ scanData={"ip":targetIP,"is_reachable":true,"ports":[],"devices":[],"main_router
 targetRouter=get_router(targetIP)
 if targetRouter!=null then
 scanData["ip"]=targetRouter.local_ip
-for port in targetRouter.device_ports(targetRouter.local_ip)
+for port in targetRouter.device_ports(scanData["ip"])
 if port.port_number!=8080 then
 portMap=self.createPortMap(port,targetRouter)
 scanData["ports"].push(portMap)
@@ -575,7 +575,7 @@ continue
 end if
 deviceMap={"ip":deviceIP,"is_reachable":true,"ports":[],"devices":[],"main_router":false,"type":"device","kernel_version":null,"has_firewall":false,"is_owner":false}
 for port in targetRouter.device_ports(deviceIP)
-if port.port_number==8080 then deviceMap["type"]="router"
+if port.port_number==8080 then deviceMap["type"]="router_or_switch"
 if port.port_number!=8080 then
 devicePortMap=self.createPortMap(port,targetRouter)
 deviceMap["ports"].push(devicePortMap)
@@ -613,9 +613,12 @@ end for
 if targetRouter.local_ip==targetIP then
 routerFirewalls=targetRouter.firewall_rules
 if typeof(routerFirewalls)=="list" and routerFirewalls.len>0 then scanData["has_firewall"]=true
-if get_router(targetRouter.public_ip).local_ip==scanData["ip"] then scanData["main_router"]=true
+publicIP=targetRouter.public_ip
+mainRouterIP=get_router(publicIP).local_ip
+if scanData["ip"]==mainRouterIP then scanData["main_router"]=true
 scanData["kernel_version"]=targetRouter.kernel_version
 scanData["type"]="router"
+if get_switch(targetIP) then scanData["type"]="switch"
 targetDevices=targetRouter.devices_lan_ip
 for device in targetDevices
 if scannedIPs.indexOf(device)!=null or device==targetIP then
@@ -651,13 +654,18 @@ if isCCTV then
 deviceTypePrefix="|---- CCTV"
 portIndent="|     "
 else if data["type"]=="router" then
-routerPrefix=null
 if data["main_router"] then
 deviceTypePrefix="|-- MAIN ROUTER"
 else
-deviceTypePrefix="|-- ROUTER/SWITCH"
+deviceTypePrefix="|-- ROUTER"
 end if
 portIndent="|   "
+else if data["type"]=="switch" then
+deviceTypePrefix="|---- SWITCH"
+portIndent="|     "
+else if data["type"]=="router_or_switch" then
+deviceTypePrefix="|---- ROUTER/SWITCH"
+portIndent="|     "
 else
 deviceTypePrefix="|---- COMPUTER"
 portIndent="|     "
