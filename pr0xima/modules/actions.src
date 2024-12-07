@@ -674,9 +674,15 @@ Proxima.actions.deepNetworkScan = function (targetIP, scannedIPs)
     if targetRouter.local_ip == targetIP then
         routerFirewalls = targetRouter.firewall_rules()
         if typeof(routerFirewalls) == "list" and routerFirewalls.len > 0 then scanData["has_firewall"] = true
-        if get_router(targetRouter.public_ip).local_ip == scanData["ip"] then scanData["main_router"] = true
+        
+        publicIP = targetRouter.public_ip
+        mainRouterIP = get_router(publicIP).local_ip
+        if scanData["ip"] == mainRouterIP then scanData["main_router"] = true
+        
         scanData["kernel_version"] = targetRouter.kernel_version
+        
         scanData["type"] = "router"
+        if get_switch(targetIP) then scanData["type"] = "switch"
 
         targetDevices = targetRouter.devices_lan_ip
         for device in targetDevices
