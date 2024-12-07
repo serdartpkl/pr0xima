@@ -525,7 +525,7 @@ end function
 
 // ------------------------------------------------------------------------------------------------------------
 
-Proxima.actions.treeDirectory = function(targetComputer, givenDirectory, entryIndent = "")
+Proxima.actions.treeDirectory = function(targetComputer, givenDirectory, entryIndent)
     treeLines = []
     fileHandler = targetComputer.File(givenDirectory)
 
@@ -548,13 +548,27 @@ Proxima.actions.treeDirectory = function(targetComputer, givenDirectory, entryIn
 
             if entryItem.is_folder() then
                 newIndent = entryIndent + "|   "
-                subtreeLines = treeDirectory(targetComputer, entryItem.path, newIndent)
+                subtreeLines = self.treeDirectory(targetComputer, entryItem.path, newIndent)
                 treeLines = treeLines + subtreeLines
             end if
         end for
     end if
 
     return treeLines
+end function
+
+Proxima.actions.displayTree = function (targetComputer, givenDirectory = "/", entryIndent = "")
+    treeLines = self.treeDirectory(targetComputer, givenDirectory, entryIndent)
+
+    print(Proxima.io.addOutputEntry("<b>/ START_TREE >></b>"))
+    print(Proxima.io.addOutputEntry("<b>| START_SCAN [DIRECTORY:" + givenDirectory + "]"))
+
+    for directoryString in treeLines
+        print(Proxima.io.addOutputEntry(directoryString))
+    end for
+
+    print(Proxima.io.addOutputEntry("<b>| END_SCAN</b>"))
+    print(Proxima.io.addOutputEntry("<b>\ END_TREE <<</b>"))
 end function
 
 Proxima.actions.getProcesses = function (targetComputer)

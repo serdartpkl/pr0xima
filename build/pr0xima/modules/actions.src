@@ -489,7 +489,7 @@ print(Proxima.io.addOutputEntry(Proxima.io.output.error("No open shells found to
 end if
 end function
 // ------------------------------------------------------------------------------------------------------------
-Proxima.actions.treeDirectory=function(targetComputer,givenDirectory,entryIndent="")
+Proxima.actions.treeDirectory=function(targetComputer,givenDirectory,entryIndent)
 treeLines=[]
 fileHandler=targetComputer.File(givenDirectory)
 if fileHandler.is_folder then
@@ -505,20 +505,25 @@ entryPrefix=entryPrefix+"`-- "
 else
 entryPrefix=entryPrefix+"|-- "
 end if
-treeLines.push("|   "+entryPrefix+entryItem.name)
+treeLines.push(entryPrefix+entryItem.name)
 if entryItem.is_folder then
-newIndent=entryIndent
-if isLast then
-newIndent=newIndent+"  "
-else
-newIndent=newIndent+"  "
-end if
-subtreeLines=treeDirectory(targetComputer,entryItem.path,newIndent)
+newIndent=entryIndent+"|   "
+subtreeLines=self.treeDirectory(targetComputer,entryItem.path,newIndent)
 treeLines=treeLines+subtreeLines
 end if
 end for
 end if
 return treeLines
+end function
+Proxima.actions.displayTree=function(targetComputer,givenDirectory="/",entryIndent="")
+treeLines=self.treeDirectory(targetComputer,givenDirectory,entryIndent)
+print(Proxima.io.addOutputEntry("<b>/ START_TREE >></b>"))
+print(Proxima.io.addOutputEntry("<b>| START_SCAN [DIRECTORY:"+givenDirectory+"]"))
+for directoryString in treeLines
+print(Proxima.io.addOutputEntry(directoryString))
+end for
+print(Proxima.io.addOutputEntry("<b>| END_SCAN</b>"))
+print(Proxima.io.addOutputEntry("<b>\ END_TREE <<</b>"))
 end function
 Proxima.actions.getProcesses=function(targetComputer)
 showProcs=targetComputer.show_procs

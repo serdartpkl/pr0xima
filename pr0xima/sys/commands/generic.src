@@ -479,3 +479,18 @@ Proxima.commands.scanlan = {
 Proxima.commands.scanlan.exec = function (params)
     Proxima.actions.scanLAN()
 end function
+
+Proxima.commands.tree = {
+    "name": "tree",
+    "description": "Scans the whole file system and prints it.",
+    "usage": "tree",
+    "type": 2
+}
+Proxima.commands.tree.exec = function (params)
+    if Proxima.sessions.getSessionValue(Proxima.sessions.targetSession, "sessionType") == 0 then
+        Proxima.actions.displayTree(Proxima.globals.myPC)
+    else
+        Proxima.io.throwInputError("No open shells available, please execute an exploit first.")
+    end if
+end function
+
