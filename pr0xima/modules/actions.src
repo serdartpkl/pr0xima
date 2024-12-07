@@ -544,7 +544,29 @@ Proxima.actions.treeDirectory = function(targetComputer, givenDirectory, entryIn
                 entryPrefix = entryPrefix + "|-- "
             end if
 
-            treeLines.push(entryPrefix + entryItem.name)
+            if entryItem.is_folder then entryPrefix = entryPrefix + "/"
+
+            permissionString = ["-", "-", "-"]
+            if entryItem.has_permission("r") then permissionString[0] = "r"
+            if entryItem.has_permission("w") then permissionString[1] = "w"
+            if entryItem.has_permission("x") then permissionString[2] = "x"
+
+            colorTag = null
+            if permissionString[1] != "-" and permissionString[2] != "-" then
+                colorTag = "<color=#08FF57>$PERMISSION_STRING</color>"
+            else
+                if permissionString[0] != "-" then
+                    colorTag = "<color=#FFDD00>$PERMISSION_STRING</color>"
+                    if permissionString[2] == "-" then colorTag = "<color=#FC8403>$PERMISSION_STRING</color>"
+                else
+                    colorTag = "<color=#FF1548>$PERMISSION_STRING</color>"
+                end if
+            end if
+
+            permissionString = permissionString.join("")
+            permissionString = replace_regex(colorTag, "\$(\w+)", permissionString)
+
+            treeLines.push(entryPrefix + entryItem.name + " " + "[" + permissionString + "]")
 
             if entryItem.is_folder() then
                 newIndent = entryIndent + "|   "
