@@ -805,7 +805,7 @@ Proxima.actions.scanLAN = function ()
         networkScan = self.softNetworkScan(targetSession.targetIP)
         scanMethod = "SOFT_SCAN"
     end if
-    print(Proxima.io.addOutputEntry("<b>/ START_SCANLAN [" + scanMethod + "]>></b>"))
+    print(Proxima.io.addOutputEntry("<b>/ START_SCANLAN [" + scanMethod + "] >></b>"))
     print(Proxima.io.addOutputEntry("<b>| START_PROBE [PUBLIC_IP:" + targetSession.targetRouter.public_ip + "]</b>"))
     self.beautifyNetworkScan(networkScan)
     print(Proxima.io.addOutputEntry("<b>| END_PROBE</b>"))
