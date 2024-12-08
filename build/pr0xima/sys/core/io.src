@@ -78,7 +78,7 @@ if sessionType==1 and userName=="USER" then userColor="#08FF57"
 if sessionType==1 and userName=="ROOT" then userColor="#9370DB"
 sessionTypeName="LOCAL"
 if sessionType==1 then sessionTypeName="REMOTE"
-inputString="<pos=20><voffset=0.25em><color=#FFC466><pos=8>——["+"<voffset=0.2em><color="+userColor+">"+userName+"</color>"+"<voffset=0.2em>]——["+"<voffset=0.2em><color=#FF1548>"+publicIP+"</color>"+"<voffset=0.2em><color=#999999>->"+localIP+"</color>"+"<voffset=0.2em>]——["+"<voffset=0.2em><color=#08FF57>SID:"+sessionID+"|"+sessionType+"</color>]"+"<voffset=-0.2em><pos=0>/<pos=0><voffset=-1.05em>\<pos=4.95>"+"<pos=8><voffset=-1.45em>——<#c3201f>$<color=#008DFF>> </color></color></color>"
+inputString="<pos=20><voffset=0.25em><color=#FFC466><pos=8>——["+"<voffset=0.2em><color="+userColor+">"+userName+"</color>"+"<voffset=0.2em>]——[>"+"<voffset=0.2em><color=#FF1548>"+publicIP+"</color>"+"<voffset=0.2em><color=#999999>->"+localIP+"</color>"+"<voffset=0.2em>]——["+"<voffset=0.2em><color=#08FF57>SID:"+sessionID+"|"+sessionType+"</color>]"+"<voffset=-0.2em><pos=0>/<pos=0><voffset=-1.05em>\<pos=4.95>"+"<pos=8><voffset=-1.45em>——<#c3201f>$<color=#008DFF>> </color></color></color>"
 self.inputString=inputString
 end function
 // ------------------------------------------------------------------------------------------------------------

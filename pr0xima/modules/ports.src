@@ -192,8 +192,9 @@ Proxima.ports.displayPorts = function (isEmpty = false)
     print(Proxima.io.addOutputEntry("<b>/ START_SCAN >></b>"))
     print(Proxima.io.addOutputEntry("<b>| START_PROBE [" + targetIP + "]"))
     print(Proxima.io.addOutputEntry("<b>|-- MAIN_ROUTER [" + targetRouter.local_ip + "|KERNEL_V:" + targetRouter.kernel_version + "]</b>"))
+    print(Proxima.io.addOutputEntry("<b>|-- TARGET_PORTS</b>"))
     if isEmpty then
-        print(Proxima.io.addOutputEntry(Proxima.io.output.colorize("|-- NO_OPEN_PORTS_FOUND", "#FF1548")))
+        print(Proxima.io.addOutputEntry(Proxima.io.output.colorize("|   |-- NO_OPEN_PORTS_FOUND", "#FF1548")))
     else
         header_list = ["ID", "PORT", "STATE", "SERVICE", "VERSION", "ROUTED_TO"]
         content_list = []
