@@ -235,7 +235,7 @@ Proxima.ports.displayPorts = function (isEmpty = false)
                 userName = splitAcc[0]
                 email = splitAcc[1:]
                 if email.len == 3 then email = null
-                print(Proxima.io.addOutputEntry("|---- USER [" + userName + "]"))
+                print(Proxima.io.addOutputEntry("<b>|---- USER [" + userName + "]</b>"))
                 if email == null then
                     print(Proxima.io.addOutputEntry(Proxima.io.output.colorize("|     |-- EMAIL_NOT_FOUND", "#FF1548")))
                 else
