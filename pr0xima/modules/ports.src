@@ -192,7 +192,7 @@ Proxima.ports.displayPorts = function (isEmpty = false)
     print(Proxima.io.addOutputEntry("<b>/ START_SCAN >></b>"))
     print(Proxima.io.addOutputEntry("<b>| START_PROBE [" + targetIP + "]"))
     print(Proxima.io.addOutputEntry("<b>|-- MAIN_ROUTER [" + targetRouter.local_ip + "|KERNEL_V:" + targetRouter.kernel_version + "]</b>"))
-    print(Proxima.io.addOutputEntry("<b>|-- TARGET_PORTS</b>"))
+    print(Proxima.io.addOutputEntry("<b>|-- AVAILABLE_PORTS</b>"))
     if isEmpty then
         print(Proxima.io.addOutputEntry(Proxima.io.output.colorize("|   |-- NO_OPEN_PORTS_FOUND", "#FF1548")))
     else
@@ -213,16 +213,76 @@ Proxima.ports.displayPorts = function (isEmpty = false)
         Proxima.helpers.formatList(header_list, content_list)
     end if
 
+    isAdminOnline = "<color=#008DFF>UNKNOWN</color>"
+    isUserOnline = "<color=#008DFF>UNKNOWN</color>"
+
     self.detectTargetLANs()
     targetLANs = Proxima.sessions.getSessionValue(Proxima.sessions.targetSession, "targetLANs")
     if targetLANs.len > 0 then
         if targetLANs.len > 1 then
-            print(Proxima.io.addOutputEntry("<b>|-- TARGET_LAN_ADDRESSES</b>"))
+            print(Proxima.io.addOutputEntry("<b>|-- AVAILABLE_TARGETS</b>"))
+            targetPorts = Proxima.sessions.getSessionValue(Proxima.sessions.targetSession, "targetPorts")
             for targetLAN in targetLANs
-                print(Proxima.io.addOutputEntry("|   |-- " + targetLAN))
+                if targetPorts.len > 0 then
+                    for targetPort in targetPorts
+                        if targetPort.state == "OPEN" then
+                            hasOpenPorts = true
+                            break
+                        end if
+                    end for
+                end if
+                if hasOpenPorts then
+                    for targetPort in targetPorts
+                        if targetPort.state == "OPEN" and targetLAN == targetPort.lan_ip then
+                            netUseObj = Proxima.globals.metaxploit.net_use(targetIP, targetPort.port_number)
+                            if netUseObj != null then
+                                if netUseObj.is_root_active_user then
+                                    isAdminOnline = "<color=#08FF57>ONLINE</color>"
+                                else
+                                    isAdminOnline = "<color=#FF1548>OFFLINE</color>"
+                                end if
+                                if netUseObj.is_any_active_user then
+                                    isUserOnline = "<color=#08FF57>ONLINE</color>"
+                                else
+                                    isUserOnline = "<color=#FF1548>OFFLINE</color>"
+                                end if
+                            end if
+                        end if
+                    end for
+                end if
+                print(Proxima.io.addOutputEntry("|   |-- LAN_IP: " + targetLAN))
             end for
         else if targetLANs.len == 1 then
-            print(Proxima.io.addOutputEntry("<b>|-- TARGET_LAN_ADDRESS [" + targetLANs[0] + "]</b>"))
+            print(Proxima.io.addOutputEntry("<b>|-- TARGET_LAN_IP [" + targetLANs[0] + "]</b>"))
+            targetPorts = Proxima.sessions.getSessionValue(Proxima.sessions.targetSession, "targetPorts")
+            hasOpenPorts = true
+            if targetPorts.len > 0 then
+                for targetPort in targetPorts
+                    if targetPort.state == "OPEN" then
+                        hasOpenPorts = true
+                        break
+                    end if
+                end for
+            end if
+            if hasOpenPorts then
+                for targetPort in targetPorts
+                    if targetPort.state == "OPEN" and targetLANs[0] == targetPort.lan_ip then
+                        netUseObj = Proxima.globals.metaxploit.net_use(targetIP, targetPort.port_number)
+                        if netUseObj != null then
+                            if netUseObj.is_root_active_user then
+                                isAdminOnline = "<color=#08FF57>ONLINE</color>"
+                            else
+                                isAdminOnline = "<color=#FF1548>OFFLINE</color>"
+                            end if
+                            if netUseObj.is_any_active_user then
+                                isUserOnline = "<color=#08FF57>ONLINE</color>"
+                            else
+                                isUserOnline = "<color=#FF1548>OFFLINE</color>"
+                            end if
+                        end if
+                    end if
+                end for
+            end if
         end if
     end if
 
@@ -256,6 +316,9 @@ Proxima.ports.displayPorts = function (isEmpty = false)
     print(Proxima.io.addOutputEntry("|   |-- NAME: " +adminInfo[1].split(":")[1].trim+""))
     print(Proxima.io.addOutputEntry("|   |-- EMAIL: "+adminInfo[2].split(":")[1].trim+""))
     print(Proxima.io.addOutputEntry("|   |-- PHONE: "+adminInfo[3].split(":")[1].trim+""))
+    print(Proxima.io.addOutputEntry("<b>|-- ONLINE_USERS</b>"))
+    print(Proxima.io.addOutputEntry("|   |-- ADMINISTRATOR: " + isAdminOnline))
+    print(Proxima.io.addOutputEntry("|   |-- ANY_USER: " + isUserOnline))
     print(Proxima.io.addOutputEntry("<b>|-- COMPANY_NAME ["+((adminInfo[0].split(":")[1].trim).split("\.")[1].upper)[0]+(adminInfo[0].split(":")[1].trim).split("\.")[1][1:] + "]</b>"))
     print(Proxima.io.addOutputEntry("<b>|-- DOMAIN_NAME [" + (adminInfo[0].split(":")[1].trim + "]</b>")))
     print(Proxima.io.addOutputEntry("<b>| END_PROBE</b>"))
