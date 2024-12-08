@@ -193,7 +193,11 @@ reorderSessions=self.reorderSessions
 if reorderSessions then
 newActiveSession=self.getSession(savedSession.targetIP)
 setActiveSession=self.setSession(newActiveSession.id)
-if setActiveSession then return true
+if setActiveSession then
+createRouter=Proxima.ports.createRouter(savedSession.targetIP)
+setRouter=Proxima.sessions.setSessionValue(newActiveSession.id,"targetRouter",createRouter)
+if setRouter then return true
+end if
 end if
 end if
 end if
