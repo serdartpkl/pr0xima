@@ -197,7 +197,7 @@ Proxima.helpers.serializeMap = function(sessionData, excludeKeys = [])
                 continue
             end if
             mapValue = sessionData[mapKey]
-            serializedString = serializedString + char(34) + key + char(34) + ":"
+            serializedString = serializedString + char(34) + mapKey + char(34) + ":"
             serializedString = serializedString + self.serializeMap(mapValue, excludeKeys)
             serializedString = serializedString + ","
         end for
