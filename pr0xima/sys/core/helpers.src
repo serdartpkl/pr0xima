@@ -4,63 +4,66 @@ Proxima.helpers = {}
 
 Proxima.helpers.removeDuplicates = function(inputList)
     uniqueItems = []
-    for item in inputList
-        if uniqueItems.indexOf(item) == null then
-            uniqueItems.push(item)
+    for listItem in inputList
+        if uniqueItems.indexOf(listItem) == null then
+            uniqueItems.push(listItem)
         end if
     end for
     return uniqueItems
 end function
 
-Proxima.helpers.formatList = function (headerList, contentList)
+Proxima.helpers.formatList = function (headerList, contentList, addPrefix = false)
+    prefixIndent = ""
+    if addPrefix then prefixIndent = "|   "
+
     maxLengths = []
 
-    for i in headerList
-        maxLen = i.len
-        for row in contentList
-            if row[headerList.indexOf(i)].split("#") != null then
-                if row[headerList.indexOf(i)].split("#")[0].len > maxLen then maxLen = row[headerList.indexOf(i)].split("#")[0].len
+    for headerName in headerList
+        maxLength = headerName.len
+        for contentRow in contentList
+            if contentRow[headerList.indexOf(headerName)].split("#") != null then
+                if contentRow[headerList.indexOf(headerName)].split("#")[0].len > maxLength then maxLength = contentRow[headerList.indexOf(headerName)].split("#")[0].len
             else
-                if row[headerList.indexOf(i)].len > maxLen then maxLen = row[headerList.indexOf(i)].len
+                if contentRow[headerList.indexOf(headerName)].len > maxLength then maxLength = row[headerList.indexOf(headerName)].len
             end if
         end for
-        maxLengths.push(maxLen)
+        maxLengths.push(maxLength)
     end for
 
-    padRight = function(str, length, rowColor)
-        padding = " " * (length - str.len)
+    padRight = function(givenString, givenLength, rowColor)
+        stringPadding = " " * (givenLength - givenString.len)
         if rowColor != null then
-            return Proxima.io.output.colorize(str + padding, "#" + rowColor)
+            return Proxima.io.output.colorize(givenString + stringPadding, "#" + rowColor)
         else
-            return str + padding
+            return givenString + stringPadding
         end if
     end function
 
-    separator = "+"
+    separatorChar = "+"
     headerRow = "|"
-    for i in headerList
-        idx = headerList.indexOf(i)
-        separator = separator + "-" * (maxLengths[idx] + 2) + "+"
-        headerRow = headerRow + " " + padRight(i, maxLengths[idx], null) + " |"
+    for headerName in headerList
+        headerID = headerList.indexOf(headerName)
+        separatorChar = separatorChar + "-" * (maxLengths[headerID] + 2) + "+"
+        headerRow = headerRow + " " + padRight(headerName, maxLengths[headerID], null) + " |"
     end for
-    print(Proxima.io.addOutputEntry("|   " + separator))
-    print(Proxima.io.addOutputEntry("|   " + headerRow))
-    print(Proxima.io.addOutputEntry("|   " + separator))
+    print(Proxima.io.addOutputEntry(prefixIndent + separatorChar))
+    print(Proxima.io.addOutputEntry(prefixIndent + headerRow))
+    print(Proxima.io.addOutputEntry(prefixIndent + separatorChar))
 
-    for row in contentList
-        rowStr = "|"
-        for i in headerList
-            idx = headerList.indexOf(i)
-            splitRow = row[idx].split("#")
+    for contentRow in contentList
+        rowString = "|"
+        for headerName in headerList
+            headerID = headerList.indexOf(headerName)
+            splitRow = contentRow[headerID].split("#")
             rowColor = null
             if splitRow.len > 1 then
-                row[idx] = splitRow[0]
+                contentRow[headerID] = splitRow[0]
                 rowColor = splitRow[1]
             end if
-            rowStr = rowStr + " " + padRight(row[idx], maxLengths[idx], rowColor) + " |"
+            rowString = rowString + " " + padRight(contentRow[headerID], maxLengths[headerID], rowColor) + " |"
         end for
-        print(Proxima.io.addOutputEntry("|   " + rowStr))
-        print(Proxima.io.addOutputEntry("|   " + separator))
+        print(Proxima.io.addOutputEntry(prefixIndent + rowString))
+        print(Proxima.io.addOutputEntry(prefixIndent + separator))
     end for
 end function
 
@@ -68,8 +71,8 @@ Proxima.helpers.indexesOf = function (givenList, searchKey, searchValue)
     foundedIndexes = []
     if givenList.len > 0 then
         for mapItem in givenList
-            for key in mapItem.indexes
-                if key == searchKey and mapItem[key] == searchValue then
+            for mapKey in mapItem.indexes
+                if mapKey == searchKey and mapItem[mapKey] == searchValue then
                     foundedIndexes.push(givenList.indexOf(mapItem))
                 end if
             end for
@@ -117,11 +120,11 @@ Proxima.helpers.getParsedDate = function ()
 
     dateSegments = currentDate.split(" - ")
 
-    d_date = dateSegments[0].split("/")
-    d_time = dateSegments[1].split(":")
+    dateSegment = dateSegments[0].split("/")
+    timeSegment = dateSegments[1].split(":")
 
-    d_day = d_date[0]
-    if d_day.len == 1 then d_day = "0" + str(d_day)
+    daySegment = dateSegment[0]
+    if daySegment.len == 1 then daySegment = "0" + str(daySegment)
 
     monthMap = {
         "Jan": "01",
@@ -137,13 +140,13 @@ Proxima.helpers.getParsedDate = function ()
         "Nov": "11",
         "Dec": "12",
     }
-    d_month = monthMap[d_date[1]]
+    monthSegment = monthMap[dateSegment[1]]
     
-    d_year = d_date[2]
-    d_hours = d_time[0]
-    d_minutes = d_time[1]
+    yearSegment = dateSegment[2]
+    hourSegment = timeSegment[0]
+    minuteSegment = timeSegment[1]
 
-    parsedDate = d_year + d_month + d_day + d_hours + d_minutes
+    parsedDate = yearSegment + monthSegment + daySegment + hourSegment + minuteSegment
     return parsedDate
 end function
 
@@ -171,14 +174,14 @@ Proxima.helpers.generateRandomIP = function()
     generatedIP = generatedIP.join(".")
 
     if is_valid_ip(generatedIP) and get_router(generatedIP) and get_shell.ping(generatedIP) then return generatedIP
-    return self.generateRandomIP
+    return self.generateRandomIP()
 end function
 
 // ------------------------------------------------------------------------------------------------------------
 
 Proxima.helpers.isInList = function(givenItem, givenList)
-    for item in givenList
-        if item == givenItem then
+    for listItem in givenList
+        if listItem == givenItem then
             return true
         end if
     end for
@@ -188,58 +191,58 @@ end function
 Proxima.helpers.serializeMap = function(sessionData, excludeKeys = [])
     dataType = typeof(sessionData)
     if dataType == "map" then
-        serialized = "{"
-        for key in sessionData.indexes
-            if self.isInList(key, excludeKeys) then
+        serializedString = "{"
+        for mapKey in sessionData.indexes
+            if self.isInList(mapKey, excludeKeys) then
                 continue
             end if
-            value = sessionData[key]
-            serialized = serialized + char(34) + key + char(34) + ":"
-            serialized = serialized + self.serializeMap(value, excludeKeys)
-            serialized = serialized + ","
+            mapValue = sessionData[mapKey]
+            serializedString = serializedString + char(34) + key + char(34) + ":"
+            serializedString = serializedString + self.serializeMap(mapValue, excludeKeys)
+            serializedString = serializedString + ","
         end for
-        if serialized.hasIndex(serialized.len - 1) and serialized[-1] == "," then
-            serialized = serialized[:serialized.len - 1]
+        if serializedString.hasIndex(serializedString.len - 1) and serializedString[-1] == "," then
+            serializedString = serializedString[:serializedString.len - 1]
         end if
-        serialized = serialized + "}"
+        serializedString = serializedString + "}"
     else if dataType == "list" then
-        serialized = "["
+        serializedString = "["
         for value in sessionData
-            serialized = serialized + self.serializeMap(value, excludeKeys)
-            serialized = serialized + ","
+            serializedString = serializedString + self.serializeMap(value, excludeKeys)
+            serializedString = serializedString + ","
         end for
-        if serialized.hasIndex(serialized.len - 1) and serialized[-1] == "," then
-            serialized = serialized[:serialized.len - 1]
+        if serializedString.hasIndex(serializedString.len - 1) and serializedString[-1] == "," then
+            serializedString = serializedString[:serializedString.len - 1]
         end if
-        serialized = serialized + "]"
+        serializedString = serializedString + "]"
     else if dataType == "string" then
-        serialized = char(34) + sessionData + char(34)
+        serializedString = char(34) + sessionData + char(34)
     else if dataType == "number" then
-        serialized = sessionData
+        serializedString = sessionData
     else
-        serialized = char(110) + char(117) + char(108) + char(108)
+        serializedString = char(110) + char(117) + char(108) + char(108)
     end if
 
-    return serialized
+    return serializedString
 end function
 
 Proxima.helpers.deserializeFirst = function(serialized, excludeKeys = [])
-    serialized = serialized.trim
+    serializedString = serializedString.trim
 
-    nullStr = char(110) + char(117) + char(108) + char(108)
+    nullString = char(110) + char(117) + char(108) + char(108)
 
-    if serialized.hasIndex(0) and serialized[0] == "{" and serialized.hasIndex(serialized.len - 1) and serialized[-1] == "}" then
-        return self.deserializeMap(serialized, excludeKeys)
-    else if serialized.hasIndex(0) and serialized[0] == "[" and serialized.hasIndex(serialized.len - 1) and serialized[-1] == "]" then
-        return self.deserializeList(serialized, excludeKeys)
-    else if serialized.hasIndex(0) and serialized[0] == char(34) and serialized.hasIndex(serialized.len - 1) and serialized[-1] == char(34) then
-        return serialized[1:-1]
-    else if serialized == nullStr then
+    if serializedString.hasIndex(0) and serializedString[0] == "{" and serializedString.hasIndex(serializedString.len - 1) and serializedString[-1] == "}" then
+        return self.deserializeMap(serializedString, excludeKeys)
+    else if serializedString.hasIndex(0) and serializedString[0] == "[" and serializedString.hasIndex(serializedString.len - 1) and serializedString[-1] == "]" then
+        return self.deserializeList(serializedString, excludeKeys)
+    else if serializedString.hasIndex(0) and serializedString[0] == char(34) and serializedString.hasIndex(serializedString.len - 1) and serializedString[-1] == char(34) then
+        return serializedString[1:-1]
+    else if serializedString == nullString then
         return null
     else
-        value = serialized.to_int
+        value = serializedString.to_int
         if typeof(value) == "string" then
-            value = serialized * 1
+            value = serializedString * 1
         end if
         return value
     end if
