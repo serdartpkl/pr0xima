@@ -97,9 +97,11 @@ Proxima.sessions.createSessionMap = function (sessionType, targetIP, targetRoute
     sessionMap.targetIP = targetIP
     sessionMap.targetRouter = targetRouter
 
+    sessionMap.targetLAN = null
     sessionMap.targetLANs = []
 
     if sessionType == 0 then
+        sessionMap.targetLAN = targetIP
         sessionMap.targetLANs = [targetIP]
         sessionMap.targetLibraries = []
     else if sessionType == 1 then
