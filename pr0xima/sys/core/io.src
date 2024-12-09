@@ -88,7 +88,7 @@ end function
 
 // ------------------------------------------------------------------------------------------------------------
 
-Proxima.io.colorizeUser = function (sessionType, userName)
+Proxima.io.colorizeUserName = function (sessionType, userName)
     userColor = "#FC8403"
 
     if sessionType == 1 and userName == "UNKNOWN" then userColor = "#008DFF"
@@ -100,7 +100,7 @@ Proxima.io.colorizeUser = function (sessionType, userName)
 end function
 
 Proxima.io.updateInputString = function (userName, publicIP, localIP, sessionID, sessionType)
-    userColor = self.colorizeUser(sessionType, userName)
+    userColor = self.colorizeUserName(sessionType, userName)
 
     sessionTypeName = "LOCAL"
     if sessionType == 1 then sessionTypeName = "REMOTE"
