@@ -120,7 +120,8 @@ Proxima.sessions.createSessionMap = function (sessionType, targetIP, targetRoute
 end function
 
 Proxima.sessions.addSession = function (sessionType, targetIP, targetRouter)
-    if self.getSession(targetIP) == null then
+    acquiredSession = self.getSession(targetIP)
+    if acquiredSession == null then
         createSessionMap = self.createSessionMap(sessionType, targetIP, targetRouter)
         sessionID = self.activeSessions.len + 1
         sessionDateCreated = Proxima.helpers.getParsedDate()
