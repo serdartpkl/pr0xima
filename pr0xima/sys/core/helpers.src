@@ -39,16 +39,16 @@ Proxima.helpers.formatList = function (headerList, contentList, addPrefix = fals
         end if
     end function
 
-    separatorChar = "+"
+    separatorCharacter = "+"
     headerRow = "|"
     for headerName in headerList
         headerID = headerList.indexOf(headerName)
-        separatorChar = separatorChar + "-" * (maxLengths[headerID] + 2) + "+"
+        separatorCharacter = separatorCharacter + "-" * (maxLengths[headerID] + 2) + "+"
         headerRow = headerRow + " " + padRight(headerName, maxLengths[headerID], null) + " |"
     end for
-    print(Proxima.io.addOutputEntry(prefixIndent + separatorChar))
+    print(Proxima.io.addOutputEntry(prefixIndent + separatorCharacter))
     print(Proxima.io.addOutputEntry(prefixIndent + headerRow))
-    print(Proxima.io.addOutputEntry(prefixIndent + separatorChar))
+    print(Proxima.io.addOutputEntry(prefixIndent + separatorCharacter))
 
     for contentRow in contentList
         rowString = "|"
@@ -240,74 +240,74 @@ Proxima.helpers.deserializeFirst = function(serialized, excludeKeys = [])
     else if serializedString == nullString then
         return null
     else
-        value = serializedString.to_int
-        if typeof(value) == "string" then
-            value = serializedString * 1
+        deserializedValue = serializedString.to_int
+        if typeof(deserializedValue) == "string" then
+            deserializedValue = serializedString * 1
         end if
-        return value
+        return deserializedValue
     end if
 end function
 
-Proxima.helpers.splitSerializedItems = function(serializedData, delimiter)
-    items = []
+Proxima.helpers.splitSerializedItems = function(serializedData, delimiterString)
+    deserializedItems = []
     currentItem = ""
-    depth = 0
-    for char in serializedData
-        if char == "{" or char == "[" then
-            depth = depth + 1
-        else if char == "}" or char == "]" then
-            depth = depth - 1
+    itemDepth = 0
+    for serializedString in serializedData
+        if serializedString == "{" or serializedString == "[" then
+            itemDepth = itemDepth + 1
+        else if serializedString == "}" or serializedString == "]" then
+            itemDepth = itemDepth - 1
         end if
-        if char == delimiter and depth == 0 then
-            items.push(currentItem.trim)
+        if serializedString == delimiterString and itemDepth == 0 then
+            deserializedItems.push(currentItem.trim)
             currentItem = ""
         else
-            currentItem = currentItem + char
+            currentItem = currentItem + serializedString
         end if
     end for
     if currentItem.trim != "" then
-        items.push(currentItem.trim)
+        deserializedItems.push(currentItem.trim)
     end if
-    return items
+    return deserializedItems
 end function
 
-Proxima.helpers.deserializeList = function(serialized, excludeKeys = [])
-    if not serialized.hasIndex(1) or not serialized.hasIndex(serialized.len - 2) then
+Proxima.helpers.deserializeList = function(serializedString, excludeKeys = [])
+    if not serializedString.hasIndex(1) or not serializedString.hasIndex(serializedString.len - 2) then
         return []
     end if
-    serialized = serialized[1:-1].trim
-    list = []
-    items = self.splitSerializedItems(serialized, ",")
-    for item in items
-        valueStr = item.trim
-        value = self.deserializeFirst(valueStr, excludeKeys)
-        list.push(value)
+    serializedString = serializedString[1:-1].trim
+    deserializedList = []
+    deserializedItems = self.splitSerializedItems(serializedString, ",")
+    for deserializedItem in deserializedItems
+        valueString = deserializedItem.trim
+        deserializedValue = self.deserializeFirst(valueString, excludeKeys)
+        deserializedList.push(deserializedValue)
     end for
-    return list
+    return deserializedList
 end function
 
-Proxima.helpers.deserializeMap = function(serialized, excludeKeys = [])
-    if not serialized.hasIndex(1) or not serialized.hasIndex(serialized.len - 2) then
+Proxima.helpers.deserializeMap = function(serializedString, excludeKeys = [])
+    if not serializedString.hasIndex(1) or not serializedString.hasIndex(serializedString.len - 2) then
         return {}
     end if
-    serialized = serialized[1:-1].trim
-    map = {}
-    items = self.splitSerializedItems(serialized, ",")
-    for item in items
-        keyValue = self.splitSerializedItems(item, ":")
+    serializedString = serializedString[1:-1].trim
+    deserializedMap = {}
+    deserializedItems = self.splitSerializedItems(serializedString, ",")
+    for deserializedItem in deserializedItems
+        keyValue = self.splitSerializedItems(deserializedItem, ":")
         if keyValue.len != 2 then
             continue
         end if
-        key = keyValue[0].trim
-        if key.hasIndex(0) and key[0] == char(34) and key.hasIndex(key.len - 1) and key[-1] == char(34) then
-            key = key[1:-1]
+        mapKey = keyValue[0].trim
+        if mapKey.hasIndex(0) and mapKey[0] == char(34) and mapKey.hasIndex(mapKey.len - 1) and mapKey[-1] == char(34) then
+            mapKey = mapKey[1:-1]
         end if
-        if self.isInList(key, excludeKeys) then
+        if self.isInList(mapKey, excludeKeys) then
             continue
         end if
-        valueStr = keyValue[1].trim
-        value = self.deserializeFirst(valueStr, excludeKeys)
-        map[key] = value
+        valueString = keyValue[1].trim
+        deserializedValue = self.deserializeFirst(valueString, excludeKeys)
+        deserializedMap[mapKey] = deserializedValue
     end for
-    return map
+    return deserializedMap
 end function
