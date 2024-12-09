@@ -37,7 +37,10 @@ Proxima.engine.fileSystem = [
         "name": "settings.conf",
         "is_folder": false,
         "parent_dir": home_dir + "/pr0xima",
-        "default_content": "{" + char(34) + "rshell_ip" + char(34) + ":" + char(34) + Proxima.globals.myPC.public_ip + char(34) + "," + char(34) + "rshell_port" + char(34) + ":1222," + char(34) + "rshell_proc_name" + char(34) + ":" + char(34) + "prx" + char(34) + "," + char(34) + "injection_password" + char(34) + ":" + char(34) + "123456" + char(34) + "}",
+        "default_content": "{" + char(34) + "rshell_ip" + char(34) + ":" + char(34) + Proxima.globals.myPC.public_ip + char(34) + "," + 
+                           char(34) + "rshell_port" + char(34) + ":1222," + 
+                           char(34) + "rshell_proc_name" + char(34) + ":" + char(34) + "prx" + char(34) + "," + 
+                           char(34) + "injection_password" + char(34) + ":" + char(34) + "123456" + char(34) + "}",
         "has_found": false
     }
 ]
