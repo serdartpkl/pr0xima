@@ -52,6 +52,7 @@ Proxima.sessions.reorderSessions=function(sortBy="dateCreated")
 self.activeSessions.sort(sortBy)
 idCounter=1
 targetSessionIP=null
+if self.activeSessions.len>0 then
 for recordIndex in range(0,self.activeSessions.len-1)
 if self.targetSession!=null then
 if self.activeSessions[recordIndex].id==self.targetSession then targetSessionIP=self.getSessionValue(self.targetSession,"targetIP")
@@ -61,6 +62,7 @@ end if
 if self.activeSessions[recordIndex].id!=idCounter then self.activeSessions[recordIndex].id=idCounter
 idCounter=idCounter+1
 end for
+end if
 if targetSessionIP!=null then
 acquiredSession=self.getSession(targetSessionIP)
 if acquiredSession!=null then
@@ -132,7 +134,7 @@ if deleteSaved then
 deleteRecord=Proxima.db.deleteRecord("sessions",sessionID)
 if deleteRecord then return true
 else
-if self.activeSessions.hasIndex(sessionID-1) then
+if self.activeSessions.hasIndex(sessionID-1) and acquiredSession.sessionType==1 then
 self.activeSessions.remove(sessionID-1)
 reorderSessions=self.reorderSessions
 if reorderSessions then return true
