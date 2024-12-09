@@ -261,10 +261,7 @@ Proxima.engine.initializeLocalSession = function ()
     if savedSessionIndex != null then
         savedSessionID = savedSessionIndex + 1
         loadSession = Proxima.sessions.loadSession(savedSessionID)
-        if loadSession then
-            setRouter = Proxima.sessions.setSessionValue(Proxima.sessions.targetSession, "targetRouter", get_router())
-            if setRouter then return true
-        end if
+        if loadSession then return true
     else
         createLocalSession = Proxima.sessions.addSession(0, localIP, get_router())
         if createLocalSession != null and typeof(createLocalSession) == "number" then
