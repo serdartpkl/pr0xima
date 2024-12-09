@@ -63,7 +63,7 @@ Proxima.helpers.formatList = function (headerList, contentList, addPrefix = fals
             rowString = rowString + " " + padRight(contentRow[headerID], maxLengths[headerID], rowColor) + " |"
         end for
         print(Proxima.io.addOutputEntry(prefixIndent + rowString))
-        print(Proxima.io.addOutputEntry(prefixIndent + separator))
+        print(Proxima.io.addOutputEntry(prefixIndent + separatorCharacter))
     end for
 end function
 
@@ -90,8 +90,8 @@ end function
 Proxima.helpers.collectFiles = function (parentDir)
     allFiles = []
 
-    scanDir = function (dir)
-        getFile = Proxima.globals.myPC.File(dir)
+    scanDirectory = function (givenDirectory)
+        getFile = Proxima.globals.myPC.File(givenDirectory)
         if getFile.is_folder then
             acquireFiles = getFile.get_files()
             if acquireFiles.len > 0 then
@@ -102,7 +102,7 @@ Proxima.helpers.collectFiles = function (parentDir)
             acquireFolders = getFile.get_folders()
             if acquireFolders.len > 0 then
                 for acquiredFolder in acquireFolders 
-                    scanDir(acquiredFolder.path)
+                    scanDirectory(acquiredFolder.path)
                 end for
             end if
         else
@@ -110,7 +110,7 @@ Proxima.helpers.collectFiles = function (parentDir)
         end if
     end function
 
-    scanDir(parentDir)
+    scanDirectory(parentDir)
 
     return allFiles
 end function
@@ -226,7 +226,7 @@ Proxima.helpers.serializeMap = function(sessionData, excludeKeys = [])
     return serializedString
 end function
 
-Proxima.helpers.deserializeFirst = function(serialized, excludeKeys = [])
+Proxima.helpers.deserializeFirst = function(serializedString, excludeKeys = [])
     serializedString = serializedString.trim
 
     nullString = char(110) + char(117) + char(108) + char(108)

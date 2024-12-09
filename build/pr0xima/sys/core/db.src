@@ -26,8 +26,10 @@ if self.getDatabase(databaseName)==null then
 createDatabaseFile=Proxima.globals.myPC.touch(home_dir+"/pr0xima/databases",databaseName+".db")
 if typeof(createDatabaseFile)!="string" then
 getDatabaseFile=Proxima.globals.myPC.File(home_dir+"/pr0xima/databases/"+databaseName+".db")
+if getDatabaseFile!=null then
 setDatabaseFile=getDatabaseFile.set_content("{"+char(34)+"records"+char(34)+":[]}")
 if setDatabaseFile==1 then return true
+end if
 end if
 end if
 return null

@@ -4,23 +4,23 @@ Proxima.io.ioEntries=[]
 Proxima.io.output={}
 Proxima.io.output.line="+----------------------------------------------------+"
 // ------------------------------------------------------------------------------------------------------------
-Proxima.io.output.colorize=function(txt,color)
-return "<color="+color+">"+txt+"</color>"
+Proxima.io.output.colorize=function(givenString,givenColor)
+return "<color="+givenColor+">"+givenString+"</color>"
 end function
-Proxima.io.output.info=function(txt)
-return self.colorize("[i] "+txt,"#0091FF")
+Proxima.io.output.info=function(givenString)
+return self.colorize("[i] "+givenString,"#0091FF")
 end function
-Proxima.io.output.progress=function(txt)
-return self.colorize("[*] "+txt,"#00FFBB")
+Proxima.io.output.progress=function(givenString)
+return self.colorize("[*] "+givenString,"#00FFBB")
 end function
-Proxima.io.output.warning=function(txt)
-return self.colorize("[!] "+txt,"#FFDD00")
+Proxima.io.output.warning=function(givenString)
+return self.colorize("[!] "+givenString,"#FFDD00")
 end function
-Proxima.io.output.error=function(txt)
-return self.colorize("[!] "+txt,"#FF1548")
+Proxima.io.output.error=function(givenString)
+return self.colorize("[!] "+givenString,"#FF1548")
 end function
-Proxima.io.output.success=function(txt)
-return self.colorize("[+] "+txt,"#08FF57")
+Proxima.io.output.success=function(givenString)
+return self.colorize("[+] "+givenString,"#08FF57")
 end function
 // ------------------------------------------------------------------------------------------------------------
 Proxima.io.addInputEntry=function(userCommand)
@@ -70,12 +70,16 @@ end for
 end if
 end function
 // ------------------------------------------------------------------------------------------------------------
-Proxima.io.updateInputString=function(userName,publicIP,localIP,sessionID,sessionType)
+Proxima.io.colorizeUser=function(sessionType,userName)
 userColor="#FC8403"
 if sessionType==1 and userName=="UNKNOWN" then userColor="#008DFF"
 if sessionType==1 and userName=="GUEST" then userColor="#FFDD00"
 if sessionType==1 and userName=="USER" then userColor="#08FF57"
 if sessionType==1 and userName=="ROOT" then userColor="#9370DB"
+return userColor
+end function
+Proxima.io.updateInputString=function(userName,publicIP,localIP,sessionID,sessionType)
+userColor=self.colorizeUser(sessionType,userName)
 sessionTypeName="LOCAL"
 if sessionType==1 then sessionTypeName="REMOTE"
 inputString="<pos=20><voffset=0.25em><color=#FFC466><pos=8>——["+"<voffset=0.2em><color="+userColor+">"+userName+"</color>"+"<voffset=0.2em>]——[>"+"<voffset=0.2em><color=#FF1548>"+publicIP+"</color>"+"<voffset=0.2em><color=#999999>->"+localIP+"</color>"+"<voffset=0.2em>]——["+"<voffset=0.2em><color=#08FF57>SID:"+sessionID+"|"+sessionType+"</color>]"+"<voffset=-0.2em><pos=0>/<pos=0><voffset=-1.05em>\<pos=4.95>"+"<pos=8><voffset=-1.45em>——<#c3201f>$<color=#008DFF>> </color></color></color>"
