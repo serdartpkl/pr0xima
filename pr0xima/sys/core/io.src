@@ -8,28 +8,28 @@ Proxima.io.output.line = "+----------------------------------------------------+
 
 // ------------------------------------------------------------------------------------------------------------
 
-Proxima.io.output.colorize = function (txt, color)
-    return "<color=" + color + ">" + txt + "</color>"
+Proxima.io.output.colorize = function (givenString, givenColor)
+    return "<color=" + givenColor + ">" + givenString + "</color>"
 end function
 
-Proxima.io.output.info = function (txt)
-    return self.colorize("[i] " + txt, "#0091FF")
+Proxima.io.output.info = function (givenString)
+    return self.colorize("[i] " + givenString, "#0091FF")
 end function
 
-Proxima.io.output.progress = function (txt)
-    return self.colorize("[*] " + txt, "#00FFBB")
+Proxima.io.output.progress = function (givenString)
+    return self.colorize("[*] " + givenString, "#00FFBB")
 end function
 
-Proxima.io.output.warning = function (txt)
-    return self.colorize("[!] " + txt, "#FFDD00")
+Proxima.io.output.warning = function (givenString)
+    return self.colorize("[!] " + givenString, "#FFDD00")
 end function
 
-Proxima.io.output.error = function (txt)
-    return self.colorize("[!] " + txt, "#FF1548")
+Proxima.io.output.error = function (givenString)
+    return self.colorize("[!] " + givenString, "#FF1548")
 end function
 
-Proxima.io.output.success = function (txt)
-    return self.colorize("[+] " + txt, "#08FF57")
+Proxima.io.output.success = function (givenString)
+    return self.colorize("[+] " + givenString, "#08FF57")
 end function
 
 // ------------------------------------------------------------------------------------------------------------
