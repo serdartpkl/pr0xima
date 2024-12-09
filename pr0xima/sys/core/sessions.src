@@ -64,15 +64,17 @@ Proxima.sessions.reorderSessions = function (sortBy = "dateCreated")
     self.activeSessions.sort(sortBy)
     idCounter = 1
     targetSessionIP = null
-    for recordIndex in range(0, self.activeSessions.len - 1)
-        if self.targetSession != null then
-            if self.activeSessions[recordIndex].id == self.targetSession then targetSessionIP = self.getSessionValue(self.targetSession, "targetIP")
-        else
-            targetSessionIP = self.activeSessions[recordIndex].targetIP
-        end if
-        if self.activeSessions[recordIndex].id != idCounter then self.activeSessions[recordIndex].id = idCounter
-        idCounter = idCounter + 1
-    end for
+    if self.activeSessions.len > 0 then
+        for recordIndex in range(0, self.activeSessions.len - 1)
+            if self.targetSession != null then
+                if self.activeSessions[recordIndex].id == self.targetSession then targetSessionIP = self.getSessionValue(self.targetSession, "targetIP")
+            else
+                targetSessionIP = self.activeSessions[recordIndex].targetIP
+            end if
+            if self.activeSessions[recordIndex].id != idCounter then self.activeSessions[recordIndex].id = idCounter
+            idCounter = idCounter + 1
+        end for
+    end if
     if targetSessionIP != null then
         acquiredSession = self.getSession(targetSessionIP)
         if acquiredSession != null then

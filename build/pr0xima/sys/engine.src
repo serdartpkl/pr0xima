@@ -1,11 +1,11 @@
 Proxima.engine={}
-Proxima.engine.fileSystem=[{"name":"pr0xima","folder":true,"parent_dir":home_dir,"has_found":false},{"name":"databases","folder":true,"parent_dir":home_dir+"/pr0xima","has_found":false},{"name":"sessions.db","folder":false,"parent_dir":home_dir+"/pr0xima/databases","default_content":"{"+char(34)+"records"+char(34)+":[]"+"}","has_found":false},{"name":"exploits.db","folder":false,"parent_dir":home_dir+"/pr0xima/databases","default_content":"{"+char(34)+"records"+char(34)+":[]"+"}","has_found":false},{"name":"downloads","folder":true,"parent_dir":home_dir+"/pr0xima","has_found":false},{"name":"settings.conf","folder":false,"parent_dir":home_dir+"/pr0xima","default_content":"{"+char(34)+"rshell_ip"+char(34)+":"+char(34)+Proxima.globals.myPC.public_ip+char(34)+","+char(34)+"rshell_port"+char(34)+":1222,"+char(34)+"rshell_proc_name"+char(34)+":"+char(34)+"prx"+char(34)+","+char(34)+"injection_password"+char(34)+":"+char(34)+"123456"+char(34)+"}","has_found":false}]
+Proxima.engine.fileSystem=[{"name":"pr0xima","is_folder":true,"parent_dir":home_dir,"has_found":false},{"name":"databases","is_folder":true,"parent_dir":home_dir+"/pr0xima","has_found":false},{"name":"sessions.db","is_folder":false,"parent_dir":home_dir+"/pr0xima/databases","default_content":"{"+char(34)+"records"+char(34)+":[]"+"}","has_found":false},{"name":"exploits.db","is_folder":false,"parent_dir":home_dir+"/pr0xima/databases","default_content":"{"+char(34)+"records"+char(34)+":[]"+"}","has_found":false},{"name":"downloads","is_folder":true,"parent_dir":home_dir+"/pr0xima","has_found":false},{"name":"settings.conf","is_folder":false,"parent_dir":home_dir+"/pr0xima","default_content":"{"+char(34)+"rshell_ip"+char(34)+":"+char(34)+Proxima.globals.myPC.public_ip+char(34)+","+char(34)+"rshell_port"+char(34)+":1222,"+char(34)+"rshell_proc_name"+char(34)+":"+char(34)+"prx"+char(34)+","+char(34)+"injection_password"+char(34)+":"+char(34)+"123456"+char(34)+"}","has_found":false}]
 // ------------------------------------------------------------------------------------------------------------
 Proxima.engine.scanFileSystem=function
 for systemFile in self.fileSystem
 getFile=Proxima.globals.myPC.File(systemFile.parent_dir+"/"+systemFile.name)
 if getFile!=null then
-if systemFile.folder then
+if systemFile.is_folder then
 if is_folder(getFile) then systemFile.has_found=true
 else
 systemFile.has_found=true
@@ -14,29 +14,29 @@ end if
 end for
 end function
 Proxima.engine.createMissingFiles=function
-isProcessCompleted=true
+createdMissingFiles=true
 homeFolder=Proxima.globals.myPC.File(home_dir)
-if homeFolder.has_permission("r") and homeFolder.has_permission("w") then
+if homeFolder.has_permission("w") then
 for systemFile in self.fileSystem
 if systemFile.has_found==false then
-if systemFile.folder then
+if systemFile.is_folder then
 createFolder=Proxima.globals.myPC.create_folder(systemFile.parent_dir,systemFile.name)
-if createFolder==0 or typeof(createFolder)=="string" then isProcessCompleted=false
+if createFolder==0 or typeof(createFolder)=="string" then createdMissingFiles=false
 else
 createFile=Proxima.globals.myPC.touch(systemFile.parent_dir,systemFile.name)
 if createFile==1 then
 setDefaultContent=Proxima.globals.myPC.File(systemFile.parent_dir+"/"+systemFile.name).set_content(systemFile.default_content)
-if setDefaultContent==0 or typeof(setDefaultContent)=="string" then isProcessCompleted=false
+if setDefaultContent==0 or typeof(setDefaultContent)=="string" then createdMissingFiles=false
 else
-isProcessCompleted=false
+createdMissingFiles=false
 end if
 end if
 end if
 end for
 else
-isProcessCompleted=false
+createdMissingFiles=false
 end if
-return isProcessCompleted
+return createdMissingFiles
 end function
 Proxima.engine.getSettings=function
 settingsFile=Proxima.globals.myPC.File(home_dir+"/pr0xima/settings.conf")
@@ -66,7 +66,7 @@ for libraryName in libraryMap.indexes
 for libraryLocation in Proxima.globals.libraryLocations
 includeLibrary=include_lib(libraryLocation+"/"+libraryName)
 Proxima.io.clearScreen
-wait(0.35)
+wait(0.5)
 if includeLibrary!=null then
 libraryMap[libraryName]=includeLibrary
 break
@@ -200,10 +200,7 @@ savedSessionIndex=Proxima.sessions.searchSessions("targetIP",localIP,true)
 if savedSessionIndex!=null then
 savedSessionID=savedSessionIndex+1
 loadSession=Proxima.sessions.loadSession(savedSessionID)
-if loadSession then
-setRouter=Proxima.sessions.setSessionValue(Proxima.sessions.targetSession,"targetRouter",get_router)
-if setRouter then return true
-end if
+if loadSession then return true
 else
 createLocalSession=Proxima.sessions.addSession(0,localIP,get_router)
 if createLocalSession!=null and typeof(createLocalSession)=="number" then
