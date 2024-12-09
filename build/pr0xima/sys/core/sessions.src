@@ -12,18 +12,18 @@ return acquiredSessions
 end function
 Proxima.sessions.getSession=function(sessionKey,getSaved=false)
 acquiredSessions=self.getSessions(getSaved)
-acquiredSession=null
+foundSession=null
 if acquiredSessions!=null and acquiredSessions.len>0 then
 for acquiredSession in acquiredSessions
 checkKey="id"
 if typeof(sessionKey)=="string" then checkKey="targetIP"
 if acquiredSession[checkKey]==sessionKey then
-acquiredSession=acquiredSession
+foundSession=acquiredSession
 break
 end if
 end for
 end if
-return acquiredSession
+return foundSession
 end function
 Proxima.sessions.setSession=function(sessionID)
 acquiredSession=self.getSession(sessionID)
@@ -53,17 +53,18 @@ self.activeSessions.sort(sortBy)
 idCounter=1
 targetSessionIP=null
 for recordIndex in range(0,self.activeSessions.len-1)
-targetSessionIP=self.activeSessions[recordIndex].targetIP
 if self.targetSession!=null then
 if self.activeSessions[recordIndex].id==self.targetSession then targetSessionIP=self.activeSessions[self.targetSession-1].targetIP
+else
+targetSessionIP=self.activeSessions[recordIndex].targetIP
 end if
 if self.activeSessions[recordIndex].id!=idCounter then self.activeSessions[recordIndex].id=idCounter
 idCounter=idCounter+1
 end for
 if targetSessionIP!=null then
-getSession=self.getSession(targetSessionIP)
-if getSession!=null then
-setSession=self.setSession(getSession.id)
+acquiredSession=self.getSession(targetSessionIP)
+if acquiredSession!=null then
+setSession=self.setSession(acquiredSession.id)
 if setSession then return true
 end if
 end if
@@ -81,13 +82,13 @@ Proxima.sessions.createSessionMap=function(sessionType,targetIP,targetRouter)
 sessionMap={}
 sessionMap.targetIP=targetIP
 sessionMap.targetRouter=targetRouter
-sessionMap.targetLAN=null
 sessionMap.targetLANs=[]
 if sessionType==0 then
 sessionMap.targetLAN=targetIP
 sessionMap.targetLANs=[targetIP]
 sessionMap.targetLibraries=[]
 else if sessionType==1 then
+sessionMap.targetLAN=null
 sessionMap.targetPorts=[]
 end if
 sessionMap.sessionType=sessionType
@@ -106,6 +107,7 @@ createSessionMap=self.createSessionMap(sessionType,targetIP,targetRouter)
 sessionID=self.activeSessions.len+1
 sessionDateCreated=Proxima.helpers.getParsedDate
 sessionMap={"id":sessionID}+createSessionMap+{"dateCreated":sessionDateCreated}
+print(Proxima.io.addOutputEntry(sessionMap))
 self.activeSessions.push(sessionMap)
 return sessionMap.id
 end if

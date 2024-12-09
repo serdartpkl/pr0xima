@@ -51,7 +51,7 @@ Proxima.ports.checkPorts = function (targetIP = null)
         if is_lan_ip(targetIP) then mainIP = targetIP
         scannedPorts = targetRouter.device_ports(mainIP)
         createRemoteSession = Proxima.sessions.addSession(1, targetIP, targetRouter)
-        if createRemoteSession != null and typeof(createRemoteSession) == "number" then
+        if createRemoteSession != null then
             setActiveSession = Proxima.sessions.setSession(createRemoteSession)
             if setActiveSession then
                 Proxima.io.inputString = Proxima.io.output.colorize("<b>pr0xima</b>", "#FFC466") + Proxima.io.output.colorize("@", "#08FF57") + Proxima.io.output.colorize("[" + targetIP + "]", "#FF1548") + Proxima.io.output.colorize("> ", "#008DFF")
