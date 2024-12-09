@@ -115,7 +115,7 @@ Proxima.engine.includeLibraries = function (libraryList)
         for libraryLocation in Proxima.globals.libraryLocations
             includeLibrary = include_lib(libraryLocation + "/" + libraryName)
             Proxima.io.clearScreen()
-            wait(0.35)
+            wait(0.5)
             if includeLibrary != null then
                 libraryMap[libraryName] = includeLibrary
                 break
