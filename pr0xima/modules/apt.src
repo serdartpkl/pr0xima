@@ -8,7 +8,7 @@ end function
 
 Proxima.apt.getRepositories = function (sourcesFile)
     repositoryIPs = []
-    deserializedSource = Proxima.helpers.deserializeMap(sourcesFile.get_content)
+    deserializedSource = Proxima.serialization.deserializeMap(sourcesFile.get_content)
     if deserializedSource.sourceList.len > 0 then
         for repositoryIP in deserializedSource.sourceList.indexes
             repositoryIPs.push(repositoryIP)
