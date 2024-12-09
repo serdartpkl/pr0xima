@@ -54,7 +54,7 @@ idCounter=1
 targetSessionIP=null
 for recordIndex in range(0,self.activeSessions.len-1)
 if self.targetSession!=null then
-if self.activeSessions[recordIndex].id==self.targetSession then targetSessionIP=self.activeSessions[self.targetSession-1].targetIP
+if self.activeSessions[recordIndex].id==self.targetSession then targetSessionIP=self.getSessionValue(self.targetSession,"targetIP")
 else
 targetSessionIP=self.activeSessions[recordIndex].targetIP
 end if
@@ -82,13 +82,13 @@ Proxima.sessions.createSessionMap=function(sessionType,targetIP,targetRouter)
 sessionMap={}
 sessionMap.targetIP=targetIP
 sessionMap.targetRouter=targetRouter
+sessionMap.targetLAN=null
 sessionMap.targetLANs=[]
 if sessionType==0 then
 sessionMap.targetLAN=targetIP
 sessionMap.targetLANs=[targetIP]
 sessionMap.targetLibraries=[]
 else if sessionType==1 then
-sessionMap.targetLAN=null
 sessionMap.targetPorts=[]
 end if
 sessionMap.sessionType=sessionType
@@ -107,7 +107,6 @@ createSessionMap=self.createSessionMap(sessionType,targetIP,targetRouter)
 sessionID=self.activeSessions.len+1
 sessionDateCreated=Proxima.helpers.getParsedDate
 sessionMap={"id":sessionID}+createSessionMap+{"dateCreated":sessionDateCreated}
-print(Proxima.io.addOutputEntry(sessionMap))
 self.activeSessions.push(sessionMap)
 return sessionMap.id
 end if
