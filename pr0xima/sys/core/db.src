@@ -52,7 +52,7 @@ end function
 
 Proxima.db.getRecords = function (databaseName)
     databaseFile = self.getDatabase(databaseName)
-    if databaseFile != null then return Proxima.helpers.deserializeMap(databaseFile.get_content()).records
+    if databaseFile != null then return Proxima.serialization.deserializeMap(databaseFile.get_content()).records
     return null
 end function
 
@@ -69,7 +69,7 @@ end function
 Proxima.db.setRecords = function (databaseName, databaseRecords)
     databaseFile = self.getDatabase(databaseName)
     if databaseFile != null then
-        serializedRecords = Proxima.helpers.serializeMap({"records": databaseRecords})
+        serializedRecords = Proxima.serialization.serializeMap({"records": databaseRecords})
         setRecords = databaseFile.set_content(serializedRecords)
         if setRecords == 1 then return true
     end if
