@@ -81,7 +81,7 @@ Matchers.notToBeNull = function (expectedValue)
     actualValue = self.actualValue
     if actualValue == null then actualValue = "NULL"
     
-    self.printTestOutput(testResult, actualValue, "NOT_NULL", true)
+    self.printTestOutput(testResult, actualValue, "NULL", true)
 end function
 
 Matchers.toBeTruthy = function ()
@@ -113,7 +113,7 @@ Matchers.notToBeTruthy = function ()
         actualValue = "NULL"
     end if
 
-    self.printTestOutput(testResult, actualValue, "NOT_TRUE", true)
+    self.printTestOutput(testResult, actualValue, "TRUE", true)
 end function
 
 Matchers.toBeFalsy = function ()
@@ -145,7 +145,7 @@ Matchers.notToBeFalsy = function ()
         actualValue = "NULL"
     end if
 
-    self.printTestOutput(testResult, actualValue, "NOT_FALSE", true)
+    self.printTestOutput(testResult, actualValue, "FALSE", true)
 end function
 
 expect = function (actualValue)
