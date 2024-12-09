@@ -6,26 +6,26 @@ Proxima.sessions.activeSessions = []
 // ------------------------------------------------------------------------------------------------------------
 
 Proxima.sessions.getSessions = function (getSaved = false)
-    sessionsList = self.activeSessions
+    acquiredSessions = self.activeSessions
     if getSaved then
         getSavedSessions = Proxima.db.getRecords("sessions")
-        if getSavedSessions != null then sessionsList = getSavedSessions
+        if getSavedSessions != null then acquiredSessions = getSavedSessions
     end if
-    return sessionsList
+    return acquiredSessions
 end function
 
 Proxima.sessions.getSession = function (sessionKey, getSaved = false)
-    sessionsList = self.getSessions(getSaved)
+    acquiredSessions = self.getSessions(getSaved)
     
     acquiredSession = null
     
-    if sessionsList != null and sessionsList.len > 0 then
-        for targetSession in sessionsList
+    if acquiredSessions != null and acquiredSessions.len > 0 then
+        for acquiredSession in acquiredSessions
             checkKey = "id"
             if typeof(sessionKey) == "string" then checkKey = "targetIP"
 
-            if targetSession[checkKey] == sessionKey then
-                acquiredSession = targetSession
+            if acquiredSession[checkKey] == sessionKey then
+                acquiredSession = acquiredSession
                 break
             end if
         end for
@@ -65,9 +65,9 @@ Proxima.sessions.reorderSessions = function (sortBy = "dateCreated")
     idCounter = 1
     targetSessionIP = null
     for recordIndex in range(0, self.activeSessions.len - 1)
-        targetSessionIP = self.activeSessions[recordIndex].id
+        targetSessionIP = self.activeSessions[recordIndex].targetIP
         if self.targetSession != null then
-            if self.activeSessions[recordIndex].id == self.targetSession then targetSessionIP = self.activeSessions[recordIndex].targetIP
+            if self.activeSessions[recordIndex].id == self.targetSession then targetSessionIP = self.activeSessions[self.targetSession - 1].targetIP
         end if
         if self.activeSessions[recordIndex].id != idCounter then self.activeSessions[recordIndex].id = idCounter
         idCounter = idCounter + 1
