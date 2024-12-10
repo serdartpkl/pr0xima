@@ -37,16 +37,34 @@ Proxima.ports.scanRouter = function ()
 end function
 
 Proxima.ports.checkPorts = function (targetIP = null)
-    hasScanned = Proxima.helpers.indexesOf(Proxima.sessions.activeSessions, "targetIP", targetIP)
-    sessionID = hasScanned + 1
-    if hasScanned != null and targetIP == Proxima.sessions.getSessionValue(sessionID, "targetIP") then
+    foundedIndex = Proxima.helpers.indexesOf(Proxima.sessions.activeSessions, "targetIP", targetIP)
+    sessionID = foundedIndex + 1
+    if foundedIndex != null and targetIP == Proxima.sessions.getSessionValue(sessionID, "targetIP") then
         print(Proxima.io.addOutputEntry(Proxima.io.output.info("You've already created an active session with given IP. <b>[ID:" + (sessionID) + "]</b>")))
-        Proxima.sessions.setSession(sessionID)
-        print(Proxima.io.addOutputEntry(Proxima.io.output.success("Switched to active session successfully! <b>[ID:" + (sessionID) + "]</b>")))
-        Proxima.io.inputString = Proxima.io.output.colorize("<b>pr0xima</b>", "#FFC466") + Proxima.io.output.colorize("@", "#08FF57") + Proxima.io.output.colorize("[" + Proxima.sessions.getSessionValue(sessionID, "targetIP") + "]", "#FF1548") + Proxima.io.output.colorize("> ", "#008DFF")
-        return true
+        setSession = Proxima.sessions.setSession(sessionID)
+        if setSession then
+            print(Proxima.io.addOutputEntry(Proxima.io.output.success("Switched to active session successfully! <b>[ID:" + (sessionID) + "]</b>")))
+            Proxima.io.inputString = Proxima.io.output.colorize("<b>pr0xima</b>", "#FFC466") + Proxima.io.output.colorize("@", "#08FF57") + Proxima.io.output.colorize("[" + Proxima.sessions.getSessionValue(foundedIndex + 1, "targetIP") + "]", "#FF1548") + Proxima.io.output.colorize("> ", "#008DFF")
+            return true
+        end if
     else
         targetRouter = self.createRouter(targetIP)
+        if targetRouter != null then
+            publicIP = targetRouter.public_ip
+            mainRouterIP = get_router(publicIP).local_ip
+            candidateIP = mainRouterIP
+            if is_lan_ip(targetIP) then candidateIP = targetIP
+
+            scannedPorts = targetRouter.device_ports(mainIP)
+            createRemoteSession = Proxima.sessions.addSession(1, targetIP, targetRouter)
+            if createRemoteSession != null then
+                setActiveSession = Proxima.sessions.setSession(createRemoteSession)
+                if setActiveSession then
+                else
+                end if
+            else
+            end if
+        end if
         mainIP = targetRouter.local_ip
         if is_lan_ip(targetIP) then mainIP = targetIP
         scannedPorts = targetRouter.device_ports(mainIP)
