@@ -263,12 +263,12 @@ Proxima.sessions.isSessionLocal = function (sessionID, checkSaved = false)
 end function
 
 Proxima.sessions.isSessionRemote = function (sessionID, checkSaved = false)
-acquiredSession = self.getSession(sessionID, checkSaved)
-if acquiredSession != null then  
-    if acquiredSession.sessionType == 1 then return true
-    if acquiredSession.sessionType == 0 then return false
-end if
-return null
+    acquiredSession = self.getSession(sessionID, checkSaved)
+    if acquiredSession != null then  
+        if acquiredSession.sessionType == 1 then return true
+        if acquiredSession.sessionType == 0 then return false
+    end if
+    return null
 end function
 
 // ------------------------------------------------------------------------------------------------------------
