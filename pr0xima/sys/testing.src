@@ -29,7 +29,7 @@ Matchers.convertActualValue = function (actualValue, onlyNullCheck = false)
 
     if onlyNullCheck == false and actualValue == 1 then
         convertedValue = "TRUE"
-    else onlyNullCheck == false and if actualValue == 0 then
+    else if onlyNullCheck == false and actualValue == 0 then
         convertedValue = "FALSE"
     else if actualValue == null then
         convertedValue = "NULL"

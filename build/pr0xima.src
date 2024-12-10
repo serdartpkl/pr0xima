@@ -23,4 +23,4 @@ import_code("/home/pr0ximan0va/Scripts/pr0xima/sys/tests/test_sessions.src")
 import_code("/home/pr0ximan0va/Scripts/pr0xima/sys/engine.src")
 import_code("/home/pr0ximan0va/Scripts/pr0xima/init.src")
 prx=new Proxima
-prx.engine.startEngine
+prx.engine.startEngine(true)
