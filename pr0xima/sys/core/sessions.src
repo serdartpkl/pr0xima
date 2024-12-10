@@ -158,10 +158,12 @@ Proxima.sessions.deleteSession = function (sessionID, deleteSaved = false)
             deleteRecord = Proxima.db.deleteRecord("sessions", sessionID)
             if deleteRecord then return true
         else
-            if self.activeSessions.hasIndex(sessionID - 1) and acquiredSession.sessionType == 1 then
-                self.activeSessions.remove(sessionID - 1)
-                reorderSessions = self.reorderSessions()
-                if reorderSessions then return true
+            if self.activeSessions.hasIndex(sessionID - 1) then
+                if acquiredSession.sessionType == 1 then
+                    self.activeSessions.remove(sessionID - 1)
+                    reorderSessions = self.reorderSessions()
+                    if reorderSessions then return true
+                end if
             end if
         end if
     end if
