@@ -121,6 +121,14 @@ Proxima.sessions.createSessionMap = function (sessionType, targetIP, targetRoute
 
     sessionMap.payloadInjection = 1
 
+    sessionMap.systemInformation = {
+        "domainName": null,
+        "companyName": null,
+        "adminName": null,
+        "adminEmail": null,
+        "adminPhone": null
+    }
+
     return sessionMap
 end function
 
