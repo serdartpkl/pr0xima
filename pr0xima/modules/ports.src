@@ -66,8 +66,11 @@ Proxima.ports.checkPorts = function (targetIP = null)
                     else
                         for scannedPort in scannedPorts
                             if scannedPort.port_number != 8080 then
+                                createdPortMap = self.createPortMap(scannedPort, targetRouter)
+                                Proxima.sessions.addMapToSession(Proxima.sessions.targetSession, "targetPorts", createdPortMap)
                             end if
                         end for
+                        return true
                     end if
                 else
                     print(Proxima.io.addOutputEntry(Proxima.io.output.error("Couldn't switch to created session due to unexpected error.")))
@@ -80,39 +83,19 @@ Proxima.ports.checkPorts = function (targetIP = null)
         end if
     end if
     return null
-        mainIP = targetRouter.local_ip
-        if is_lan_ip(targetIP) then mainIP = targetIP
-        scannedPorts = targetRouter.device_ports(mainIP)
-        createRemoteSession = Proxima.sessions.addSession(1, targetIP, targetRouter)
-        if createRemoteSession != null then
-            setActiveSession = Proxima.sessions.setSession(createRemoteSession)
-            if setActiveSession then
-                
-                if scannedPorts.len == 1 or scannedPorts == null then
-                    return false
-                else
-                    for scannedPort in scannedPorts
-                        if scannedPort.port_number != 8080 then
-                            portID = Proxima.sessions.getSessionValue(Proxima.sessions.targetSession, "targetPorts").len + 1
-                            portNumber = scannedPort.port_number
-                            portState = "OPEN"
-                            if is_closed(scannedPort) then portState = "CLOSED"
-                            portInfo = targetRouter.port_info(scannedPort).split(" ")
-                            portService = portInfo[0]
-                            portVersion = portInfo[1]
-                            portLanIP = scannedPort.get_lan_ip
-                            Proxima.sessions.addMapToSession(Proxima.sessions.targetSession, "targetPorts", { "id": portID, "port_number": portNumber, "state": portState, "service": portService, "version": portVersion, "lan_ip": portLanIP })
-                        end if
-                    end for
-                    return true
-                end if
-            else
-                
-            end if
-        else
-            
+    for scannedPort in scannedPorts
+        if scannedPort.port_number != 8080 then
+            portID = Proxima.sessions.getSessionValue(Proxima.sessions.targetSession, "targetPorts").len + 1
+            portNumber = scannedPort.port_number
+            portState = "OPEN"
+            if is_closed(scannedPort) then portState = "CLOSED"
+            portInfo = targetRouter.port_info(scannedPort).split(" ")
+            portService = portInfo[0]
+            portVersion = portInfo[1]
+            portLanIP = scannedPort.get_lan_ip
+            Proxima.sessions.addMapToSession(Proxima.sessions.targetSession, "targetPorts", { "id": portID, "port_number": portNumber, "state": portState, "service": portService, "version": portVersion, "lan_ip": portLanIP })
         end if
-    end if
+    end for
 end function
 
 Proxima.ports.dumpPort = function (targetPort)
