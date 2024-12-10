@@ -1,0 +1,126 @@
+Proxima.serialization={}
+// ------------------------------------------------------------------------------------------------------------
+Proxima.serialization.isInList=function(givenItem,givenList)
+for listItem in givenList
+if listItem==givenItem then
+return true
+end if
+end for
+return false
+end function
+Proxima.serialization.serializeMap=function(sessionData,excludeKeys=[])
+dataType=typeof(sessionData)
+if dataType=="map" then
+serializedString="{"
+for mapKey in sessionData.indexes
+if self.isInList(mapKey,excludeKeys) then
+continue
+end if
+mapValue=sessionData[mapKey]
+serializedString=serializedString+char(34)+mapKey+char(34)+":"
+serializedString=serializedString+self.serializeMap(mapValue,excludeKeys)
+serializedString=serializedString+","
+end for
+if serializedString.hasIndex(serializedString.len-1) and serializedString[-1]=="," then
+serializedString=serializedString[:serializedString.len-1]
+end if
+serializedString=serializedString+"}"
+else if dataType=="list" then
+serializedString="["
+for value in sessionData
+serializedString=serializedString+self.serializeMap(value,excludeKeys)
+serializedString=serializedString+","
+end for
+if serializedString.hasIndex(serializedString.len-1) and serializedString[-1]=="," then
+serializedString=serializedString[:serializedString.len-1]
+end if
+serializedString=serializedString+"]"
+else if dataType=="string" then
+serializedString=char(34)+sessionData+char(34)
+else if dataType=="number" then
+serializedString=sessionData
+else
+serializedString=char(110)+char(117)+char(108)+char(108)
+end if
+return serializedString
+end function
+Proxima.serialization.deserializeFirst=function(serializedString,excludeKeys=[])
+serializedString=serializedString.trim
+nullString=char(110)+char(117)+char(108)+char(108)
+if serializedString.hasIndex(0) and serializedString[0]=="{" and serializedString.hasIndex(serializedString.len-1) and serializedString[-1]=="}" then
+return self.deserializeMap(serializedString,excludeKeys)
+else if serializedString.hasIndex(0) and serializedString[0]=="[" and serializedString.hasIndex(serializedString.len-1) and serializedString[-1]=="]" then
+return self.deserializeList(serializedString,excludeKeys)
+else if serializedString.hasIndex(0) and serializedString[0]==char(34) and serializedString.hasIndex(serializedString.len-1) and serializedString[-1]==char(34) then
+return serializedString[1:-1]
+else if serializedString==nullString then
+return null
+else
+deserializedValue=serializedString.to_int
+if typeof(deserializedValue)=="string" then
+deserializedValue=serializedString*1
+end if
+return deserializedValue
+end if
+end function
+Proxima.serialization.splitSerializedItems=function(serializedData,delimiterString)
+deserializedItems=[]
+currentItem=""
+itemDepth=0
+for serializedString in serializedData
+if serializedString=="{" or serializedString=="[" then
+itemDepth=itemDepth+1
+else if serializedString=="}" or serializedString=="]" then
+itemDepth=itemDepth-1
+end if
+if serializedString==delimiterString and itemDepth==0 then
+deserializedItems.push(currentItem.trim)
+currentItem=""
+else
+currentItem=currentItem+serializedString
+end if
+end for
+if currentItem.trim!="" then
+deserializedItems.push(currentItem.trim)
+end if
+return deserializedItems
+end function
+Proxima.serialization.deserializeList=function(serializedString,excludeKeys=[])
+if not serializedString.hasIndex(1) or not serializedString.hasIndex(serializedString.len-2) then
+return []
+end if
+serializedString=serializedString[1:-1].trim
+deserializedList=[]
+deserializedItems=self.splitSerializedItems(serializedString,",")
+for deserializedItem in deserializedItems
+valueString=deserializedItem.trim
+deserializedValue=self.deserializeFirst(valueString,excludeKeys)
+deserializedList.push(deserializedValue)
+end for
+return deserializedList
+end function
+Proxima.serialization.deserializeMap=function(serializedString,excludeKeys=[])
+if not serializedString.hasIndex(1) or not serializedString.hasIndex(serializedString.len-2) then
+return {}
+end if
+serializedString=serializedString[1:-1].trim
+deserializedMap={}
+deserializedItems=self.splitSerializedItems(serializedString,",")
+for deserializedItem in deserializedItems
+keyValue=self.splitSerializedItems(deserializedItem,":")
+if keyValue.len!=2 then
+continue
+end if
+mapKey=keyValue[0].trim
+if mapKey.hasIndex(0) and mapKey[0]==char(34) and mapKey.hasIndex(mapKey.len-1) and mapKey[-1]==char(34) then
+mapKey=mapKey[1:-1]
+end if
+if self.isInList(mapKey,excludeKeys) then
+continue
+end if
+valueString=keyValue[1].trim
+deserializedValue=self.deserializeFirst(valueString,excludeKeys)
+deserializedMap[mapKey]=deserializedValue
+end for
+return deserializedMap
+end function

@@ -5,23 +5,28 @@ return Proxima.globals.myPC.File("/etc/apt/sources.txt")
 end function
 Proxima.apt.getRepositories=function(sourcesFile)
 repositoryIPs=[]
-deserializedSource=Proxima.helpers.deserializeMap(sourcesFile.get_content)
+if sourcesFile!=null then
+deserializedSource=Proxima.serialization.deserializeMap(sourcesFile.get_content)
 if deserializedSource.sourceList.len>0 then
 for repositoryIP in deserializedSource.sourceList.indexes
 repositoryIPs.push(repositoryIP)
 end for
 end if
+end if
 return repositoryIPs
 end function
 Proxima.apt.checkRepository=function(repositoryIP)
-if self.getRepositories(self.checkSourcesFile).indexOf(repositoryIP)!=null then return true
+checkSourcesFile=self.checkSourcesFile
+if checkSourcesFile!=null then
+if self.getRepositories(checkSourcesFile).indexOf(repositoryIP)!=null then return true
+end if
 return null
 end function
 Proxima.apt.addRepository=function(repositoryIP)
 if self.checkRepository(repositoryIP)==null then
 addRepo=Proxima.globals.aptclient.add_repo(repositoryIP)
 Proxima.io.clearScreen
-wait(0.35)
+wait(0.5)
 if addRepo=="" then return true
 end if
 return null
@@ -30,7 +35,7 @@ Proxima.apt.deleteRepository=function(repositoryIP)
 if self.checkRepository(repositoryIP) then
 delRepo=Proxima.globals.aptclient.del_repo(repositoryIP)
 Proxima.io.clearScreen
-wait(0.35)
+wait(0.5)
 if delRepo=="" then return true
 end if
 return null
@@ -56,7 +61,7 @@ end function
 Proxima.apt.updateRepositoryInformation=function
 updateRepoInfo=Proxima.globals.aptclient.update
 Proxima.io.clearScreen
-wait(0.35)
+wait(0.5)
 if updateRepoInfo=="" then return true
 return null
 end function
@@ -103,7 +108,7 @@ libraryFiles=Proxima.helpers.collectFiles("/lib")
 for acquiredFile in libraryFiles
 isUpdateAvailable=Proxima.globals.aptclient.check_upgrade(acquiredFile)
 Proxima.io.clearScreen
-wait(0.35)
+wait(0.5)
 if isUpdateAvailable then
 libraryName=acquiredFile.split("/")[-1]
 pendingForUpdate.push(libraryName)
@@ -117,7 +122,7 @@ statusMap={"succeed":[],"failed":[]}
 for pendingLibrary in pendingList
 updateLibrary=Proxima.globals.aptclient.install(pendingLibrary)
 Proxima.io.clearScreen
-wait(0.35)
+wait(0.5)
 if updateLibrary==1 then
 statusMap.succeed.push(pendingLibrary)
 else

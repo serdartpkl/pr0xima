@@ -1,6 +1,7 @@
 import_code("/home/pr0ximan0va/Scripts/pr0xima/sys/core/globals.src")
 import_code("/home/pr0ximan0va/Scripts/pr0xima/sys/core/io.src")
 import_code("/home/pr0ximan0va/Scripts/pr0xima/sys/core/helpers.src")
+import_code("/home/pr0ximan0va/Scripts/pr0xima/sys/core/serialization.src")
 import_code("/home/pr0ximan0va/Scripts/pr0xima/sys/core/db.src")
 import_code("/home/pr0ximan0va/Scripts/pr0xima/sys/core/sessions.src")
 import_code("/home/pr0ximan0va/Scripts/pr0xima/modules/apt.src")
@@ -22,4 +23,4 @@ import_code("/home/pr0ximan0va/Scripts/pr0xima/sys/tests/test_sessions.src")
 import_code("/home/pr0ximan0va/Scripts/pr0xima/sys/engine.src")
 import_code("/home/pr0ximan0va/Scripts/pr0xima/init.src")
 prx=new Proxima
-prx.engine.startEngine(true)
+prx.engine.startEngine
