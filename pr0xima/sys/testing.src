@@ -24,6 +24,20 @@ Matchers.init = function (actualValue)
     self.actualValue = actualValue
 end function
 
+Matchers.convertActualValue = function (actualValue, onlyNullCheck = false)
+    convertedValue = actualValue
+
+    if onlyNullCheck == false and actualValue == 1 then
+        convertedValue = "TRUE"
+    else onlyNullCheck == false and if actualValue == 0 then
+        convertedValue = "FALSE"
+    else if actualValue == null then
+        convertedValue = "NULL"
+    end if
+    
+    return convertedValue
+end function
+
 Matchers.printTestOutput = function (testResult, actualValue, expectedValue, isNot = false)
     if testResult then
         print(Proxima.io.addOutputEntry(Proxima.io.output.colorize("<b>|---- TEST_RESULT: PASSED</b>", "#08FF57")))
@@ -48,104 +62,56 @@ Matchers.toBe = function (expectedValue)
     testResult = false
     if expectedValue == self.actualValue and typeof(expectedValue) == typeof(self.actualValue) then testResult = true
 
-    actualValue = self.actualValue
-    if actualValue == null then actualValue = "NULL"
-
-    self.printTestOutput(testResult, actualValue, expectedValue)
+    self.printTestOutput(testResult, self.convertActualValue(self.actualValue, true), expectedValue)
 end function
 
 Matchers.notToBe = function (notExpectedValue)
     testResult = false
     if notExpectedValue != self.actualValue or typeof(notExpectedValue) != typeof(self.actualValue) then testResult = true
-        
-    actualValue = self.actualValue
-    if actualValue == null then actualValue = "NULL"
 
-    self.printTestOutput(testResult, actualValue, notExpectedValue, true)
+    self.printTestOutput(testResult, self.convertActualValue(self.actualValue, true), notExpectedValue, true)
 end function
 
 Matchers.toBeNull = function (expectedValue)
     testResult = false
     if self.actualValue == null then testResult = true
-
-    actualValue = self.actualValue
-    if actualValue == null then actualValue = "NULL"
     
-    self.printTestOutput(testResult, actualValue, "NULL")
+    self.printTestOutput(testResult, self.convertActualValue(self.actualValue, true), "NULL")
 end function
 
 Matchers.notToBeNull = function (expectedValue)
     testResult = false
     if self.actualValue != null then testResult = true
-
-    actualValue = self.actualValue
-    if actualValue == null then actualValue = "NULL"
     
-    self.printTestOutput(testResult, actualValue, "NULL", true)
+    self.printTestOutput(testResult, self.convertActualValue(self.actualValue, true), "NULL", true)
 end function
 
 Matchers.toBeTruthy = function ()
     testResult = false    
     if self.actualValue == true then testResult = true
 
-    actualValue = self.actualValue
-    if actualValue == 1 then
-        actualValue = "TRUE"
-    else if actualValue == 0 then
-        actualValue = "FALSE"
-    else if actualValue == null then
-        actualValue = "NULL"
-    end if
-
-    self.printTestOutput(testResult, actualValue, "TRUE")
+    self.printTestOutput(testResult, self.convertActualValue(self.actualValue), "TRUE")
 end function
 
 Matchers.notToBeTruthy = function ()
     testResult = false
     if self.actualValue != true then testResult = true
 
-    actualValue = self.actualValue
-    if actualValue == 1 then
-        actualValue = "TRUE"
-    else if actualValue == 0 then
-        actualValue = "FALSE"
-    else if actualValue == null then
-        actualValue = "NULL"
-    end if
-
-    self.printTestOutput(testResult, actualValue, "TRUE", true)
+    self.printTestOutput(testResult, self.convertActualValue(self.actualValue), "TRUE", true)
 end function
 
 Matchers.toBeFalsy = function ()
     testResult = false
     if self.actualValue == false then testResult = true
 
-    actualValue = self.actualValue
-    if actualValue == 1 then
-        actualValue = "TRUE"
-    else if actualValue == 0 then
-        actualValue = "FALSE"
-    else if actualValue == null then
-        actualValue = "NULL"
-    end if
-
-    self.printTestOutput(testResult, actualValue, "FALSE")
+    self.printTestOutput(testResult, self.convertActualValue(self.actualValue), "FALSE")
 end function
 
 Matchers.notToBeFalsy = function ()
     testResult = false
     if self.actualValue != false then testResult = true
 
-    actualValue = self.actualValue
-    if actualValue == 1 then
-        actualValue = "TRUE"
-    else if actualValue == 0 then
-        actualValue = "FALSE"
-    else if actualValue == null then
-        actualValue = "NULL"
-    end if
-
-    self.printTestOutput(testResult, actualValue, "FALSE", true)
+    self.printTestOutput(testResult, self.convertActualValue(self.actualValue), "FALSE", true)
 end function
 
 expect = function (actualValue)
