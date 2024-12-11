@@ -51,7 +51,7 @@ Proxima.ports.createPortMap = function (scannedPort, targetRouter)
         portMap.service_version = parsedInfo[1]
     end if
     portMap.public_ip = targetRouter.public_ip
-    portMap.lan_ip = scannedPort.lan_ip
+    portMap.lan_ip = scannedPort.get_lan_ip
     return portMap
 end function
 
@@ -197,7 +197,7 @@ Proxima.ports.detectTargetLANs = function ()
     if targetPorts.len > 0 then
         ipAddresses = []
         for targetPort in targetPorts
-            ipAddresses.push(targetPort.lan_ip)
+            ipAddresses.push(targetPort.get_lan_ip)
         end for
         removeDuplicates = Proxima.helpers.removeDuplicates(ipAddresses)
         setLANs = Proxima.sessions.setSessionValue(Proxima.sessions.targetSession, "targetLANs", removeDuplicates)
@@ -228,7 +228,7 @@ Proxima.ports.displayPorts = function (isEmpty = false)
             if targetPort.port_status == "CLOSED" then p_state = "CLOSED#FF1548"
             p_service = targetPort.service_name
             p_version = targetPort.service_version
-            p_lan_ip = targetPort.lan_ip
+            p_lan_ip = targetPort.get_lan_ip
             content_list.push([ p_id, p_number, p_state, p_service, p_version, p_lan_ip ])
         end for
         Proxima.helpers.formatList(header_list, content_list)
@@ -254,7 +254,7 @@ Proxima.ports.displayPorts = function (isEmpty = false)
                 end if
                 if hasOpenPorts then
                     for targetPort in targetPorts
-                        if targetPort.port_status == "OPEN" and targetLAN == targetPort.lan_ip then
+                        if targetPort.port_status == "OPEN" and targetLAN == targetPort.get_lan_ip then
                             netUseObj = Proxima.globals.metaxploit.net_use(targetIP, targetPort.port_number)
                             if netUseObj != null then
                                 if netUseObj.is_root_active_user then
@@ -287,7 +287,7 @@ Proxima.ports.displayPorts = function (isEmpty = false)
             end if
             if hasOpenPorts then
                 for targetPort in targetPorts
-                    if targetPort.port_status == "OPEN" and targetLANs[0] == targetPort.lan_ip then
+                    if targetPort.port_status == "OPEN" and targetLANs[0] == targetPort.get_lan_ip then
                         netUseObj = Proxima.globals.metaxploit.net_use(targetIP, targetPort.port_number)
                         if netUseObj != null then
                             if netUseObj.is_root_active_user then

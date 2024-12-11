@@ -29,39 +29,55 @@ Proxima.ports.dumpRouter=function
 end function
 Proxima.ports.scanRouter=function
 end function
+Proxima.ports.createPortMap=function(scannedPort,targetRouter)
+portMap={}
+portMap.id=Proxima.sessions.getSessionValue(Proxima.sessions.targetSession,"targetPorts").len+1
+portMap.port_number=scannedPort.port_number
+portMap.port_status="OPEN"
+if is_closed(scannedPort) then portMap.port_status="CLOSED"
+portMap.service_name=null
+portMap.service_version=null
+portInfo=targetRouter.port_info(scannedPort)
+if portInfo.indexOf(" ")!=null then
+parsedInfo=portInfo.split(" ")
+portMap.service_name=parsedInfo[0]
+portMap.service_version=parsedInfo[1]
+end if
+portMap.public_ip=targetRouter.public_ip
+portMap.lan_ip=scannedPort.get_lan_ip
+return portMap
+end function
 Proxima.ports.checkPorts=function(targetIP=null)
-hasScanned=Proxima.helpers.indexesOf(Proxima.sessions.activeSessions,"targetIP",targetIP)
-sessionID=hasScanned+1
-if hasScanned!=null and targetIP==Proxima.sessions.getSessionValue(sessionID,"targetIP") then
+foundedIndex=Proxima.helpers.indexesOf(Proxima.sessions.activeSessions,"targetIP",targetIP)
+sessionID=foundedIndex+1
+if foundedIndex!=null and targetIP==Proxima.sessions.getSessionValue(sessionID,"targetIP") then
 print(Proxima.io.addOutputEntry(Proxima.io.output.info("You've already created an active session with given IP. <b>[ID:"+(sessionID)+"]</b>")))
-Proxima.sessions.setSession(sessionID)
+setSession=Proxima.sessions.setSession(sessionID)
+if setSession then
 print(Proxima.io.addOutputEntry(Proxima.io.output.success("Switched to active session successfully! <b>[ID:"+(sessionID)+"]</b>")))
-Proxima.io.inputString=Proxima.io.output.colorize("<b>pr0xima</b>","#FFC466")+Proxima.io.output.colorize("@","#08FF57")+Proxima.io.output.colorize("["+Proxima.sessions.getSessionValue(sessionID,"targetIP")+"]","#FF1548")+Proxima.io.output.colorize("> ","#008DFF")
+Proxima.io.inputString=Proxima.io.output.colorize("<b>pr0xima</b>","#FFC466")+Proxima.io.output.colorize("@","#08FF57")+Proxima.io.output.colorize("["+Proxima.sessions.getSessionValue(foundedIndex+1,"targetIP")+"]","#FF1548")+Proxima.io.output.colorize("> ","#008DFF")
 return true
+end if
 else
 targetRouter=self.createRouter(targetIP)
-mainIP=targetRouter.local_ip
-if is_lan_ip(targetIP) then mainIP=targetIP
-scannedPorts=targetRouter.device_ports(mainIP)
+if targetRouter!=null then
 createRemoteSession=Proxima.sessions.addSession(1,targetIP,targetRouter)
 if createRemoteSession!=null then
 setActiveSession=Proxima.sessions.setSession(createRemoteSession)
 if setActiveSession then
 Proxima.io.inputString=Proxima.io.output.colorize("<b>pr0xima</b>","#FFC466")+Proxima.io.output.colorize("@","#08FF57")+Proxima.io.output.colorize("["+targetIP+"]","#FF1548")+Proxima.io.output.colorize("> ","#008DFF")
+publicIP=targetRouter.public_ip
+mainRouterIP=get_router(publicIP).local_ip
+candidateIP=mainRouterIP
+if is_lan_ip(targetIP) then candidateIP=targetIP
+scannedPorts=targetRouter.device_ports(candidateIP)
 if scannedPorts.len==1 or scannedPorts==null then
 return false
 else
 for scannedPort in scannedPorts
 if scannedPort.port_number!=8080 then
-portID=Proxima.sessions.getSessionValue(Proxima.sessions.targetSession,"targetPorts").len+1
-portNumber=scannedPort.port_number
-portState="OPEN"
-if is_closed(scannedPort) then portState="CLOSED"
-portInfo=targetRouter.port_info(scannedPort).split(" ")
-portService=portInfo[0]
-portVersion=portInfo[1]
-portLanIP=scannedPort.get_lan_ip
-Proxima.sessions.addMapToSession(Proxima.sessions.targetSession,"targetPorts",{"id":portID,"port_number":portNumber,"state":portState,"service":portService,"version":portVersion,"lan_ip":portLanIP})
+createdPortMap=self.createPortMap(scannedPort,targetRouter)
+Proxima.sessions.addMapToSession(Proxima.sessions.targetSession,"targetPorts",createdPortMap)
 end if
 end for
 return true
@@ -72,11 +88,15 @@ end if
 else
 print(Proxima.io.addOutputEntry(Proxima.io.output.error("Couldn't create remote session due to unexpected error.")))
 end if
+else
+print(Proxima.io.addOutputEntry(Proxima.io.output.error("Couldn't create remote session, no router exists.")))
 end if
+end if
+return null
 end function
 Proxima.ports.dumpPort=function(targetPort)
 totalExploits=0
-if targetPort.state=="OPEN" then
+if targetPort.port_status=="OPEN" then
 targetIP=Proxima.sessions.getSessionValue(Proxima.sessions.targetSession,"targetIP")
 print(Proxima.io.addOutputEntry(Proxima.io.output.progress("Connecting to <b>"+targetIP+":"+targetPort.port_number+"</b>...")))
 netSession=Proxima.globals.metaxploit.net_use(targetIP,targetPort.port_number)
@@ -165,7 +185,7 @@ targetPorts=Proxima.sessions.getSessionValue(Proxima.sessions.targetSession,"tar
 if targetPorts.len>0 then
 ipAddresses=[]
 for targetPort in targetPorts
-ipAddresses.push(targetPort.lan_ip)
+ipAddresses.push(targetPort.get_lan_ip)
 end for
 removeDuplicates=Proxima.helpers.removeDuplicates(ipAddresses)
 setLANs=Proxima.sessions.setSessionValue(Proxima.sessions.targetSession,"targetLANs",removeDuplicates)
@@ -190,11 +210,11 @@ for targetPort in targetPorts
 p_id=str(targetPort.id)
 p_number=str(targetPort.port_number)
 p_state=null
-if targetPort.state=="OPEN" then p_state="OPEN#08FF57"
-if targetPort.state=="CLOSED" then p_state="CLOSED#FF1548"
-p_service=targetPort.service
-p_version=targetPort.version
-p_lan_ip=targetPort.lan_ip
+if targetPort.port_status=="OPEN" then p_state="OPEN#08FF57"
+if targetPort.port_status=="CLOSED" then p_state="CLOSED#FF1548"
+p_service=targetPort.service_name
+p_version=targetPort.service_version
+p_lan_ip=targetPort.get_lan_ip
 content_list.push([p_id,p_number,p_state,p_service,p_version,p_lan_ip])
 end for
 Proxima.helpers.formatList(header_list,content_list)
@@ -210,7 +230,7 @@ targetPorts=Proxima.sessions.getSessionValue(Proxima.sessions.targetSession,"tar
 for targetLAN in targetLANs
 if targetPorts.len>0 then
 for targetPort in targetPorts
-if targetPort.state=="OPEN" then
+if targetPort.port_status=="OPEN" then
 hasOpenPorts=true
 break
 end if
@@ -218,7 +238,7 @@ end for
 end if
 if hasOpenPorts then
 for targetPort in targetPorts
-if targetPort.state=="OPEN" and targetLAN==targetPort.lan_ip then
+if targetPort.port_status=="OPEN" and targetLAN==targetPort.get_lan_ip then
 netUseObj=Proxima.globals.metaxploit.net_use(targetIP,targetPort.port_number)
 if netUseObj!=null then
 if netUseObj.is_root_active_user then
@@ -243,7 +263,7 @@ targetPorts=Proxima.sessions.getSessionValue(Proxima.sessions.targetSession,"tar
 hasOpenPorts=true
 if targetPorts.len>0 then
 for targetPort in targetPorts
-if targetPort.state=="OPEN" then
+if targetPort.port_status=="OPEN" then
 hasOpenPorts=true
 break
 end if
@@ -251,7 +271,7 @@ end for
 end if
 if hasOpenPorts then
 for targetPort in targetPorts
-if targetPort.state=="OPEN" and targetLANs[0]==targetPort.lan_ip then
+if targetPort.port_status=="OPEN" and targetLANs[0]==targetPort.get_lan_ip then
 netUseObj=Proxima.globals.metaxploit.net_use(targetIP,targetPort.port_number)
 if netUseObj!=null then
 if netUseObj.is_root_active_user then
