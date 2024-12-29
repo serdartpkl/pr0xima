@@ -1,5 +1,4 @@
 Proxima.apt={}
-// ------------------------------------------------------------------------------------------------------------
 Proxima.apt.checkSourcesFile=function
 return Proxima.globals.myPC.File("/etc/apt/sources.txt")
 end function

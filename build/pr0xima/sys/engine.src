@@ -1,6 +1,5 @@
 Proxima.engine={}
 Proxima.engine.fileSystem=[{"name":"pr0xima","is_folder":true,"parent_dir":home_dir,"has_found":false},{"name":"databases","is_folder":true,"parent_dir":home_dir+"/pr0xima","has_found":false},{"name":"sessions.db","is_folder":false,"parent_dir":home_dir+"/pr0xima/databases","default_content":"{"+char(34)+"records"+char(34)+":[]"+"}","has_found":false},{"name":"exploits.db","is_folder":false,"parent_dir":home_dir+"/pr0xima/databases","default_content":"{"+char(34)+"records"+char(34)+":[]"+"}","has_found":false},{"name":"downloads","is_folder":true,"parent_dir":home_dir+"/pr0xima","has_found":false},{"name":"settings.conf","is_folder":false,"parent_dir":home_dir+"/pr0xima","default_content":"{"+char(34)+"rshell_ip"+char(34)+":"+char(34)+Proxima.globals.myPC.public_ip+char(34)+","+char(34)+"rshell_port"+char(34)+":1222,"+char(34)+"rshell_proc_name"+char(34)+":"+char(34)+"prx"+char(34)+","+char(34)+"injection_password"+char(34)+":"+char(34)+"123456"+char(34)+"}","has_found":false}]
-// ------------------------------------------------------------------------------------------------------------
 Proxima.engine.scanFileSystem=function
 for systemFile in self.fileSystem
 getFile=Proxima.globals.myPC.File(systemFile.parent_dir+"/"+systemFile.name)
@@ -193,7 +192,6 @@ print(Proxima.io.addOutputEntry(Proxima.io.output.warning("Couldn't check for up
 end if
 end if
 end function
-// ------------------------------------------------------------------------------------------------------------
 Proxima.engine.initializeLocalSession=function
 localIP=Proxima.globals.myPC.local_ip
 savedSessionIndex=Proxima.sessions.searchSessions("targetIP",localIP,true)
@@ -210,7 +208,6 @@ end if
 end if
 return null
 end function
-// ------------------------------------------------------------------------------------------------------------
 Proxima.engine.handleCommand=function(userCommand)
 if userCommand!=null and userCommand!="" then
 parsedCommand=null

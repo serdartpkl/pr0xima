@@ -1,6 +1,5 @@
 Proxima.testing={}
 Proxima.testing.tests={}
-// ------------------------------------------------------------------------------------------------------------
 describe=function(testSuiteName,fn)
 print(Proxima.io.addOutputEntry(Proxima.io.output.colorize("<b>/ START_TEST_SUITE</b>","#FC8403")))
 print(Proxima.io.addOutputEntry(Proxima.io.output.colorize("<b>| TEST_SUITE ["+testSuiteName+"]</b>","#FC8403")))
@@ -89,7 +88,6 @@ createMatchers=new Matchers
 createMatchers.init(actualValue)
 return createMatchers
 end function
-// ------------------------------------------------------------------------------------------------------------
 Proxima.testing.runTest=function(testName)
 if Proxima.testing.tests.hasIndex(testName) then Proxima.testing.tests[testName]
 return null

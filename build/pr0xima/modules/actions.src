@@ -162,7 +162,6 @@ print(Proxima.io.addOutputEntry(Proxima.io.output.error("No open shells found!")
 end if
 end if
 end function
-// ------------------------------------------------------------------------------------------------------------
 Proxima.actions.isSSHAvailable=function
 isConnectableViaSSH=false
 targetPorts=Proxima.sessions.getSessionValue("targetPorts")
@@ -276,12 +275,9 @@ shellCode=shellCode+"get_custom_object.acquiredShell = rootShell"
 createJumpFile=targetComputer.touch("/home/guest","root_shell.src")
 setContent=targetComputer.File("/home/guest/root_shell.src").set_content(shellCode)
 if typeof(setContent)=="string" or setContent==0 then
-// ERROR
 else
 if createJumpFile==1 then
-// SUCCESS
 else
-// ERROR
 end if
 end if
 buildScript=targetShell.build("/home/guest/root_shell.src","/home/guest")
@@ -341,7 +337,6 @@ else
 print(Proxima.io.addOutputEntry(Proxima.io.output.error("No open shells found to perform a jump!")))
 end if
 end function
-// ------------------------------------------------------------------------------------------------------------
 Proxima.actions.cleanUpLogs=function
 targetShells=Proxima.sessions.getSessionValue("targetShells")
 if targetShells.len>0 then
@@ -488,7 +483,6 @@ else
 print(Proxima.io.addOutputEntry(Proxima.io.output.error("No open shells found to inject reverse shell, please execute an exploit first.")))
 end if
 end function
-// ------------------------------------------------------------------------------------------------------------
 Proxima.actions.treeDirectory=function(targetComputer,givenDirectory,entryIndent)
 treeLines=[]
 fileHandler=targetComputer.File(givenDirectory)
@@ -559,7 +553,6 @@ activeProcesses.push(processMap)
 end for
 return activeProcesses
 end function
-// ------------------------------------------------------------------------------------------------------------
 Proxima.actions.createPortMap=function(portObject,targetRouter)
 portMap={}
 portMap.status="open"

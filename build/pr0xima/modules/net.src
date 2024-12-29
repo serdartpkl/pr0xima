@@ -3,7 +3,6 @@ Proxima.net.networkKey=null
 Proxima.net.selectedInterface=null
 Proxima.net.targetNetwork=null
 Proxima.net.targetNetworks=[]
-// ------------------------------------------------------------------------------------------------------------
 Proxima.net.checkConnection=function
 if Proxima.globals.myPC.is_network_active then return true
 return null
@@ -17,7 +16,6 @@ return [networkESSID,networkBSSID]
 end if
 return null
 end function
-// ------------------------------------------------------------------------------------------------------------
 Proxima.net.selectInterface=function
 targetComputer=Proxima.globals.myPC
 activeNetworkCard=targetComputer.active_net_card
@@ -84,7 +82,6 @@ if Proxima.globals.myPC.File(home_dir+"/file.cap")!=null then return true
 end if
 return null
 end function
-// ------------------------------------------------------------------------------------------------------------
 Proxima.net.crackKey=function
 capFile=Proxima.globals.myPC.File(home_dir+"/file.cap")
 if capFile!=null then
@@ -103,7 +100,6 @@ if connectionStatus==1 then return true
 end if
 return null
 end function
-// ------------------------------------------------------------------------------------------------------------
 Proxima.net.autoHack=function(targetESSID=null)
 Proxima.io.clearScreen
 Proxima.io.printInformation("pr0net","Automatic WiFi cracker.")

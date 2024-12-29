@@ -10,7 +10,6 @@ Proxima.libraries.scanLibrary(params[0].to_int)
 end if
 end if
 end function
-// ------------------------------------------------------------------------------------------------------------
 Proxima.commands.libraries={"name":"libraries","description":"Lists all available local libraries.","usage":"libraries","type":0}
 Proxima.commands.libraries.exec=function(params)
 targetLibraries=Proxima.sessions.getSessionValue(Proxima.sessions.targetSession,"targetLibraries")

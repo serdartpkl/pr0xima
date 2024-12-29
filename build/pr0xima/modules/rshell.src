@@ -1,5 +1,4 @@
 Proxima.rshell={}
-// ------------------------------------------------------------------------------------------------------------
 Proxima.rshell.checkRshells=function
 recievedShells=Proxima.globals.metaxploit.rshell_server
 if typeof(recievedShells)=="list" then return recievedShells

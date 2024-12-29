@@ -1,5 +1,4 @@
 Proxima.helpers={}
-// ------------------------------------------------------------------------------------------------------------
 Proxima.helpers.removeDuplicates=function(inputList)
 uniqueItems=[]
 for listItem in inputList

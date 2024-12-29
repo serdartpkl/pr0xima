@@ -1,5 +1,4 @@
 Proxima.serialization={}
-// ------------------------------------------------------------------------------------------------------------
 Proxima.serialization.isInList=function(givenItem,givenList)
 for listItem in givenList
 if listItem==givenItem then

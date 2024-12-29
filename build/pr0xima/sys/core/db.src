@@ -1,5 +1,4 @@
 Proxima.db={}
-// ------------------------------------------------------------------------------------------------------------
 Proxima.db.getDatabases=function
 databaseFiles=Proxima.globals.myPC.File(home_dir+"/pr0xima/databases").get_files
 if databaseFiles.len>0 then
@@ -42,7 +41,6 @@ if deleteDatabaseFile=="" then return true
 end if
 return null
 end function
-// ------------------------------------------------------------------------------------------------------------
 Proxima.db.getRecords=function(databaseName)
 databaseFile=self.getDatabase(databaseName)
 if databaseFile!=null then return Proxima.serialization.deserializeMap(databaseFile.get_content).records
@@ -137,7 +135,6 @@ end if
 end if
 return null
 end function
-// ------------------------------------------------------------------------------------------------------------
 Proxima.db.getRecordValue=function(databaseName,recordID,recordKey)
 acquiredRecord=self.getRecord(databaseName,recordID)
 if acquiredRecord!=null then
@@ -160,7 +157,6 @@ end if
 end if
 return null
 end function
-// ------------------------------------------------------------------------------------------------------------
 Proxima.db.displayDatabases=function
 headerList=["ID","DATABASE_NAME"]
 contentList=[]

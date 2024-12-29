@@ -1,11 +1,9 @@
 Proxima.commands={}
-// ------------------------------------------------------------------------------------------------------------
 Proxima.commands.dump={"name":"dump","description":"Scans and displays local libraries.","usage":"dump","type":2}
 Proxima.commands.dump.exec=function(params)
 Proxima.libraries.checkLibraries
 Proxima.libraries.displayLibraries
 end function
-// ------------------------------------------------------------------------------------------------------------
 Proxima.commands.scan={"name":"scan","description":"Scans target IP and prints detailed information.","usage":"scan <ip>","type":2}
 Proxima.commands.scan.exec=function(params)
 targetIP=params[0]
@@ -23,7 +21,6 @@ else if checkTargetIP==null then
 Proxima.io.throwInputError("Given IP address is not valid!")
 end if
 end function
-// ------------------------------------------------------------------------------------------------------------
 Proxima.commands.sessions={"name":"sessions","description":"Lists available sessions.","usage":"sessions <[-s]|load <id>|save <id>|switch <id>|remove <id> [-s]>","type":2}
 Proxima.commands.sessions.exec=function(params)
 if params.len==0 then
@@ -147,7 +144,6 @@ else if params.len>3 then
 Proxima.io.throwInputError("Too many arguements.",self.usage)
 end if
 end function
-// ------------------------------------------------------------------------------------------------------------
 Proxima.commands.exploits={"name":"exploits","description":"Lists all available exploits gathered from port/library scan.","usage":"exploits","type":2}
 Proxima.commands.exploits.exec=function(params)
 targetExploits=Proxima.sessions.getSessionValue(Proxima.sessions.targetSession,"targetExploits")
@@ -157,7 +153,6 @@ else
 Proxima.io.throwInputError("No exploits available, please scan an IP address first.")
 end if
 end function
-// ------------------------------------------------------------------------------------------------------------
 Proxima.commands.execute={"name":"execute","description":"Executes specified exploit with given ID.","usage":"execute <id>","type":2}
 Proxima.commands.execute.exec=function(params)
 if params.len==0 then
@@ -170,13 +165,11 @@ Proxima.exploit.execute(params[0].to_int)
 end if
 end if
 end function
-// ------------------------------------------------------------------------------------------------------------
 Proxima.commands.analyze={"name":"analyze","description":"Analizes available methods.","usage":"analyze","type":2}
 Proxima.commands.analyze.exec=function(params)
 analyzeResult=Proxima.exploit.analyzeExploitResults
 Proxima.exploit.generateAnalyzeReport(analyzeResult)
 end function
-// ------------------------------------------------------------------------------------------------------------
 Proxima.commands.users={"name":"users","description":"Lists all available user informations gathered from executed exploit/exploits.","usage":"users","type":2}
 Proxima.commands.users.exec=function(params)
 targetUsers=Proxima.sessions.getSessionValue("targetUsers")
@@ -186,7 +179,6 @@ else
 Proxima.io.throwInputError("No users found, please execute an exploit first.")
 end if
 end function
-// ------------------------------------------------------------------------------------------------------------
 Proxima.commands.mails={"name":"","description":"Lists all available bank informations gathered from executed exploit/exploits.","usage":"","type":2}
 Proxima.commands.mails.exec=function(params)
 targetMails=Proxima.sessions.getSessionValue("targetMails")
@@ -196,7 +188,6 @@ else
 Proxima.io.throwInputError("No mail information available, please execute an exploit first.")
 end if
 end function
-// ------------------------------------------------------------------------------------------------------------
 Proxima.commands.banks={"name":"mails","description":"Lists all available mail informations gathered from executed exploit/exploits.","usage":"mails","type":2}
 Proxima.commands.banks.exec=function(params)
 targetBanks=Proxima.sessions.getSessionValue("targetBanks")
@@ -206,7 +197,6 @@ else
 Proxima.io.throwInputError("No bank information available, please execute an exploit first.")
 end if
 end function
-// ------------------------------------------------------------------------------------------------------------
 Proxima.commands.decipher={"name":"decipher","description":"Deciphers user information bu given ID.","usage":"decipher <list> <id>","type":2}
 Proxima.commands.decipher.exec=function(params)
 if params.len<2 then
@@ -225,7 +215,6 @@ else if params.len>2 then
 Proxima.io.throwInputError("Too many arguments.",self.usage)
 end if
 end function
-// ------------------------------------------------------------------------------------------------------------
 Proxima.commands.shells={"name":"shells","description":"Lists all available shell connections gathered from executed exploit/exploits.","usage":"shells","type":2}
 Proxima.commands.shells.exec=function(params)
 targetShells=Proxima.sessions.getSessionValue("targetShells")
@@ -235,7 +224,6 @@ else
 Proxima.io.throwInputError("No open shells available, please execute an exploit first.")
 end if
 end function
-// ------------------------------------------------------------------------------------------------------------
 Proxima.commands.shell={"name":"shell","description":"Starts terminal for specified shell with given ID.","usage":"shell <id>","type":2}
 Proxima.commands.shell.exec=function(params)
 if params.len==0 then
@@ -244,7 +232,6 @@ else
 Proxima.exploit.launchShell(params[0].to_int)
 end if
 end function
-// ------------------------------------------------------------------------------------------------------------
 Proxima.commands.rshell={"name":"rshell","description":"Injects reverse shell for specified target by given ID.","usage":"rshell <id>","type":2}
 Proxima.commands.rshell.exec=function(params)
 if params.len==0 then
@@ -253,7 +240,6 @@ else
 Proxima.exploit.injectRshell(params[0].to_int)
 end if
 end function
-// ------------------------------------------------------------------------------------------------------------
 Proxima.commands.delete={"name":"delete","description":"Deletes specified remote or local file.","usage":"delete <path>","type":2}
 Proxima.commands.delete.exec=function(params)
 if params.len==0 then
@@ -262,7 +248,6 @@ else
 Proxima.exploit.deleteFile(params[0])
 end if
 end function
-// ------------------------------------------------------------------------------------------------------------
 Proxima.commands.run={"name":"run","description":"Executes local or remote binary file.","usage":"run <path>","type":2}
 Proxima.commands.run.exec=function(params)
 if params.len==0 then
@@ -271,17 +256,14 @@ else
 Proxima.exploit.runBinaryFile(params[0])
 end if
 end function
-// ------------------------------------------------------------------------------------------------------------
 Proxima.commands.corrupt={"name":"corrupt","description":"Corrupts remote target's computer and makes it unable to work.","usage":"corrupt","type":2}
 Proxima.commands.corrupt.exec=function(params)
 Proxima.exploit.corruptComputer
 end function
-// ------------------------------------------------------------------------------------------------------------
 Proxima.commands.cleanup={"name":"cleanup","description":"Removes remote or local system log file to leave no trace.","usage":"cleanup","type":2}
 Proxima.commands.cleanup.exec=function(params)
 Proxima.exploit.cleanUpLogs
 end function
-// ------------------------------------------------------------------------------------------------------------
 Proxima.commands.whois={"name":"whois","description":"Performs 'whois' command to gather contact information for remote target.","usage":"whois","type":2}
 Proxima.commands.whois.exec=function(params)
 adminInfo=whois(Proxima.exploit.targetIP)
@@ -291,13 +273,11 @@ print(Proxima.io.addOutputEntry(Proxima.io.output.colorize("<b>Administrative Co
 print(Proxima.io.addOutputEntry(Proxima.io.output.colorize("<b>Email Address:</b> ","#0091FF")+adminInfo[2].split(":")[1].trim))
 print(Proxima.io.addOutputEntry(Proxima.io.output.colorize("<b>Phone Number:</b> ","#0091FF")+adminInfo[3].split(":")[1].trim))
 end function
-// ------------------------------------------------------------------------------------------------------------
 Proxima.commands.cls={"name":"cls","description":"Clears terminal screen.","usage":"cls","type":2}
 Proxima.commands.cls.exec=function(params)
 Proxima.io.ioEntries=[]
 Proxima.io.clearScreen
 end function
-// ------------------------------------------------------------------------------------------------------------
 Proxima.commands.help={"name":"help","description":"Lists all available commands.","usage":"help","type":2}
 Proxima.commands.help.exec=function(params)
 i=0
@@ -315,7 +295,6 @@ end if
 i=i+1
 end for
 end function
-// ------------------------------------------------------------------------------------------------------------
 Proxima.commands.exit={"name":"exit","description":"Exits from script.","usage":"exit","type":2}
 Proxima.commands.exit.exec=function(params)
 exit(Proxima.io.output.success("Goodbye! Have a nice day."))
