@@ -8,3 +8,4 @@ Proxima.globals.metaxploit=null
 Proxima.globals.myShell=get_shell
 Proxima.globals.myPC=Proxima.globals.myShell.host_computer
 Proxima.globals.activeUser=active_user
+Proxima.globals.waitTime=0.35
