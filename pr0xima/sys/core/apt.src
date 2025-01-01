@@ -91,7 +91,7 @@ Proxima.apt.isValidShop = function (repositoryIP)
         end for
     end if
 
-    if repoSevices.len > 0 and repoServices.indexOf("repository") != null then
+    if repoServices.len > 0 and repoServices.indexOf("repository") != null then
         if self.checkRepository(repositoryIP) == null then 
             addRepo = self.addRepository(repositoryIP)
             if addRepo == null then return null

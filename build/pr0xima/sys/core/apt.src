@@ -25,7 +25,7 @@ Proxima.apt.addRepository=function(repositoryIP)
 if self.checkRepository(repositoryIP)==null then
 addRepo=Proxima.globals.aptclient.add_repo(repositoryIP)
 Proxima.io.clearScreen
-wait(0.5)
+wait(Proxima.globals.waitTime)
 if addRepo=="" then return true
 end if
 return null
@@ -34,7 +34,7 @@ Proxima.apt.deleteRepository=function(repositoryIP)
 if self.checkRepository(repositoryIP) then
 delRepo=Proxima.globals.aptclient.del_repo(repositoryIP)
 Proxima.io.clearScreen
-wait(0.5)
+wait(Proxima.globals.waitTime)
 if delRepo=="" then return true
 end if
 return null
@@ -60,7 +60,7 @@ end function
 Proxima.apt.updateRepositoryInformation=function
 updateRepoInfo=Proxima.globals.aptclient.update
 Proxima.io.clearScreen
-wait(0.5)
+wait(Proxima.globals.waitTime)
 if updateRepoInfo=="" then return true
 return null
 end function
@@ -78,7 +78,7 @@ serviceName=get_router(repositoryIP).port_info(repoPort).split(" ")[0]
 if is_closed(repoPort)!=true then repoServices.push(serviceName)
 end for
 end if
-if repoServices.indexOf("repository")!=null then
+if repoServices.len>0 and repoServices.indexOf("repository")!=null then
 if self.checkRepository(repositoryIP)==null then
 addRepo=self.addRepository(repositoryIP)
 if addRepo==null then return null
@@ -88,7 +88,7 @@ repoPackageList=self.getPackageList(repositoryIP)
 if repoPackageList!=null and repoPackageList.indexOf("metaxploit.so")!=null and repoPackageList.indexOf("crypto.so")!=null then isValidShop=true
 end if
 end if
-if self.deleteRepository(repositoryIP) and isValidShop then return repositoryIP
+if isValidShop and self.deleteRepository(repositoryIP) then return repositoryIP
 return null
 end function
 Proxima.apt.findShop=function
@@ -98,8 +98,7 @@ generatedIP=Proxima.helpers.generateRandomIP
 isValidShop=self.isValidShop(generatedIP)
 if typeof(isValidShop)=="string" then shopIP=generatedIP
 end while
-if shopIP!=null then return shopIP
-return null
+return shopIP
 end function
 Proxima.apt.checkForUpdates=function
 pendingForUpdate=[]
@@ -107,7 +106,7 @@ libraryFiles=Proxima.helpers.collectFiles("/lib")
 for acquiredFile in libraryFiles
 isUpdateAvailable=Proxima.globals.aptclient.check_upgrade(acquiredFile)
 Proxima.io.clearScreen
-wait(0.5)
+wait(Proxima.globals.waitTime)
 if isUpdateAvailable then
 libraryName=acquiredFile.split("/")[-1]
 pendingForUpdate.push(libraryName)
@@ -117,13 +116,13 @@ if pendingForUpdate.len>0 then return pendingForUpdate
 return null
 end function
 Proxima.apt.updateLibraries=function(pendingList)
-statusMap={"succeed":[],"failed":[]}
+statusMap={"updated":[],"failed":[]}
 for pendingLibrary in pendingList
 updateLibrary=Proxima.globals.aptclient.install(pendingLibrary)
 Proxima.io.clearScreen
-wait(0.5)
+wait(Proxima.globals.waitTime)
 if updateLibrary==1 then
-statusMap.succeed.push(pendingLibrary)
+statusMap.updated.push(pendingLibrary)
 else
 statusMap.failed.push(pendingLibrary)
 end if

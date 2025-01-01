@@ -217,7 +217,7 @@ p_version=targetPort.service_version
 p_lan_ip=targetPort.lan_ip
 content_list.push([p_id,p_number,p_state,p_service,p_version,p_lan_ip])
 end for
-Proxima.helpers.formatList(header_list,content_list)
+Proxima.helpers.formatList(header_list,content_list,true)
 end if
 isAdminOnline="<color=#008DFF>UNKNOWN</color>"
 isUserOnline="<color=#008DFF>UNKNOWN</color>"
