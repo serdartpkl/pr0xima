@@ -1,7 +1,7 @@
 Proxima = {}
 
 Proxima.globals = {}
-Proxima.globals.version = "1.0.0"
+Proxima.globals.version = "0.0.1"
 
 Proxima.globals.libraryLocations = ["/lib", current_path]
 
