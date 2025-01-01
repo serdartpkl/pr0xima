@@ -202,6 +202,7 @@ Proxima.engine.initLibraries = function ()
                 Proxima.io.addTransferProcess(cryptoLibSize)
                 print(Proxima.io.addOutputEntry(Proxima.io.output.line))
                 print(Proxima.io.addOutputEntry(Proxima.io.output.success("Installed <b>crypto.so</b> library. <b>[LOADED]</b>")))
+                Proxima.globals.crypto = include_lib("/lib/crypto.so")
             else
                 exit(Proxima.io.output.error("Couldn't install <b>crypto.so</b> library."))
             end if
@@ -224,6 +225,7 @@ Proxima.engine.initLibraries = function ()
                 Proxima.io.addTransferProcess(metaxploitLibSize)
                 print(Proxima.io.addOutputEntry(Proxima.io.output.line))
                 print(Proxima.io.addOutputEntry(Proxima.io.output.success("Installed <b>metaxploit.so</b> library. <b>[LOADED]</b>")))
+                Proxima.globals.metaxploit = include_lib("/lib/metaxploit.so")
             else
                 exit(Proxima.io.output.error("Couldn't install <b>metaxploit.so</b> library."))
             end if
