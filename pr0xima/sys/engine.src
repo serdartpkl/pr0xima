@@ -129,6 +129,10 @@ Proxima.engine.includeLibraries = function (libraryList)
     return libraryMap
 end function
 
+Proxima.engine.installLibrary = function (libraryName)
+
+end function
+
 Proxima.engine.initLibraries = function ()
     includeLibraries = self.includeLibraries(["aptclient.so", "crypto.so", "metaxploit.so"])
 
@@ -207,7 +211,7 @@ Proxima.engine.initLibraries = function ()
                 exit(Proxima.io.output.error("Couldn't install <b>crypto.so</b> library."))
             end if
         else
-            print(Proxima.io.addOutputEntry(Proxima.io.output.error("Couldn't locate <b>crypto.so</b> library. <b>[FAILED]</b>")))
+            print(Proxima.io.addOutputEntry(Proxima.io.output.error("Couldn't locate or install <b>crypto.so</b> library. <b>[FAILED]</b>")))
             exit(Proxima.io.output.error("Couldn't start script due to missing library/libraries!"))
         end if
     end if
@@ -309,9 +313,9 @@ Proxima.engine.handleCommand = function (userCommand)
                     selectedCommand.exec(params)
                 else
                     if selectedCommand.type == 0 then
-                        Proxima.io.throwInputError("You are currently working with a remote session, this command is for local sessions.")
+                        Proxima.io.throwInputError("This command is for local sessions, you are currently working with a remote session.")
                     else if selectedCommand.type == 1 then
-                        Proxima.io.throwInputError("You are currently working with a local session, this command is for remote sessions.")
+                        Proxima.io.throwInputError("This command is for remote sessions, you are currently working with a local session.")
                     end if
                 end if
             end if
