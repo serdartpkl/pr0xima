@@ -375,6 +375,7 @@ Proxima.engine.startEngine = function (runTests = false)
     if runTests then
         Proxima.testing.runTests()
     else
+        if self.isGameModeOnline() then Proxima.globals.waitTime = 0.1
         getSavedSessions = Proxima.sessions.getSessions(true)
         if getSavedSessions != null then
             if getSavedSessions.len > 0 then
