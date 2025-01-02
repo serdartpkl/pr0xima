@@ -91,10 +91,10 @@ end function
 Proxima.io.colorizeUserName = function (sessionType, userName)
     userColor = "#FC8403"
 
-    if sessionType == 1 and userName == "UNKNOWN" then userColor = "#008DFF"
-    if sessionType == 1 and userName == "GUEST" then userColor = "#FFDD00"
-    if sessionType == 1 and userName == "USER" then userColor = "#08FF57"
-    if sessionType == 1 and userName == "ROOT" then userColor = "#9370DB"
+    if sessionType == 1 and userName == "NO_ACCESS" then userColor = "#008DFF"
+    if sessionType == 1 and userName == "GUEST_ACCESS" then userColor = "#FFDD00"
+    if sessionType == 1 and userName == "USER_ACCESS" then userColor = "#08FF57"
+    if sessionType == 1 and userName == "ROOT_ACCESS" then userColor = "#9370DB"
 
     return userColor
 end function
