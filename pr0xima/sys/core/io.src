@@ -113,7 +113,7 @@ Proxima.io.updateInputString = function (userName, publicIP, localIP, sessionID,
                   "<voffset=0.2em>]——[" +
                   "<voffset=0.2em><color=#08FF57>SID:" + sessionID + "|" + sessionTypeName + "</color>]" +
                   "<voffset=-0.2em><pos=0>/<pos=0><voffset=-1.05em>\<pos=4.95>" +
-                  "<pos=8><voffset=-1.45em>——<#c3201f>$<color=#008DFF>> </color></color></color>"
+                  "<pos=8><voffset=-1.45em>——<color=#C3201F>$</color><color=#008DFF>> </color></color>"
     
     self.inputString = inputString
 end function

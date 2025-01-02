@@ -100,7 +100,7 @@ if getTargetLANs.len==1 then
 targetLAN=getTargetLANs[0]
 end if
 end if
-Proxima.io.updateInputString("UNKNOWN",targetIP,targetLAN,Proxima.sessions.targetSession,1)
+Proxima.io.updateInputString("NO_ACCESS",targetIP,targetLAN,Proxima.sessions.targetSession,1)
 return true
 end if
 else
