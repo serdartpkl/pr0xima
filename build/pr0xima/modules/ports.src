@@ -47,6 +47,19 @@ portMap.public_ip=targetRouter.public_ip
 portMap.lan_ip=scannedPort.get_lan_ip
 return portMap
 end function
+Proxima.ports.detectTargetLANs=function
+targetPorts=Proxima.sessions.getSessionValue(Proxima.sessions.targetSession,"targetPorts")
+if targetPorts.len>0 then
+ipAddresses=[]
+for targetPort in targetPorts
+ipAddresses.push(targetPort.lan_ip)
+end for
+removeDuplicates=Proxima.helpers.removeDuplicates(ipAddresses)
+setLANs=Proxima.sessions.setSessionValue(Proxima.sessions.targetSession,"targetLANs",removeDuplicates)
+if setLANs then return true
+end if
+return null
+end function
 Proxima.ports.checkPorts=function(targetIP=null)
 foundedIndex=Proxima.helpers.indexesOf(Proxima.sessions.activeSessions,"targetIP",targetIP)
 sessionID=foundedIndex+1
@@ -65,7 +78,6 @@ createRemoteSession=Proxima.sessions.addSession(1,targetIP,targetRouter)
 if createRemoteSession!=null then
 setActiveSession=Proxima.sessions.setSession(createRemoteSession)
 if setActiveSession then
-Proxima.io.inputString=Proxima.io.output.colorize("<b>pr0xima</b>","#FFC466")+Proxima.io.output.colorize("@","#08FF57")+Proxima.io.output.colorize("["+targetIP+"]","#FF1548")+Proxima.io.output.colorize("> ","#008DFF")
 publicIP=targetRouter.public_ip
 mainRouterIP=get_router(publicIP).local_ip
 candidateIP=mainRouterIP
@@ -80,6 +92,15 @@ createdPortMap=self.createPortMap(scannedPort,targetRouter)
 Proxima.sessions.addMapToSession(Proxima.sessions.targetSession,"targetPorts",createdPortMap)
 end if
 end for
+detectLANs=self.detectTargetLANs
+targetLAN="?"
+if detectLANs!=null then
+getTargetLANs=Proxima.sessions.getSessionValue(Proxima.sessions.targetSession,"targetLANs")
+if getTargetLANs.len==1 then
+targetLAN=getTargetLANs[0]
+end if
+end if
+Proxima.io.updateInputString("UNKNOWN",targetIP,targetLAN,Proxima.sessions.targetSession,1)
 return true
 end if
 else
@@ -179,19 +200,6 @@ else
 print(Proxima.io.addOutputEntry(Proxima.io.output.error("There is no specified target IP address yet, please set a target IP address first.")))
 end if
 end if
-end function
-Proxima.ports.detectTargetLANs=function
-targetPorts=Proxima.sessions.getSessionValue(Proxima.sessions.targetSession,"targetPorts")
-if targetPorts.len>0 then
-ipAddresses=[]
-for targetPort in targetPorts
-ipAddresses.push(targetPort.lan_ip)
-end for
-removeDuplicates=Proxima.helpers.removeDuplicates(ipAddresses)
-setLANs=Proxima.sessions.setSessionValue(Proxima.sessions.targetSession,"targetLANs",removeDuplicates)
-if setLANs then return true
-end if
-return null
 end function
 Proxima.ports.displayPorts=function(isEmpty=false)
 targetIP=Proxima.sessions.getSessionValue(Proxima.sessions.targetSession,"targetIP")

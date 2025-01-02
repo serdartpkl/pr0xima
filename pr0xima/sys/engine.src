@@ -327,9 +327,7 @@ end function
 
 Proxima.engine.startCLI = function ()
     targetIP = Proxima.sessions.getSessionValue(Proxima.sessions.targetSession, "targetIP")
-    sessionType = "LOCAL"
-    if Proxima.sessions.getSessionValue(Proxima.sessions.targetSession, "sessionType") == 1 then sessionType = "REMOTE"
-    Proxima.io.updateInputString(Proxima.globals.activeUser, targetIP, Proxima.globals.myPC.local_ip, Proxima.sessions.targetSession, sessionType)
+    Proxima.io.updateInputString(Proxima.globals.activeUser, targetIP, Proxima.globals.myPC.local_ip, Proxima.sessions.targetSession, 0)
     while true
         userCommand = user_input(Proxima.io.inputString, false, false).trim
         Proxima.io.addInputEntry(userCommand)
