@@ -2,12 +2,13 @@ Proxima.sessions={}
 Proxima.sessions.targetSession=null
 Proxima.sessions.activeSessions=[]
 Proxima.sessions.getSessions=function(getSaved=false)
-acquiredSessions=self.activeSessions
 if getSaved then
 getSavedSessions=Proxima.db.getRecords("sessions")
-if getSavedSessions!=null then acquiredSessions=getSavedSessions
+if getSavedSessions!=null then return getSavedSessions
+else
+return self.activeSessions
 end if
-return acquiredSessions
+return null
 end function
 Proxima.sessions.getSession=function(sessionKey,getSaved=false)
 acquiredSessions=self.getSessions(getSaved)

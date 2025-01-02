@@ -1,11 +1,11 @@
 Proxima={}
 Proxima.globals={}
-Proxima.globals.version="1.0.0"
-Proxima.globals.libraryLocations=["/lib",current_path]
+Proxima.globals.version="0.0.1"
+Proxima.globals.libraryLocations=["/lib",current_path,home_dir]
 Proxima.globals.aptclient=null
 Proxima.globals.crypto=null
 Proxima.globals.metaxploit=null
 Proxima.globals.myShell=get_shell
 Proxima.globals.myPC=Proxima.globals.myShell.host_computer
 Proxima.globals.activeUser=active_user
-Proxima.globals.waitTime=0.35
+Proxima.globals.waitTime=0.5

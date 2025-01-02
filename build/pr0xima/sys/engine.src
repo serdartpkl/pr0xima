@@ -74,6 +74,8 @@ end for
 end for
 return libraryMap
 end function
+Proxima.engine.installLibrary=function(libraryName)
+end function
 Proxima.engine.initLibraries=function
 includeLibraries=self.includeLibraries(["aptclient.so","crypto.so","metaxploit.so"])
 aptClient=includeLibraries["aptclient.so"]
@@ -146,7 +148,7 @@ else
 exit(Proxima.io.output.error("Couldn't install <b>crypto.so</b> library."))
 end if
 else
-print(Proxima.io.addOutputEntry(Proxima.io.output.error("Couldn't locate <b>crypto.so</b> library. <b>[FAILED]</b>")))
+print(Proxima.io.addOutputEntry(Proxima.io.output.error("Couldn't locate or install <b>crypto.so</b> library. <b>[FAILED]</b>")))
 exit(Proxima.io.output.error("Couldn't start script due to missing library/libraries!"))
 end if
 end if
@@ -238,9 +240,9 @@ if selectedCommand.type==Proxima.sessions.getSessionValue(Proxima.sessions.targe
 selectedCommand.exec(params)
 else
 if selectedCommand.type==0 then
-Proxima.io.throwInputError("You are currently working with a remote session, this command is for local sessions.")
+Proxima.io.throwInputError("This command is for local sessions, you are currently working with a remote session.")
 else if selectedCommand.type==1 then
-Proxima.io.throwInputError("You are currently working with a local session, this command is for remote sessions.")
+Proxima.io.throwInputError("This command is for remote sessions, you are currently working with a local session.")
 end if
 end if
 end if
@@ -251,12 +253,18 @@ end if
 end function
 Proxima.engine.startCLI=function
 targetIP=Proxima.sessions.getSessionValue(Proxima.sessions.targetSession,"targetIP")
-Proxima.io.inputString=Proxima.io.output.colorize("<b>pr0xima</b>","#FFC466")+Proxima.io.output.colorize("@","#08FF57")+Proxima.io.output.colorize("["+targetIP+"]","#FF1548")+Proxima.io.output.colorize("> ","#008DFF")
+sessionType="LOCAL"
+if Proxima.sessions.getSessionValue(Proxima.sessions.targetSession,"sessionType")==1 then sessionType="REMOTE"
+Proxima.io.updateInputString(Proxima.globals.activeUser,targetIP,Proxima.globals.myPC.local_ip,Proxima.sessions.targetSession,sessionType)
 while true
 userCommand=user_input(Proxima.io.inputString,false,false).trim
 Proxima.io.addInputEntry(userCommand)
 self.handleCommand(userCommand)
 end while
+end function
+Proxima.engine.isGameModeOnline=function
+if Proxima.globals.myPC.File("/usr/bin/Chat.exe")!=null then return true
+return false
 end function
 Proxima.engine.startEngine=function(runTests=false)
 Proxima.io.clearScreen
@@ -286,6 +294,7 @@ print(Proxima.io.addOutputEntry(Proxima.io.output.line))
 if runTests then
 Proxima.testing.runTests
 else
+if self.isGameModeOnline then Proxima.globals.waitTime=0.1
 getSavedSessions=Proxima.sessions.getSessions(true)
 if getSavedSessions!=null then
 if getSavedSessions.len>0 then
