@@ -105,7 +105,13 @@ Proxima.commands.sessions.exec = function (params)
                 if targetSession.id != Proxima.sessions.targetSession then
                     Proxima.sessions.setSession(sessionID)
                     print(Proxima.io.addOutputEntry(Proxima.io.output.success("Switched to active session successfully! <b>[ID:" + sessionID + "]</b>")))
-                    Proxima.io.inputString = Proxima.io.output.colorize("<b>pr0xima</b>", "#FFC466") + Proxima.io.output.colorize("@", "#08FF57") + Proxima.io.output.colorize("[" + targetSession.targetIP + "]", "#FF1548") + Proxima.io.output.colorize("> ", "#008DFF")
+                    userName = Proxima.globals.activeUser
+                    if targetSession.sessionType == 1 then userName = "NO_ACCESS"
+                    publicIP = Proxima.globals.myPC.public_ip
+                    if targetSession.sessionType == 1 then publicIP = targetSession.targetIP
+                    localIP = Proxima.globals.myPC.local_ip
+                    if targetSession.sessionType == 1 then localIP = "?"
+                    Proxima.io.updateInputString(userName, publicIP, localIP, Proxima.sessions.targetSession, targetSession.sessionType)
                 else
                     sessionType = "LOCAL"
                     if targetSession.sessionType == 1 then sessionType = "REMOTE"
