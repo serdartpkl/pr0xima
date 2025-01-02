@@ -229,7 +229,6 @@ Proxima.helpers.formatList(header_list,content_list,true)
 end if
 isAdminOnline="<color=#008DFF>UNKNOWN</color>"
 isUserOnline="<color=#008DFF>UNKNOWN</color>"
-self.detectTargetLANs
 targetLANs=Proxima.sessions.getSessionValue(Proxima.sessions.targetSession,"targetLANs")
 if targetLANs.len>0 then
 if targetLANs.len>1 then
