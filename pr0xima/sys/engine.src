@@ -335,6 +335,11 @@ Proxima.engine.startCLI = function ()
     end while
 end function
 
+Proxima.engine.isGameModeOnline = function ()
+    if Proxima.globals.myPC.File("/usr/bin/Chat.exe") != null then return true
+    return false
+end function
+
 Proxima.engine.startEngine = function (runTests = false)
     Proxima.io.clearScreen()
     Proxima.io.printHeader()
