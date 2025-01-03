@@ -101,7 +101,11 @@ Proxima.apt.isValidShop = function (repositoryIP)
         end if
     end if
 
-    if isValidShop and self.deleteRepository(repositoryIP) then return repositoryIP
+    deleteRepository = self.deleteRepository(repositoryIP)
+
+    if deleteRepository != null then
+        if isValidShop then return true
+    end if
     return null
 end function
 
@@ -111,7 +115,7 @@ Proxima.apt.findShop = function ()
     while shopIP == null
         generatedIP = Proxima.helpers.generateRandomIP()
         isValidShop = self.isValidShop(generatedIP)
-        if typeof(isValidShop) == "string" then shopIP = generatedIP
+        if isValidShop then shopIP = generatedIP
     end while
 
     return shopIP
