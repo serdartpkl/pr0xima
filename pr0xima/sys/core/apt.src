@@ -138,12 +138,12 @@ Proxima.apt.checkForUpdates = function ()
 end function
 
 Proxima.apt.installLibrary = function (libraryName)
-    print(Proxima.io.addLine())
-    installGivenLibrary = Proxima.globals.aptclient.install(libraryName)
+    installLibrary = Proxima.globals.aptclient.install(libraryName)
     Proxima.io.clearScreen()
     wait(Proxima.globals.waitTime)
-    if installGivenLibrary == 1 then
-        // get size and print transfer process
+    if installLibrary == 1 then
+        getLibraryFile = Proxima.globals.myPC.File("/lib/" + libraryName)
+        if getLibraryFile != null then return getLibraryFile.size()
     end if
     return null
 end function
