@@ -167,6 +167,7 @@ Proxima.engine.initLibraries = function ()
         if isGuest == false then
             hasShopRepository = false
             hasUpdatedRepositoryInformation = false
+            
             repositoryIPs = Proxima.apt.getRepositories(sourcesFile)
             if repositoryIPs.len > 0 then
                 for repositoryIP in repositoryIPs
@@ -176,6 +177,7 @@ Proxima.engine.initLibraries = function ()
                     end if
                 end for
             end if
+
             if hasShopRepository == false then
                 print(Proxima.io.addOutputEntry(Proxima.io.output.warning("Couldn't find any repository IP!")))
                 print(Proxima.io.addOutputEntry(Proxima.io.output.progress("Searching for a repository IP...")))
@@ -190,6 +192,7 @@ Proxima.engine.initLibraries = function ()
                     end if
                 end if
             end if
+
             if hasShopRepository then
                 updateRepositoryInformation = Proxima.apt.updateRepositoryInformation()
                 if updateRepositoryInformation then
@@ -199,6 +202,7 @@ Proxima.engine.initLibraries = function ()
                     print(Proxima.io.addOutputEntry(Proxima.io.output.warning("Couldn't update repository information, it won't be able to check updates.")))
                 end if
             end if
+
             if hasUpdatedRepositoryInformation then
                 checkForUpdates = Proxima.apt.checkForUpdates()
                 if checkForUpdates != null then
