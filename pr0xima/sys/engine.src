@@ -168,7 +168,7 @@ Proxima.engine.initLibraries = function ()
             hasShopRepository = false
             hasUpdatedRepositoryInformation = false
             
-            repositoryIPs = Proxima.apt.getRepositories(sourcesFile)
+            repositoryIPs = Proxima.apt.getRepositories()
             if repositoryIPs.len > 0 then
                 for repositoryIP in repositoryIPs
                     if Proxima.apt.isValidShop(repositoryIP) then

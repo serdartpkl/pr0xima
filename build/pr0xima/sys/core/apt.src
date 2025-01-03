@@ -2,12 +2,13 @@ Proxima.apt={}
 Proxima.apt.checkSourcesFile=function
 return Proxima.globals.myPC.File("/etc/apt/sources.txt")
 end function
-Proxima.apt.getRepositories=function(sourcesFile)
+Proxima.apt.getRepositories=function
 repositoryIPs=[]
+sourcesFile=self.checkSourcesFile
 if sourcesFile!=null then
-deserializedSource=Proxima.serialization.deserializeMap(sourcesFile.get_content)
-if deserializedSource.sourceList.len>0 then
-for repositoryIP in deserializedSource.sourceList.indexes
+deserializedSources=Proxima.serialization.deserializeMap(sourcesFile.get_content)
+if deserializedSources.sourceList.len>0 then
+for repositoryIP in deserializedSources.sourceList.indexes
 repositoryIPs.push(repositoryIP)
 end for
 end if
@@ -15,10 +16,8 @@ end if
 return repositoryIPs
 end function
 Proxima.apt.checkRepository=function(repositoryIP)
-checkSourcesFile=self.checkSourcesFile
-if checkSourcesFile!=null then
-if self.getRepositories(checkSourcesFile).indexOf(repositoryIP)!=null then return true
-end if
+allRepositories=self.getRepositories
+if allRepositories.len>0 and allRepositories.indexOf(repositoryIP)!=null then return true
 return null
 end function
 Proxima.apt.addRepository=function(repositoryIP)
@@ -88,7 +87,10 @@ repoPackageList=self.getPackageList(repositoryIP)
 if repoPackageList!=null and repoPackageList.indexOf("metaxploit.so")!=null and repoPackageList.indexOf("crypto.so")!=null then isValidShop=true
 end if
 end if
-if isValidShop and self.deleteRepository(repositoryIP) then return repositoryIP
+deleteRepository=self.deleteRepository(repositoryIP)
+if deleteRepository!=null then
+if isValidShop then return true
+end if
 return null
 end function
 Proxima.apt.findShop=function
@@ -96,7 +98,7 @@ shopIP=null
 while shopIP==null
 generatedIP=Proxima.helpers.generateRandomIP
 isValidShop=self.isValidShop(generatedIP)
-if typeof(isValidShop)=="string" then shopIP=generatedIP
+if isValidShop then shopIP=generatedIP
 end while
 return shopIP
 end function
@@ -115,17 +117,16 @@ end for
 if pendingForUpdate.len>0 then return pendingForUpdate
 return null
 end function
-Proxima.apt.updateLibraries=function(pendingList)
-statusMap={"updated":[],"failed":[]}
-for pendingLibrary in pendingList
-updateLibrary=Proxima.globals.aptclient.install(pendingLibrary)
+Proxima.apt.installLibrary=function(libraryName)
+installLibrary=Proxima.globals.aptclient.install(libraryName)
 Proxima.io.clearScreen
 wait(Proxima.globals.waitTime)
-if updateLibrary==1 then
-statusMap.updated.push(pendingLibrary)
-else
-statusMap.failed.push(pendingLibrary)
+if installLibrary==1 then
+getLibraryFile=Proxima.globals.myPC.File("/lib/"+libraryName)
+if getLibraryFile!=null then
+Proxima.io.addTransferProcess(getLibraryFile.size)
+return true
 end if
-end for
-return statusMap
+end if
+return null
 end function

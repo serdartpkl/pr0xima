@@ -37,12 +37,12 @@ end function
 Proxima.sessions.resetSession=function(sessionID,resetSaved=false)
 acquiredSession=self.getSession(sessionID,resetSaved)
 if acquiredSession!=null then
-createSessionMap=self.createSessionMap(acquiredSession.sessionType,acquiredSession.targetIP,acquiredSession.targetRouter)
+newSessionMap=self.createSessionMap(acquiredSession.sessionType,acquiredSession.targetIP,acquiredSession.targetRouter)
 if resetSaved then
-updateRecord=Proxima.db.updateRecord("sessions",sessionID,createSessionMap)
+updateRecord=Proxima.db.updateRecord("sessions",sessionID,newSessionMap)
 if updateRecord then return true
 else
-self.activeSessions[sessionID-1]={"id":acquiredSession.id}+createSessionMap+{"dateCreated":acquiredSession.dateCreated}
+self.activeSessions[sessionID-1]={"id":acquiredSession.id}+newSessionMap+{"dateCreated":acquiredSession.dateCreated}
 return true
 end if
 end if
@@ -106,12 +106,12 @@ end function
 Proxima.sessions.addSession=function(sessionType,targetIP,targetRouter)
 acquiredSession=self.getSession(targetIP)
 if acquiredSession==null then
-createSessionMap=self.createSessionMap(sessionType,targetIP,targetRouter)
+newSessionMap=self.createSessionMap(sessionType,targetIP,targetRouter)
 sessionID=self.activeSessions.len+1
 sessionDateCreated=Proxima.helpers.getParsedDate
-sessionMap={"id":sessionID}+createSessionMap+{"dateCreated":sessionDateCreated}
-self.activeSessions.push(sessionMap)
-return sessionMap.id
+finalSessionMap={"id":sessionID}+newSessionMap+{"dateCreated":sessionDateCreated}
+self.activeSessions.push(finalSessionMap)
+return finalSessionMap.id
 end if
 return null
 end function
@@ -135,7 +135,7 @@ if deleteSaved then
 deleteRecord=Proxima.db.deleteRecord("sessions",sessionID)
 if deleteRecord then return true
 else
-if self.activeSessions.hasIndex(sessionID-1) then
+if self.activeSessions.len>1 and self.activeSessions.hasIndex(sessionID-1) then
 if acquiredSession.sessionType==1 then
 self.activeSessions.remove(sessionID-1)
 reorderSessions=self.reorderSessions
@@ -167,24 +167,24 @@ end if
 return null
 end function
 Proxima.sessions.saveSession=function(sessionID)
-activeSession=self.getSession(sessionID)
-if activeSession!=null then
-tempID=activeSession.id
-tempDateCreated=activeSession.dateCreated
-tempTargetShells=activeSession.targetShells
-activeSession.remove("id")
-activeSession.remove("dateCreated")
-if activeSession.targetShells.len>0 then activeSession.targetShells=[]
-savedSession=self.getSession(activeSession.targetIP,true)
+acquiredSession=self.getSession(sessionID)
+if acquiredSession!=null then
+tempID=acquiredSession.id
+tempDateCreated=acquiredSession.dateCreated
+tempTargetShells=acquiredSession.targetShells
+acquiredSession.remove("id")
+acquiredSession.remove("dateCreated")
+if acquiredSession.targetShells.len>0 then acquiredSession.targetShells=[]
+savedSession=self.getSession(acquiredSession.targetIP,true)
 recordOperation=null
 if savedSession!=null then
-recordOperation=Proxima.db.updateRecord("sessions",savedSession.id,activeSession)
+recordOperation=Proxima.db.updateRecord("sessions",savedSession.id,acquiredSession)
 else
-recordOperation=Proxima.db.addRecord("sessions",activeSession,tempDateCreated)
+recordOperation=Proxima.db.addRecord("sessions",acquiredSession,tempDateCreated)
 end if
 if recordOperation then
-activeSession.targetShells=tempTargetShells
-self.activeSessions[sessionID-1]={"id":tempID}+activeSession+{"dateCreated":tempDateCreated}
+acquiredSession.targetShells=tempTargetShells
+self.activeSessions[sessionID-1]={"id":tempID}+acquiredSession+{"dateCreated":tempDateCreated}
 return true
 end if
 end if
@@ -193,8 +193,7 @@ end function
 Proxima.sessions.loadSession=function(sessionID)
 savedSession=self.getSession(sessionID,true)
 if savedSession!=null then
-activeSession=self.getSession(savedSession.targetIP)
-if activeSession==null then
+if self.getSession(savedSession.targetIP)==null then
 self.activeSessions.push(savedSession)
 reorderSessions=self.reorderSessions
 if reorderSessions then
