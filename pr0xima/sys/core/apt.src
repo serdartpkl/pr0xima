@@ -138,15 +138,19 @@ Proxima.apt.checkForUpdates = function ()
 end function
 
 Proxima.apt.installLibrary = function (libraryName)
-
+    print(Proxima.io.addLine())
+    installGivenLibrary = Proxima.globals.aptclient.install(libraryName)
+    Proxima.io.clearScreen()
+    wait(Proxima.globals.waitTime)
+    if installGivenLibrary == 1 then
+        // get size and print transfer process
+    end if
+    return null
 end function
 
 Proxima.apt.updateLibraries = function (pendingList)
     statusMap = {"updated": [], "failed": []}
     for pendingLibrary in pendingList
-        updateLibrary = Proxima.globals.aptclient.install(pendingLibrary)
-        Proxima.io.clearScreen()
-        wait(Proxima.globals.waitTime)
         if updateLibrary == 1 then
             statusMap.updated.push(pendingLibrary)
         else
