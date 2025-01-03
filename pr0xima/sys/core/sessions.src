@@ -18,7 +18,6 @@ end function
 
 Proxima.sessions.getSession = function (sessionKey, getSaved = false)
     acquiredSessions = self.getSessions(getSaved)
-    
     foundedSession = null
     if acquiredSessions != null and acquiredSessions.len > 0 then
         for acquiredSession in acquiredSessions
@@ -31,7 +30,6 @@ Proxima.sessions.getSession = function (sessionKey, getSaved = false)
             end if
         end for
     end if
-
     return foundedSession
 end function
 
