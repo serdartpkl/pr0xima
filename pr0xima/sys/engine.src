@@ -202,13 +202,34 @@ Proxima.engine.initLibraries = function ()
             end if
 
             print(Proxima.io.addLine())
-            
+
+            missingCrypto = false
             if self.includeLibraries(["crypto.so"])["crypto.so"] == null then
-                // ...
-            end if 
-            if self.includeLibraries(["metaxploit.so"])["metaxploit.so"] == null then
-                // ...
+                missingCrypto = true
+                print(Proxima.io.addOutputEntry(Proxima.io.output.progress("Downloading <b>crypto.so</b>...")))
+                installCrypto = self.installLibrary("crypto.so")
+                if installCrypto != null then
+                    print(Proxima.io.addOutputEntry(Proxima.io.output.success("Installed <b>crypto.so</b> successfully!")))
+                else
+                    print(Proxima.io.addOutputEntry(Proxima.io.output.error("Couldn't install <b>crypto.so</b> library.")))
+                end if
             end if
+
+            if missingCrypto then print(Proxima.io.addLine())
+            
+            missingMetaxploit = false
+            if self.includeLibraries(["metaxploit.so"])["metaxploit.so"] == null then
+                missingMetaxploit = true
+                print(Proxima.io.addOutputEntry(Proxima.io.output.progress("Downloading <b>metaxploit.so</b>...")))
+                installMetaxploit = self.installLibrary("metaxploit.so")
+                if installMetaxploit != null then
+                    print(Proxima.io.addOutputEntry(Proxima.io.output.success("Installed <b>metaxploit.so</b> successfully!")))
+                else
+                    print(Proxima.io.addOutputEntry(Proxima.io.output.error("Couldn't install <b>metaxploit.so</b> library.")))
+                end if
+            end if
+
+            if missingMetaxploit then print(Proxima.io.addLine())
         else
             print(Proxima.io.addOutputEntry(Proxima.io.output.warning("Couldn't check for updates due to insufficient user privileges.")))
         end if
