@@ -136,7 +136,7 @@ Proxima.engine.updateLibraries = function (pendingList)
     statusMap = {"updated": [], "failed": []}
     for pendingLibrary in pendingList
         print(Proxima.io.addLine())
-        updateLibrary = self.installLibrary(pendingLibrary)
+        updateLibrary = Proxima.apt.installLibrary(pendingLibrary)
         if updateLibrary != null then
             statusMap.updated.push(pendingLibrary)
         else
