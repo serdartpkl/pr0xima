@@ -83,6 +83,7 @@ Proxima.io.clearScreen = function ()
         for ioEntry in self.ioEntries
             print(ioEntry)
         end for
+        wait(Proxima.globals.printInterval)
     end if
 end function
 
