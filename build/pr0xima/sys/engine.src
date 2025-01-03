@@ -269,7 +269,7 @@ Proxima.engine.startEngine=function(runTests=false)
 Proxima.io.clearScreen
 Proxima.io.printHeader
 Proxima.io.printInformation("pr0xima","A simple easy to use multi purpose hacking tool.")
-print(Proxima.io.addOutputEntry(Proxima.io.output.line))
+print(Proxima.io.addLine)
 if Proxima.net.checkConnection!=true then
 print(Proxima.io.output.error("You are not connected to the internet! Terminating program..."))
 exit(Proxima.io.output.info("You can hack into any WiFi by using <b>pr0net</b> subtool."))
@@ -287,9 +287,9 @@ print(Proxima.io.addOutputEntry(Proxima.io.output.success("Settings loaded succe
 else
 exit(Proxima.io.output.error("Couldn't load settings!"))
 end if
-print(Proxima.io.addOutputEntry(Proxima.io.output.line))
+print(Proxima.io.addLine)
 self.initLibraries
-print(Proxima.io.addOutputEntry(Proxima.io.output.line))
+print(Proxima.io.addLine)
 if runTests then
 Proxima.testing.runTests
 else
