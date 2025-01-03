@@ -200,7 +200,9 @@ Proxima.engine.initLibraries = function ()
                     print(Proxima.io.addOutputEntry(Proxima.io.output.info("No updates available at the moment.")))
                 end if
             end if
+
             print(Proxima.io.addLine())
+            
             if self.includeLibraries(["crypto.so"])["crypto.so"] == null then
                 // ...
             end if 
