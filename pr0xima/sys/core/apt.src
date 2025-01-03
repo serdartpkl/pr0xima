@@ -151,7 +151,8 @@ end function
 Proxima.apt.updateLibraries = function (pendingList)
     statusMap = {"updated": [], "failed": []}
     for pendingLibrary in pendingList
-        if updateLibrary == 1 then
+        updateLibrary = self.installLibrary(pendingLibrary)
+        if updateLibrary != null then
             statusMap.updated.push(pendingLibrary)
         else
             statusMap.failed.push(pendingLibrary)
