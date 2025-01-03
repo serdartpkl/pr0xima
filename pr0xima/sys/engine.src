@@ -61,29 +61,32 @@ Proxima.engine.scanFileSystem = function ()
 end function
 
 Proxima.engine.createMissingFiles = function ()
-    createdMissingFiles = true
+    hasMissingFiles = false
+    
     homeFolder = Proxima.globals.myPC.File(home_dir)
     if homeFolder.has_permission("w") then 
         for systemFile in self.fileSystem
             if systemFile.has_found == false then
                 if systemFile.is_folder then
                     createFolder = Proxima.globals.myPC.create_folder(systemFile.parent_dir, systemFile.name)
-                    if createFolder == 0 or typeof(createFolder) == "string" then createdMissingFiles = false
+                    if createFolder == 0 or typeof(createFolder) == "string" then hasMissingFiles = true
                 else
                     createFile = Proxima.globals.myPC.touch(systemFile.parent_dir, systemFile.name)
                     if createFile == 1 then
                         setDefaultContent = Proxima.globals.myPC.File(systemFile.parent_dir + "/" + systemFile.name).set_content(systemFile.default_content)
-                        if setDefaultContent == 0 or typeof(setDefaultContent) == "string" then createdMissingFiles = false
+                        if setDefaultContent == 0 or typeof(setDefaultContent) == "string" then hasMissingFiles = true
                     else
-                        createdMissingFiles = false
+                        hasMissingFiles = true
                     end if
                 end if
             end if
         end for
     else
-        createdMissingFiles = false
+        hasMissingFiles = true
     end if
-    return createdMissingFiles
+
+    if hasMissingFiles == false then return true
+    return false
 end function
 
 Proxima.engine.getSettings = function ()
@@ -266,15 +269,14 @@ end function
 
 Proxima.engine.initializeLocalSession = function ()
     localIP = Proxima.globals.myPC.local_ip
-    savedSessionIndex = Proxima.sessions.searchSessions("targetIP", localIP, true)
-    if savedSessionIndex != null then
-        savedSessionID = savedSessionIndex + 1
-        loadSession = Proxima.sessions.loadSession(savedSessionID)
+    savedSession = Proxima.sessions.getSession(localIP, true)
+    if savedSession != null then
+        loadSession = Proxima.sessions.loadSession(savedSession.id)
         if loadSession then return true
     else
-        createLocalSession = Proxima.sessions.addSession(0, localIP, get_router())
-        if createLocalSession != null and typeof(createLocalSession) == "number" then
-            setActiveSession = Proxima.sessions.setSession(createLocalSession)
+        newLocalSession = Proxima.sessions.addSession(0, localIP, get_router())
+        if newLocalSession != null and typeof(newLocalSession) == "number" then
+            setActiveSession = Proxima.sessions.setSession(newLocalSession)
             if setActiveSession then return true
         end if
     end if
