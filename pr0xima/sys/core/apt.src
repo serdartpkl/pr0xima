@@ -143,7 +143,10 @@ Proxima.apt.installLibrary = function (libraryName)
     wait(Proxima.globals.waitTime)
     if installLibrary == 1 then
         getLibraryFile = Proxima.globals.myPC.File("/lib/" + libraryName)
-        if getLibraryFile != null then return getLibraryFile.size()
+        if getLibraryFile != null then 
+            Proxima.io.addTransferProcess(getLibraryFile.size())
+            return true
+        end if
     end if
     return null
 end function
@@ -151,12 +154,14 @@ end function
 Proxima.apt.updateLibraries = function (pendingList)
     statusMap = {"updated": [], "failed": []}
     for pendingLibrary in pendingList
+        print(Proxima.io.addLine())
         updateLibrary = self.installLibrary(pendingLibrary)
         if updateLibrary != null then
             statusMap.updated.push(pendingLibrary)
         else
             statusMap.failed.push(pendingLibrary)
         end if
+        print(Proxima.io.addLine())
     end for
     return statusMap
 end function
