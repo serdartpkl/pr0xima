@@ -20,7 +20,6 @@ Proxima.sessions.getSession = function (sessionKey, getSaved = false)
     acquiredSessions = self.getSessions(getSaved)
     
     foundedSession = null
-    
     if acquiredSessions != null and acquiredSessions.len > 0 then
         for acquiredSession in acquiredSessions
             checkKey = "id"
@@ -123,7 +122,7 @@ Proxima.sessions.createSessionMap = function (sessionType, targetIP, targetRoute
 
     sessionMap.payloadInjection = 1
 
-    sessionMap.systemInformation = {
+    sessionMap.whoisInformation = {
         "domainName": null,
         "companyName": null,
         "adminName": null,
