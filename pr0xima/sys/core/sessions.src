@@ -136,12 +136,12 @@ end function
 Proxima.sessions.addSession = function (sessionType, targetIP, targetRouter)
     acquiredSession = self.getSession(targetIP)
     if acquiredSession == null then
-        createSessionMap = self.createSessionMap(sessionType, targetIP, targetRouter)
+        newSessionMap = self.createSessionMap(sessionType, targetIP, targetRouter)
         sessionID = self.activeSessions.len + 1
         sessionDateCreated = Proxima.helpers.getParsedDate()
-        sessionMap = {"id": sessionID} + createSessionMap + {"dateCreated": sessionDateCreated}
-        self.activeSessions.push(sessionMap)
-        return sessionMap.id
+        finalSessionMap = {"id": sessionID} + newSessionMap + {"dateCreated": sessionDateCreated}
+        self.activeSessions.push(finalSessionMap)
+        return finalSessionMap.id
     end if
     return null
 end function
@@ -167,7 +167,7 @@ Proxima.sessions.deleteSession = function (sessionID, deleteSaved = false)
             deleteRecord = Proxima.db.deleteRecord("sessions", sessionID)
             if deleteRecord then return true
         else
-            if self.activeSessions.hasIndex(sessionID - 1) then
+            if self.activeSessions.len > 1 and self.activeSessions.hasIndex(sessionID - 1) then
                 if acquiredSession.sessionType == 1 then
                     self.activeSessions.remove(sessionID - 1)
                     reorderSessions = self.reorderSessions()
