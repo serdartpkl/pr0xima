@@ -204,24 +204,24 @@ end function
 // ------------------------------------------------------------------------------------------------------------
 
 Proxima.sessions.saveSession = function (sessionID) 
-    activeSession = self.getSession(sessionID)
-    if activeSession != null then
-        tempID = activeSession.id
-        tempDateCreated = activeSession.dateCreated
-        tempTargetShells = activeSession.targetShells
-        activeSession.remove("id")
-        activeSession.remove("dateCreated")
-        if activeSession.targetShells.len > 0 then activeSession.targetShells = []
-        savedSession = self.getSession(activeSession.targetIP, true)
+    acquiredSession = self.getSession(sessionID)
+    if acquiredSession != null then
+        tempID = acquiredSession.id
+        tempDateCreated = acquiredSession.dateCreated
+        tempTargetShells = acquiredSession.targetShells
+        acquiredSession.remove("id")
+        acquiredSession.remove("dateCreated")
+        if acquiredSession.targetShells.len > 0 then acquiredSession.targetShells = []
+        savedSession = self.getSession(acquiredSession.targetIP, true)
         recordOperation = null
         if savedSession != null then 
-            recordOperation = Proxima.db.updateRecord("sessions", savedSession.id, activeSession)
+            recordOperation = Proxima.db.updateRecord("sessions", savedSession.id, acquiredSession)
         else
-            recordOperation = Proxima.db.addRecord("sessions", activeSession, tempDateCreated)
+            recordOperation = Proxima.db.addRecord("sessions", acquiredSession, tempDateCreated)
         end if
         if recordOperation then
-            activeSession.targetShells = tempTargetShells
-            self.activeSessions[sessionID - 1] = {"id": tempID} + activeSession + {"dateCreated": tempDateCreated}
+            acquiredSession.targetShells = tempTargetShells
+            self.activeSessions[sessionID - 1] = {"id": tempID} + acquiredSession + {"dateCreated": tempDateCreated}
             return true
         end if
     end if
@@ -231,8 +231,7 @@ end function
 Proxima.sessions.loadSession = function (sessionID) 
     savedSession = self.getSession(sessionID, true)
     if savedSession != null then
-        activeSession = self.getSession(savedSession.targetIP)
-        if activeSession == null then
+        if self.getSession(savedSession.targetIP) == null then
             self.activeSessions.push(savedSession)
             reorderSessions = self.reorderSessions()
             if reorderSessions then
