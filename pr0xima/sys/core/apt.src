@@ -137,6 +137,10 @@ Proxima.apt.checkForUpdates = function ()
     return null
 end function
 
+Proxima.apt.installLibrary = function (libraryName)
+
+end function
+
 Proxima.apt.updateLibraries = function (pendingList)
     statusMap = {"updated": [], "failed": []}
     for pendingLibrary in pendingList

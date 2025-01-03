@@ -132,10 +132,6 @@ Proxima.engine.includeLibraries = function (libraryList)
     return libraryMap
 end function
 
-Proxima.engine.installLibrary = function (libraryName)
-
-end function
-
 Proxima.engine.initLibraries = function ()
     aptClient = self.includeLibraries(["aptclient.so"])["aptclient.so"]
 
@@ -207,7 +203,7 @@ Proxima.engine.initLibraries = function ()
             if self.includeLibraries(["crypto.so"])["crypto.so"] == null then
                 missingCrypto = true
                 print(Proxima.io.addOutputEntry(Proxima.io.output.progress("Downloading <b>crypto.so</b>...")))
-                installCrypto = self.installLibrary("crypto.so")
+                installCrypto = Proxima.apt.installLibrary("crypto.so")
                 if installCrypto != null then
                     print(Proxima.io.addOutputEntry(Proxima.io.output.success("Installed <b>crypto.so</b> successfully!")))
                 else
@@ -221,7 +217,7 @@ Proxima.engine.initLibraries = function ()
             if self.includeLibraries(["metaxploit.so"])["metaxploit.so"] == null then
                 missingMetaxploit = true
                 print(Proxima.io.addOutputEntry(Proxima.io.output.progress("Downloading <b>metaxploit.so</b>...")))
-                installMetaxploit = self.installLibrary("metaxploit.so")
+                installMetaxploit = Proxima.apt.installLibrary("metaxploit.so")
                 if installMetaxploit != null then
                     print(Proxima.io.addOutputEntry(Proxima.io.output.success("Installed <b>metaxploit.so</b> successfully!")))
                 else
