@@ -153,10 +153,19 @@ Proxima.engine.initLibraries = function ()
     isGuest = true
     if Proxima.globals.activeUser != "guest" then isGuest = false
 
-    if aptClient != null and isGuest == false then
-        
+    if aptClient != null then
+        if isGuest == false then
+            // check has shop repo
+            // if not has shop repo find one
+            // update repository information
+            // check for updates
+            // install metaxploit
+            // install crypto
+        else
+            print(Proxima.io.addOutputEntry(Proxima.io.output.warning("Couldn't check for updates due to insufficient user privileges.")))
+        end if
     else
-        print(Proxima.io.addOutputEntry(Proxima.io.output.warning("Couldn't check for updates due to insufficient user privileges.")))
+        print(Proxima.io.addOutputEntry(Proxima.io.output.warning("Couldn't check for updates due to missing <b>aptclient.so</b> library.")))
     end if
 
     hasShopRepo = false
