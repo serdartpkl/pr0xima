@@ -66,7 +66,6 @@ for libraryName in libraryMap.indexes
 for libraryLocation in Proxima.globals.libraryLocations
 includeLibrary=include_lib(libraryLocation+"/"+libraryName)
 Proxima.io.clearScreen
-wait(Proxima.globals.waitTime)
 if includeLibrary!=null then
 libraryMap[libraryName]=includeLibrary
 break
@@ -293,7 +292,6 @@ Proxima.io.addLine
 if runTests then
 Proxima.testing.runTests
 else
-if self.isGameModeOnline then Proxima.globals.waitTime=0.1
 getSavedSessions=Proxima.sessions.getSessions(true)
 if getSavedSessions!=null then
 if getSavedSessions.len>0 then

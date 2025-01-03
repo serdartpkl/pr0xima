@@ -30,7 +30,6 @@ Proxima.apt.addRepository = function (repositoryIP)
     if self.checkRepository(repositoryIP) == null then
         addRepo = Proxima.globals.aptclient.add_repo(repositoryIP)
         Proxima.io.clearScreen()
-        wait(Proxima.globals.waitTime)
         if addRepo == "" then return true
     end if
     return null
@@ -40,7 +39,6 @@ Proxima.apt.deleteRepository = function (repositoryIP)
     if self.checkRepository(repositoryIP) then
         delRepo = Proxima.globals.aptclient.del_repo(repositoryIP)
         Proxima.io.clearScreen()
-        wait(Proxima.globals.waitTime)
         if delRepo == "" then return true
     end if
     return null
@@ -68,7 +66,6 @@ end function
 Proxima.apt.updateRepositoryInformation = function ()
     updateRepoInfo = Proxima.globals.aptclient.update()
     Proxima.io.clearScreen()
-    wait(Proxima.globals.waitTime)
     if updateRepoInfo == "" then return true
     return null
 end function
@@ -127,7 +124,6 @@ Proxima.apt.checkForUpdates = function ()
     for acquiredFile in libraryFiles
         isUpdateAvailable = Proxima.globals.aptclient.check_upgrade(acquiredFile)
         Proxima.io.clearScreen()
-        wait(Proxima.globals.waitTime)
         if isUpdateAvailable then
             libraryName = acquiredFile.split("/")[-1]
             pendingForUpdate.push(libraryName)
@@ -140,7 +136,6 @@ end function
 Proxima.apt.installLibrary = function (libraryName)
     installLibrary = Proxima.globals.aptclient.install(libraryName)
     Proxima.io.clearScreen()
-    wait(Proxima.globals.waitTime)
     if installLibrary == 1 then
         getLibraryFile = Proxima.globals.myPC.File("/lib/" + libraryName)
         if getLibraryFile != null then 

@@ -122,7 +122,6 @@ targetIP=Proxima.sessions.getSessionValue(Proxima.sessions.targetSession,"target
 print(Proxima.io.addOutputEntry(Proxima.io.output.progress("Connecting to <b>"+targetIP+":"+targetPort.port_number+"</b>...")))
 netSession=Proxima.globals.metaxploit.net_use(targetIP,targetPort.port_number)
 Proxima.io.clearScreen
-wait(0.5)
 if netSession!=null then
 libraryDump=netSession.dump_lib
 print(Proxima.io.addOutputEntry(Proxima.io.output.progress("Attempting to scan vulnerabilities... <b>[IP:"+targetIP+"|PORT:"+targetPort.port_number+"]</b>")))
@@ -130,7 +129,6 @@ print(Proxima.io.addOutputEntry(Proxima.io.output.info("Library version found: <
 scanResult=Proxima.globals.metaxploit.scan(libraryDump)
 Proxima.io.addProgressBar
 Proxima.io.clearScreen
-wait(0.5)
 totalExploits=Proxima.exploit.parseScanEntries(scanResult,libraryDump,targetPort)
 else
 print(Proxima.io.addOutputEntry(Proxima.io.output.error("Unable to connect to port <b>"+targetPort.port_number+"</b>. It has firewall protection.")))

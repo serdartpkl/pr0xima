@@ -5,7 +5,6 @@ if targetShells.len>0 then
 if shellID!=null and targetShells.hasIndex(shellID-1) then
 targetShell=targetShells[shellID-1]
 print(Proxima.io.addOutputEntry(Proxima.io.output.progress("Launching shell on <b>"+targetShell.public_ip+"|"+targetShell.local_ip+"</b> via <b>"+targetShell.owner+"</b> privilege. <b>[ID:"+targetShell.id+"]</b>")))
-wait(0.5)
 targetShell.shell_object.start_terminal
 else
 print(Proxima.io.addOutputEntry(Proxima.io.output.error("No open shell found with specified ID. <b>[ID:"+shellID+"]</b>")))
@@ -66,7 +65,6 @@ getRemoteFile=targetShell.shell_object.scp(remoteFile.path,getDownloadTo.path,Pr
 Proxima.io.addTransferProcess(remoteFile.size)
 print(Proxima.io.addOutputEntry(Proxima.io.output.line))
 Proxima.io.clearScreen
-wait(0.5)
 if typeof(getRemoteFile)=="string" or typeof(getRemoteFile)==null then
 if output then print(Proxima.io.addOutputEntry(Proxima.io.output.error("Couldn't download <b>"+fileName+"</b>!")))
 if output then print(Proxima.io.addOutputEntry(Proxima.io.output.error("Reason of failure: "+getRemoteFile)))
@@ -106,7 +104,6 @@ uploadLocalFile=Proxima.globals.myShell.scp(localFile.path,setUploadFolder.path,
 Proxima.io.addTransferProcess(localFile.size)
 print(Proxima.io.addOutputEntry(Proxima.io.output.line))
 Proxima.io.clearScreen
-wait(0.5)
 if typeof(uploadLocalFile)=="string" or typeof(uploadLocalFile)==null then
 if output then print(Proxima.io.addOutputEntry(Proxima.io.output.error("Couldn't upload <b>"+fileName+"</b>!")))
 if output then print(Proxima.io.addOutputEntry(Proxima.io.output.error("Reason of failure: "+uploadLocalFile)))
@@ -189,7 +186,6 @@ if self.isSSHAvailable then
 targetIP=Proxima.sessions.getSessionValue("targetIP")
 connectionResult=Proxima.globals.myShell.connect_service(targetIP,22,username,password,"ssh")
 Proxima.io.clearScreen
-wait(0.5)
 if typeof(connectionResult)=="shell" then return connectionResult
 else
 return null
@@ -200,7 +196,6 @@ if self.isFTPAvailable then
 targetIP=Proxima.sessions.getSessionValue("targetIP")
 connectionResult=Proxima.globals.myShell.connect_service(targetIP,21,username,password,"ftp")
 Proxima.io.clearScreen
-wait(0.5)
 if typeof(connectionResult)=="shell" then return connectionResult
 else
 return null
@@ -411,7 +406,6 @@ uploadFile=Proxima.globals.myShell.scp(toolFile.path,setUploadTo,targetShell.she
 Proxima.io.addTransferProcess(toolFile.size)
 print(Proxima.io.addOutputEntry(Proxima.io.output.line))
 Proxima.io.clearScreen
-wait(0.5)
 if typeof(uploadFile)=="string" or typeof(uploadFile)==null then
 print(Proxima.io.addOutputEntry(Proxima.io.output.error("Couldn't upload <b>"+fileName+"</b>!")))
 print(Proxima.io.addOutputEntry(Proxima.io.output.error("Reason of failure: "+uploadFile)))
@@ -451,7 +445,6 @@ uploadMetaxploit=Proxima.globals.myShell.scp(foundedLocation.path,userFolder,tar
 Proxima.io.addTransferProcess(foundedLocation.size)
 print(Proxima.io.addOutputEntry(Proxima.io.output.line))
 Proxima.io.clearScreen
-wait(0.5)
 end if
 rshellCode=null
 rshellCode=rshellCode+"metaxploit = null"+char(10)

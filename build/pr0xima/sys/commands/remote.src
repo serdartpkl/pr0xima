@@ -1,0 +1,61 @@
+Proxima.commands.scanport={"name":"scanport","description":"Scans the specified port/ports for acquiring available remote exploits.","usage":"scanport <id>","type":1}
+Proxima.commands.scanport.exec=function(params)
+if params.len==0 then
+Proxima.io.throwInputError("No port ID provided.",self.usage)
+else
+if params[0]=="all" then
+Proxima.ports.scanPorts
+else
+Proxima.ports.scanPort(params[0].to_int)
+end if
+end if
+end function
+Proxima.commands.target={"name":"target","description":"Scans the specified port/ports for acquiring available remote exploits.","usage":"target <id>","type":1}
+Proxima.commands.target.exec=function(params)
+if params.len==0 then
+Proxima.io.throwInputError("No port ID provided.",self.usage)
+else
+if params[0]=="all" then
+Proxima.exploit.scanPorts
+else
+Proxima.exploit.scanPort(params[0].to_int)
+end if
+end if
+end function
+Proxima.commands.ports={"name":"ports","description":"Lists all available target ports..","usage":"ports","type":1}
+Proxima.commands.ports.exec=function(params)
+targetPorts=Proxima.sessions.getSessionValue(Proxima.sessions.targetSession,"targetPorts")
+if targetPorts.len>0 then
+Proxima.ports.displayPorts
+else
+Proxima.io.throwInputError("No ports available, please scan an IP address first.")
+end if
+end function
+Proxima.commands.get={"name":"get","description":"Gets file from remote computer to local computer.","usage":"get <path>","type":1}
+Proxima.commands.get.exec=function(params)
+if params.len==0 then
+Proxima.io.throwInputError("No remote file path provided.",self.usage)
+else
+Proxima.exploit.getFile(params[0])
+end if
+end function
+Proxima.commands.put={"name":"put","description":"Uploads file from local computer to remote computer.","usage":"put <path|tools [-s]>","type":1}
+Proxima.commands.put.exec=function(params)
+if params.len==0 then
+Proxima.io.throwInputError("No local file path provided.",self.usage)
+else
+if params[0]=="tools" then
+Proxima.exploit.putTools
+else
+Proxima.exploit.putFile(params[0])
+end if
+end if
+end function
+Proxima.commands.jump={"name":"jump","description":"List available sessions.","usage":"jump","type":2}
+Proxima.commands.jump.exec=function(params)
+Proxima.exploit.jumpShell
+end function
+Proxima.commands.tunnel={"name":"tunnel","description":"","usage":"tunnel","type":1}
+Proxima.commands.tunnel.exec=function(params)
+Proxima.exploit.tunnelConnection
+end function
