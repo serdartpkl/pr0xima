@@ -6,12 +6,13 @@ Proxima.apt.checkSourcesFile = function ()
     return Proxima.globals.myPC.File("/etc/apt/sources.txt")
 end function
 
-Proxima.apt.getRepositories = function (sourcesFile)
+Proxima.apt.getRepositories = function ()
     repositoryIPs = []
+    sourcesFile = self.checkSourcesFile()
     if sourcesFile != null then
-        deserializedSource = Proxima.serialization.deserializeMap(sourcesFile.get_content)
-        if deserializedSource.sourceList.len > 0 then
-            for repositoryIP in deserializedSource.sourceList.indexes
+        deserializedSources = Proxima.serialization.deserializeMap(sourcesFile.get_content)
+        if deserializedSources.sourceList.len > 0 then
+            for repositoryIP in deserializedSources.sourceList.indexes
                 repositoryIPs.push(repositoryIP)
             end for
         end if
@@ -20,10 +21,8 @@ Proxima.apt.getRepositories = function (sourcesFile)
 end function
 
 Proxima.apt.checkRepository = function (repositoryIP)
-    checkSourcesFile = self.checkSourcesFile()
-    if checkSourcesFile != null then
-        if self.getRepositories(checkSourcesFile).indexOf(repositoryIP) != null then return true
-    end if
+    allRepositories = self.getRepositories()
+    if allRepositories.len > 0 and allRepositories.indexOf(repositoryIP) != null then return true
     return null
 end function
 
