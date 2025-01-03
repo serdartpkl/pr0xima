@@ -153,6 +153,12 @@ Proxima.engine.initLibraries = function ()
     isGuest = true
     if Proxima.globals.activeUser != "guest" then isGuest = false
 
+    if aptClient != null and isGuest == false then
+        
+    else
+        print(Proxima.io.addOutputEntry(Proxima.io.output.warning("Couldn't check for updates due to insufficient user privileges.")))
+    end if
+
     hasShopRepo = false
     sourcesFile = Proxima.apt.checkSourcesFile()
     if aptClient != null and sourcesFile != null then
