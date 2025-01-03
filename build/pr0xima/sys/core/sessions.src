@@ -2,13 +2,14 @@ Proxima.sessions={}
 Proxima.sessions.targetSession=null
 Proxima.sessions.activeSessions=[]
 Proxima.sessions.getSessions=function(getSaved=false)
+acquiredSessions=null
 if getSaved then
 getSavedSessions=Proxima.db.getRecords("sessions")
-if getSavedSessions!=null then return getSavedSessions
+if getSavedSessions!=null then acquiredSessions=getSavedSessions
 else
-return self.activeSessions
+acquiredSessions=self.activeSessions
 end if
-return null
+return acquiredSessions
 end function
 Proxima.sessions.getSession=function(sessionKey,getSaved=false)
 acquiredSessions=self.getSessions(getSaved)
@@ -99,7 +100,7 @@ sessionMap.targetUsers=[]
 sessionMap.targetMails=[]
 sessionMap.targetBanks=[]
 sessionMap.payloadInjection=1
-sessionMap.systemInformation={"domainName":null,"companyName":null,"adminName":null,"adminEmail":null,"adminPhone":null}
+sessionMap.whoisInformation={"domainName":null,"companyName":null,"adminName":null,"adminEmail":null,"adminPhone":null}
 return sessionMap
 end function
 Proxima.sessions.addSession=function(sessionType,targetIP,targetRouter)
