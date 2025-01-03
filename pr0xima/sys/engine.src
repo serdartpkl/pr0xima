@@ -135,7 +135,7 @@ end function
 Proxima.engine.updateLibraries = function (pendingList)
     statusMap = {"updated": [], "failed": []}
     for pendingLibrary in pendingList
-        print(Proxima.io.addLine())
+        Proxima.io.addLine()
         updateLibrary = Proxima.apt.installLibrary(pendingLibrary)
         if updateLibrary != null then
             statusMap.updated.push(pendingLibrary)
@@ -143,7 +143,7 @@ Proxima.engine.updateLibraries = function (pendingList)
             statusMap.failed.push(pendingLibrary)
             print(Proxima.io.addOutputEntry(Proxima.io.output.error("Couldn't update <b>" + pendingLibrary + "</b>.")))
         end if
-        print(Proxima.io.addLine())
+        Proxima.io.addLine()
     end for
     return statusMap
 end function
@@ -158,7 +158,7 @@ Proxima.engine.initLibraries = function ()
         print(Proxima.io.addOutputEntry(Proxima.io.output.error("Couldn't locate <b>aptclient.so</b> library. <b>[FAILED]</b>")))
     end if
 
-    print(Proxima.io.addLine())
+    Proxima.io.addLine()
 
     isGuest = true
     if Proxima.globals.activeUser != "guest" then isGuest = false
@@ -217,7 +217,7 @@ Proxima.engine.initLibraries = function ()
                 end if
             end if
 
-            print(Proxima.io.addLine())
+            Proxima.io.addLine()
 
             missingCrypto = false
             if self.includeLibraries(["crypto.so"])["crypto.so"] == null then
@@ -231,7 +231,7 @@ Proxima.engine.initLibraries = function ()
                 end if
             end if
 
-            if missingCrypto then print(Proxima.io.addLine())
+            if missingCrypto then Proxima.io.addLine()
             
             missingMetaxploit = false
             if self.includeLibraries(["metaxploit.so"])["metaxploit.so"] == null then
@@ -245,7 +245,7 @@ Proxima.engine.initLibraries = function ()
                 end if
             end if
 
-            if missingMetaxploit then print(Proxima.io.addLine())
+            if missingMetaxploit then Proxima.io.addLine()
         else
             print(Proxima.io.addOutputEntry(Proxima.io.output.warning("Couldn't check for updates due to insufficient user privileges.")))
         end if
@@ -357,7 +357,7 @@ Proxima.engine.startEngine = function (runTests = false)
     Proxima.io.printHeader()
     Proxima.io.printInformation("pr0xima", "A simple easy to use multi purpose hacking tool.")
     
-    print(Proxima.io.addLine())
+    Proxima.io.addLine()
 
     if Proxima.net.checkConnection != true then 
         print(Proxima.io.output.error("You are not connected to the internet! Terminating program..."))
@@ -379,11 +379,11 @@ Proxima.engine.startEngine = function (runTests = false)
         exit(Proxima.io.output.error("Couldn't load settings!"))
     end if
 
-    print(Proxima.io.addLine())
+    Proxima.io.addLine()
 
     self.initLibraries()
 
-    print(Proxima.io.addLine())
+    Proxima.io.addLine()
 
     if runTests then
         Proxima.testing.runTests()
@@ -401,7 +401,7 @@ Proxima.engine.startEngine = function (runTests = false)
             exit(Proxima.io.addOutputEntry(Proxima.io.output.error("Couldn't access sessions database due to unexpected error. Terminating program...")))
         end if
     
-        print(Proxima.io.addLine())
+        Proxima.io.addLine()
 
         initializeLocalSession = self.initializeLocalSession()
         if initializeLocalSession != null then

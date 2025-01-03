@@ -74,7 +74,7 @@ end function
 Proxima.io.addLine = function ()
     lineString = self.output.line
     self.ioEntries.push(lineString)
-    return lineString + char(10)
+    print(lineString + "\n")
 end function
 
 Proxima.io.clearScreen = function ()
