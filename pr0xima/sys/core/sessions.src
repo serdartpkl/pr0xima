@@ -282,8 +282,8 @@ end function
 // ------------------------------------------------------------------------------------------------------------
 
 Proxima.sessions.colorizeSessionType = function (sessionType)
-    if sessionType == 0 then return "LOCAL#FC8403"
-    if sessionType == 1 then return "REMOTE#FFC466"
+    if sessionType == 0 then return "LOCAL" + Proxima.io.output.colors.ORANGE
+    if sessionType == 1 then return "REMOTE" + Proxima.io.output.colors.SAND
 end function
 
 Proxima.sessions.displaySessions = function (displaySaved = false)
@@ -294,7 +294,7 @@ Proxima.sessions.displaySessions = function (displaySaved = false)
 
     for targetSession in sessionList
         addColor = null
-        if displaySaved == false and self.targetSession == targetSession.id then addColor = "#08FF57"
+        if displaySaved == false and self.targetSession == targetSession.id then addColor = Proxima.io.output.colors.GREEN
         s_id = str(targetSession.id) + addColor
         s_target_ip = targetSession.targetIP + addColor
         s_date = targetSession.dateCreated + addColor
