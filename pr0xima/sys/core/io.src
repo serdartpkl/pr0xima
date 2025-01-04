@@ -80,11 +80,11 @@ end function
 Proxima.io.clearScreen = function ()
     clear_screen
     if self.ioEntries.len > 0 then
-        wait(Proxima.globals.printInterval)
         for ioEntry in self.ioEntries
             print(ioEntry)
         end for
     end if
+    wait(Proxima.globals.printInterval)
 end function
 
 // ------------------------------------------------------------------------------------------------------------

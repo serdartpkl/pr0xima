@@ -65,8 +65,8 @@ if self.ioEntries.len>0 then
 for ioEntry in self.ioEntries
 print(ioEntry)
 end for
-wait(Proxima.globals.printInterval)
 end if
+wait(Proxima.globals.printInterval)
 end function
 Proxima.io.colorizeUserName=function(sessionType,userName)
 userColor="#FC8403"
