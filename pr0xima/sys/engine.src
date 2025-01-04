@@ -86,7 +86,7 @@ Proxima.engine.createMissingFiles = function ()
     end if
 
     if hasMissingFiles == false then return true
-    return false
+    return null
 end function
 
 Proxima.engine.getSettings = function ()
