@@ -404,6 +404,7 @@ Proxima.engine.startEngine = function (runTests = false)
         initializeLocalSession = self.initializeLocalSession()
         if initializeLocalSession != null then
             print(Proxima.io.addOutputEntry(Proxima.io.output.success("Initialized local session successfully!")))
+            Proxima.io.addLine()
             self.startCLI()
         else
             exit(Proxima.io.output.error("Couldn't initialize local session due to unexpected error. Terminating program..."))
