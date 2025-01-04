@@ -2,24 +2,25 @@ Proxima.io={}
 Proxima.io.inputString=null
 Proxima.io.ioEntries=[]
 Proxima.io.output={}
+Proxima.io.output.colors={"RED":"#FF1548","GREEN":"#08FF57","BLUE":"#0091FF","CYAN":"#00FFBB","YELLOW":"#FFDD00","GOLD":"#FFC466","SAND":"#FC8403","PURPLE":"#9370DB","WHITE":"#FFFFFF","GRAY":"#999999"}
 Proxima.io.output.line="+----------------------------------------------------+"
 Proxima.io.output.colorize=function(givenString,givenColor)
 return "<color="+givenColor+">"+givenString+"</color>"
 end function
 Proxima.io.output.info=function(givenString)
-return self.colorize("[i] "+givenString,"#0091FF")
+return self.colorize("[i] "+givenString,self.colors.BLUE)
 end function
 Proxima.io.output.progress=function(givenString)
-return self.colorize("[*] "+givenString,"#00FFBB")
+return self.colorize("[*] "+givenString,self.colors.CYAN)
 end function
 Proxima.io.output.warning=function(givenString)
-return self.colorize("[!] "+givenString,"#FFDD00")
+return self.colorize("[!] "+givenString,self.colors.YELLOW)
 end function
 Proxima.io.output.error=function(givenString)
-return self.colorize("[!] "+givenString,"#FF1548")
+return self.colorize("[!] "+givenString,self.colors.RED)
 end function
 Proxima.io.output.success=function(givenString)
-return self.colorize("[+] "+givenString,"#08FF57")
+return self.colorize("[+] "+givenString,self.colors.GREEN)
 end function
 Proxima.io.addInputEntry=function(userCommand)
 self.ioEntries.push(self.inputString+userCommand)

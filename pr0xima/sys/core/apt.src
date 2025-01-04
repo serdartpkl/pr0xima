@@ -95,10 +95,7 @@ Proxima.apt.isValidShop = function (repositoryIP)
         end if
         if self.updateRepositoryInformation() then
             repoPackageList = self.getPackageList(repositoryIP)
-            if repoPackageList != null and 
-               repoPackageList.indexOf("metaxploit.so") != null and
-               repoPackageList.indexOf("crypto.so") != null then
-               isValidShop = true
+            if repoPackageList != null and repoPackageList.indexOf("metaxploit.so") != null and repoPackageList.indexOf("crypto.so") != null then isValidShop = true
         end if
     end if
 
