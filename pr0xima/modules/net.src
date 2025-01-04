@@ -36,7 +36,7 @@ Proxima.net.selectInterface = function ()
             deviceInfo = networkDevice.split(char(32))
             interfaceName = deviceInfo[0]
             supportedMonitoring = deviceInfo[2]
-            if supportedMonitoring then
+            if supportedMonitoring == "true" then
                 self.selectedInterface = interfaceName
                 return true
             end if
