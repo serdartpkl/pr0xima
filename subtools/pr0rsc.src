@@ -2,6 +2,14 @@ import_code("../pr0xima/init.src")
 
 prx = new Proxima
 
-if params.hasIndex(0) == 0 then exit(prx.io.output.error("No IP address given to connect! Terminating program..."))
+targetIP = null
+if params.hasIndex(0) == 1 then
+    targetIP = params[0]
+else
+    exit(prx.io.output.error("No IP address given to connect! Terminating program..."))
+end if
 
-prx.rshell.launchRshell(params)
+targetLAN = null
+if params.hasIndex(1) == 1 then targetLAN = params[1]
+
+prx.rshell.launchRshell(targetIP, targetLAN)
