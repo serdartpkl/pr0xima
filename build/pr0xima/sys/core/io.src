@@ -2,7 +2,7 @@ Proxima.io={}
 Proxima.io.inputString=null
 Proxima.io.ioEntries=[]
 Proxima.io.output={}
-Proxima.io.output.colors={"RED":"#FF1548","GREEN":"#08FF57","BLUE":"#0091FF","CYAN":"#00FFBB","YELLOW":"#FFDD00","GOLD":"#FFC466","SAND":"#FC8403","PURPLE":"#9370DB","WHITE":"#FFFFFF","GRAY":"#999999"}
+Proxima.io.output.colors={"RED":"#FF1548","GREEN":"#08FF57","BLUE":"#008DFF","CYAN":"#00FFBB","YELLOW":"#FFDD00","ORANGE":"#FFC466","SAND":"#FC8403","PURPLE":"#9370DB","WHITE":"#FFFFFF","GRAY":"#999999"}
 Proxima.io.output.line="+----------------------------------------------------+"
 Proxima.io.output.colorize=function(givenString,givenColor)
 return "<color="+givenColor+">"+givenString+"</color>"
@@ -70,32 +70,32 @@ end if
 wait(Proxima.globals.printInterval)
 end function
 Proxima.io.colorizeUserName=function(sessionType,userName)
-userColor="#FC8403"
-if sessionType==1 and userName=="NO_ACCESS" then userColor="#008DFF"
-if sessionType==1 and userName=="GUEST_ACCESS" then userColor="#FFDD00"
-if sessionType==1 and userName=="USER_ACCESS" then userColor="#08FF57"
-if sessionType==1 and userName=="ROOT_ACCESS" then userColor="#9370DB"
+userColor=self.output.colors.ORANGE
+if sessionType==1 and userName=="NO_ACCESS" then userColor=self.output.colors.BLUE
+if sessionType==1 and userName=="GUEST_ACCESS" then userColor=self.output.colors.YELLOW
+if sessionType==1 and userName=="USER_ACCESS" then userColor=self.output.colors.GREEN
+if sessionType==1 and userName=="ROOT_ACCESS" then userColor=self.output.colors.PURPLE
 return userColor
 end function
 Proxima.io.updateInputString=function(userName,publicIP,localIP,sessionID,sessionType)
 userColor=self.colorizeUserName(sessionType,userName)
 sessionTypeName="LOCAL"
 if sessionType==1 then sessionTypeName="REMOTE"
-inputString="<pos=20><voffset=0.25em><color=#FFC466><pos=8>——["+"<voffset=0.2em><color="+userColor+">"+userName+"</color>"+"<voffset=0.2em>]——["+"<voffset=0.2em><color=#FF1548>"+publicIP+"</color>"+"<voffset=0.2em><color=#999999>->"+localIP+"</color>"+"<voffset=0.2em>]——["+"<voffset=0.2em><color=#08FF57>SID:"+sessionID+"|"+sessionTypeName+"</color>]"+"<voffset=-0.2em><pos=0>/<pos=0><voffset=-1.05em>\<pos=4.95>"+"<pos=8><voffset=-1.45em>——<color=#FF1548>$</color><color=#008DFF>> </color></color>"
+inputString="<pos=20><voffset=0.25em><color="+self.output.colors.SAND+"><pos=8>——["+"<voffset=0.2em><color="+userColor+">"+userName+"</color>"+"<voffset=0.2em>]——["+"<voffset=0.2em><color="+self.output.colors.RED+">"+publicIP+"</color>"+"<voffset=0.2em><color="+self.output.colors.GRAY+">->"+localIP+"</color>"+"<voffset=0.2em>]——["+"<voffset=0.2em><color="+self.output.colors.GREEN+">SID:"+sessionID+"|"+sessionTypeName+"</color>]"+"<voffset=-0.2em><pos=0>/<pos=0><voffset=-1.05em>\<pos=4.95>"+"<pos=8><voffset=-1.45em>——<color="+self.output.colors.RED+">$</color><color="+self.output.colors.BLUE+">> </color></color>"
 self.inputString=inputString
 end function
 Proxima.io.printHeader=function
-print(self.addOutputEntry(self.output.colorize("<b>              _______         .__                </b>","#FC8403")))
-print(self.addOutputEntry(self.output.colorize("<b>_____________ \   _  \ ___  __|__| _____ _____   </b>","#FC8403")))
-print(self.addOutputEntry(self.output.colorize("<b>\____ \_  __ \/  /_\  \\  \/  /  |/     \\__  \  </b>","#FC8403")))
-print(self.addOutputEntry(self.output.colorize("<b>|  |_> >  | \/\  \_/   \>    <|  |  Y Y  \/ __ \_</b>","#FC8403")))
-print(self.addOutputEntry(self.output.colorize("<b>|   __/|__|    \_____  /__/\_ \__|__|_|  (____  /</b>","#FC8403")))
-print(self.addOutputEntry(self.output.colorize("<b>|__|                 \/      \/        \/     \/ </b>","#FC8403")))
-print(self.addOutputEntry(self.output.colorize("<b>                                                 </b>","#FC8403")))
+print(self.addOutputEntry(self.output.colorize("<b>              _______         .__                </b>",self.output.colors.ORANGE)))
+print(self.addOutputEntry(self.output.colorize("<b>_____________ \   _  \ ___  __|__| _____ _____   </b>",self.output.colors.ORANGE)))
+print(self.addOutputEntry(self.output.colorize("<b>\____ \_  __ \/  /_\  \\  \/  /  |/     \\__  \  </b>",self.output.colors.ORANGE)))
+print(self.addOutputEntry(self.output.colorize("<b>|  |_> >  | \/\  \_/   \>    <|  |  Y Y  \/ __ \_</b>",self.output.colors.ORANGE)))
+print(self.addOutputEntry(self.output.colorize("<b>|   __/|__|    \_____  /__/\_ \__|__|_|  (____  /</b>",self.output.colors.ORANGE)))
+print(self.addOutputEntry(self.output.colorize("<b>|__|                 \/      \/        \/     \/ </b>",self.output.colors.ORANGE)))
+print(self.addOutputEntry(self.output.colorize("<b>                                                 </b>",self.output.colors.ORANGE)))
 end function
 Proxima.io.printInformation=function(scriptName,scriptDescription)
-print(self.addOutputEntry(self.output.colorize("<b>"+scriptName+" — v"+Proxima.globals.version+"</b>","#FFC466")))
-print(self.addOutputEntry(self.output.colorize("<b>"+scriptDescription+"</b>","#FFFFFF")))
+print(self.addOutputEntry(self.output.colorize("<b>"+scriptName+" — v"+Proxima.globals.version+"</b>",self.output.colors.SAND)))
+print(self.addOutputEntry(self.output.colorize("<b>"+scriptDescription+"</b>",self.output.colors.WHITE)))
 end function
 Proxima.io.throwInputError=function(cmdMessage=null,cmdUsage=null)
 if cmdMessage!=null then
