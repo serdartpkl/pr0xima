@@ -4,6 +4,18 @@ Proxima.io.inputString = null
 Proxima.io.ioEntries = []
 
 Proxima.io.output = {}
+
+Proxima.io.output.colors = {
+    "RED": "",
+    "GREEN": "",
+    "BLUE": "",
+    "CYAN": "",
+    "GOLD": "",
+    "SAND": "",
+    "YELLOW": "",
+    "GRAY": "",
+}
+
 Proxima.io.output.line = "+----------------------------------------------------+"
 
 // ------------------------------------------------------------------------------------------------------------
