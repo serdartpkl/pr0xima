@@ -106,6 +106,7 @@ Proxima.apt.isValidShop = function (repositoryIP)
 
     if deleteRepository != null then
         if isValidShop then return true
+        return false
     end if
     return null
 end function
