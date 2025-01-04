@@ -19,11 +19,13 @@ end function
 Proxima.net.selectInterface=function
 targetComputer=Proxima.globals.myPC
 activeNetworkCard=targetComputer.active_net_card
+print(Proxima.io.addOutputEntry(activeNetworkCard))
 if activeNetworkCard=="WIFI" then
 networkDevices=network_devices(targetComputer)
 deviceList=networkDevices.split(char(10))
 for networkDevice in deviceList
 deviceInfo=networkDevice.split(char(32))
+print(Proxima.io.addOutputEntry(deviceInfo))
 interfaceName=deviceInfo[0]
 supportedMonitoring=false
 if deviceInfo[2]=="true" then supportedMonitoring=true
