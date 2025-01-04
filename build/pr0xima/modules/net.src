@@ -25,7 +25,8 @@ deviceList=networkDevices.split(char(10))
 for networkDevice in deviceList
 deviceInfo=networkDevice.split(char(32))
 interfaceName=deviceInfo[0]
-supportedMonitoring=deviceInfo[2]
+supportedMonitoring=false
+if deviceInfo[2]=="true" then supportedMonitoring=true
 if supportedMonitoring then
 self.selectedInterface=interfaceName
 return true

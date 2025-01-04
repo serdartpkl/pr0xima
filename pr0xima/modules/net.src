@@ -29,6 +29,7 @@ end function
 Proxima.net.selectInterface = function ()
     targetComputer = Proxima.globals.myPC
     activeNetworkCard = targetComputer.active_net_card
+    print(Proxima.io.addOutputEntry(activeNetworkCard))
     if activeNetworkCard == "WIFI" then
         networkDevices = network_devices(targetComputer)
         deviceList = networkDevices.split(char(10))
