@@ -14,7 +14,7 @@ Proxima.io.output.colors = {
     "GOLD": "#FFC466",
     "SAND": "#FC8403",
     "PURPLE": "#9370DB",
-    "WHITE": "#FFFFFF"
+    "WHITE": "#FFFFFF",
     "GRAY": "#999999"
 }
 
