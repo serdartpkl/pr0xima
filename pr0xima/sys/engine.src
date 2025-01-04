@@ -111,7 +111,7 @@ Proxima.engine.setSettings = function (settingKey, settingValue)
 end function
 
 Proxima.engine.includeLibraries = function (libraryList)
-    libraryMap = {}
+    libraryMap = []
 
     for libraryName in libraryList
         libraryMap[libraryName] = null
