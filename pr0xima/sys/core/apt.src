@@ -47,6 +47,7 @@ end function
 Proxima.apt.getPackageList = function (repositoryIP)
     if self.checkRepository(repositoryIP) then
         repositoryPackages = Proxima.globals.aptclient.show(repositoryIP)
+        Proxima.io.clearScreen()
         packageList = repositoryPackages.split(char(10) + char(10))
         packageList.pop()
         packageList.pop()
