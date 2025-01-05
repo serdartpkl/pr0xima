@@ -7,7 +7,7 @@ if getSaved then
 getSavedSessions=Proxima.db.getRecords("sessions")
 if getSavedSessions!=null then acquiredSessions=getSavedSessions
 else
-acquiredSessions=self.activeSessions
+if self.activeSessions.len>0 then acquiredSessions=self.activeSessions
 end if
 return acquiredSessions
 end function

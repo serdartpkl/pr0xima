@@ -5,16 +5,16 @@ Proxima.testing.tests = {}
 // ------------------------------------------------------------------------------------------------------------
 
 describe = function (testSuiteName, fn)
-    print(Proxima.io.addOutputEntry(Proxima.io.output.colorize("<b>/ START_TEST_SUITE</b>", "#FC8403")))
-    print(Proxima.io.addOutputEntry(Proxima.io.output.colorize("<b>| TEST_SUITE [" + testSuiteName + "]</b>", "#FC8403")))
+    print(Proxima.io.addOutputEntry(Proxima.io.output.colorize("<b>/ START_TEST_SUITE</b>", Proxima.io.output.colors.ORANGE)))
+    print(Proxima.io.addOutputEntry(Proxima.io.output.colorize("<b>| TEST_SUITE [" + testSuiteName + "]</b>", Proxima.io.output.colors.ORANGE)))
     fn()
-    print(Proxima.io.addOutputEntry(Proxima.io.output.colorize("<b>\ END_TEST_SUITE</b>", "#FC8403")))
+    print(Proxima.io.addOutputEntry(Proxima.io.output.colorize("<b>\ END_TEST_SUITE</b>", Proxima.io.output.colors.ORANGE)))
 end function
 
 it = function (testName, fn)
-    print(Proxima.io.addOutputEntry(Proxima.io.output.colorize("<b>|-- TEST [" + testName + "]</b>", "#FFC466")))
+    print(Proxima.io.addOutputEntry(Proxima.io.output.colorize("<b>|-- TEST [" + testName + "]</b>", Proxima.io.output.colors.SAND)))
     fn()
-    print(Proxima.io.addOutputEntry(Proxima.io.output.colorize("<b>|-- END_TEST</b>", "#FFC466")))
+    print(Proxima.io.addOutputEntry(Proxima.io.output.colorize("<b>|-- END_TEST</b>", Proxima.io.output.colors.SAND)))
 end function
 
 Matchers = {}
@@ -40,9 +40,9 @@ end function
 
 Matchers.printTestOutput = function (testResult, actualValue, expectedValue, isNot = false)
     if testResult then
-        print(Proxima.io.addOutputEntry(Proxima.io.output.colorize("<b>|---- TEST_RESULT: PASSED</b>", "#08FF57")))
+        print(Proxima.io.addOutputEntry(Proxima.io.output.colorize("<b>|---- TEST_RESULT: PASSED</b>", Proxima.io.output.colors.GREEN)))
     else
-        print(Proxima.io.addOutputEntry(Proxima.io.output.colorize("<b>|---- TEST_RESULT: FAILED</b>", "#FF1548")))
+        print(Proxima.io.addOutputEntry(Proxima.io.output.colorize("<b>|---- TEST_RESULT: FAILED</b>", Proxima.io.output.colors.RED)))
     end if
 
     notPrefix = ""
@@ -52,9 +52,9 @@ Matchers.printTestOutput = function (testResult, actualValue, expectedValue, isN
     print(Proxima.io.addOutputEntry("|     |-- " + notPrefix + "EXPECTED_VALUE: " + expectedValue))
 
     if testResult then
-        print(Proxima.io.addOutputEntry(Proxima.io.output.colorize("<b>|---- END_TEST_RESULT</b>", "#08FF57")))
+        print(Proxima.io.addOutputEntry(Proxima.io.output.colorize("<b>|---- END_TEST_RESULT</b>", Proxima.io.output.colors.GREEN)))
     else
-        print(Proxima.io.addOutputEntry(Proxima.io.output.colorize("<b>|---- END_TEST_RESULT</b>", "#FF1548")))
+        print(Proxima.io.addOutputEntry(Proxima.io.output.colorize("<b>|---- END_TEST_RESULT</b>", Proxima.io.output.colors.RED)))
     end if
 end function
 
