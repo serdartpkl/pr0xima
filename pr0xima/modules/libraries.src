@@ -15,10 +15,11 @@ end function
 Proxima.libraries.dumpLibrary = function (targetLibrary)
     totalExploits = 0
     libraryDump = Proxima.globals.metaxploit.load(targetLibrary.path)
-    print(Proxima.io.addOutputEntry(Proxima.io.output.progress("Attempting to scan vulnerabilities at <b>" + libraryDump.lib_name + "</b>!")))
-    print(Proxima.io.addOutputEntry(Proxima.io.output.info("Library version found: <b>" + libraryDump.lib_name + " -> " + libraryDump.version + "</b>")))
+    print(Proxima.io.addOutputEntry(Proxima.io.output.info("Library version found: <b>v" + libraryDump.lib_name + "@" + libraryDump.version + "</b>")))
+    print(Proxima.io.addOutputEntry(Proxima.io.output.progress("Attempting to scan vulnerabilities...")))
     scanResult = Proxima.globals.metaxploit.scan(libraryDump)
     Proxima.io.addProgressBar()
+    Proxima.io.clearScreen()
     totalExploits = Proxima.exploit.parseScanEntries(scanResult, libraryDump, targetLibrary)
     return totalExploits
 end function
