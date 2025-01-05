@@ -68,12 +68,12 @@ Proxima.libraries.scanLibraries = function ()
             end if
         end for
         if totalExploits == 0 then
-            print(Proxima.io.addOutputEntry(Proxima.io.output.error("No useful vulnerabilities found at any libraries.")))
+            print(Proxima.io.addOutputEntry(Proxima.io.output.error("No vulnerabilities found at any libraries.")))
         else if totalExploits > 0 then
-            print(Proxima.io.addOutputEntry(Proxima.io.output.success("<b>" + totalExploits + "</b> exploits found. Use the 'list vulns' command to view and execute them.")))
+            print(Proxima.io.addOutputEntry(Proxima.io.output.success("<b>" + totalExploits + "</b> exploits found. Use 'exploits' command to view and execute them.")))
         end if
     else
-        print(Proxima.io.addOutputEntry(Proxima.io.output.error("No libraries found fo scan, please make a scan first.")))
+        print(Proxima.io.addOutputEntry(Proxima.io.output.error("No libraries found fo scan, please dump local libraries first.")))
     end if
 end function
 
