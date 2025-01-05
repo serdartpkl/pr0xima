@@ -40,7 +40,7 @@ end function
 
 Proxima.commands.ports = {
     "name": "ports",
-    "description": "Lists all available target ports..",
+    "description": "Lists all available target ports.",
     "usage": "ports",
     "type": 1
 }
