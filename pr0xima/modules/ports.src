@@ -1,17 +1,19 @@
 Proxima.ports = {}
 
 Proxima.ports.isRouter = function (targetIP)
-    if get_router(targetIP) != null then
-        return true
-    else
-        return false
-    end if
+    if get_router(targetIP) != null then return true
+    return null
 end function
 
 Proxima.ports.createRouter = function (targetIP)
-    targetRouter = get_router(targetIP)
-    if is_lan_ip(targetIP) and self.isRouter(targetIP) != true then targetRouter = get_router()
-    return targetRouter
+    if is_lan_ip(targetIP) then
+        if self.isRouter(targetIP) then return get_router(targetIP)
+        return get_router()
+    else
+        targetRouter = get_router(targetIP)
+        if targetRouter != null then return targetRouter
+    end if
+    return null
 end function
 
 Proxima.ports.isPingable = function (targetIP)
@@ -63,8 +65,8 @@ Proxima.ports.detectTargetLANs = function ()
             ipAddresses.push(targetPort.lan_ip)
         end for
         removeDuplicates = Proxima.helpers.removeDuplicates(ipAddresses)
-        setLANs = Proxima.sessions.setSessionValue(Proxima.sessions.targetSession, "targetLANs", removeDuplicates)
-        if setLANs then return true
+        setTargetLANs = Proxima.sessions.setSessionValue(Proxima.sessions.targetSession, "targetLANs", removeDuplicates)
+        if setTargetLANs then return true
     end if
     return null
 end function
