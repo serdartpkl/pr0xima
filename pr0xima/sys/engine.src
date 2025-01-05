@@ -137,6 +137,8 @@ Proxima.engine.updateLibraries = function (pendingList)
         Proxima.io.addLine()
         updateLibrary = Proxima.apt.installLibrary(pendingLibrary)
         if updateLibrary != null then
+            getLibraryFile = Proxima.globals.myPC.File("/lib/" + pendingLibrary)
+            if getLibraryFile != null then Proxima.io.addTransferProcess(getLibraryFile.size())
             statusMap.succeededLibraries.push(pendingLibrary)
         else
             statusMap.failedLibraries.push(pendingLibrary)
