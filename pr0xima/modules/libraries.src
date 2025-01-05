@@ -78,16 +78,17 @@ Proxima.libraries.scanLibraries = function ()
 end function
 
 Proxima.libraries.displayLibraries = function ()
-    header_list = ["ID", "LIBRARY_NAME", "VERSION", "PATH"]
-    content_list = []
+    headerList = ["ID", "LIBRARY_NAME", "VERSION", "PATH"]
+    contentList = []
+    
     targetLibraries = Proxima.sessions.getSessionValue(Proxima.sessions.targetSession, "targetLibraries")
     for targetLibrary in targetLibraries
-        l_id = str(targetLibrary.id)
-        l_name = targetLibrary.lib_name
-        l_version = targetLibrary.version
-        l_path = targetLibrary.path
-        content_list.push([ l_id, l_name, l_version, l_path ])
+        libraryID = str(targetLibrary.id)
+        libraryName = targetLibrary.lib_name
+        libraryVersion = targetLibrary.version
+        libraryPath = targetLibrary.path
+        contentList.push([ libraryID, libraryName, libraryVersion, libraryPath ])
     end for
 
-    Proxima.helpers.formatList(header_list, content_list)
+    Proxima.helpers.formatList(headerList, contentList)
 end function
