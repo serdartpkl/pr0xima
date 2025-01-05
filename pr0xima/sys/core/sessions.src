@@ -11,7 +11,7 @@ Proxima.sessions.getSessions = function (getSaved = false)
         getSavedSessions = Proxima.db.getRecords("sessions")
         if getSavedSessions != null then acquiredSessions = getSavedSessions
     else
-        acquiredSessions = self.activeSessions
+        if self.activeSessions.len > 0 then acquiredSessions = self.activeSessions
     end if
     return acquiredSessions
 end function
@@ -23,7 +23,6 @@ Proxima.sessions.getSession = function (sessionKey, getSaved = false)
         for acquiredSession in acquiredSessions
             checkKey = "id"
             if typeof(sessionKey) == "string" then checkKey = "targetIP"
-
             if acquiredSession[checkKey] == sessionKey then
                 foundedSession = acquiredSession
                 break
