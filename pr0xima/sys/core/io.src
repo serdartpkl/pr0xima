@@ -106,6 +106,7 @@ end function
 Proxima.io.colorizeUserName = function (sessionType, userName)
     userColor = self.output.colors.ORANGE
 
+    if sessionType == 1 and userName == "NOT_SELECTED" then userColor = self.output.colors.GRAY
     if sessionType == 1 and userName == "NO_ACCESS" then userColor = self.output.colors.BLUE
     if sessionType == 1 and userName == "GUEST_ACCESS" then userColor = self.output.colors.YELLOW
     if sessionType == 1 and userName == "USER_ACCESS" then userColor = self.output.colors.GREEN
@@ -114,7 +115,45 @@ Proxima.io.colorizeUserName = function (sessionType, userName)
     return userColor
 end function
 
-Proxima.io.updateInputString = function (userName, publicIP, localIP, sessionID, sessionType)
+Proxima.io.updateInputString = function (targetSession)
+    publicIP = targetSession.targetIP
+    localIP = targetSession.targetLAN
+    if localIP == null then localIP = "?"
+    
+    sessionID = targetSession.id
+    sessionType = targetSession.sessionType
+
+    if sessionType == 0 then
+        publicIP = Proxima.globals.myPC.public_ip
+        localIP = Proxima.globals.myPC.local_ip
+    end if
+
+    userName = Proxima.globals.activeUser
+
+    if sessionType == 1 then
+        if targetSession.targetLAN != null then
+            targetShells = targetSession.targetShells
+            if targetShells.len > 0 then
+                foundedShells = []
+                for targetShell in targetShells
+                    if targetShell.host_computer.local_ip == targetSession.targetLAN then foundedShells.push(targetShell)
+                end for
+                if foundedShells.len > 0 then
+                    reorderedShells = foundedShells.sort("privilege_level")
+                    if reorderedShells[0].privilege_level == 0 then userName = "ROOT_ACCESS"
+                    if reorderedShells[0].privilege_level == 1 then userName = "USER_ACCESS"
+                    if reorderedShells[0].privilege_level == 2 then userName = "GUEST_ACCESS"
+                else
+                    userName = "NO_ACCESS"
+                end if
+            else
+                userName = "NO_ACCESS"
+            end if
+        else
+            userName = "NOT_SELECTED"
+        end if
+    end if
+
     userColor = self.colorizeUserName(sessionType, userName)
 
     sessionTypeName = "LOCAL"
