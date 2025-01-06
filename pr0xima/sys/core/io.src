@@ -159,11 +159,19 @@ Proxima.io.updateInputString = function (targetSession)
     sessionTypeName = "LOCAL"
     if sessionType == 1 then sessionTypeName = "REMOTE"
     
+    publicIPColor = self.output.colors.RED
+    localIPColor = self.output.colors.GRAY
+
+    if sessionType == 0 then
+        publicIPColor = self.output.colors.GRAY
+        localIPColor = self.output.colors.RED
+    end if
+
     inputString = "<pos=20><voffset=0.25em><color=" + self.output.colors.SAND + "><pos=8>——[" +
                   "<voffset=0.2em><color=" + userColor + ">" + userName + "</color>" +
                   "<voffset=0.2em>]——[" +
-                  "<voffset=0.2em><color=" + self.output.colors.RED + ">" + publicIP + "</color>" +
-                  "<voffset=0.2em><color=" + self.output.colors.GRAY + ">->" + localIP + "</color>" +
+                  "<voffset=0.2em><color=" + publicIPColor + ">" + publicIP + "</color>" +
+                  "<voffset=0.2em><color=" + localIPColor + ">->" + localIP + "</color>" +
                   "<voffset=0.2em>]——[" +
                   "<voffset=0.2em><color=" + self.output.colors.GREEN + ">SID:" + sessionID + "|" + sessionTypeName + "</color>]" +
                   "<voffset=-0.2em><pos=0>/<pos=0><voffset=-1.05em>\<pos=4.95>" +
