@@ -167,6 +167,10 @@ Proxima.io.updateInputString = function (targetSession)
         localIPColor = self.output.colors.RED
     end if
 
+    if sessionType == 1 and is_lan_ip(publicIP) then
+        localIP = targetSession.targetRouter.public_ip
+    end if
+
     inputString = "<pos=20><voffset=0.25em><color=" + self.output.colors.SAND + "><pos=8>——[" +
                   "<voffset=0.2em><color=" + userColor + ">" + userName + "</color>" +
                   "<voffset=0.2em>]——[" +

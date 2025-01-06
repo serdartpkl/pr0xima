@@ -121,7 +121,10 @@ if sessionType==0 then
 publicIPColor=self.output.colors.GRAY
 localIPColor=self.output.colors.RED
 end if
-inputString="<pos=20><voffset=0.25em><color="+self.output.colors.SAND+"><pos=8>——["+"<voffset=0.2em><color="+userColor+">"+userName+"</color>"+"<voffset=0.2em>]——["+"<voffset=0.2em><color="+publicIPColor+">"+publicIP+"</color>"+"<voffset=0.2em><color="+localIPColor+">->"+localIP+"</color>"+"<voffset=0.2em>]——["+"<voffset=0.2em><color="+self.output.colors.GREEN+">SID:"+sessionID+"|"+sessionTypeName+"</color>]"+"<voffset=-0.2em><pos=0>/<pos=0><voffset=-1.05em>\<pos=4.95>"+"<pos=8><voffset=-1.45em>——<color="+self.output.colors.RED+">$</color><color="+self.output.colors.BLUE+">> </color></color>"
+if sessionType==1 and is_lan_ip(publicIP) then
+localIP=targetSession.targetRouter.public_ip
+end if
+inputString="<pos=20><voffset=0.25em><color="+self.output.colors.SAND+"><pos=8>——["+"<voffset=0.2em><color="+userColor+">"+userName+"</color>"+"<voffset=0.2em>]——["+"<voffset=0.2em><color="+publicIPColor+">"+publicIP+"</color>"+"<voffset=0.2em><color="+localIPColor+"><color="+self.output.colors.GRAY+">-></color>"+localIP+"</color>"+"<voffset=0.2em>]——["+"<voffset=0.2em><color="+self.output.colors.GREEN+">SID:"+sessionID+"|"+sessionTypeName+"</color>]"+"<voffset=-0.2em><pos=0>/<pos=0><voffset=-1.05em>\<pos=4.95>"+"<pos=8><voffset=-1.45em>——<color="+self.output.colors.RED+">$</color><color="+self.output.colors.BLUE+">> </color></color>"
 self.inputString=inputString
 end function
 Proxima.io.printHeader=function
