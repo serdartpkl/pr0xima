@@ -111,7 +111,7 @@ Proxima.ports.checkPorts = function (targetIP = null)
                                 targetLAN = getTargetLANs[0]
                             end if
                         end if
-                        Proxima.io.updateInputString("NO_ACCESS", targetIP, targetLAN, Proxima.sessions.targetSession, 1)
+                        Proxima.io.updateInputString(Proxima.sessions.getSession(Proxima.sessions.targetSession))
                         return true
                     end if
                 else
