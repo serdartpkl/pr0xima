@@ -106,7 +106,7 @@ end function
 Proxima.io.colorizeUserName = function (sessionType, userName)
     userColor = self.output.colors.ORANGE
 
-    if sessionType == 1 and userName == "NOT_SELECTED" then userColor = self.output.colors.GRAY
+    if sessionType == 1 and userName == "NOT_SELECTED" then userColor = self.output.colors.CYAN
     if sessionType == 1 and userName == "NO_ACCESS" then userColor = self.output.colors.BLUE
     if sessionType == 1 and userName == "GUEST_ACCESS" then userColor = self.output.colors.YELLOW
     if sessionType == 1 and userName == "USER_ACCESS" then userColor = self.output.colors.GREEN
