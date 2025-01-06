@@ -171,7 +171,7 @@ Proxima.io.updateInputString = function (targetSession)
                   "<voffset=0.2em><color=" + userColor + ">" + userName + "</color>" +
                   "<voffset=0.2em>]——[" +
                   "<voffset=0.2em><color=" + publicIPColor + ">" + publicIP + "</color>" +
-                  "<voffset=0.2em><color=" + localIPColor + ">->" + localIP + "</color>" +
+                  "<voffset=0.2em><color=" + localIPColor + "><color=" + self.output.colors.GRAY + ">-></color>" + localIP + "</color>" +
                   "<voffset=0.2em>]——[" +
                   "<voffset=0.2em><color=" + self.output.colors.GREEN + ">SID:" + sessionID + "|" + sessionTypeName + "</color>]" +
                   "<voffset=-0.2em><pos=0>/<pos=0><voffset=-1.05em>\<pos=4.95>" +
