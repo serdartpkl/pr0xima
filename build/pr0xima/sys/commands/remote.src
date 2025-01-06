@@ -22,7 +22,7 @@ Proxima.exploit.scanPort(params[0].to_int)
 end if
 end if
 end function
-Proxima.commands.ports={"name":"ports","description":"Lists all available target ports..","usage":"ports","type":1}
+Proxima.commands.ports={"name":"ports","description":"Lists all available target ports.","usage":"ports","type":1}
 Proxima.commands.ports.exec=function(params)
 targetPorts=Proxima.sessions.getSessionValue(Proxima.sessions.targetSession,"targetPorts")
 if targetPorts.len>0 then

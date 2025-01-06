@@ -1,4 +1,4 @@
-Proxima.commands.scanlib={"name":"scanlib","description":"Scans the specified library/libraries for acquiring available local exploits.","usage":"scanlib <id>","type":0}
+Proxima.commands.scanlib={"name":"scanlib","description":"Scans the specified library/libraries for acquiring available local exploits.","usage":"scanlib <id|all>","type":0}
 Proxima.commands.scanlib.exec=function(params)
 if params.len==0 then
 Proxima.io.throwInputError("No library ID provided.",self.usage)

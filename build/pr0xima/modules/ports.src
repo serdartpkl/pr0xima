@@ -70,7 +70,7 @@ print(Proxima.io.addOutputEntry(Proxima.io.output.info("You've already created a
 setSession=Proxima.sessions.setSession(sessionID)
 if setSession then
 print(Proxima.io.addOutputEntry(Proxima.io.output.success("Switched to active session successfully! <b>[ID:"+(sessionID)+"]</b>")))
-Proxima.io.inputString=Proxima.io.output.colorize("<b>pr0xima</b>","#FFC466")+Proxima.io.output.colorize("@","#08FF57")+Proxima.io.output.colorize("["+Proxima.sessions.getSessionValue(foundedIndex+1,"targetIP")+"]","#FF1548")+Proxima.io.output.colorize("> ","#008DFF")
+Proxima.io.updateInputString(Proxima.sessions.getSession(Proxima.sessions.targetSession))
 return true
 end if
 else
@@ -102,7 +102,7 @@ if getTargetLANs.len==1 then
 targetLAN=getTargetLANs[0]
 end if
 end if
-Proxima.io.updateInputString("NO_ACCESS",targetIP,targetLAN,Proxima.sessions.targetSession,1)
+Proxima.io.updateInputString(Proxima.sessions.getSession(Proxima.sessions.targetSession))
 return true
 end if
 else

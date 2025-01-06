@@ -80,6 +80,8 @@ for pendingLibrary in pendingList
 Proxima.io.addLine
 updateLibrary=Proxima.apt.installLibrary(pendingLibrary)
 if updateLibrary!=null then
+getLibraryFile=Proxima.globals.myPC.File("/lib/"+pendingLibrary)
+if getLibraryFile!=null then Proxima.io.addTransferProcess(getLibraryFile.size)
 statusMap.succeededLibraries.push(pendingLibrary)
 else
 statusMap.failedLibraries.push(pendingLibrary)
@@ -257,7 +259,7 @@ end if
 end function
 Proxima.engine.startCLI=function
 targetIP=Proxima.sessions.getSessionValue(Proxima.sessions.targetSession,"targetIP")
-Proxima.io.updateInputString(Proxima.globals.activeUser,Proxima.globals.myPC.public_ip,targetIP,Proxima.sessions.targetSession,0)
+Proxima.io.updateInputString(Proxima.sessions.getSession(Proxima.sessions.targetSession))
 while true
 userCommand=user_input(Proxima.io.inputString,false,false).trim
 Proxima.io.addInputEntry(userCommand)

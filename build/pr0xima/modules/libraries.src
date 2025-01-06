@@ -13,10 +13,11 @@ end function
 Proxima.libraries.dumpLibrary=function(targetLibrary)
 totalExploits=0
 libraryDump=Proxima.globals.metaxploit.load(targetLibrary.path)
-print(Proxima.io.addOutputEntry(Proxima.io.output.progress("Attempting to scan vulnerabilities at <b>"+libraryDump.lib_name+"</b>!")))
-print(Proxima.io.addOutputEntry(Proxima.io.output.info("Library version found: <b>"+libraryDump.lib_name+" -> "+libraryDump.version+"</b>")))
+print(Proxima.io.addOutputEntry(Proxima.io.output.info("Library version found: <b>v"+libraryDump.lib_name+"@"+libraryDump.version+"</b>")))
+print(Proxima.io.addOutputEntry(Proxima.io.output.progress("Attempting to scan vulnerabilities...")))
 scanResult=Proxima.globals.metaxploit.scan(libraryDump)
 Proxima.io.addProgressBar
+Proxima.io.clearScreen
 totalExploits=Proxima.exploit.parseScanEntries(scanResult,libraryDump,targetLibrary)
 return totalExploits
 end function
@@ -33,16 +34,16 @@ print(Proxima.io.addOutputEntry(Proxima.io.output.info("You can use 'exploits' c
 else
 totalExploits=self.dumpLibrary(targetLibrary)
 if totalExploits==0 then
-print(Proxima.io.addOutputEntry(Proxima.io.output.error("No useful vulnerabilities found at <b>"+targetLibrary.lib_name+"</b>!")))
+print(Proxima.io.addOutputEntry(Proxima.io.output.error("No vulnerabilities found at <b>"+targetLibrary.lib_name+"</b>!")))
 else if totalExploits>0 then
-print(Proxima.io.addOutputEntry(Proxima.io.output.success("<b>"+totalExploits+"</b> exploits found. Use the 'exploits' command to view available exploits.")))
+print(Proxima.io.addOutputEntry(Proxima.io.output.success("<b>"+totalExploits+"</b> exploits found. Use 'exploits' command to view available exploits.")))
 end if
 end if
 else
 print(Proxima.io.addOutputEntry(Proxima.io.output.error("No library found with specified ID. <b>[ID:"+libraryID+"]</b>")))
 end if
 else
-print(Proxima.io.addOutputEntry(Proxima.io.output.error("No libraries found to scan, please make a scan first.")))
+print(Proxima.io.addOutputEntry(Proxima.io.output.error("No libraries found to scan, please dump local libraries first.")))
 end if
 end function
 Proxima.libraries.scanLibraries=function
@@ -63,24 +64,24 @@ totalExploits=totalExploits+self.dumpLibrary(targetLibrary)
 end if
 end for
 if totalExploits==0 then
-print(Proxima.io.addOutputEntry(Proxima.io.output.error("No useful vulnerabilities found at any libraries.")))
+print(Proxima.io.addOutputEntry(Proxima.io.output.error("No vulnerabilities found at any libraries.")))
 else if totalExploits>0 then
-print(Proxima.io.addOutputEntry(Proxima.io.output.success("<b>"+totalExploits+"</b> exploits found. Use the 'list vulns' command to view and execute them.")))
+print(Proxima.io.addOutputEntry(Proxima.io.output.success("<b>"+totalExploits+"</b> exploits found. Use 'exploits' command to view and execute them.")))
 end if
 else
-print(Proxima.io.addOutputEntry(Proxima.io.output.error("No libraries found fo scan, please make a scan first.")))
+print(Proxima.io.addOutputEntry(Proxima.io.output.error("No libraries found fo scan, please dump local libraries first.")))
 end if
 end function
 Proxima.libraries.displayLibraries=function
-header_list=["ID","LIBRARY_NAME","VERSION","PATH"]
-content_list=[]
+headerList=["ID","LIBRARY_NAME","VERSION","PATH"]
+contentList=[]
 targetLibraries=Proxima.sessions.getSessionValue(Proxima.sessions.targetSession,"targetLibraries")
 for targetLibrary in targetLibraries
-l_id=str(targetLibrary.id)
-l_name=targetLibrary.lib_name
-l_version=targetLibrary.version
-l_path=targetLibrary.path
-content_list.push([l_id,l_name,l_version,l_path])
+libraryID=str(targetLibrary.id)
+libraryName=targetLibrary.lib_name
+libraryVersion=targetLibrary.version
+libraryPath=targetLibrary.path
+contentList.push([libraryID,libraryName,libraryVersion,libraryPath])
 end for
-Proxima.helpers.formatList(header_list,content_list)
+Proxima.helpers.formatList(headerList,contentList)
 end function

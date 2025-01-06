@@ -65,6 +65,11 @@ Proxima.ports.detectTargetLANs = function ()
             ipAddresses.push(targetPort.lan_ip)
         end for
         removeDuplicates = Proxima.helpers.removeDuplicates(ipAddresses)
+        if removeDuplicates.len == 1 then
+            setTargetLAN = Proxima.sessions.setSessionValue(Proxima.sessions.targetSession, "targetLAN", removeDuplicates[0])
+            setTargetLANs = Proxima.sessions.setSessionValue(Proxima.sessions.targetSession, "targetLANs", removeDuplicates)
+            if setTargetLAN and setTargetLANs then return true
+        end if
         setTargetLANs = Proxima.sessions.setSessionValue(Proxima.sessions.targetSession, "targetLANs", removeDuplicates)
         if setTargetLANs then return true
     end if
@@ -104,15 +109,10 @@ Proxima.ports.checkPorts = function (targetIP = null)
                             end if
                         end for
                         detectLANs = self.detectTargetLANs()
-                        targetLAN = "?"
                         if detectLANs != null then
-                            getTargetLANs = Proxima.sessions.getSessionValue(Proxima.sessions.targetSession, "targetLANs")
-                            if getTargetLANs.len == 1 then
-                                targetLAN = getTargetLANs[0]
-                            end if
+                            Proxima.io.updateInputString(Proxima.sessions.getSession(Proxima.sessions.targetSession))
+                            return true
                         end if
-                        Proxima.io.updateInputString(Proxima.sessions.getSession(Proxima.sessions.targetSession))
-                        return true
                     end if
                 else
                     print(Proxima.io.addOutputEntry(Proxima.io.output.error("Couldn't switch to created session due to unexpected error.")))

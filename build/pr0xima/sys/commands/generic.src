@@ -87,7 +87,7 @@ publicIP=Proxima.globals.myPC.public_ip
 if targetSession.sessionType==1 then publicIP=targetSession.targetIP
 localIP=Proxima.globals.myPC.local_ip
 if targetSession.sessionType==1 then localIP="?"
-Proxima.io.updateInputString(userName,publicIP,localIP,Proxima.sessions.targetSession,targetSession.sessionType)
+Proxima.io.updateInputString(targetSession)
 else
 sessionType="LOCAL"
 if targetSession.sessionType==1 then sessionType="REMOTE"
