@@ -111,7 +111,7 @@ Proxima.commands.sessions.exec = function (params)
                     if targetSession.sessionType == 1 then publicIP = targetSession.targetIP
                     localIP = Proxima.globals.myPC.local_ip
                     if targetSession.sessionType == 1 then localIP = "?"
-                    Proxima.io.updateInputString(targetSession))
+                    Proxima.io.updateInputString(targetSession)
                 else
                     sessionType = "LOCAL"
                     if targetSession.sessionType == 1 then sessionType = "REMOTE"
