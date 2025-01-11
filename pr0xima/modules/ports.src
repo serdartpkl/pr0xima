@@ -119,8 +119,7 @@ Proxima.ports.checkPorts = function (targetIP = null)
             setActiveSession = Proxima.sessions.setSession(createRemoteSession)
             if setActiveSession then
                 addPortsToSession = self.addPorts(createRemoteSession)
-                if addPortsToSession then return true
-                return false
+                return addPortsToSession
             end if
         end if 
     end if
