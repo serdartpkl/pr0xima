@@ -26,9 +26,8 @@ Proxima.ports.checkTargetIP = function (targetIP = null)
         else
             return false
         end if
-    else
-        return null
     end if
+    return null
 end function
 
 Proxima.ports.dumpRouter = function ()
