@@ -78,12 +78,11 @@ Proxima.ports.checkPorts = function (targetIP = null)
     foundedIndex = Proxima.helpers.indexesOf(Proxima.sessions.activeSessions, "targetIP", targetIP)
     sessionID = foundedIndex + 1
     if foundedIndex != null and targetIP == Proxima.sessions.getSessionValue(sessionID, "targetIP") then
-        print(Proxima.io.addOutputEntry(Proxima.io.output.info("You've already created an active session with given IP. <b>[ID:" + (sessionID) + "]</b>")))
         setSession = Proxima.sessions.setSession(sessionID)
         if setSession then
-            print(Proxima.io.addOutputEntry(Proxima.io.output.success("Switched to active session successfully! <b>[ID:" + (sessionID) + "]</b>")))
+            print(Proxima.io.addOutputEntry(Proxima.io.output.success("This session already exists, switched to active session successfully! <b>[ID:" + (sessionID) + "]</b>")))
             Proxima.io.updateInputString(Proxima.sessions.getSession(Proxima.sessions.targetSession))
-            return true
+            return "SESSION_ALREADY_EXISTS"
         end if
     else
         targetRouter = self.createRouter(targetIP)
