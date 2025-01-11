@@ -52,6 +52,7 @@ Proxima.ports.addRouterPort = function ()
 end function
 
 Proxima.ports.scanRouter = function ()
+    Proxima.io.clearScreen()
     addRouterPortToMap = self.addRouterPort()
     if addRouterPortToMap != null then return self.scanPort(addRouterPortToMap)
     return null
