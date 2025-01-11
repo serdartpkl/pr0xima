@@ -76,6 +76,30 @@ Proxima.ports.detectTargetLANs = function ()
     return null
 end function
 
+Proxima.ports.addPorts = function (targetRouter)
+    publicIP = targetRouter.public_ip
+    mainRouterIP = get_router(publicIP).local_ip
+    candidateIP = mainRouterIP
+    if is_lan_ip(targetIP) then candidateIP = targetIP
+    scannedPorts = targetRouter.device_ports(candidateIP)
+    if scannedPorts.len == 1 or scannedPorts == null then
+        return false
+    else
+        for scannedPort in scannedPorts
+            if scannedPort.port_number != 8080 then
+                createdPortMap = self.createPortMap(scannedPort, targetRouter)
+                Proxima.sessions.addMapToSession(Proxima.sessions.targetSession, "targetPorts", createdPortMap)
+            end if
+        end for
+        detectLANs = self.detectTargetLANs()
+        if detectLANs != null then
+            Proxima.io.updateInputString(Proxima.sessions.getSession(Proxima.sessions.targetSession))
+            return true
+        end if
+    end if
+    return null
+end function
+
 Proxima.ports.checkPorts = function (targetIP = null)
     foundedIndex = Proxima.helpers.indexesOf(Proxima.sessions.activeSessions, "targetIP", targetIP)
     sessionID = foundedIndex + 1
@@ -93,26 +117,9 @@ Proxima.ports.checkPorts = function (targetIP = null)
         if createRemoteSession != null then
             setActiveSession = Proxima.sessions.setSession(createRemoteSession)
             if setActiveSession then
-                publicIP = targetRouter.public_ip
-                mainRouterIP = get_router(publicIP).local_ip
-                candidateIP = mainRouterIP
-                if is_lan_ip(targetIP) then candidateIP = targetIP
-                scannedPorts = targetRouter.device_ports(candidateIP)
-                if scannedPorts.len == 1 or scannedPorts == null then
-                    return false
-                else
-                    for scannedPort in scannedPorts
-                        if scannedPort.port_number != 8080 then
-                            createdPortMap = self.createPortMap(scannedPort, targetRouter)
-                            Proxima.sessions.addMapToSession(Proxima.sessions.targetSession, "targetPorts", createdPortMap)
-                        end if
-                    end for
-                    detectLANs = self.detectTargetLANs()
-                    if detectLANs != null then
-                        Proxima.io.updateInputString(Proxima.sessions.getSession(Proxima.sessions.targetSession))
-                        return true
-                    end if
-                end if
+                addPortsToSession = self.addPorts(targetRouter)
+                if addPortsToSession then return true
+                return false
             end if
         end if 
     end if
