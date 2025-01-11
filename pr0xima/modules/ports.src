@@ -121,13 +121,12 @@ Proxima.ports.dumpPort = function (targetPort)
     totalExploits = 0
     if targetPort.port_status == "OPEN" then
         targetIP = Proxima.sessions.getSessionValue(Proxima.sessions.targetSession, "targetIP")
-        print(Proxima.io.addOutputEntry(Proxima.io.output.progress("Connecting to <b>" + targetIP + ":" + targetPort.port_number + "</b>...")))
+        print(Proxima.io.addOutputEntry(Proxima.io.output.progress("Attempting to scan vulnerabilities... <b>[IP:" + targetIP + "|PORT:" + targetPort.port_number + "]</b>")))
         netSession = Proxima.globals.metaxploit.net_use(targetIP, targetPort.port_number)
         Proxima.io.clearScreen()
         if netSession != null then
             libraryDump = netSession.dump_lib
-            print(Proxima.io.addOutputEntry(Proxima.io.output.progress("Attempting to scan vulnerabilities... <b>[IP:" + targetIP + "|PORT:" + targetPort.port_number + "]</b>")))
-            print(Proxima.io.addOutputEntry(Proxima.io.output.info("Library version found: <b>" + libraryDump.lib_name + " -> " + libraryDump.version + "</b>")))
+            print(Proxima.io.addOutputEntry(Proxima.io.output.info("Library version found: <b>" + libraryDump.lib_name + "@" + libraryDump.version + "</b>")))
             scanResult = Proxima.globals.metaxploit.scan(libraryDump)
             Proxima.io.addProgressBar()
             Proxima.io.clearScreen()
