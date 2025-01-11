@@ -51,6 +51,31 @@ Proxima.ports.dumpRouter = function ()
 end function
 
 Proxima.ports.scanRouter = function ()
+    sessionID = Proxima.sessions.targetSession
+    targetIP = Proxima.sessions.getSessionValue(sessionID, "targetIP")
+    targetPorts = Proxima.sessions.getSessionValue(sessionID, "targetPorts")
+    if targetPorts.len > 0 then
+        totalExploits = 0
+        targetPort = targetPorts[portID - 1]
+        targetExploits = Proxima.sessions.getSessionValue(sessionID, "targetExploits")
+        if targetExploits.len > 0 and Proxima.helpers.indexesOf(targetExploits, "port_number", targetPort.port_number) then
+            print(Proxima.io.addOutputEntry(Proxima.io.output.warning("This port is already scanned for exploits. Skipping... <b>[IP:" + targetIP + "|PORT:" + targetPort.port_number + "]</b>")))
+            print(Proxima.io.addOutputEntry(Proxima.io.output.info("You can use 'exploits' command to view found exploits.")))
+        else
+            totalExploits = self.dumpPort(targetPort)
+            if totalExploits == 0 then
+                print(Proxima.io.addOutputEntry(Proxima.io.output.error("No useful vulnerabilities found on port <b>" + targetPort.port_number + "</b>!")))
+            else if totalExploits > 0 then
+                print(Proxima.io.addOutputEntry(Proxima.io.output.success("<b>" + totalExploits + "</b> exploits found. Use 'exploits' command to view available exploits.")))
+            end if
+        end if
+    else
+        if targetIP != null then
+            print(Proxima.io.addOutputEntry(Proxima.io.output.error("No open ports found at the specified target IP address. <b>[IP:" + targetIP + "]</b>")))
+        else
+            print(Proxima.io.addOutputEntry(Proxima.io.output.error("There is no specified target IP address yet, please set a target IP address first.")))
+        end if
+    end if
 end function
 
 Proxima.ports.createPortMap = function (scannedPort, targetRouter)
