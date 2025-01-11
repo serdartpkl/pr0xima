@@ -113,15 +113,15 @@ Proxima.ports.checkPorts = function (targetIP = null)
                     end if
                 else
                     print(Proxima.io.addOutputEntry(Proxima.io.output.error("Couldn't switch to created session due to unexpected error.")))
-                    return "ERR_UNEXPECTED"
+                    return "UNEXPECTED_ERROR"
                 end if
             else
                 print(Proxima.io.addOutputEntry(Proxima.io.output.error("Couldn't create remote session due to unexpected error.")))
-                return "ERR_SESSION_CREATION_FAILED"
+                return "REMOTE_SESSION_CREATION_FAILED"
             end if
         else
             print(Proxima.io.addOutputEntry(Proxima.io.output.error("Couldn't create remote session, no router exists.")))
-            return "ERR_NO_ROUTER"
+            return "NO_ROUTER_FOUND"
         end if
     end if
     return null
