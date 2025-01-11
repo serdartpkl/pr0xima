@@ -46,9 +46,8 @@ Proxima.ports.dumpRouter = function ()
     sessionID = Proxima.sessions.targetSession
     targetRouter = Proxima.sessions.getSessionValue(sessionID, "targetRouter")
     createdRouterPortMap = self.createRouterPortMap(targetRouter)
-    addRouterPortMap = Proxima.sessions.addMapToSession(sessionID, "targetPorts", createdRouterPortMap)
-    if addRouterPortMap then return self.dumpPort(createdRouterPortMap)
-    return null
+    Proxima.sessions.addMapToSession(sessionID, "targetPorts", createdRouterPortMap)
+    return self.dumpPort(createdRouterPortMap)
 end function
 
 Proxima.ports.scanRouter = function ()
