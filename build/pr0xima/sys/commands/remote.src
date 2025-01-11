@@ -10,6 +10,10 @@ Proxima.ports.scanPort(params[0].to_int)
 end if
 end if
 end function
+Proxima.commands.scanrouter={"name":"scanrouter","description":"Scans the target router for acquiring available remote exploits.","usage":"scanrouter","type":1}
+Proxima.commands.scanrouter.exec=function(params)
+Proxima.ports.scanRouter
+end function
 Proxima.commands.target={"name":"target","description":"Scans the specified port/ports for acquiring available remote exploits.","usage":"target <id>","type":1}
 Proxima.commands.target.exec=function(params)
 if params.len==0 then

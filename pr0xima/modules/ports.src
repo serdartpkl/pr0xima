@@ -35,7 +35,7 @@ Proxima.ports.createRouterPortMap = function (targetRouter)
     targetRouterPort.id = Proxima.sessions.getSessionValue(Proxima.sessions.targetSession, "targetPorts").len + 1
     targetRouterPort.port_number = 0
     targetRouterPort.port_status = "OPEN"
-    targetRouterPort.service_name = "router"
+    targetRouterPort.service_name = "kernel_router"
     targetRouterPort.service_version = targetRouter.kernel_version
     targetRouterPort.public_ip = targetRouter.public_ip
     targetRouterPort.lan_ip = targetRouter.local_ip
@@ -96,6 +96,7 @@ Proxima.ports.detectTargetLANs = function ()
 end function
 
 Proxima.ports.addPorts = function (sessionID)
+    targetIP = Proxima.sessions.getSessionValue(sessionID, "targetIP")
     targetRouter = Proxima.sessions.getSessionValue(sessionID, "targetRouter")
     publicIP = targetRouter.public_ip
     mainRouterIP = get_router(publicIP).local_ip
