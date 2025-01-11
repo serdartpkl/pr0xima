@@ -45,8 +45,8 @@ if addRouterPort then return createdRouterPortMap.id
 return null
 end function
 Proxima.ports.scanRouter=function
+Proxima.io.clearScreen
 addRouterPortToMap=self.addRouterPort
-wait(0.1)
 if addRouterPortToMap!=null then return self.scanPort(addRouterPortToMap)
 return null
 end function
