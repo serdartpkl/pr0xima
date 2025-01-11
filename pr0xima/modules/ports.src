@@ -154,7 +154,7 @@ Proxima.ports.dumpPort = function (targetPort)
         Proxima.io.clearScreen()
         if netSession != null then
             libraryDump = netSession.dump_lib
-            print(Proxima.io.addOutputEntry(Proxima.io.output.info("Library version found: <b>" + libraryDump.lib_name + "@" + libraryDump.version + "</b>")))
+            print(Proxima.io.addOutputEntry(Proxima.io.output.info("Library version found: <b>" + libraryDump.lib_name + "@v" + libraryDump.version + "</b>")))
             scanResult = Proxima.globals.metaxploit.scan(libraryDump)
             Proxima.io.addProgressBar()
             Proxima.io.clearScreen()
