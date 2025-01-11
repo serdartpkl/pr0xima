@@ -84,45 +84,44 @@ Proxima.ports.checkPorts = function (targetIP = null)
             Proxima.io.updateInputString(Proxima.sessions.getSession(Proxima.sessions.targetSession))
             return "SESSION_ALREADY_EXISTS"
         end if
-    else
-        targetRouter = self.createRouter(targetIP)
-        if targetRouter != null then
-            createRemoteSession = Proxima.sessions.addSession(1, targetIP, targetRouter)
-            if createRemoteSession != null then
-                setActiveSession = Proxima.sessions.setSession(createRemoteSession)
-                if setActiveSession then
-                    publicIP = targetRouter.public_ip
-                    mainRouterIP = get_router(publicIP).local_ip
-                    candidateIP = mainRouterIP
-                    if is_lan_ip(targetIP) then candidateIP = targetIP
-                    scannedPorts = targetRouter.device_ports(candidateIP)
-                    if scannedPorts.len == 1 or scannedPorts == null then
-                        return false
-                    else
-                        for scannedPort in scannedPorts
-                            if scannedPort.port_number != 8080 then
-                                createdPortMap = self.createPortMap(scannedPort, targetRouter)
-                                Proxima.sessions.addMapToSession(Proxima.sessions.targetSession, "targetPorts", createdPortMap)
-                            end if
-                        end for
-                        detectLANs = self.detectTargetLANs()
-                        if detectLANs != null then
-                            Proxima.io.updateInputString(Proxima.sessions.getSession(Proxima.sessions.targetSession))
-                            return true
-                        end if
-                    end if
+    end if
+    targetRouter = self.createRouter(targetIP)
+    if targetRouter != null then
+        createRemoteSession = Proxima.sessions.addSession(1, targetIP, targetRouter)
+        if createRemoteSession != null then
+            setActiveSession = Proxima.sessions.setSession(createRemoteSession)
+            if setActiveSession then
+                publicIP = targetRouter.public_ip
+                mainRouterIP = get_router(publicIP).local_ip
+                candidateIP = mainRouterIP
+                if is_lan_ip(targetIP) then candidateIP = targetIP
+                scannedPorts = targetRouter.device_ports(candidateIP)
+                if scannedPorts.len == 1 or scannedPorts == null then
+                    return false
                 else
-                    print(Proxima.io.addOutputEntry(Proxima.io.output.error("Couldn't switch to created session due to unexpected error.")))
-                    return "UNEXPECTED_ERROR"
+                    for scannedPort in scannedPorts
+                        if scannedPort.port_number != 8080 then
+                            createdPortMap = self.createPortMap(scannedPort, targetRouter)
+                            Proxima.sessions.addMapToSession(Proxima.sessions.targetSession, "targetPorts", createdPortMap)
+                        end if
+                    end for
+                    detectLANs = self.detectTargetLANs()
+                    if detectLANs != null then
+                        Proxima.io.updateInputString(Proxima.sessions.getSession(Proxima.sessions.targetSession))
+                        return true
+                    end if
                 end if
             else
-                print(Proxima.io.addOutputEntry(Proxima.io.output.error("Couldn't create remote session due to unexpected error.")))
-                return "REMOTE_SESSION_CREATION_FAILED"
+                print(Proxima.io.addOutputEntry(Proxima.io.output.error("Couldn't switch to created session due to unexpected error.")))
+                return "UNEXPECTED_ERROR"
             end if
         else
-            print(Proxima.io.addOutputEntry(Proxima.io.output.error("Couldn't create remote session, no router exists.")))
-            return "NO_ROUTER_FOUND"
+            print(Proxima.io.addOutputEntry(Proxima.io.output.error("Couldn't create remote session due to unexpected error.")))
+            return "REMOTE_SESSION_CREATION_FAILED"
         end if
+    else
+        print(Proxima.io.addOutputEntry(Proxima.io.output.error("Couldn't create remote session, no router exists.")))
+        return "NO_ROUTER_FOUND"
     end if
     return null
 end function
