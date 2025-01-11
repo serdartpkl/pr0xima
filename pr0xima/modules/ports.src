@@ -31,6 +31,8 @@ Proxima.ports.checkTargetIP = function (targetIP = null)
 end function
 
 Proxima.ports.dumpRouter = function ()
+    totalExploits = 0
+    
 end function
 
 Proxima.ports.scanRouter = function ()
