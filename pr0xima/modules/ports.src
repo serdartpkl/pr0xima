@@ -53,6 +53,7 @@ end function
 
 Proxima.ports.scanRouter = function ()
     addRouterPortToMap = self.addRouterPort()
+    wait(0.1)
     if addRouterPortToMap != null then return self.scanPort(addRouterPortToMap)
     return null
 end function
