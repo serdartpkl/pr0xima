@@ -98,7 +98,6 @@ Proxima.ports.addPorts = function (sessionID)
             return true
         end if
     end if
-    return null
 end function
 
 Proxima.ports.checkPorts = function (targetIP = null)
