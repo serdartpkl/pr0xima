@@ -30,16 +30,21 @@ Proxima.ports.checkTargetIP = function (targetIP = null)
     return null
 end function
 
+Proxima.ports.createRouterPortMap = function (targetRouter)
+    targetRouterPort = {}
+    targetRouterPort.id = Proxima.sessions.getSessionValue(Proxima.sessions.targetSession, "targetPorts").len + 1
+    targetRouterPort.port_number = 0
+    targetRouterPort.port_status = "OPEN"
+    targetRouterPort.service_name = "router"
+    targetRouterPort.service_version = targetRouter.kernel_version
+    targetRouterPort.public_ip = targetRouter.public_ip
+    targetRouterPort.lan_ip = targetRouter.local_ip
+    return targetRouterPort
+end function
+
 Proxima.ports.dumpRouter = function ()
-    targetPort = {}
-    targetPort.id = Proxima.sessions.getSessionValue(Proxima.sessions.targetSession, "targetPorts").len + 1
-    targetPort.port_number = 0
-    targetPort.port_status = "OPEN"
-    targetPort.service_name = "router"
-    targetRouter = Proxima.sessions.getSessionValue(Proxima.sessions.targetSession, "targetRouter")
-    targetPort.service_version = targetRouter.kernel_version
-    targetPort.public_ip = targetRouter.public_ip
-    targetPort.lan_ip = targetRouter.local_ip
+
+    Proxima.sessions.addMapToSession(sessionID, "targetPorts", createdPortMap)
     return self.dumpPort(targetPort)
 end function
 
