@@ -45,7 +45,6 @@ if addRouterPort then return createdRouterPortMap.id
 return null
 end function
 Proxima.ports.scanRouter=function
-Proxima.io.clearScreen
 addRouterPortToMap=self.addRouterPort
 if addRouterPortToMap!=null then return self.scanPort(addRouterPortToMap)
 return null
@@ -143,7 +142,7 @@ netSession=Proxima.globals.metaxploit.net_use(targetIP,targetPort.port_number)
 Proxima.io.clearScreen
 if netSession!=null then
 libraryDump=netSession.dump_lib
-print(Proxima.io.addOutputEntry(Proxima.io.output.info("Library version found: <b>"+libraryDump.lib_name+"@"+libraryDump.version+"</b>")))
+print(Proxima.io.addOutputEntry(Proxima.io.output.info("Library version found: <b>"+libraryDump.lib_name+"@v"+libraryDump.version+"</b>")))
 scanResult=Proxima.globals.metaxploit.scan(libraryDump)
 Proxima.io.addProgressBar
 Proxima.io.clearScreen
